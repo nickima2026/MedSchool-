@@ -16,9 +16,9 @@
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
+    <nav class="topnav">
+        <div class="container">
+            <div class="topnav__brand">
                 <svg viewBox="0 0 40 40" width="32" height="32" class="logo-icon">
                     <!-- Medical Cross -->
                     <rect x="16" y="8" width="8" height="24" fill="currentColor"/>
@@ -28,7 +28,7 @@
                 </svg>
                 <span class="logo-text">MSIB.io</span>
             </div>
-            <ul class="nav-links">
+            <ul class="topnav__links">
                 <li><a href="#phase1">Phase 1</a></li>
                 <li><a href="#phase2">Phase 2</a></li>
                 <li><a href="#phase3">Phase 3</a></li>
@@ -40,23 +40,23 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <div class="badge">Stanford Discovery Curriculum</div>
+            <div class="hero__badge">Stanford Discovery Curriculum</div>
             <h1 class="hero-title">Medical School in a Box</h1>
             <p class="hero-subtitle">
                 AI-augmented medical education on your Mac Mini. From molecular foundations through residency — lectures, simulations, flashcards, and clinical tools, all running locally.
             </p>
-            <div class="hero-stats">
-                <div class="stat">
-                    <div class="stat-value">40+</div>
-                    <div class="stat-label">Courses</div>
+            <div class="hero__stats">
+                <div class="hero__stat">
+                    <div class="hero__stat-number">40+</div>
+                    <div class="hero__stat-label">Courses</div>
                 </div>
-                <div class="stat">
-                    <div class="stat-value">4</div>
-                    <div class="stat-label">Years</div>
+                <div class="hero__stat">
+                    <div class="hero__stat-number">4</div>
+                    <div class="hero__stat-label">Years</div>
                 </div>
-                <div class="stat">
-                    <div class="stat-value">100%</div>
-                    <div class="stat-label">Offline-Capable</div>
+                <div class="hero__stat">
+                    <div class="hero__stat-number">100%</div>
+                    <div class="hero__stat-label">Offline-Capable</div>
                 </div>
             </div>
         </div>
@@ -64,11 +64,11 @@
 
     <!-- Search Bar -->
     <section class="search-section">
-        <div class="search-container">
+        <div class="search-section__container">
             <input
                 type="text"
                 id="course-search"
-                class="course-search"
+                class="search-section__input"
                 placeholder="Search courses..."
                 aria-label="Search courses"
             >
@@ -86,48 +86,48 @@
             <!-- Foundations -->
             <div class="course-category">
                 <h3 class="category-title">Foundations</h3>
-                <div class="courses-grid">
+                <div class="phase-grid">
                     <a href="courses/phase1/molecular-foundations.html" class="course-card" data-tag="foundations">
-                        <div class="course-tag">Foundations</div>
+                        <div class="course-card__phase-tag">Foundations</div>
                         <h4 class="course-title">Molecular Foundations of Medicine</h4>
-                        <div class="course-code">BIOC 205</div>
-                        <p class="course-description">Biochemistry, molecular biology, genetics</p>
-                        <div class="course-meta">
-                            <span class="meta-item">8 weeks</span>
-                            <span class="meta-item">12 units</span>
+                        <div class="course-card__code">BIOC 205</div>
+                        <p class="course-card__description">Biochemistry, molecular biology, genetics</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">8 weeks</span>
+                            <span class="course-card__meta-item">12 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/clinical-anatomy.html" class="course-card" data-tag="foundations">
-                        <div class="course-tag">Foundations</div>
+                        <div class="course-card__phase-tag">Foundations</div>
                         <h4 class="course-title">Clinical Anatomy</h4>
-                        <div class="course-code">SURG 203</div>
-                        <p class="course-description">Gross anatomy with prosection</p>
-                        <div class="course-meta">
-                            <span class="meta-item">10 weeks</span>
-                            <span class="meta-item">15 units</span>
+                        <div class="course-card__code">SURG 203</div>
+                        <p class="course-card__description">Gross anatomy with prosection</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">10 weeks</span>
+                            <span class="course-card__meta-item">15 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/embryology.html" class="course-card" data-tag="foundations">
-                        <div class="course-tag">Foundations</div>
+                        <div class="course-card__phase-tag">Foundations</div>
                         <h4 class="course-title">Embryology</h4>
-                        <div class="course-code">SURG 201</div>
-                        <p class="course-description">Human development, congenital anomalies</p>
-                        <div class="course-meta">
-                            <span class="meta-item">4 weeks</span>
-                            <span class="meta-item">6 units</span>
+                        <div class="course-card__code">SURG 201</div>
+                        <p class="course-card__description">Human development, congenital anomalies</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">4 weeks</span>
+                            <span class="course-card__meta-item">6 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/bls.html" class="course-card" data-tag="foundations">
-                        <div class="course-tag">Foundations</div>
+                        <div class="course-card__phase-tag">Foundations</div>
                         <h4 class="course-title">BLS Certification</h4>
-                        <div class="course-code">EMED 201</div>
-                        <p class="course-description">CPR, AED, basic airway</p>
-                        <div class="course-meta">
-                            <span class="meta-item">2 days</span>
-                            <span class="meta-item">1 unit</span>
+                        <div class="course-card__code">EMED 201</div>
+                        <p class="course-card__description">CPR, AED, basic airway</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">2 days</span>
+                            <span class="course-card__meta-item">1 unit</span>
                         </div>
                     </a>
                 </div>
@@ -136,37 +136,37 @@
             <!-- Practice of Medicine -->
             <div class="course-category">
                 <h3 class="category-title">Practice of Medicine</h3>
-                <div class="courses-grid">
+                <div class="phase-grid">
                     <a href="courses/phase1/pom1.html" class="course-card" data-tag="pom">
-                        <div class="course-tag">POM</div>
+                        <div class="course-card__phase-tag">POM</div>
                         <h4 class="course-title">POM I: Clinical Skills</h4>
-                        <div class="course-code">Year 1</div>
-                        <p class="course-description">History-taking, physical exam</p>
-                        <div class="course-meta">
-                            <span class="meta-item">8 weeks</span>
-                            <span class="meta-item">4 units</span>
+                        <div class="course-card__code">Year 1</div>
+                        <p class="course-card__description">History-taking, physical exam</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">8 weeks</span>
+                            <span class="course-card__meta-item">4 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/pom2.html" class="course-card" data-tag="pom">
-                        <div class="course-tag">POM</div>
+                        <div class="course-card__phase-tag">POM</div>
                         <h4 class="course-title">POM II: Advanced Clinical</h4>
-                        <div class="course-code">Year 1-2</div>
-                        <p class="course-description">Differential diagnosis, evidence-based medicine</p>
-                        <div class="course-meta">
-                            <span class="meta-item">8 weeks</span>
-                            <span class="meta-item">4 units</span>
+                        <div class="course-card__code">Year 1-2</div>
+                        <p class="course-card__description">Differential diagnosis, evidence-based medicine</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">8 weeks</span>
+                            <span class="course-card__meta-item">4 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/pom3.html" class="course-card" data-tag="pom">
-                        <div class="course-tag">POM</div>
+                        <div class="course-card__phase-tag">POM</div>
                         <h4 class="course-title">POM III: Integration</h4>
-                        <div class="course-code">Year 2</div>
-                        <p class="course-description">Transition to clerkship</p>
-                        <div class="course-meta">
-                            <span class="meta-item">4 weeks</span>
-                            <span class="meta-item">2 units</span>
+                        <div class="course-card__code">Year 2</div>
+                        <p class="course-card__description">Transition to clerkship</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">4 weeks</span>
+                            <span class="course-card__meta-item">2 units</span>
                         </div>
                     </a>
                 </div>
@@ -175,59 +175,59 @@
             <!-- Science of Medicine - Organ Systems -->
             <div class="course-category">
                 <h3 class="category-title">Science of Medicine — Organ Systems</h3>
-                <div class="courses-grid">
+                <div class="phase-grid">
                     <a href="courses/phase1/som-cvr.html" class="course-card" data-tag="som">
-                        <div class="course-tag">SOM</div>
+                        <div class="course-card__phase-tag">SOM</div>
                         <h4 class="course-title">SOM I: Cardiovascular & Respiratory</h4>
-                        <div class="course-code">Year 1</div>
-                        <p class="course-description">Heart, lungs, ECG, gas exchange</p>
-                        <div class="course-meta">
-                            <span class="meta-item">6 weeks</span>
-                            <span class="meta-item">9 units</span>
+                        <div class="course-card__code">Year 1</div>
+                        <p class="course-card__description">Heart, lungs, ECG, gas exchange</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">6 weeks</span>
+                            <span class="course-card__meta-item">9 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/som-rgh.html" class="course-card" data-tag="som">
-                        <div class="course-tag">SOM</div>
+                        <div class="course-card__phase-tag">SOM</div>
                         <h4 class="course-title">SOM II: Renal, GI & Hepatic</h4>
-                        <div class="course-code">Year 1</div>
-                        <p class="course-description">Nephron, acid-base, liver, GI</p>
-                        <div class="course-meta">
-                            <span class="meta-item">6 weeks</span>
-                            <span class="meta-item">9 units</span>
+                        <div class="course-card__code">Year 1</div>
+                        <p class="course-card__description">Nephron, acid-base, liver, GI</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">6 weeks</span>
+                            <span class="course-card__meta-item">9 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/som-emw.html" class="course-card" data-tag="som">
-                        <div class="course-tag">SOM</div>
+                        <div class="course-card__phase-tag">SOM</div>
                         <h4 class="course-title">SOM II-B: Endocrine, MSK & Women's Health</h4>
-                        <div class="course-code">Year 1-2</div>
-                        <p class="course-description">Hormones, bones, reproductive</p>
-                        <div class="course-meta">
-                            <span class="meta-item">5 weeks</span>
-                            <span class="meta-item">7 units</span>
+                        <div class="course-card__code">Year 1-2</div>
+                        <p class="course-card__description">Hormones, bones, reproductive</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">5 weeks</span>
+                            <span class="course-card__meta-item">7 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/som-nd.html" class="course-card" data-tag="som">
-                        <div class="course-tag">SOM</div>
+                        <div class="course-card__phase-tag">SOM</div>
                         <h4 class="course-title">SOM III-A: Neuroscience & Dermatology</h4>
-                        <div class="course-code">Year 2</div>
-                        <p class="course-description">Brain, nerves, skin</p>
-                        <div class="course-meta">
-                            <span class="meta-item">6 weeks</span>
-                            <span class="meta-item">9 units</span>
+                        <div class="course-card__code">Year 2</div>
+                        <p class="course-card__description">Brain, nerves, skin</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">6 weeks</span>
+                            <span class="course-card__meta-item">9 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/som-hoid.html" class="course-card" data-tag="som">
-                        <div class="course-tag">SOM</div>
+                        <div class="course-card__phase-tag">SOM</div>
                         <h4 class="course-title">SOM III-B: Heme/Onc & Infectious Disease</h4>
-                        <div class="course-code">Year 2</div>
-                        <p class="course-description">Blood, cancer, pathogens</p>
-                        <div class="course-meta">
-                            <span class="meta-item">6 weeks</span>
-                            <span class="meta-item">9 units</span>
+                        <div class="course-card__code">Year 2</div>
+                        <p class="course-card__description">Blood, cancer, pathogens</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">6 weeks</span>
+                            <span class="course-card__meta-item">9 units</span>
                         </div>
                     </a>
                 </div>
@@ -236,70 +236,70 @@
             <!-- Additional Subjects -->
             <div class="course-category">
                 <h3 class="category-title">Additional Subjects</h3>
-                <div class="courses-grid">
+                <div class="phase-grid">
                     <a href="courses/phase1/immunology.html" class="course-card" data-tag="foundations">
-                        <div class="course-tag">Foundations</div>
+                        <div class="course-card__phase-tag">Foundations</div>
                         <h4 class="course-title">Immunology</h4>
-                        <div class="course-code">IMMU 210</div>
-                        <p class="course-description">Innate/adaptive immunity, T cells, cytokines</p>
-                        <div class="course-meta">
-                            <span class="meta-item">4 weeks</span>
-                            <span class="meta-item">6 units</span>
+                        <div class="course-card__code">IMMU 210</div>
+                        <p class="course-card__description">Innate/adaptive immunity, T cells, cytokines</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">4 weeks</span>
+                            <span class="course-card__meta-item">6 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/genetics.html" class="course-card" data-tag="foundations">
-                        <div class="course-tag">Foundations</div>
+                        <div class="course-card__phase-tag">Foundations</div>
                         <h4 class="course-title">Genetics</h4>
-                        <div class="course-code">GENE 205</div>
-                        <p class="course-description">Mendelian inheritance, karyotypes, CRISPR</p>
-                        <div class="course-meta">
-                            <span class="meta-item">3 weeks</span>
-                            <span class="meta-item">4 units</span>
+                        <div class="course-card__code">GENE 205</div>
+                        <p class="course-card__description">Mendelian inheritance, karyotypes, CRISPR</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">3 weeks</span>
+                            <span class="course-card__meta-item">4 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/neurobiology.html" class="course-card" data-tag="foundations">
-                        <div class="course-tag">Foundations</div>
+                        <div class="course-card__phase-tag">Foundations</div>
                         <h4 class="course-title">Neurobiology</h4>
-                        <div class="course-code">NEUR 208</div>
-                        <p class="course-description">Reward loops, neurotransmitters</p>
-                        <div class="course-meta">
-                            <span class="meta-item">3 weeks</span>
-                            <span class="meta-item">4 units</span>
+                        <div class="course-card__code">NEUR 208</div>
+                        <p class="course-card__description">Reward loops, neurotransmitters</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">3 weeks</span>
+                            <span class="course-card__meta-item">4 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/microbiology.html" class="course-card" data-tag="foundations">
-                        <div class="course-tag">Foundations</div>
+                        <div class="course-card__phase-tag">Foundations</div>
                         <h4 class="course-title">Medical Microbiology</h4>
-                        <div class="course-code">MICR 207</div>
-                        <p class="course-description">Bacteria, viruses, antibiotic resistance</p>
-                        <div class="course-meta">
-                            <span class="meta-item">4 weeks</span>
-                            <span class="meta-item">6 units</span>
+                        <div class="course-card__code">MICR 207</div>
+                        <p class="course-card__description">Bacteria, viruses, antibiotic resistance</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">4 weeks</span>
+                            <span class="course-card__meta-item">6 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/biostats-epi.html" class="course-card" data-tag="foundations">
-                        <div class="course-tag">Foundations</div>
+                        <div class="course-card__phase-tag">Foundations</div>
                         <h4 class="course-title">Biostatistics & Epidemiology</h4>
-                        <div class="course-code">BIOS 206</div>
-                        <p class="course-description">Study design, odds ratios, outbreak investigation</p>
-                        <div class="course-meta">
-                            <span class="meta-item">3 weeks</span>
-                            <span class="meta-item">4 units</span>
+                        <div class="course-card__code">BIOS 206</div>
+                        <p class="course-card__description">Study design, odds ratios, outbreak investigation</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">3 weeks</span>
+                            <span class="course-card__meta-item">4 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase1/behavioral-ethics.html" class="course-card" data-tag="foundations">
-                        <div class="course-tag">Foundations</div>
+                        <div class="course-card__phase-tag">Foundations</div>
                         <h4 class="course-title">Behavioral Science & Ethics</h4>
-                        <div class="course-code">BEHV 204</div>
-                        <p class="course-description">Psychology, communication, professionalism</p>
-                        <div class="course-meta">
-                            <span class="meta-item">3 weeks</span>
-                            <span class="meta-item">4 units</span>
+                        <div class="course-card__code">BEHV 204</div>
+                        <p class="course-card__description">Psychology, communication, professionalism</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">3 weeks</span>
+                            <span class="course-card__meta-item">4 units</span>
                         </div>
                     </a>
                 </div>
@@ -318,114 +318,114 @@
             <!-- Core Clerkships -->
             <div class="course-category">
                 <h3 class="category-title">Core Clerkships</h3>
-                <div class="courses-grid">
+                <div class="phase-grid">
                     <a href="courses/phase2/internal-medicine.html" class="course-card" data-tag="clerkship">
-                        <div class="course-tag">Clerkship</div>
+                        <div class="course-card__phase-tag">Clerkship</div>
                         <h4 class="course-title">Internal Medicine</h4>
-                        <div class="course-code">MED 300A</div>
-                        <p class="course-description">Comprehensive adult medicine, patient management</p>
-                        <div class="course-meta">
-                            <span class="meta-item">8 weeks</span>
-                            <span class="meta-item">12 units</span>
+                        <div class="course-card__code">MED 300A</div>
+                        <p class="course-card__description">Comprehensive adult medicine, patient management</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">8 weeks</span>
+                            <span class="course-card__meta-item">12 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/surgery.html" class="course-card" data-tag="clerkship">
-                        <div class="course-tag">Clerkship</div>
+                        <div class="course-card__phase-tag">Clerkship</div>
                         <h4 class="course-title">Surgery</h4>
-                        <div class="course-code">SURG 300A</div>
-                        <p class="course-description">Operative technique, surgical decision-making</p>
-                        <div class="course-meta">
-                            <span class="meta-item">8 weeks</span>
-                            <span class="meta-item">12 units</span>
+                        <div class="course-card__code">SURG 300A</div>
+                        <p class="course-card__description">Operative technique, surgical decision-making</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">8 weeks</span>
+                            <span class="course-card__meta-item">12 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/pediatrics.html" class="course-card" data-tag="clerkship">
-                        <div class="course-tag">Clerkship</div>
+                        <div class="course-card__phase-tag">Clerkship</div>
                         <h4 class="course-title">Pediatrics</h4>
-                        <div class="course-code">PEDS 300A</div>
-                        <p class="course-description">Child and adolescent care, developmental pediatrics</p>
-                        <div class="course-meta">
-                            <span class="meta-item">8 weeks</span>
-                            <span class="meta-item">12 units</span>
+                        <div class="course-card__code">PEDS 300A</div>
+                        <p class="course-card__description">Child and adolescent care, developmental pediatrics</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">8 weeks</span>
+                            <span class="course-card__meta-item">12 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/obgyn.html" class="course-card" data-tag="clerkship">
-                        <div class="course-tag">Clerkship</div>
+                        <div class="course-card__phase-tag">Clerkship</div>
                         <h4 class="course-title">OB/GYN</h4>
-                        <div class="course-code">OBGYN 300A</div>
-                        <p class="course-description">Pregnancy, labor, gynecology</p>
-                        <div class="course-meta">
-                            <span class="meta-item">6 weeks</span>
-                            <span class="meta-item">9 units</span>
+                        <div class="course-card__code">OBGYN 300A</div>
+                        <p class="course-card__description">Pregnancy, labor, gynecology</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">6 weeks</span>
+                            <span class="course-card__meta-item">9 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/psychiatry.html" class="course-card" data-tag="clerkship">
-                        <div class="course-tag">Clerkship</div>
+                        <div class="course-card__phase-tag">Clerkship</div>
                         <h4 class="course-title">Psychiatry</h4>
-                        <div class="course-code">PSYC 300A</div>
-                        <p class="course-description">Mental health disorders, psychopharmacology</p>
-                        <div class="course-meta">
-                            <span class="meta-item">4 weeks</span>
-                            <span class="meta-item">6 units</span>
+                        <div class="course-card__code">PSYC 300A</div>
+                        <p class="course-card__description">Mental health disorders, psychopharmacology</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">4 weeks</span>
+                            <span class="course-card__meta-item">6 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/neurology.html" class="course-card" data-tag="clerkship">
-                        <div class="course-tag">Clerkship</div>
+                        <div class="course-card__phase-tag">Clerkship</div>
                         <h4 class="course-title">Neurology</h4>
-                        <div class="course-code">NENS 301A</div>
-                        <p class="course-description">Neurological disease, localization, diagnosis</p>
-                        <div class="course-meta">
-                            <span class="meta-item">4 weeks</span>
-                            <span class="meta-item">6 units</span>
+                        <div class="course-card__code">NENS 301A</div>
+                        <p class="course-card__description">Neurological disease, localization, diagnosis</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">4 weeks</span>
+                            <span class="course-card__meta-item">6 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/emergency-medicine.html" class="course-card" data-tag="clerkship">
-                        <div class="course-tag">Clerkship</div>
+                        <div class="course-card__phase-tag">Clerkship</div>
                         <h4 class="course-title">Emergency Medicine</h4>
-                        <div class="course-code">EMED 301A</div>
-                        <p class="course-description">Acute care, trauma, resuscitation</p>
-                        <div class="course-meta">
-                            <span class="meta-item">3 weeks</span>
-                            <span class="meta-item">5 units</span>
+                        <div class="course-card__code">EMED 301A</div>
+                        <p class="course-card__description">Acute care, trauma, resuscitation</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">3 weeks</span>
+                            <span class="course-card__meta-item">5 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/critical-care.html" class="course-card" data-tag="clerkship">
-                        <div class="course-tag">Clerkship</div>
+                        <div class="course-card__phase-tag">Clerkship</div>
                         <h4 class="course-title">Critical Care & Anesthesia</h4>
-                        <div class="course-code">ANES 306A</div>
-                        <p class="course-description">ICU management, anesthetic principles</p>
-                        <div class="course-meta">
-                            <span class="meta-item">3 weeks</span>
-                            <span class="meta-item">5 units</span>
+                        <div class="course-card__code">ANES 306A</div>
+                        <p class="course-card__description">ICU management, anesthetic principles</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">3 weeks</span>
+                            <span class="course-card__meta-item">5 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/family-medicine.html" class="course-card" data-tag="clerkship">
-                        <div class="course-tag">Clerkship</div>
+                        <div class="course-card__phase-tag">Clerkship</div>
                         <h4 class="course-title">Family Medicine</h4>
-                        <div class="course-code">FAMMED 301A</div>
-                        <p class="course-description">Primary care, continuity of care</p>
-                        <div class="course-meta">
-                            <span class="meta-item">3 weeks</span>
-                            <span class="meta-item">5 units</span>
+                        <div class="course-card__code">FAMMED 301A</div>
+                        <p class="course-card__description">Primary care, continuity of care</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">3 weeks</span>
+                            <span class="course-card__meta-item">5 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/ambulatory.html" class="course-card" data-tag="clerkship">
-                        <div class="course-tag">Clerkship</div>
+                        <div class="course-card__phase-tag">Clerkship</div>
                         <h4 class="course-title">Ambulatory Medicine</h4>
-                        <div class="course-code">MED 313A</div>
-                        <p class="course-description">Outpatient management, preventive care</p>
-                        <div class="course-meta">
-                            <span class="meta-item">3 weeks</span>
-                            <span class="meta-item">5 units</span>
+                        <div class="course-card__code">MED 313A</div>
+                        <p class="course-card__description">Outpatient management, preventive care</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">3 weeks</span>
+                            <span class="course-card__meta-item">5 units</span>
                         </div>
                     </a>
                 </div>
@@ -434,48 +434,48 @@
             <!-- Electives & Subspecialties -->
             <div class="course-category">
                 <h3 class="category-title">Electives & Subspecialties</h3>
-                <div class="courses-grid">
+                <div class="phase-grid">
                     <a href="courses/phase2/radiology.html" class="course-card" data-tag="elective">
-                        <div class="course-tag">Elective</div>
+                        <div class="course-card__phase-tag">Elective</div>
                         <h4 class="course-title">Radiology</h4>
-                        <div class="course-code">RADL 302</div>
-                        <p class="course-description">Imaging interpretation across modalities</p>
-                        <div class="course-meta">
-                            <span class="meta-item">3 weeks</span>
-                            <span class="meta-item">4 units</span>
+                        <div class="course-card__code">RADL 302</div>
+                        <p class="course-card__description">Imaging interpretation across modalities</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">3 weeks</span>
+                            <span class="course-card__meta-item">4 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/pocus.html" class="course-card" data-tag="elective">
-                        <div class="course-tag">Elective</div>
+                        <div class="course-card__phase-tag">Elective</div>
                         <h4 class="course-title">Point-of-Care Ultrasound</h4>
-                        <div class="course-code">POCUS 303</div>
-                        <p class="course-description">Bedside ultrasound, FAST exam</p>
-                        <div class="course-meta">
-                            <span class="meta-item">2 weeks</span>
-                            <span class="meta-item">3 units</span>
+                        <div class="course-card__code">POCUS 303</div>
+                        <p class="course-card__description">Bedside ultrasound, FAST exam</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">2 weeks</span>
+                            <span class="course-card__meta-item">3 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/epidemiology.html" class="course-card" data-tag="elective">
-                        <div class="course-tag">Elective</div>
+                        <div class="course-card__phase-tag">Elective</div>
                         <h4 class="course-title">Epidemiology Rotation</h4>
-                        <div class="course-code">EPID 304</div>
-                        <p class="course-description">Outbreak investigation, field epidemiology</p>
-                        <div class="course-meta">
-                            <span class="meta-item">4 weeks</span>
-                            <span class="meta-item">5 units</span>
+                        <div class="course-card__code">EPID 304</div>
+                        <p class="course-card__description">Outbreak investigation, field epidemiology</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">4 weeks</span>
+                            <span class="course-card__meta-item">5 units</span>
                         </div>
                     </a>
 
                     <a href="courses/phase2/anesthesia-extended.html" class="course-card" data-tag="elective">
-                        <div class="course-tag">Elective</div>
+                        <div class="course-card__phase-tag">Elective</div>
                         <h4 class="course-title">Anesthesia (Extended)</h4>
-                        <div class="course-code">ANES 305</div>
-                        <p class="course-description">Airway management, TIVA, vapor anesthesia</p>
-                        <div class="course-meta">
-                            <span class="meta-item">4 weeks</span>
-                            <span class="meta-item">6 units</span>
+                        <div class="course-card__code">ANES 305</div>
+                        <p class="course-card__description">Airway management, TIVA, vapor anesthesia</p>
+                        <div class="course-card__meta">
+                            <span class="course-card__meta-item">4 weeks</span>
+                            <span class="course-card__meta-item">6 units</span>
                         </div>
                     </a>
                 </div>
@@ -491,7 +491,7 @@
                 <p class="section-subtitle">Choose your path of scholarly inquiry and deep expertise</p>
             </div>
 
-            <div class="courses-grid">
+            <div class="phase-grid">
                 <a href="courses/phase3/bioengineering.html" class="concentration-card" data-tag="scholarly">
                     <h4 class="concentration-title">Bioengineering</h4>
                     <p class="concentration-description">Medical devices, tissue engineering, biomechanics</p>
