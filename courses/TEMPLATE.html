@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{COURSE_TITLE}} — MSIB.io</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="topnav">
+    <div class="container">
+      <a href="../../index.html" class="topnav__brand">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="24" height="24" rx="4" fill="#8C1515"/>
+          <path d="M14 7v14M7 14h14" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M8 21h12" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        </svg>
+        MSIB.io
+      </a>
+      <button class="topnav__hamburger" aria-label="Menu">&#9776;</button>
+      <ul class="topnav__links">
+        <li><a href="../../index.html#phase1">Phase 1</a></li>
+        <li><a href="../../index.html#phase2">Phase 2</a></li>
+        <li><a href="../../index.html#phase3">Phase 3</a></li>
+        <li><a href="../../index.html#platform">Tools</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== COURSE HEADER ===== -->
+  <header class="course-header">
+    <div class="container">
+      <nav style="font-size:0.85rem;opacity:0.7;margin-bottom:var(--space-md);">
+        <a href="../../index.html" style="color:#fff;">MSIB.io</a> &rsaquo;
+        <a href="../../index.html#{{PHASE_ANCHOR}}" style="color:#fff;">{{PHASE_NAME}}</a> &rsaquo;
+        <span>{{COURSE_TITLE}}</span>
+      </nav>
+      <h1>{{COURSE_TITLE}}</h1>
+      <div class="course-header__code">{{COURSE_CODE}}</div>
+      <div class="course-header__meta">
+        <span class="course-header__meta-item">&#128197; {{YEAR_QUARTER}}</span>
+        <span class="course-header__meta-item">&#127991; {{CATEGORY}}</span>
+        <span class="course-header__meta-item">&#9997; {{UNITS}}</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== COURSE LAYOUT ===== -->
+  <div class="container">
+    <div class="course-layout">
+
+      <!-- Sidebar -->
+      <aside class="course-sidebar">
+        <ul class="course-sidebar__nav">
+          <li class="course-sidebar__section-title">Course Content</li>
+          <li><a href="#overview" class="active">Overview</a></li>
+          <li><a href="#lectures">Lectures</a></li>
+          <li><a href="#reading">Reading</a></li>
+          <li><a href="#problem-sets">Problem Sets</a></li>
+          <li class="course-sidebar__section-title">Practice</li>
+          <li><a href="#exams">Exams &amp; Quiz</a></li>
+          <li><a href="#flashcards">Flashcards</a></li>
+          <li><a href="#simulations">Simulations</a></li>
+          <li class="course-sidebar__section-title">Progress</li>
+          <li><a href="#study-tools">Study Tools</a></li>
+          <li><a href="#resources">Resources</a></li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="course-content">
+
+        <!-- OVERVIEW -->
+        <section id="overview">
+          <h2>Overview</h2>
+          <p>{{COURSE_DESCRIPTION}}</p>
+          <div style="background:var(--color-surface-alt);padding:var(--space-md);border-radius:var(--radius);border-left:3px solid var(--color-accent);">
+            <strong>Claude/Cowork Integration:</strong>
+            <p style="margin-bottom:0;">{{CLAUDE_INTEGRATION_NOTE}}</p>
+          </div>
+        </section>
+
+        <!-- LECTURES -->
+        <section id="lectures">
+          <h2>Lectures</h2>
+          <div class="tabs">
+            <button class="tabs__btn active" data-tab="lec-tab1">{{TAB1_NAME}}</button>
+            <button class="tabs__btn" data-tab="lec-tab2">{{TAB2_NAME}}</button>
+            <button class="tabs__btn" data-tab="lec-tab3">{{TAB3_NAME}}</button>
+          </div>
+          <div id="lec-tab1" class="tab-panel active">
+            <ul class="resource-list">
+              <li>&#9654; {{LECTURE_1}} <span class="text-muted" style="margin-left:auto;">{{DURATION}}</span></li>
+              <!-- Add more lectures -->
+            </ul>
+          </div>
+          <div id="lec-tab2" class="tab-panel">
+            <ul class="resource-list">
+              <li>&#9654; {{LECTURE_1}} <span class="text-muted" style="margin-left:auto;">{{DURATION}}</span></li>
+            </ul>
+          </div>
+          <div id="lec-tab3" class="tab-panel">
+            <ul class="resource-list">
+              <li>&#9654; {{LECTURE_1}} <span class="text-muted" style="margin-left:auto;">{{DURATION}}</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- READING -->
+        <section id="reading">
+          <h2>Reading &amp; References</h2>
+          <ul class="resource-list">
+            <li>
+              &#128214; <a href="#">{{RESOURCE_NAME}}</a> — {{RESOURCE_DESCRIPTION}}
+              <span class="resource-list__tag resource-list__tag--free">Free</span>
+            </li>
+            <li>
+              &#128214; <a href="#">{{RESOURCE_NAME}}</a> — {{RESOURCE_DESCRIPTION}}
+              <span class="resource-list__tag resource-list__tag--paid">$</span>
+            </li>
+            <!-- Add more resources -->
+          </ul>
+        </section>
+
+        <!-- PROBLEM SETS -->
+        <section id="problem-sets">
+          <h2>Problem Sets</h2>
+          <div class="tabs">
+            <button class="tabs__btn active" data-tab="ps-tab1">Set 1</button>
+            <button class="tabs__btn" data-tab="ps-tab2">Set 2</button>
+          </div>
+          <div id="ps-tab1" class="tab-panel active">
+            <ol style="padding-left:var(--space-lg);">
+              <li style="margin-bottom:var(--space-md);">{{PROBLEM_1}}</li>
+              <li style="margin-bottom:var(--space-md);">{{PROBLEM_2}}</li>
+            </ol>
+          </div>
+          <div id="ps-tab2" class="tab-panel">
+            <ol style="padding-left:var(--space-lg);">
+              <li style="margin-bottom:var(--space-md);">{{PROBLEM_1}}</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- EXAMS / QUIZ -->
+        <section id="exams">
+          <h2>Self-Assessment Quiz</h2>
+          <div class="quiz-container">
+
+            <div class="quiz-question" data-correct="A">
+              <div class="quiz-question__number">Question 1 of 5</div>
+              <div class="quiz-question__stem">{{QUESTION_STEM}}</div>
+              <button class="quiz-option" data-option="A">A. {{OPTION_A}}</button>
+              <button class="quiz-option" data-option="B">B. {{OPTION_B}}</button>
+              <button class="quiz-option" data-option="C">C. {{OPTION_C}}</button>
+              <button class="quiz-option" data-option="D">D. {{OPTION_D}}</button>
+              <div class="quiz-explanation">{{EXPLANATION}}</div>
+            </div>
+
+            <!-- Add more questions following the same pattern -->
+
+            <div class="quiz-score" style="display:none;">
+              <div class="quiz-score__number">0%</div>
+              <p>Quiz Complete</p>
+            </div>
+
+            <div style="text-align:center;margin-top:var(--space-lg);">
+              <button class="btn btn--secondary" data-action="reset-quiz">Reset Quiz</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- FLASHCARDS -->
+        <section id="flashcards">
+          <h2>Flashcards</h2>
+          <div class="flashcard-deck"
+               data-deck-name="{{COURSE_ID}}-flashcards"
+               data-cards='[{"front":"{{FRONT_1}}","back":"{{BACK_1}}"},{"front":"{{FRONT_2}}","back":"{{BACK_2}}"}]'>
+            <p class="text-center text-muted flashcard-counter">1 / 2</p>
+            <div class="flashcard">
+              <div class="flashcard__front"><p>Loading...</p></div>
+              <div class="flashcard__back"><p>Loading...</p></div>
+            </div>
+            <div class="flashcard-controls">
+              <button data-action="prev" class="btn btn--secondary">&larr; Previous</button>
+              <button data-action="next" class="btn btn--secondary">Next &rarr;</button>
+            </div>
+            <div style="text-align:center;margin-top:var(--space-md);">
+              <button data-action="anki-export" class="anki-export">&#x2B07; Export for Anki</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SIMULATIONS -->
+        <section id="simulations">
+          <h2>Simulations &amp; Code</h2>
+          <p>Run these Python scripts locally in Jupyter on your Mac Mini, or try the browser runner below.</p>
+          <div class="code-runner">
+            <div class="code-runner__header">
+              <span class="code-runner__title">{{SCRIPT_NAME}}.py</span>
+              <button class="code-runner__run-btn">&#9654; Run</button>
+            </div>
+            <div class="code-runner__editor">
+              <pre>{{PYTHON_CODE}}</pre>
+            </div>
+            <div class="code-runner__output">Click "Run" to execute, or copy to Jupyter.</div>
+          </div>
+        </section>
+
+        <!-- STUDY TOOLS -->
+        <section id="study-tools">
+          <h2>Study Progress</h2>
+          <div class="progress-bar"><div class="progress-bar__fill" style="width:0%"></div></div>
+          <p class="progress-label text-muted" style="font-size:0.85rem;">0/6 completed</p>
+          <ul class="checklist" data-course-id="{{COURSE_ID}}">
+            <li><input type="checkbox" id="{{COURSE_ID}}-1"><label for="{{COURSE_ID}}-1">{{CHECKLIST_ITEM_1}}</label></li>
+            <li><input type="checkbox" id="{{COURSE_ID}}-2"><label for="{{COURSE_ID}}-2">{{CHECKLIST_ITEM_2}}</label></li>
+            <li><input type="checkbox" id="{{COURSE_ID}}-3"><label for="{{COURSE_ID}}-3">{{CHECKLIST_ITEM_3}}</label></li>
+            <li><input type="checkbox" id="{{COURSE_ID}}-4"><label for="{{COURSE_ID}}-4">{{CHECKLIST_ITEM_4}}</label></li>
+            <li><input type="checkbox" id="{{COURSE_ID}}-5"><label for="{{COURSE_ID}}-5">{{CHECKLIST_ITEM_5}}</label></li>
+            <li><input type="checkbox" id="{{COURSE_ID}}-6"><label for="{{COURSE_ID}}-6">{{CHECKLIST_ITEM_6}}</label></li>
+          </ul>
+        </section>
+
+        <!-- RESOURCES -->
+        <section id="resources">
+          <h2>All Resources</h2>
+          <ul class="resource-list">
+            <li>&#128214; <a href="#">{{RESOURCE}}</a> — {{DESC}} <span class="resource-list__tag resource-list__tag--free">Free</span></li>
+            <!-- Add all resources here -->
+          </ul>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>Medical School in a Box</h4>
+          <p style="font-size:0.85rem;">AI-augmented medical education platform built on Claude Desktop and the Mac Mini M4. Following the Stanford Discovery Curriculum.</p>
+        </div>
+        <div>
+          <h4>Curriculum</h4>
+          <ul>
+            <li><a href="../../index.html#phase1">Pre-Clerkship</a></li>
+            <li><a href="../../index.html#phase2">Clerkship</a></li>
+            <li><a href="../../index.html#phase3">Scholarly</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="#">Claude Desktop</a></li>
+            <li><a href="#">Anki</a></li>
+            <li><a href="#">OsiriX</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Stanford Curriculum</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__copyright">
+        &copy; 2026 MSIB.io &mdash; Medical School in a Box. Built with Claude.
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/msib.js"></script>
+</body>
+</html>
