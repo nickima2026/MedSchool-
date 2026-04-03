@@ -927,8 +927,6 @@
                     </div>
                 </button>
             </div>
-            <div style="display:none;">
-            </button>
 
             <div class="lectures-section" id="lecturesSection">
                 <div class="lectures-empty">No lectures yet. Import from Plaud or LectureScribe to get started.</div>
@@ -1306,6 +1304,7 @@
                 const labels = { plaud: "Plaud Note Pro", lecturescribe: "LectureScribe", manual: "manual upload" };
                 alert("Import from " + labels[source] + " — this will connect to the " + labels[source] + " workflow when the backend is ready.");
                 document.getElementById("importDropdown").style.display = "none";
+            });
         });
 
         // Add Resource Button
