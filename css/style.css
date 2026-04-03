@@ -355,6 +355,10 @@ img { max-width: 100%; height: auto; }
 .resource-list__tag--free { background: #E8F5E9; color: #2E7D32; }
 .resource-list__tag--paid { background: #FFF3E0; color: #E65100; }
 .resource-list__tag--app { background: #E3F2FD; color: #1565C0; }
+.resource-list__tag--textbook { background: #EDE7F6; color: #4527A0; }
+.resource-list__tag--website { background: #E0F7FA; color: #006064; }
+.resource-list__tag--video { background: #FCE4EC; color: #AD1457; }
+.resource-list__tag--deck { background: #FFF8E1; color: #F57F17; }
 
 /* --- Tabbed Panels (for Lectures / Reading / Problem Sets / Exams) --- */
 .tabs {
