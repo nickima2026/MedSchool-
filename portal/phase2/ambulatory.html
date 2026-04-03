@@ -234,6 +234,67 @@
             transition: all 0.2s;
         }
 
+        .import-dropdown {
+            padding: 4px 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .import-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            cursor: pointer;
+            text-align: left;
+            font-family: var(--font-sans);
+            transition: all 0.15s;
+            width: 100%;
+        }
+        .import-option:hover {
+            border-color: var(--color-accent);
+            background: rgba(0,124,146,0.04);
+        }
+        .import-option-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .import-option-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+        .import-option-info strong {
+            font-size: 13px;
+            color: var(--color-text);
+        }
+        .import-option-desc {
+            font-size: 11px;
+            color: var(--color-text-muted);
+        }
+        .badge-plaud {
+            background: #2D2D2D;
+            color: #FFFFFF;
+            border: 1px solid #2D2D2D;
+        }
+        .badge-lecturescribe {
+            background: #EBF0FF;
+            color: #3B5BA5;
+            border: 1px solid rgba(59,91,165,0.25);
+        }
+        .badge-manual {
+            background: var(--color-surface-alt);
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border);
+        }
+        .badge-photos {
+            background: #FFF8E1;
+            color: #B8860B;
+            border: 1px solid rgba(184,134,11,0.25);
+        }
         .upload-button:hover {
             border-color: var(--color-accent);
             background-color: var(--color-surface);
@@ -841,11 +902,36 @@
 
             <button class="upload-button" id="uploadButton">
                 <span class="upload-button-icon">&#11014;</span>
-                Import from Pod / Upload Recording
+                Import Recording
+            </button>
+            <div id="importDropdown" class="import-dropdown" style="display:none;">
+                <button class="import-option" data-source="plaud">
+                    <span class="import-option-icon">&#127897;</span>
+                    <div class="import-option-info">
+                        <strong>From Plaud Note Pro</strong>
+                        <span class="import-option-desc">Audio + transcript + photos captured during recording</span>
+                    </div>
+                </button>
+                <button class="import-option" data-source="lecturescribe">
+                    <span class="import-option-icon">&#128221;</span>
+                    <div class="import-option-info">
+                        <strong>From LectureScribe</strong>
+                        <span class="import-option-desc">Audio + transcript + visual study materials</span>
+                    </div>
+                </button>
+                <button class="import-option" data-source="manual">
+                    <span class="import-option-icon">&#128228;</span>
+                    <div class="import-option-info">
+                        <strong>Manual Upload</strong>
+                        <span class="import-option-desc">Upload audio file or paste transcript</span>
+                    </div>
+                </button>
+            </div>
+            <div style="display:none;">
             </button>
 
             <div class="lectures-section" id="lecturesSection">
-                <div class="lectures-empty">No lectures yet. Upload your first recording to get started.</div>
+                <div class="lectures-empty">No lectures yet. Import from Plaud or LectureScribe to get started.</div>
             </div>
         </div>
 
@@ -924,7 +1010,7 @@
             const container = document.getElementById("lecturesSection");
 
             if (LECTURES.length === 0) {
-                container.innerHTML = '<div class="lectures-empty">No lectures yet. Upload your first recording to get started.</div>';
+                container.innerHTML = '<div class="lectures-empty">No lectures yet. Import from Plaud or LectureScribe to get started.</div>';
                 return;
             }
 
@@ -946,7 +1032,10 @@
                 grouped[week].forEach(lecture => {
                     const isSelected = state.selectedLecture === lecture.id;
                     const badges = [];
-                    if (lecture.hasPod) badges.push('<span class="badge">Pod</span>');
+                    if (lecture.source === 'plaud') badges.push('<span class="badge badge-plaud">&#127897; Plaud</span>');
+                    else if (lecture.source === 'lecturescribe') badges.push('<span class="badge badge-lecturescribe">&#128221; LectureScribe</span>');
+                    else if (lecture.source) badges.push('<span class="badge badge-manual">&#128228; Manual</span>');
+                    if (lecture.photos && lecture.photos.length > 0) badges.push('<span class="badge badge-photos">&#128247; ' + lecture.photos.length + ' photos</span>');
                     if (lecture.isShared) badges.push('<span class="badge">Shared</span>');
                     if (lecture.instructor) badges.push(`<span class="badge">${lecture.instructor}</span>`);
 
@@ -1208,7 +1297,15 @@
 
         // Upload Button
         document.getElementById("uploadButton").addEventListener("click", () => {
-            alert("Upload dialog would open here. This is a placeholder.");
+            const dd = document.getElementById("importDropdown");
+            dd.style.display = dd.style.display === "none" ? "flex" : "none";
+        });
+        document.querySelectorAll(".import-option").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const source = btn.dataset.source;
+                const labels = { plaud: "Plaud Note Pro", lecturescribe: "LectureScribe", manual: "manual upload" };
+                alert("Import from " + labels[source] + " — this will connect to the " + labels[source] + " workflow when the backend is ready.");
+                document.getElementById("importDropdown").style.display = "none";
         });
 
         // Add Resource Button
