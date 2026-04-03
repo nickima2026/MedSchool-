@@ -1,0 +1,1754 @@
+[
+  {
+    "id": "BIOC205",
+    "name": "Molecular Foundations of Medicine",
+    "phase": 1,
+    "track": "Foundations",
+    "resources": [
+      {
+        "title": "Lippincott's Illustrated Reviews: Biochemistry (Harvey & Ferrier)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781975155179",
+        "free": false,
+        "notes": "Gold standard for USMLE Step 1 biochemistry"
+      },
+      {
+        "title": "Harper's Illustrated Biochemistry (Rodwell et al.)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/harpers-illustrated-biochemistry-9781264264872-usa",
+        "free": false,
+        "notes": "Comprehensive reference for advanced biochemistry"
+      },
+      {
+        "title": "Khan Academy: Biomolecules & Biochemistry",
+        "type": "website",
+        "url": "https://www.khanacademy.org/science/ap-biology/chemistry-of-life",
+        "free": true
+      },
+      {
+        "title": "AMBOSS: Biochemistry Library",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false,
+        "notes": "Free limited access; subscription for full library"
+      },
+      {
+        "title": "Ninja Nerd Science: Biochemistry Playlist",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      },
+      {
+        "title": "AnKing Overhaul Anki Deck (Biochemistry cards)",
+        "type": "deck",
+        "url": "https://www.ankingmed.com/anking-overhaul",
+        "free": true,
+        "notes": "Comprehensive USMLE Step 1 deck; filter by tag for biochemistry"
+      }
+    ]
+  },
+  {
+    "id": "SURG203",
+    "name": "Clinical Anatomy",
+    "phase": 1,
+    "track": "Foundations",
+    "resources": [
+      {
+        "title": "Gray's Anatomy for Students (Drake, Vogl & Mitchell)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/grays-anatomy-for-students/drake/978-0-323-39304-1",
+        "free": false,
+        "notes": "Gold standard clinical anatomy text"
+      },
+      {
+        "title": "Netter's Atlas of Human Anatomy (Frank Netter)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/netters-atlas-of-human-anatomy/netter/978-0-323-39403-1",
+        "free": false,
+        "notes": "Definitive anatomical atlas; often used alongside Gray's"
+      },
+      {
+        "title": "AnatomyZone: 3D Anatomy Tutorials",
+        "type": "website",
+        "url": "https://anatomyzone.com",
+        "free": true
+      },
+      {
+        "title": "Acland's Video Atlas of Human Anatomy",
+        "type": "video",
+        "url": "https://aclandanatomy.com",
+        "free": false,
+        "notes": "Free access via many medical school library subscriptions"
+      },
+      {
+        "title": "GetBodySmart: Interactive Anatomy & Physiology",
+        "type": "website",
+        "url": "https://www.getbodysmart.com",
+        "free": true
+      },
+      {
+        "title": "AnatomyZone YouTube: Regional Anatomy Series",
+        "type": "video",
+        "url": "https://www.youtube.com/@AnatomyZone",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "SURG201",
+    "name": "Embryology",
+    "phase": 1,
+    "track": "Foundations",
+    "resources": [
+      {
+        "title": "The Developing Human: Clinically Oriented Embryology (Moore & Persaud)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/the-developing-human/moore/978-0-323-61154-1",
+        "free": false,
+        "notes": "Gold standard embryology text; excellent clinical correlations"
+      },
+      {
+        "title": "Langman's Medical Embryology (Sadler)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781496383907",
+        "free": false
+      },
+      {
+        "title": "UNSW Embryology: Free Online Embryology Resource",
+        "type": "website",
+        "url": "https://embryology.med.unsw.edu.au",
+        "free": true,
+        "notes": "Comprehensive free embryology resource from UNSW Medicine"
+      },
+      {
+        "title": "Khan Academy: Developmental Biology",
+        "type": "website",
+        "url": "https://www.khanacademy.org/science/ap-biology/cell-communication-and-cell-cycle",
+        "free": true
+      },
+      {
+        "title": "Ninja Nerd Science: Embryology Playlist",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      },
+      {
+        "title": "Armando Hasudungan: Embryology Series",
+        "type": "video",
+        "url": "https://www.youtube.com/@ArmandoHasudungan",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "EMED201",
+    "name": "BLS Certification",
+    "phase": 1,
+    "track": "Foundations",
+    "resources": [
+      {
+        "title": "AHA BLS Provider Manual",
+        "type": "textbook",
+        "url": "https://cpr.heart.org/en/courses/basic-life-support-bls",
+        "free": false,
+        "notes": "Official AHA manual; required for BLS certification"
+      },
+      {
+        "title": "American Heart Association: BLS Course Information",
+        "type": "website",
+        "url": "https://cpr.heart.org/en/courses/basic-life-support-bls",
+        "free": false,
+        "notes": "Official AHA BLS course finder and certification"
+      },
+      {
+        "title": "AHA CPR & First Aid: Official YouTube Channel",
+        "type": "video",
+        "url": "https://www.youtube.com/@AmericanHeartAssociation",
+        "free": true
+      },
+      {
+        "title": "Red Cross: CPR/AED Steps & Training",
+        "type": "website",
+        "url": "https://www.redcross.org/take-a-class/cpr/performing-cpr/cpr-steps",
+        "free": true,
+        "notes": "Free CPR overview; full certification requires course enrollment"
+      },
+      {
+        "title": "Resus Council UK: BLS & AED Guidelines (ILCOR)",
+        "type": "website",
+        "url": "https://www.resus.org.uk/library/2021-resuscitation-guidelines/adult-basic-life-support-guidelines",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "IMMU210",
+    "name": "Immunology",
+    "phase": 1,
+    "track": "Foundations",
+    "resources": [
+      {
+        "title": "Janeway's Immunobiology (Murphy & Weaver)",
+        "type": "textbook",
+        "url": "https://www.routledge.com/Janeways-Immunobiology/Murphy-Weaver/p/book/9780393884890",
+        "free": false,
+        "notes": "Gold standard immunology textbook"
+      },
+      {
+        "title": "Cellular and Molecular Immunology (Abbas, Lichtman & Pillai)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/cellular-and-molecular-immunology/abbas/978-0-323-75748-5",
+        "free": false,
+        "notes": "Excellent clinical focus on immunology"
+      },
+      {
+        "title": "Khan Academy: Immune System",
+        "type": "website",
+        "url": "https://www.khanacademy.org/science/health-and-medicine/immunology-and-hematology",
+        "free": true
+      },
+      {
+        "title": "Osmosis: Immunology",
+        "type": "website",
+        "url": "https://www.osmosis.org/learn/Immunology",
+        "free": false,
+        "notes": "Free limited access; excellent animations"
+      },
+      {
+        "title": "Armando Hasudungan: Immunology Series",
+        "type": "video",
+        "url": "https://www.youtube.com/@ArmandoHasudungan",
+        "free": true
+      },
+      {
+        "title": "Ninja Nerd Science: Immunology Playlist",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "GENE205",
+    "name": "Genetics",
+    "phase": 1,
+    "track": "Foundations",
+    "resources": [
+      {
+        "title": "Thompson & Thompson Genetics in Medicine (Nussbaum, McInnes & Willard)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/thompson-and-thompson-genetics-in-medicine/nussbaum/978-1-4377-0696-3",
+        "free": false,
+        "notes": "Gold standard clinical genetics textbook"
+      },
+      {
+        "title": "Khan Academy: Genetics & Heredity",
+        "type": "website",
+        "url": "https://www.khanacademy.org/science/ap-biology/heredity",
+        "free": true
+      },
+      {
+        "title": "OMIM: Online Mendelian Inheritance in Man",
+        "type": "website",
+        "url": "https://www.omim.org",
+        "free": true,
+        "notes": "Authoritative compendium of genetic disorders; essential reference"
+      },
+      {
+        "title": "NCBI Genetics & Medicine Resources",
+        "type": "website",
+        "url": "https://www.ncbi.nlm.nih.gov/guide/genetics-medicine",
+        "free": true
+      },
+      {
+        "title": "Nature Education Scitable: Genetics",
+        "type": "website",
+        "url": "https://www.nature.com/scitable/topic/genetics-5",
+        "free": true
+      },
+      {
+        "title": "Ninja Nerd Science: Genetics Playlist",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "NEUR208",
+    "name": "Neurobiology",
+    "phase": 1,
+    "track": "Foundations",
+    "resources": [
+      {
+        "title": "Neuroscience: Exploring the Brain (Bear, Connors & Paradiso)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781284217964",
+        "free": false,
+        "notes": "Gold standard neuroscience textbook for preclinical students"
+      },
+      {
+        "title": "Principles of Neural Science (Kandel et al.)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/principles-of-neural-science-sixth-edition-9781259642234-usa",
+        "free": false,
+        "notes": "Comprehensive reference; heavier reading, excellent for deep dives"
+      },
+      {
+        "title": "Khan Academy: Nervous System",
+        "type": "website",
+        "url": "https://www.khanacademy.org/science/health-and-medicine/nervous-system-and-sensory-infor",
+        "free": true
+      },
+      {
+        "title": "Neuroscientifically Challenged: 2-Minute Neuroscience Videos",
+        "type": "video",
+        "url": "https://www.youtube.com/@neuroscientificallychallenged",
+        "free": true
+      },
+      {
+        "title": "Osmosis: Neuroscience",
+        "type": "website",
+        "url": "https://www.osmosis.org/learn/Neuroscience",
+        "free": false
+      },
+      {
+        "title": "HHMI BioInteractive: Neuroscience Resources",
+        "type": "website",
+        "url": "https://www.biointeractive.org/classroom-resources?f%5B0%5D=topics%3A22",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "MICR207",
+    "name": "Medical Microbiology",
+    "phase": 1,
+    "track": "Foundations",
+    "resources": [
+      {
+        "title": "Murray's Medical Microbiology (Murray et al.)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/medical-microbiology/murray/978-0-323-67388-4",
+        "free": false,
+        "notes": "Gold standard medical microbiology text"
+      },
+      {
+        "title": "Clinical Microbiology Made Ridiculously Simple (Gladwin & Trattler)",
+        "type": "textbook",
+        "url": "https://www.medmaster.net/clinical-microbiology-made-ridiculously-simple",
+        "free": false,
+        "notes": "Highly readable; excellent for USMLE review"
+      },
+      {
+        "title": "Sketchy Microbiology",
+        "type": "website",
+        "url": "https://sketchy.com",
+        "free": false,
+        "notes": "Memory palace / visual mnemonics; highly effective for Step 1"
+      },
+      {
+        "title": "AMBOSS: Microbiology",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "Ninja Nerd Science: Microbiology Playlist",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      },
+      {
+        "title": "StatPearls: Microbiology (NCBI Bookshelf)",
+        "type": "website",
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK430685",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "BIOS206",
+    "name": "Biostatistics & Epidemiology",
+    "phase": 1,
+    "track": "Foundations",
+    "resources": [
+      {
+        "title": "Gordis Epidemiology (Celentano & Szklo)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/gordis-epidemiology/celentano/978-0-323-55229-5",
+        "free": false,
+        "notes": "Gold standard epidemiology textbook"
+      },
+      {
+        "title": "Primer of Biostatistics (Glantz)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/primer-of-biostatistics-eighth-edition-9781260457360-usa",
+        "free": false
+      },
+      {
+        "title": "CDC: Principles of Epidemiology in Public Health Practice (SS1978)",
+        "type": "website",
+        "url": "https://www.cdc.gov/csels/dsepd/ss1978/index.html",
+        "free": true,
+        "notes": "Free comprehensive online course from CDC; excellent and authoritative"
+      },
+      {
+        "title": "Khan Academy: Statistics & Probability",
+        "type": "website",
+        "url": "https://www.khanacademy.org/math/statistics-probability",
+        "free": true
+      },
+      {
+        "title": "OpenEpi: Open-Source Epidemiologic Statistics",
+        "type": "website",
+        "url": "https://www.openepi.com",
+        "free": true,
+        "notes": "Free calculator for odds ratios, risk ratios, sensitivity/specificity"
+      },
+      {
+        "title": "Ninja Nerd Science: Biostatistics & Epidemiology",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "BEHV204",
+    "name": "Behavioral Science & Ethics",
+    "phase": 1,
+    "track": "Foundations",
+    "resources": [
+      {
+        "title": "BRS Behavioral Science (Fadem)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781496396587",
+        "free": false,
+        "notes": "Gold standard for USMLE Step 1 behavioral science"
+      },
+      {
+        "title": "Principles of Biomedical Ethics (Beauchamp & Childress)",
+        "type": "textbook",
+        "url": "https://global.oup.com/academic/product/principles-of-biomedical-ethics-9780190640873",
+        "free": false,
+        "notes": "The foundational text for biomedical ethics (4 principles framework)"
+      },
+      {
+        "title": "Khan Academy: MCAT Behavioral Sciences",
+        "type": "website",
+        "url": "https://www.khanacademy.org/test-prep/mcat/social-sciences-mcat",
+        "free": true
+      },
+      {
+        "title": "StatPearls: Medical Ethics & Professionalism",
+        "type": "website",
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK430685",
+        "free": true
+      },
+      {
+        "title": "Dirty Medicine: Behavioral Science Series",
+        "type": "video",
+        "url": "https://www.youtube.com/@DirtyMedicine",
+        "free": true
+      },
+      {
+        "title": "NIH Bioethics Resources",
+        "type": "website",
+        "url": "https://bioethics.nih.gov",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "POM-I",
+    "name": "POM I: Clinical Skills Year 1",
+    "phase": 1,
+    "track": "Practice of Medicine",
+    "resources": [
+      {
+        "title": "Bates' Guide to Physical Examination and History Taking (Bickley)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781496398178",
+        "free": false,
+        "notes": "Gold standard for physical examination and history-taking"
+      },
+      {
+        "title": "Stanford Medicine 25: Clinical Examination Skills",
+        "type": "website",
+        "url": "https://stanfordmedicine25.stanford.edu",
+        "free": true,
+        "notes": "Free, excellent videos and guides for 25 core clinical examination skills"
+      },
+      {
+        "title": "Geeky Medics: OSCE Skills & Physical Examination Guides",
+        "type": "website",
+        "url": "https://geekymedics.com",
+        "free": true,
+        "notes": "Free comprehensive OSCE preparation resources"
+      },
+      {
+        "title": "OSCE Skills: Clinical Skills Videos",
+        "type": "video",
+        "url": "https://osceskills.com",
+        "free": true
+      },
+      {
+        "title": "Geeky Medics YouTube: Clinical Examination Videos",
+        "type": "video",
+        "url": "https://www.youtube.com/@GeekyMedics",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "POM-II",
+    "name": "POM II: Advanced Clinical Year 1-2",
+    "phase": 1,
+    "track": "Practice of Medicine",
+    "resources": [
+      {
+        "title": "Evidence-Based Medicine: How to Practice and Teach It (Straus, Glasziou, Richardson & Haynes)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/evidence-based-medicine/straus/978-0-7020-5127-4",
+        "free": false,
+        "notes": "Gold standard EBM textbook"
+      },
+      {
+        "title": "BMJ Best Practice: Evidence-Based Clinical Decision Support",
+        "type": "website",
+        "url": "https://bestpractice.bmj.com",
+        "free": false,
+        "notes": "Institutional access often available through medical schools"
+      },
+      {
+        "title": "AMBOSS: Clinical Knowledge & Reasoning",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "OnlineMedEd: Pre-Clerkship Curriculum",
+        "type": "website",
+        "url": "https://onlinemeded.org",
+        "free": false,
+        "notes": "Free basic access; subscription for full content"
+      },
+      {
+        "title": "Cochrane Library: Systematic Reviews (Free Abstracts)",
+        "type": "website",
+        "url": "https://www.cochranelibrary.com",
+        "free": true,
+        "notes": "Abstracts free; full reviews often available via institutional access"
+      }
+    ]
+  },
+  {
+    "id": "POM-III",
+    "name": "POM III: Integration Year 2",
+    "phase": 1,
+    "track": "Practice of Medicine",
+    "resources": [
+      {
+        "title": "First Aid for the USMLE Step 2 CK (Le, Vasan & Bhushan)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/first-aid-for-the-usmle-step-2-ck-tenth-edition-9781264793129-usa",
+        "free": false,
+        "notes": "High-yield Step 2 review; bridges pre-clinical to clinical"
+      },
+      {
+        "title": "OnlineMedEd: Clerkship Preparation Series",
+        "type": "website",
+        "url": "https://onlinemeded.org",
+        "free": false
+      },
+      {
+        "title": "AMBOSS: Step 2 CK Preparation",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "UWorld USMLE Step 2 CK Qbank",
+        "type": "website",
+        "url": "https://www.uworld.com/usmle-qbank",
+        "free": false,
+        "notes": "Gold standard question bank for clinical integration"
+      },
+      {
+        "title": "Geeky Medics: Clinical Reasoning Resources",
+        "type": "website",
+        "url": "https://geekymedics.com",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "SOM-I",
+    "name": "SOM I: Cardiovascular & Respiratory",
+    "phase": 1,
+    "track": "Science of Medicine",
+    "resources": [
+      {
+        "title": "Pathophysiology of Heart Disease (Lilly)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781496380524",
+        "free": false,
+        "notes": "Gold standard for cardiovascular pathophysiology; excellent ECG coverage"
+      },
+      {
+        "title": "Murray & Nadel's Textbook of Respiratory Medicine (Broaddus et al.)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/murray-and-nadels-textbook-of-respiratory-medicine/broaddus/978-0-323-65587-3",
+        "free": false
+      },
+      {
+        "title": "LITFL: ECG Library",
+        "type": "website",
+        "url": "https://litfl.com/ecg-library",
+        "free": true,
+        "notes": "Comprehensive free ECG interpretation guide with examples"
+      },
+      {
+        "title": "Khan Academy: Circulatory & Respiratory Systems",
+        "type": "website",
+        "url": "https://www.khanacademy.org/science/health-and-medicine/circulatory-system",
+        "free": true
+      },
+      {
+        "title": "Ninja Nerd Science: Cardiology & Respiratory Playlists",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      },
+      {
+        "title": "Osmosis: Cardiovascular System",
+        "type": "website",
+        "url": "https://www.osmosis.org/learn/Cardiovascular_system",
+        "free": false
+      }
+    ]
+  },
+  {
+    "id": "SOM-II",
+    "name": "SOM II: Renal, GI & Hepatic",
+    "phase": 1,
+    "track": "Science of Medicine",
+    "resources": [
+      {
+        "title": "Clinical Physiology of Acid-Base and Electrolyte Disorders (Rose & Post)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/clinical-physiology-of-acid-base-and-electrolyte-disorders-9780071613521-usa",
+        "free": false,
+        "notes": "Definitive acid-base and renal physiology reference"
+      },
+      {
+        "title": "Yamada's Textbook of Gastroenterology (Podolsky et al.)",
+        "type": "textbook",
+        "url": "https://www.wiley.com/en-us/Yamada%27s+Textbook+of+Gastroenterology%2C+6th+Edition-p-9781118512074",
+        "free": false
+      },
+      {
+        "title": "AMBOSS: Nephrology & Gastroenterology",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "Khan Academy: Renal & Gastrointestinal Systems",
+        "type": "website",
+        "url": "https://www.khanacademy.org/science/health-and-medicine/gastrointestinal-system",
+        "free": true
+      },
+      {
+        "title": "Ninja Nerd Science: Renal & GI Playlists",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      },
+      {
+        "title": "Osmosis: Renal System",
+        "type": "website",
+        "url": "https://www.osmosis.org/learn/Renal_system",
+        "free": false
+      }
+    ]
+  },
+  {
+    "id": "SOM-IIB",
+    "name": "SOM II-B: Endocrine, MSK & Women's Health",
+    "phase": 1,
+    "track": "Science of Medicine",
+    "resources": [
+      {
+        "title": "Williams Textbook of Endocrinology (Melmed et al.)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/williams-textbook-of-endocrinology/melmed/978-0-323-55596-8",
+        "free": false,
+        "notes": "Gold standard endocrinology reference"
+      },
+      {
+        "title": "Robbins & Cotran Pathologic Basis of Disease (Kumar, Abbas & Aster)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/robbins-and-cotran-pathologic-basis-of-disease/kumar/978-0-323-53113-9",
+        "free": false,
+        "notes": "Essential pathology text covering endocrine, MSK, and reproductive pathology"
+      },
+      {
+        "title": "AMBOSS: Endocrinology, Rheumatology & Reproductive",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "Khan Academy: Endocrine System & Reproductive System",
+        "type": "website",
+        "url": "https://www.khanacademy.org/science/health-and-medicine/endocrine-system",
+        "free": true
+      },
+      {
+        "title": "Ninja Nerd Science: Endocrinology & MSK Playlists",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      },
+      {
+        "title": "Osmosis: Endocrine System",
+        "type": "website",
+        "url": "https://www.osmosis.org/learn/Endocrine_system",
+        "free": false
+      }
+    ]
+  },
+  {
+    "id": "SOM-IIIA",
+    "name": "SOM III-A: Neuroscience & Dermatology",
+    "phase": 1,
+    "track": "Science of Medicine",
+    "resources": [
+      {
+        "title": "Clinical Neuroanatomy (Snell)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781496344670",
+        "free": false,
+        "notes": "Gold standard clinical neuroanatomy; excellent for localization"
+      },
+      {
+        "title": "Fitzpatrick's Dermatology (Kang, Amagai & Bruckner)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/fitzpatrick-s-dermatology-9th-edition-two-volume-set-9781259914775-usa",
+        "free": false,
+        "notes": "Definitive dermatology reference"
+      },
+      {
+        "title": "DermNet: Dermatology Reference",
+        "type": "website",
+        "url": "https://dermnetnz.org",
+        "free": true,
+        "notes": "Comprehensive free dermatology reference with images"
+      },
+      {
+        "title": "AMBOSS: Neurology & Dermatology",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "Armando Hasudungan: Neurology Series",
+        "type": "video",
+        "url": "https://www.youtube.com/@ArmandoHasudungan",
+        "free": true
+      },
+      {
+        "title": "Osmosis: Dermatology",
+        "type": "website",
+        "url": "https://www.osmosis.org/learn/Dermatology",
+        "free": false
+      }
+    ]
+  },
+  {
+    "id": "SOM-IIIB",
+    "name": "SOM III-B: Heme/Onc & Infectious Disease",
+    "phase": 1,
+    "track": "Science of Medicine",
+    "resources": [
+      {
+        "title": "Williams Hematology (Kaushansky et al.)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/williams-hematology-10th-edition-9781264464128-usa",
+        "free": false,
+        "notes": "Definitive hematology reference"
+      },
+      {
+        "title": "Mandell, Douglas & Bennett's Principles and Practice of Infectious Diseases (Bennett et al.)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/mandell-douglas-and-bennetts-principles-and-practice-of-infectious-diseases/bennett/978-0-323-48255-4",
+        "free": false,
+        "notes": "Gold standard for infectious diseases"
+      },
+      {
+        "title": "AMBOSS: Hematology/Oncology & Infectious Disease",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "Ninja Nerd Science: Hematology & Oncology Playlists",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      },
+      {
+        "title": "Osmosis: Infectious Diseases",
+        "type": "website",
+        "url": "https://www.osmosis.org/learn/Infectious_diseases",
+        "free": false
+      },
+      {
+        "title": "Sketchy Microbiology & Pharmacology (Infectious Disease modules)",
+        "type": "website",
+        "url": "https://sketchy.com",
+        "free": false,
+        "notes": "Highly effective visual mnemonics for pathogens and antibiotics"
+      }
+    ]
+  },
+  {
+    "id": "MED300A",
+    "name": "Internal Medicine",
+    "phase": 2,
+    "track": "Core Clerkships",
+    "resources": [
+      {
+        "title": "Harrison's Principles of Internal Medicine (Jameson et al.)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/harrisons-principles-of-internal-medicine-21e-9781264268504-usa",
+        "free": false,
+        "notes": "The definitive internal medicine reference"
+      },
+      {
+        "title": "Current Medical Diagnosis & Treatment — CMDT (Papadakis & McPhee)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/current-medical-diagnosis-and-treatment-2024-9781264686612-usa",
+        "free": false,
+        "notes": "Practical annual reference; excellent for clerkship"
+      },
+      {
+        "title": "OnlineMedEd: Internal Medicine Clerkship",
+        "type": "website",
+        "url": "https://onlinemeded.org",
+        "free": false,
+        "notes": "Highly structured video lectures covering IM clerkship topics"
+      },
+      {
+        "title": "AMBOSS: Internal Medicine",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "UWorld USMLE Step 2 CK Qbank",
+        "type": "website",
+        "url": "https://www.uworld.com",
+        "free": false,
+        "notes": "Gold standard question bank for clinical clerkships"
+      }
+    ]
+  },
+  {
+    "id": "SURG300A",
+    "name": "Surgery",
+    "phase": 2,
+    "track": "Core Clerkships",
+    "resources": [
+      {
+        "title": "Schwartz's Principles of Surgery (Brunicardi et al.)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/schwartz-s-principles-of-surgery-11e-9781259987557-usa",
+        "free": false,
+        "notes": "Gold standard surgical reference"
+      },
+      {
+        "title": "Surgical Recall (Blackbourne)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781451176773",
+        "free": false,
+        "notes": "Q&A format; excellent pimping preparation for surgical rounds"
+      },
+      {
+        "title": "AMBOSS: Surgery",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "OnlineMedEd: Surgery Clerkship",
+        "type": "website",
+        "url": "https://onlinemeded.org",
+        "free": false
+      },
+      {
+        "title": "Geeky Medics: Surgical Skills & Examination Videos",
+        "type": "video",
+        "url": "https://www.youtube.com/@GeekyMedics",
+        "free": true
+      },
+      {
+        "title": "WebSurg: Open Access Surgical Video Library",
+        "type": "video",
+        "url": "https://websurg.com",
+        "free": true,
+        "notes": "Free access to surgical operative videos"
+      }
+    ]
+  },
+  {
+    "id": "PEDS300A",
+    "name": "Pediatrics",
+    "phase": 2,
+    "track": "Core Clerkships",
+    "resources": [
+      {
+        "title": "Nelson Textbook of Pediatrics (Kliegman et al.)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/nelson-textbook-of-pediatrics/kliegman/978-0-323-52950-1",
+        "free": false,
+        "notes": "The definitive pediatrics reference"
+      },
+      {
+        "title": "Harriet Lane Handbook (Johns Hopkins)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/the-harriet-lane-handbook/campbell/978-0-323-67407-2",
+        "free": false,
+        "notes": "Essential pocket reference for dosing, procedures, and normal values"
+      },
+      {
+        "title": "AMBOSS: Pediatrics",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "American Academy of Pediatrics: Clinical Resources",
+        "type": "website",
+        "url": "https://www.aap.org/en/patient-care/",
+        "free": true,
+        "notes": "Free clinical guidelines, policy statements, and resources"
+      },
+      {
+        "title": "OnlineMedEd: Pediatrics Clerkship",
+        "type": "website",
+        "url": "https://onlinemeded.org",
+        "free": false
+      },
+      {
+        "title": "Osmosis: Pediatrics",
+        "type": "website",
+        "url": "https://www.osmosis.org/learn/Pediatrics",
+        "free": false
+      }
+    ]
+  },
+  {
+    "id": "OBGYN300A",
+    "name": "OB/GYN",
+    "phase": 2,
+    "track": "Core Clerkships",
+    "resources": [
+      {
+        "title": "Williams Obstetrics (Cunningham et al.)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/williams-obstetrics-26th-edition-9781264277841-usa",
+        "free": false,
+        "notes": "Gold standard obstetrics reference"
+      },
+      {
+        "title": "Beckmann's Obstetrics and Gynecology (Casanova et al.)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781496385338",
+        "free": false,
+        "notes": "Concise, clerkship-focused OB/GYN text"
+      },
+      {
+        "title": "AMBOSS: Obstetrics & Gynecology",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "ACOG: Clinical Practice Resources",
+        "type": "website",
+        "url": "https://www.acog.org/clinical",
+        "free": true,
+        "notes": "Free access to selected ACOG practice bulletins and guidelines"
+      },
+      {
+        "title": "OnlineMedEd: OB/GYN Clerkship",
+        "type": "website",
+        "url": "https://onlinemeded.org",
+        "free": false
+      },
+      {
+        "title": "Ninja Nerd Science: OB/GYN Playlist",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "PSYC300A",
+    "name": "Psychiatry",
+    "phase": 2,
+    "track": "Core Clerkships",
+    "resources": [
+      {
+        "title": "Kaplan & Sadock's Synopsis of Psychiatry (Sadock, Sadock & Ruiz)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781609139711",
+        "free": false,
+        "notes": "Gold standard psychiatry reference"
+      },
+      {
+        "title": "DSM-5-TR: Diagnostic and Statistical Manual of Mental Disorders",
+        "type": "textbook",
+        "url": "https://www.psychiatry.org/psychiatrists/practice/dsm",
+        "free": false,
+        "notes": "Essential diagnostic reference; free summaries available on APA website"
+      },
+      {
+        "title": "AMBOSS: Psychiatry",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "OnlineMedEd: Psychiatry Clerkship",
+        "type": "website",
+        "url": "https://onlinemeded.org",
+        "free": false
+      },
+      {
+        "title": "Ninja Nerd Science: Psychiatry Playlist",
+        "type": "video",
+        "url": "https://www.youtube.com/@NinjaNerdScience",
+        "free": true
+      },
+      {
+        "title": "Osmosis: Psychiatry",
+        "type": "website",
+        "url": "https://www.osmosis.org/learn/Psychiatry",
+        "free": false
+      }
+    ]
+  },
+  {
+    "id": "NENS301A",
+    "name": "Neurology",
+    "phase": 2,
+    "track": "Core Clerkships",
+    "resources": [
+      {
+        "title": "Adams & Victor's Principles of Neurology (Ropper & Samuels)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/adams-and-victor-s-principles-of-neurology-12th-edition-9781264264643-usa",
+        "free": false,
+        "notes": "Definitive neurology reference"
+      },
+      {
+        "title": "Aids to the Examination of the Peripheral Nervous System (Guarantors of Brain)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/aids-to-the-examination-of-the-peripheral-nervous-system/guarantors-of-brain/978-0-7020-3739-1",
+        "free": false,
+        "notes": "Essential for motor & sensory exam; localizing peripheral lesions"
+      },
+      {
+        "title": "AMBOSS: Neurology",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "LITFL: Neurology Library",
+        "type": "website",
+        "url": "https://litfl.com/library/neurology",
+        "free": true
+      },
+      {
+        "title": "OnlineMedEd: Neurology Clerkship",
+        "type": "website",
+        "url": "https://onlinemeded.org",
+        "free": false
+      },
+      {
+        "title": "Armando Hasudungan: Neurology Series",
+        "type": "video",
+        "url": "https://www.youtube.com/@ArmandoHasudungan",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "EMED301A",
+    "name": "Emergency Medicine",
+    "phase": 2,
+    "track": "Core Clerkships",
+    "resources": [
+      {
+        "title": "Tintinalli's Emergency Medicine: A Comprehensive Study Guide (Tintinalli et al.)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/tintinalli-s-emergency-medicine-a-comprehensive-study-guide-9th-edition-9781260019933-usa",
+        "free": false,
+        "notes": "Gold standard emergency medicine reference"
+      },
+      {
+        "title": "Rosen's Emergency Medicine (Walls et al.)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/rosens-emergency-medicine/walls/978-0-323-35479-0",
+        "free": false
+      },
+      {
+        "title": "Life in the Fast Lane (LITFL): EM & Critical Care Reference",
+        "type": "website",
+        "url": "https://litfl.com",
+        "free": true,
+        "notes": "Exceptional free EM reference; ECG library, toxicology, procedures"
+      },
+      {
+        "title": "EmCrit: Emergency Medicine & Critical Care Education",
+        "type": "website",
+        "url": "https://emcrit.org",
+        "free": true,
+        "notes": "Podcast + blog; high-yield EM/CCM content"
+      },
+      {
+        "title": "AMBOSS: Emergency Medicine",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      }
+    ]
+  },
+  {
+    "id": "ANES306A",
+    "name": "Critical Care & Anesthesia",
+    "phase": 2,
+    "track": "Core Clerkships",
+    "resources": [
+      {
+        "title": "Marino's The ICU Book (Marino)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781451121186",
+        "free": false,
+        "notes": "Practical ICU handbook; concise and highly clinical"
+      },
+      {
+        "title": "Morgan & Mikhail's Clinical Anesthesiology (Butterworth et al.)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/morgan-mikhail-s-clinical-anesthesiology-6th-edition-9781259834424-usa",
+        "free": false,
+        "notes": "Gold standard clinical anesthesiology textbook"
+      },
+      {
+        "title": "OpenAnesthesia: Free Anesthesia Education (IARS)",
+        "type": "website",
+        "url": "https://www.openanesthesia.org",
+        "free": true,
+        "notes": "Comprehensive free anesthesia education resource"
+      },
+      {
+        "title": "EmCrit: Critical Care Podcast & Resources",
+        "type": "website",
+        "url": "https://emcrit.org",
+        "free": true
+      },
+      {
+        "title": "ICU One Pager: Critical Care Reference Summaries",
+        "type": "website",
+        "url": "https://www.icuonepager.com",
+        "free": true,
+        "notes": "Free concise summaries of critical care conditions and protocols"
+      }
+    ]
+  },
+  {
+    "id": "FAMMED301A",
+    "name": "Family Medicine",
+    "phase": 2,
+    "track": "Core Clerkships",
+    "resources": [
+      {
+        "title": "Rakel's Textbook of Family Medicine (Rakel & Rakel)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/textbook-of-family-medicine/rakel/978-0-323-35905-4",
+        "free": false,
+        "notes": "Gold standard family medicine textbook"
+      },
+      {
+        "title": "Current Medical Diagnosis & Treatment — CMDT (Papadakis & McPhee)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/current-medical-diagnosis-and-treatment-2024-9781264686612-usa",
+        "free": false
+      },
+      {
+        "title": "AAFP: Clinical Recommendations & Guidelines",
+        "type": "website",
+        "url": "https://www.aafp.org/family-physician/patient-care/clinical-recommendations.html",
+        "free": true,
+        "notes": "Authoritative family medicine guidelines from the AAFP"
+      },
+      {
+        "title": "U.S. Preventive Services Task Force (USPSTF) Recommendations",
+        "type": "website",
+        "url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation-topics",
+        "free": true,
+        "notes": "Essential preventive care screening guidelines"
+      },
+      {
+        "title": "OnlineMedEd: Family & Ambulatory Medicine",
+        "type": "website",
+        "url": "https://onlinemeded.org",
+        "free": false
+      }
+    ]
+  },
+  {
+    "id": "MED313A",
+    "name": "Ambulatory Medicine",
+    "phase": 2,
+    "track": "Core Clerkships",
+    "resources": [
+      {
+        "title": "Current Medical Diagnosis & Treatment — CMDT (Papadakis & McPhee)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/current-medical-diagnosis-and-treatment-2024-9781264686612-usa",
+        "free": false,
+        "notes": "Primary reference for outpatient conditions"
+      },
+      {
+        "title": "U.S. Preventive Services Task Force (USPSTF) Recommendations",
+        "type": "website",
+        "url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation-topics",
+        "free": true,
+        "notes": "Evidence-based preventive care recommendations"
+      },
+      {
+        "title": "AMBOSS: Outpatient & Preventive Medicine",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "CDC: Clinical Resources & Prevention Guidelines",
+        "type": "website",
+        "url": "https://www.cdc.gov/vaccines/schedules/index.html",
+        "free": true,
+        "notes": "Immunization schedules and preventive care tools"
+      },
+      {
+        "title": "OnlineMedEd: Ambulatory & Preventive Medicine",
+        "type": "website",
+        "url": "https://onlinemeded.org",
+        "free": false
+      }
+    ]
+  },
+  {
+    "id": "RADL302",
+    "name": "Radiology",
+    "phase": 2,
+    "track": "Electives",
+    "resources": [
+      {
+        "title": "Fundamentals of Diagnostic Radiology (Brant & Helms)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781496396037",
+        "free": false,
+        "notes": "Gold standard radiology textbook for medical students"
+      },
+      {
+        "title": "Radiopaedia: Radiology Reference & Cases",
+        "type": "website",
+        "url": "https://radiopaedia.org",
+        "free": true,
+        "notes": "Exceptional free resource: reference articles + case library with thousands of cases"
+      },
+      {
+        "title": "Radiology Masterclass",
+        "type": "website",
+        "url": "https://www.radiologymasterclass.co.uk",
+        "free": true,
+        "notes": "Free, structured radiology teaching for medical students"
+      },
+      {
+        "title": "e-Anatomy by IMAIOS: Interactive Anatomy on Imaging",
+        "type": "website",
+        "url": "https://www.imaios.com/en/e-Anatomy",
+        "free": false,
+        "notes": "Labeled cross-sectional anatomy on CT/MRI"
+      },
+      {
+        "title": "Radiology Cafe: Radiology Education for Medical Students",
+        "type": "website",
+        "url": "https://www.radiologycafe.com",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "POCUS303",
+    "name": "Point-of-Care Ultrasound (POCUS)",
+    "phase": 2,
+    "track": "Electives",
+    "resources": [
+      {
+        "title": "Ma & Mateer's Emergency Ultrasound (Stein et al.)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/ma-and-mateer-s-emergency-ultrasound-3e-9780071797818-usa",
+        "free": false,
+        "notes": "Gold standard emergency/POCUS ultrasound textbook"
+      },
+      {
+        "title": "POCUS 101: Free Point-of-Care Ultrasound Education",
+        "type": "website",
+        "url": "https://www.pocus101.com",
+        "free": true,
+        "notes": "Comprehensive free POCUS learning site; excellent for beginners"
+      },
+      {
+        "title": "5MinSono: POCUS Protocols & Videos",
+        "type": "website",
+        "url": "https://5minsono.com",
+        "free": true,
+        "notes": "Quick-reference POCUS protocol library"
+      },
+      {
+        "title": "POCUS Atlas: Image & Video Library",
+        "type": "website",
+        "url": "https://www.pocusatlas.com",
+        "free": true,
+        "notes": "Free POCUS case image library"
+      },
+      {
+        "title": "Geeky Medics: Ultrasound & POCUS Tutorials",
+        "type": "video",
+        "url": "https://www.youtube.com/@GeekyMedics",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "EPID304",
+    "name": "Epidemiology Rotation",
+    "phase": 2,
+    "track": "Electives",
+    "resources": [
+      {
+        "title": "Gordis Epidemiology (Celentano & Szklo)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/gordis-epidemiology/celentano/978-0-323-55229-5",
+        "free": false,
+        "notes": "Gold standard epidemiology textbook"
+      },
+      {
+        "title": "CDC: Principles of Epidemiology in Public Health Practice (SS1978)",
+        "type": "website",
+        "url": "https://www.cdc.gov/csels/dsepd/ss1978/index.html",
+        "free": true,
+        "notes": "Authoritative free online epidemiology course"
+      },
+      {
+        "title": "Coursera: Epidemiology in Public Health Practice Specialization (Johns Hopkins)",
+        "type": "website",
+        "url": "https://www.coursera.org/specializations/epidemiology",
+        "free": false,
+        "notes": "Audit for free; specialization by Johns Hopkins Bloomberg SPH"
+      },
+      {
+        "title": "OpenEpi: Open-Source Epidemiologic Statistics",
+        "type": "website",
+        "url": "https://www.openepi.com",
+        "free": true
+      },
+      {
+        "title": "WHO: Epidemiology & Surveillance Resources",
+        "type": "website",
+        "url": "https://www.who.int/emergencies/surveillance",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "ANES305",
+    "name": "Anesthesia Extended",
+    "phase": 2,
+    "track": "Electives",
+    "resources": [
+      {
+        "title": "Miller's Anesthesia (Gropper et al.)",
+        "type": "textbook",
+        "url": "https://www.elsevier.com/books/millers-anesthesia/gropper/978-0-323-59604-6",
+        "free": false,
+        "notes": "Definitive anesthesia reference"
+      },
+      {
+        "title": "Morgan & Mikhail's Clinical Anesthesiology (Butterworth et al.)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/morgan-mikhail-s-clinical-anesthesiology-6th-edition-9781259834424-usa",
+        "free": false,
+        "notes": "Highly readable clinical anesthesiology text"
+      },
+      {
+        "title": "OpenAnesthesia: Anesthesia Education (IARS/SPA)",
+        "type": "website",
+        "url": "https://www.openanesthesia.org",
+        "free": true,
+        "notes": "Free, comprehensive anesthesia education resource including ABA keyword content"
+      },
+      {
+        "title": "AMBOSS: Anesthesia & Pain Management",
+        "type": "website",
+        "url": "https://www.amboss.com/us/knowledge",
+        "free": false
+      },
+      {
+        "title": "Anesthesia Explained: YouTube Channel",
+        "type": "video",
+        "url": "https://www.youtube.com/@AnesthesiaExplained",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "SC-BIOENG",
+    "name": "Scholarly Concentration: Bioengineering",
+    "phase": 3,
+    "track": "Scholarly Concentrations",
+    "resources": [
+      {
+        "title": "Biomedical Engineering: Bridging Medicine and Technology (Saltzman)",
+        "type": "textbook",
+        "url": "https://www.cambridge.org/us/universitypress/subjects/engineering/biomedical-engineering/biomedical-engineering-bridging-medicine-and-technology-3rd-edition",
+        "free": false,
+        "notes": "Gold standard undergraduate/medical bioengineering text"
+      },
+      {
+        "title": "MIT OpenCourseWare: Biological & Biomedical Engineering",
+        "type": "website",
+        "url": "https://ocw.mit.edu/search/?d=Biological+Engineering",
+        "free": true,
+        "notes": "Free lecture notes, problem sets, and exams from MIT courses"
+      },
+      {
+        "title": "NIBIB: Biomedical Imaging & Engineering Education",
+        "type": "website",
+        "url": "https://www.nibib.nih.gov/science-education",
+        "free": true
+      },
+      {
+        "title": "Coursera: Biomedical Engineering Courses",
+        "type": "website",
+        "url": "https://www.coursera.org/browse/physical-science-and-engineering/bioengineering",
+        "free": false,
+        "notes": "Audit most courses for free"
+      },
+      {
+        "title": "Biomedical Engineering Society (BMES): Student Resources",
+        "type": "website",
+        "url": "https://www.bmes.org/students",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "SC-ETHICS",
+    "name": "Scholarly Concentration: Biomedical Ethics",
+    "phase": 3,
+    "track": "Scholarly Concentrations",
+    "resources": [
+      {
+        "title": "Principles of Biomedical Ethics (Beauchamp & Childress)",
+        "type": "textbook",
+        "url": "https://global.oup.com/academic/product/principles-of-biomedical-ethics-9780190640873",
+        "free": false,
+        "notes": "The foundational text; introduces the four-principles framework"
+      },
+      {
+        "title": "Clinical Ethics: A Practical Approach (Jonsen, Siegler & Winslade)",
+        "type": "textbook",
+        "url": "https://www.mhprofessional.com/clinical-ethics-a-practical-approach-to-ethical-decisions-in-clinical-medicine-ninth-edition-9781260456066-usa",
+        "free": false,
+        "notes": "Practical case-based framework for clinical decision-making"
+      },
+      {
+        "title": "The Hastings Center: Bioethics Research",
+        "type": "website",
+        "url": "https://www.thehastingscenter.org",
+        "free": true,
+        "notes": "Leading bioethics think-tank; free reports and articles"
+      },
+      {
+        "title": "NIH Bioethics Resources",
+        "type": "website",
+        "url": "https://bioethics.nih.gov",
+        "free": true
+      },
+      {
+        "title": "Journal of Medical Ethics (BMJ) — Open Access Articles",
+        "type": "website",
+        "url": "https://jme.bmj.com",
+        "free": true,
+        "notes": "Leading bioethics journal; many articles open access"
+      }
+    ]
+  },
+  {
+    "id": "SC-AICOMP",
+    "name": "Scholarly Concentration: AI & Computational Biomedicine",
+    "phase": 3,
+    "track": "Scholarly Concentrations",
+    "resources": [
+      {
+        "title": "Deep Medicine: How AI Can Make Healthcare Human Again (Topol)",
+        "type": "textbook",
+        "url": "https://www.basicbooks.com/titles/eric-topol/deep-medicine/9781541644991",
+        "free": false,
+        "notes": "Accessible overview of AI in medicine by leading cardiologist/researcher"
+      },
+      {
+        "title": "Deep Learning (Goodfellow, Bengio & Courville) — Free Online",
+        "type": "textbook",
+        "url": "https://www.deeplearningbook.org",
+        "free": true,
+        "notes": "Authoritative deep learning text; freely available online"
+      },
+      {
+        "title": "fast.ai: Practical Deep Learning for Coders",
+        "type": "website",
+        "url": "https://www.fast.ai",
+        "free": true,
+        "notes": "Free, hands-on deep learning course; excellent for beginners with coding experience"
+      },
+      {
+        "title": "Coursera: AI for Medicine Specialization (deeplearning.ai)",
+        "type": "website",
+        "url": "https://www.coursera.org/specializations/ai-for-medicine",
+        "free": false,
+        "notes": "Audit for free; covers medical imaging, clinical NLP, and survival modeling"
+      },
+      {
+        "title": "Google Health AI: Research & Publications",
+        "type": "website",
+        "url": "https://health.google/health-research",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "SC-CLINRES",
+    "name": "Scholarly Concentration: Clinical Research",
+    "phase": 3,
+    "track": "Scholarly Concentrations",
+    "resources": [
+      {
+        "title": "Designing Clinical Research (Hulley, Cummings, Browner et al.)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781608318049",
+        "free": false,
+        "notes": "Gold standard clinical research methods textbook"
+      },
+      {
+        "title": "ClinicalTrials.gov",
+        "type": "website",
+        "url": "https://clinicaltrials.gov",
+        "free": true,
+        "notes": "Registry of clinical trials; essential for protocol review and research design"
+      },
+      {
+        "title": "NIH: Clinical Research Training Program",
+        "type": "website",
+        "url": "https://clinicalcenter.nih.gov/training/training/",
+        "free": true
+      },
+      {
+        "title": "Coursera: Clinical Research Specialization (UC Davis)",
+        "type": "website",
+        "url": "https://www.coursera.org/specializations/clinical-research",
+        "free": false,
+        "notes": "Audit for free"
+      },
+      {
+        "title": "CONSORT: Reporting Standards for Randomized Controlled Trials",
+        "type": "website",
+        "url": "https://www.consort-statement.org",
+        "free": true,
+        "notes": "Standard reporting guidelines for RCTs; free checklists and explanations"
+      }
+    ]
+  },
+  {
+    "id": "SC-COMMHEALTH",
+    "name": "Scholarly Concentration: Community Health",
+    "phase": 3,
+    "track": "Scholarly Concentrations",
+    "resources": [
+      {
+        "title": "Community as Partner: Theory and Practice in Nursing (Anderson & McFarlane)",
+        "type": "textbook",
+        "url": "https://www.lww.com/Product/9781496384249",
+        "free": false
+      },
+      {
+        "title": "Healthy People 2030 (ODPHP)",
+        "type": "website",
+        "url": "https://health.gov/healthypeople",
+        "free": true,
+        "notes": "National health objectives framework; free data and resources"
+      },
+      {
+        "title": "County Health Rankings & Roadmaps",
+        "type": "website",
+        "url": "https://www.countyhealthrankings.org",
+        "free": true,
+        "notes": "Free county-level health data across the US; excellent for community assessment"
+      },
+      {
+        "title": "NACCHO: National Association of City and County Health Officials",
+        "type": "website",
+        "url": "https://www.naccho.org",
+        "free": true
+      },
+      {
+        "title": "CDC: Community Health Improvement Navigator",
+        "type": "website",
+        "url": "https://www.cdc.gov/chinav",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "SC-HSPOLICY",
+    "name": "Scholarly Concentration: Health Services & Policy",
+    "phase": 3,
+    "track": "Scholarly Concentrations",
+    "resources": [
+      {
+        "title": "Health Policy and Politics: A Nurse's Guide (Milstead & Short)",
+        "type": "textbook",
+        "url": "https://www.jblearning.com/catalog/productdetails/9781284140392",
+        "free": false
+      },
+      {
+        "title": "The Commonwealth Fund: Health System Performance Research",
+        "type": "website",
+        "url": "https://www.commonwealthfund.org",
+        "free": true,
+        "notes": "Free reports on US and international health system performance"
+      },
+      {
+        "title": "Kaiser Family Foundation (KFF): Health Policy Research",
+        "type": "website",
+        "url": "https://www.kff.org",
+        "free": true,
+        "notes": "Free, non-partisan health policy analysis and data"
+      },
+      {
+        "title": "CMS.gov: Medicare, Medicaid & Health Policy",
+        "type": "website",
+        "url": "https://www.cms.gov",
+        "free": true
+      },
+      {
+        "title": "Health Affairs: Health Policy Journal",
+        "type": "website",
+        "url": "https://www.healthaffairs.org",
+        "free": false,
+        "notes": "Leading health policy journal; free access to selected articles"
+      }
+    ]
+  },
+  {
+    "id": "SC-MOLMED",
+    "name": "Scholarly Concentration: Molecular Basis of Medicine",
+    "phase": 3,
+    "track": "Scholarly Concentrations",
+    "resources": [
+      {
+        "title": "Molecular Biology of the Cell (Alberts, Heald, Johnson et al.)",
+        "type": "textbook",
+        "url": "https://www.routledge.com/Molecular-Biology-of-the-Cell/Alberts-Heald-Johnson-Morgan-Roberts-Walter/p/book/9780393884821",
+        "free": false,
+        "notes": "Gold standard molecular biology textbook"
+      },
+      {
+        "title": "NCBI Bookshelf: Free Biomedical Textbooks",
+        "type": "website",
+        "url": "https://www.ncbi.nlm.nih.gov/books",
+        "free": true,
+        "notes": "Free access to many molecular biology and medical textbooks"
+      },
+      {
+        "title": "HHMI BioInteractive: Molecular Biology Resources",
+        "type": "website",
+        "url": "https://www.biointeractive.org",
+        "free": true,
+        "notes": "High-quality free animations and resources from HHMI"
+      },
+      {
+        "title": "Nature Education Scitable: Genetics & Molecular Biology",
+        "type": "website",
+        "url": "https://www.nature.com/scitable",
+        "free": true
+      },
+      {
+        "title": "Khan Academy: Molecular Biology & Gene Expression",
+        "type": "website",
+        "url": "https://www.khanacademy.org/science/ap-biology/gene-expression-and-regulation",
+        "free": true
+      }
+    ]
+  },
+  {
+    "id": "SC-MEDED",
+    "name": "Scholarly Concentration: Medical Education",
+    "phase": 3,
+    "track": "Scholarly Concentrations",
+    "resources": [
+      {
+        "title": "Understanding Medical Education: Evidence, Theory and Practice (Swanwick, Forrest & O'Brien)",
+        "type": "textbook",
+        "url": "https://www.wiley.com/en-us/Understanding+Medical+Education%3A+Evidence%2C+Theory+and+Practice%2C+3rd+Edition-p-9781119373827",
+        "free": false,
+        "notes": "Gold standard medical education theory text"
+      },
+      {
+        "title": "MedEdPortal: Free Peer-Reviewed Medical Education Resources",
+        "type": "website",
+        "url": "https://www.mededportal.org",
+        "free": true,
+        "notes": "AAMC's free, peer-reviewed repository of medical education materials"
+      },
+      {
+        "title": "AAMC: Medical Education Resources & Data",
+        "type": "website",
+        "url": "https://www.aamc.org/education",
+        "free": true
+      },
+      {
+        "title": "Academic Medicine Journal (LWW)",
+        "type": "website",
+        "url": "https://journals.lww.com/academicmedicine",
+        "free": false,
+        "notes": "Leading medical education research journal"
+      },
+      {
+        "title": "BMC Medical Education: Open Access Journal",
+        "type": "website",
+        "url": "https://bmcmededuc.biomedcentral.com",
+        "free": true,
+        "notes": "Fully open-access medical education research"
+      }
+    ]
+  }
+]
