@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — MSIB.io</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cardinal:   #8C1515;
+      --cardinal-dk:#6B0F0F;
+      --stone:      #2E2D29;
+      --sand:       #F4F0E8;
+      --mist:       #F9F7F4;
+      --border:     #DDD8CE;
+      --text:       #1A1917;
+      --subtle:     #6B6860;
+      --radius:     10px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--sand);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    /* ── Logo bar ── */
+    .logo-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 44px; height: 44px;
+      background: var(--cardinal);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.5px;
+    }
+    .logo-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--stone);
+    }
+    .logo-name span { color: var(--cardinal); }
+
+    /* ── Card ── */
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--subtle);
+      margin-bottom: 2rem;
+    }
+
+    /* ── Form ── */
+    .form-group { margin-bottom: 1.1rem; }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.4rem;
+    }
+    .label-row label { margin-bottom: 0; }
+    .forgot-link {
+      font-size: 0.8rem;
+      color: var(--cardinal);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    input {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--mist);
+      transition: border-color 0.15s;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--cardinal);
+      background: #fff;
+    }
+    input.error { border-color: #C0392B; }
+
+    .field-error {
+      font-size: 0.78rem;
+      color: #C0392B;
+      margin-top: 0.3rem;
+      display: none;
+    }
+    .field-error.visible { display: block; }
+
+    /* Password row */
+    .password-wrap { position: relative; }
+    .toggle-pw {
+      position: absolute;
+      right: 0.8rem; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      cursor: pointer; color: var(--subtle);
+      font-size: 0.8rem; font-weight: 600;
+      padding: 0.2rem;
+    }
+    .toggle-pw:hover { color: var(--cardinal); }
+
+    /* Submit */
+    .btn-submit {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--cardinal);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover:not(:disabled) { background: var(--cardinal-dk); }
+    .btn-submit:active:not(:disabled) { transform: scale(0.98); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* Alert */
+    .alert {
+      display: none;
+      border-radius: var(--radius);
+      padding: 0.8rem 1rem;
+      font-size: 0.88rem;
+      margin-top: 1rem;
+    }
+    .alert.error   { display: block; background: #FEF0EF; border: 1px solid #F5C6C2; color: #922B21; }
+    .alert.success { display: block; background: #F0FAF0; border: 1px solid #B7DFB7; color: #1E6B1E; }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+      color: var(--subtle);
+      font-size: 0.8rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Footer */
+    .card-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--subtle);
+    }
+    .card-footer a { color: var(--cardinal); font-weight: 600; text-decoration: none; }
+    .card-footer a:hover { text-decoration: underline; }
+
+    /* Loading spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    /* Reset password view */
+    .reset-view { display: none; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      color: var(--subtle);
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .back-link:hover { color: var(--cardinal); }
+  </style>
+</head>
+<body>
+
+  <a href="/index.html" class="logo-bar">
+    <div class="logo-mark">M</div>
+    <div class="logo-name">MSIB<span>.io</span></div>
+  </a>
+
+  <div class="card">
+
+    <!-- ── Sign-in view ── -->
+    <div id="loginView">
+      <h1>Welcome back</h1>
+      <p class="subtitle">Sign in to your MSIB account.</p>
+
+      <form id="loginForm" novalidate>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email"
+            placeholder="you@stanford.edu" autocomplete="email" />
+          <div class="field-error" id="emailError"></div>
+        </div>
+
+        <div class="form-group">
+          <div class="label-row">
+            <label for="password">Password</label>
+            <button type="button" class="forgot-link" id="forgotBtn">Forgot password?</button>
+          </div>
+          <div class="password-wrap">
+            <input type="password" id="password" name="password"
+              placeholder="Your password" autocomplete="current-password" />
+            <button type="button" class="toggle-pw" id="togglePw">Show</button>
+          </div>
+          <div class="field-error" id="passwordError"></div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          Sign in
+        </button>
+
+        <div class="alert" id="alertBox"></div>
+      </form>
+
+      <div class="card-footer">
+        Don't have an account? <a href="/signup.html">Sign up</a>
+      </div>
+    </div>
+
+    <!-- ── Reset password view ── -->
+    <div class="reset-view" id="resetView">
+      <button type="button" class="back-link" id="backBtn">← Back to sign in</button>
+      <h1>Reset password</h1>
+      <p class="subtitle" style="margin-bottom:1.5rem">
+        Enter your school email and we'll send you a reset link.
+      </p>
+
+      <div class="form-group">
+        <label for="resetEmail">Email</label>
+        <input type="email" id="resetEmail" placeholder="you@stanford.edu" autocomplete="email" />
+      </div>
+
+      <button class="btn-submit" id="resetBtn">Send reset link</button>
+      <div class="alert" id="resetAlertBox"></div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    // ── Load Supabase config from our API ─────────────────────────────────────
+    let SUPABASE_URL = '';
+    let SUPABASE_ANON_KEY = '';
+
+    async function loadConfig() {
+      try {
+        const res = await fetch('/api/config');
+        const cfg = await res.json();
+        SUPABASE_URL     = cfg.supabaseUrl     || '';
+        SUPABASE_ANON_KEY = cfg.supabaseAnonKey || '';
+      } catch {
+        showAlert('alertBox', 'error', 'Could not load configuration. Please refresh the page.');
+      }
+    }
+
+    // ── Supabase auth helpers (direct REST, no SDK needed) ────────────────────
+    async function signIn(email, password) {
+      const res = await fetch(
+        `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+      return { ok: res.ok, data: await res.json() };
+    }
+
+    async function sendResetEmail(email) {
+      const res = await fetch(
+        `${SUPABASE_URL}/auth/v1/recover`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+      return { ok: res.ok };
+    }
+
+    function saveSession(data) {
+      // Store tokens so other pages can use them
+      localStorage.setItem('msib-access-token',  data.access_token);
+      localStorage.setItem('msib-refresh-token', data.refresh_token);
+      localStorage.setItem('msib-user',           JSON.stringify(data.user));
+    }
+
+    function getRedirectUrl(user) {
+      // Redirect to school-specific portal if known, else home
+      const schoolSlug = user?.app_metadata?.school_id ? null : null;
+      // For now, redirect to main portal index
+      return '/index.html';
+    }
+
+    // ── UI helpers ────────────────────────────────────────────────────────────
+    function showAlert(boxId, type, msg) {
+      const box = document.getElementById(boxId);
+      box.className = `alert ${type}`;
+      box.textContent = msg;
+    }
+    function hideAlert(boxId) {
+      const box = document.getElementById(boxId);
+      box.className = 'alert';
+      box.textContent = '';
+    }
+    function showFieldError(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.classList.add('visible');
+    }
+    function clearErrors() {
+      document.querySelectorAll('.field-error').forEach(el => {
+        el.textContent = '';
+        el.classList.remove('visible');
+      });
+      document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+      hideAlert('alertBox');
+    }
+
+    // ── Already logged in? Redirect ───────────────────────────────────────────
+    if (localStorage.getItem('msib-access-token')) {
+      window.location.replace('/index.html');
+    }
+
+    // ── Password toggle ───────────────────────────────────────────────────────
+    const passwordInput = document.getElementById('password');
+    document.getElementById('togglePw').addEventListener('click', () => {
+      const isText = passwordInput.type === 'text';
+      passwordInput.type = isText ? 'password' : 'text';
+      document.getElementById('togglePw').textContent = isText ? 'Show' : 'Hide';
+    });
+
+    // ── Forgot password toggle ────────────────────────────────────────────────
+    document.getElementById('forgotBtn').addEventListener('click', () => {
+      document.getElementById('loginView').style.display = 'none';
+      document.getElementById('resetView').style.display = 'block';
+    });
+    document.getElementById('backBtn').addEventListener('click', () => {
+      document.getElementById('resetView').style.display = 'none';
+      document.getElementById('loginView').style.display = 'block';
+    });
+
+    // ── Login form ────────────────────────────────────────────────────────────
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const btn      = document.getElementById('submitBtn');
+
+      let hasError = false;
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showFieldError('emailError', 'Please enter a valid email address.');
+        document.getElementById('email').classList.add('error');
+        hasError = true;
+      }
+      if (!password) {
+        showFieldError('passwordError', 'Please enter your password.');
+        document.getElementById('password').classList.add('error');
+        hasError = true;
+      }
+      if (hasError) return;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Signing in…';
+
+      if (!SUPABASE_URL) await loadConfig();
+
+      try {
+        const { ok, data } = await signIn(email, password);
+
+        if (!ok) {
+          const msg = data?.error_description || data?.msg || 'Invalid email or password.';
+          showAlert('alertBox', 'error', msg);
+          btn.disabled = false;
+          btn.textContent = 'Sign in';
+          return;
+        }
+
+        saveSession(data);
+        // Brief success flash before redirect
+        showAlert('alertBox', 'success', 'Signed in! Redirecting…');
+        setTimeout(() => {
+          window.location.replace(getRedirectUrl(data.user));
+        }, 600);
+
+      } catch {
+        showAlert('alertBox', 'error', 'Network error. Please check your connection and try again.');
+        btn.disabled = false;
+        btn.textContent = 'Sign in';
+      }
+    });
+
+    // ── Reset password form ───────────────────────────────────────────────────
+    document.getElementById('resetBtn').addEventListener('click', async () => {
+      const email = document.getElementById('resetEmail').value.trim();
+      const btn   = document.getElementById('resetBtn');
+      hideAlert('resetAlertBox');
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showAlert('resetAlertBox', 'error', 'Please enter a valid email address.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Sending…';
+
+      if (!SUPABASE_URL) await loadConfig();
+
+      try {
+        await sendResetEmail(email);
+        // Always show success (don't leak whether email exists)
+        showAlert('resetAlertBox', 'success',
+          `If ${email} is registered, you'll receive a reset link shortly.`);
+        btn.disabled = false;
+        btn.textContent = 'Send reset link';
+      } catch {
+        showAlert('resetAlertBox', 'error', 'Network error. Please try again.');
+        btn.disabled = false;
+        btn.textContent = 'Send reset link';
+      }
+    });
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+    loadConfig();
+  </script>
+
+</body>
+</html>
