@@ -463,20 +463,26 @@
 
   // ─── Enhance the Quizzes tab ─────────────────────────────────────────────────
   function enhance(courseId) {
-    if (document.getElementById('msib-quiz-engine')) return;
-
     // Find quizzes tab content by locating the "No quizzes available" message
+    // OR an already-injected quiz engine wrapper inside the quiz tab
     var emptyEl = Array.from(document.querySelectorAll('*')).find(function (el) {
       return el.children.length === 0 &&
              el.textContent.trim().indexOf('No quizzes available') === 0;
     });
-    if (!emptyEl) return;
 
-    var quizContainer = emptyEl.closest('[data-tab-content]') || emptyEl.parentElement;
-    if (!quizContainer) return;
-
-    // Clear the default empty message
-    quizContainer.innerHTML = '';
+    // If the engine already exists, find its container and re-render fresh
+    var existingEngine = document.getElementById('msib-quiz-engine');
+    var quizContainer;
+    if (existingEngine) {
+      quizContainer = existingEngine.parentElement;
+      quizContainer.innerHTML = '';
+    } else if (emptyEl) {
+      quizContainer = emptyEl.closest('[data-tab-content]') || emptyEl.parentElement;
+      if (!quizContainer) return;
+      quizContainer.innerHTML = '';
+    } else {
+      return;
+    }
 
     var notes = loadNotes(courseId);
     var hasNotes = notes.length > 0;
