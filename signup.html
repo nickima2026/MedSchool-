@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up — MSIB.io</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cardinal:   #8C1515;
+      --cardinal-dk:#6B0F0F;
+      --stone:      #2E2D29;
+      --sand:       #F4F0E8;
+      --mist:       #F9F7F4;
+      --border:     #DDD8CE;
+      --text:       #1A1917;
+      --subtle:     #6B6860;
+      --radius:     10px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--sand);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    /* ── Logo bar ── */
+    .logo-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 44px; height: 44px;
+      background: var(--cardinal);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.5px;
+    }
+    .logo-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--stone);
+    }
+    .logo-name span { color: var(--cardinal); }
+
+    /* ── Card ── */
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--subtle);
+      margin-bottom: 2rem;
+    }
+
+    /* ── School detection banner ── */
+    .school-banner {
+      display: none;
+      align-items: center;
+      gap: 0.6rem;
+      background: #F0FAF0;
+      border: 1px solid #B7DFB7;
+      border-radius: var(--radius);
+      padding: 0.7rem 1rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.88rem;
+      color: #2A6B2A;
+    }
+    .school-banner.visible { display: flex; }
+    .school-banner svg { flex-shrink: 0; }
+
+    /* ── Form ── */
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--mist);
+      transition: border-color 0.15s;
+      appearance: none;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--cardinal);
+      background: #fff;
+    }
+    input.error { border-color: #C0392B; }
+
+    .field-error {
+      font-size: 0.78rem;
+      color: #C0392B;
+      margin-top: 0.3rem;
+      display: none;
+    }
+    .field-error.visible { display: block; }
+
+    /* Password row */
+    .password-wrap { position: relative; }
+    .toggle-pw {
+      position: absolute;
+      right: 0.8rem; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      cursor: pointer; color: var(--subtle);
+      font-size: 0.8rem; font-weight: 600;
+      padding: 0.2rem;
+    }
+    .toggle-pw:hover { color: var(--cardinal); }
+
+    /* Submit */
+    .btn-submit {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--cardinal);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover:not(:disabled) { background: var(--cardinal-dk); }
+    .btn-submit:active:not(:disabled) { transform: scale(0.98); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* Alert */
+    .alert {
+      display: none;
+      border-radius: var(--radius);
+      padding: 0.8rem 1rem;
+      font-size: 0.88rem;
+      margin-top: 1rem;
+    }
+    .alert.error   { display: block; background: #FEF0EF; border: 1px solid #F5C6C2; color: #922B21; }
+    .alert.success { display: block; background: #F0FAF0; border: 1px solid #B7DFB7; color: #1E6B1E; }
+
+    /* Footer */
+    .card-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--subtle);
+    }
+    .card-footer a { color: var(--cardinal); font-weight: 600; text-decoration: none; }
+    .card-footer a:hover { text-decoration: underline; }
+
+    /* Success state */
+    .success-view {
+      display: none;
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .success-view .check-circle {
+      width: 60px; height: 60px;
+      background: #E8F5E9;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 1.8rem;
+    }
+    .success-view h2 { font-size: 1.3rem; color: var(--text); margin-bottom: 0.5rem; }
+    .success-view p  { font-size: 0.9rem; color: var(--subtle); margin-bottom: 1.5rem; }
+    .btn-portal {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: var(--cardinal);
+      color: #fff;
+      border-radius: var(--radius);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .btn-portal:hover { background: var(--cardinal-dk); }
+  </style>
+</head>
+<body>
+
+  <a href="/index.html" class="logo-bar">
+    <div class="logo-mark">M</div>
+    <div class="logo-name">MSIB<span>.io</span></div>
+  </a>
+
+  <div class="card">
+
+    <!-- ── Form view ── -->
+    <div id="formView">
+      <h1>Create your account</h1>
+      <p class="subtitle">Use your medical school email to get started.</p>
+
+      <!-- School detected banner -->
+      <div class="school-banner" id="schoolBanner">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1L10.2 5.5L15 6.27L11.5 9.68L12.4 14.5L8 12.17L3.6 14.5L4.5 9.68L1 6.27L5.8 5.5L8 1Z"
+            fill="#2A6B2A"/>
+        </svg>
+        <span id="schoolBannerText">School detected</span>
+      </div>
+
+      <form id="signupForm" novalidate>
+
+        <div class="form-group">
+          <label for="email">Medical school email</label>
+          <input type="email" id="email" name="email"
+            placeholder="you@stanford.edu" autocomplete="email" />
+          <div class="field-error" id="emailError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input type="password" id="password" name="password"
+              placeholder="Minimum 8 characters" autocomplete="new-password" />
+            <button type="button" class="toggle-pw" id="togglePw">Show</button>
+          </div>
+          <div class="field-error" id="passwordError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" name="fullName"
+            placeholder="Dr. Jane Smith" autocomplete="name" />
+          <div class="field-error" id="nameError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="year">Year of study</label>
+          <select id="year" name="year">
+            <option value="">Select your year…</option>
+            <option value="1">Year 1</option>
+            <option value="2">Year 2</option>
+            <option value="3">Year 3</option>
+            <option value="4">Year 4</option>
+            <option value="5">Year 5</option>
+            <option value="6">Year 6</option>
+          </select>
+          <div class="field-error" id="yearError"></div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          Create account
+        </button>
+
+        <div class="alert" id="alertBox"></div>
+      </form>
+
+      <div class="card-footer">
+        Already have an account? <a href="/login.html">Sign in</a>
+      </div>
+    </div>
+
+    <!-- ── Success view ── -->
+    <div class="success-view" id="successView">
+      <div class="check-circle">🎓</div>
+      <h2 id="successHeading">Welcome aboard!</h2>
+      <p id="successMsg">Your account has been created.</p>
+      <a href="/index.html" class="btn-portal" id="portalLink">Go to your portal →</a>
+    </div>
+
+  </div>
+
+  <script>
+    // ── School detection on email blur ────────────────────────────────────────
+    const emailInput   = document.getElementById('email');
+    const schoolBanner = document.getElementById('schoolBanner');
+    const bannerText   = document.getElementById('schoolBannerText');
+
+    // Known domains (client-side hint only — server validates authoritatively)
+    const KNOWN_DOMAINS = {
+      'stanford.edu': 'Stanford University School of Medicine',
+    };
+
+    emailInput.addEventListener('blur', () => {
+      const domain = emailInput.value.split('@')[1]?.toLowerCase().trim();
+      if (domain && KNOWN_DOMAINS[domain]) {
+        bannerText.textContent = `✓ Recognized: ${KNOWN_DOMAINS[domain]}`;
+        schoolBanner.classList.add('visible');
+      } else {
+        schoolBanner.classList.remove('visible');
+      }
+    });
+
+    // ── Password toggle ───────────────────────────────────────────────────────
+    const passwordInput = document.getElementById('password');
+    const togglePw      = document.getElementById('togglePw');
+    togglePw.addEventListener('click', () => {
+      const isText = passwordInput.type === 'text';
+      passwordInput.type = isText ? 'password' : 'text';
+      togglePw.textContent = isText ? 'Show' : 'Hide';
+    });
+
+    // ── Form submission ───────────────────────────────────────────────────────
+    const form      = document.getElementById('signupForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const alertBox  = document.getElementById('alertBox');
+
+    function showFieldError(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.classList.add('visible');
+    }
+    function clearErrors() {
+      document.querySelectorAll('.field-error').forEach(el => {
+        el.textContent = '';
+        el.classList.remove('visible');
+      });
+      document.querySelectorAll('input, select').forEach(el => el.classList.remove('error'));
+      alertBox.className = 'alert';
+      alertBox.textContent = '';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const email    = emailInput.value.trim();
+      const password = passwordInput.value;
+      const fullName = document.getElementById('fullName').value.trim();
+      const year     = document.getElementById('year').value;
+
+      // Client-side validation
+      let hasError = false;
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showFieldError('emailError', 'Please enter a valid email address.');
+        document.getElementById('email').classList.add('error');
+        hasError = true;
+      }
+      if (password.length < 8) {
+        showFieldError('passwordError', 'Password must be at least 8 characters.');
+        document.getElementById('password').classList.add('error');
+        hasError = true;
+      }
+      if (!fullName) {
+        showFieldError('nameError', 'Please enter your full name.');
+        document.getElementById('fullName').classList.add('error');
+        hasError = true;
+      }
+      if (!year) {
+        showFieldError('yearError', 'Please select your year of study.');
+        document.getElementById('year').classList.add('error');
+        hasError = true;
+      }
+      if (hasError) return;
+
+      // Submit
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating account…';
+
+      try {
+        const res = await fetch('/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, fullName, year }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          alertBox.className = 'alert error';
+          alertBox.textContent = data.error || 'Something went wrong. Please try again.';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create account';
+          return;
+        }
+
+        // Success — show confirmation view
+        document.getElementById('successHeading').textContent =
+          `Welcome to ${data.school}!`;
+        document.getElementById('successMsg').textContent =
+          'Your account is ready. Click below to go to your portal.';
+
+        document.getElementById('formView').style.display = 'none';
+        document.getElementById('successView').style.display = 'block';
+
+      } catch (err) {
+        alertBox.className = 'alert error';
+        alertBox.textContent = 'Network error. Please check your connection and try again.';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create account';
+      }
+    });
+  </script>
+</body>
+</html>
