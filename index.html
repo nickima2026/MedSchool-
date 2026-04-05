@@ -33,6 +33,7 @@
                 <li><a href="#phase2">Phase 2</a></li>
                 <li><a href="#phase3">Phase 3</a></li>
                 <li><a href="#tools">Tools</a></li>
+                <li><a href="#individual-study">My Studies</a></li>
             <li><a href="/msib_resources.html">Resources</a></li>
             </ul>
         </div>
@@ -552,6 +553,66 @@
         </div>
     </section>
 
+    <!-- Individual Study Section -->
+    <section class="phase-section" id="individual-study">
+        <div class="section-container">
+            <div class="section-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;">
+                <div>
+                    <h2>Individual Study</h2>
+                    <p class="section-subtitle">Create your own courses with the same tools as established courses</p>
+                </div>
+                <button id="create-study-btn" style="
+                    display:inline-flex;align-items:center;gap:0.5rem;
+                    padding:0.65rem 1.25rem;
+                    background:#8C1515;color:#fff;border:none;border-radius:8px;
+                    font-size:0.95rem;font-weight:600;cursor:pointer;
+                    font-family:inherit;transition:background 0.2s;
+                " onmouseover="this.style.background='#6B0F0F'" onmouseout="this.style.background='#8C1515'">
+                    + New Course
+                </button>
+            </div>
+
+            <!-- Create Course Modal -->
+            <div id="create-study-modal" style="display:none;background:#fff;border-radius:12px;padding:1.5rem 2rem;margin-bottom:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,0.08);border:1px solid #E0DCD8;">
+                <h3 style="font-size:1.1rem;margin-bottom:1rem;color:#2E4057;">Create Individual Study Course</h3>
+                <label style="display:block;font-size:0.85rem;font-weight:600;color:#585754;margin-bottom:0.25rem;">Course Title</label>
+                <input type="text" id="new-study-title" placeholder="e.g., Cardiology Deep Dive" style="
+                    width:100%;padding:0.6rem 0.8rem;border:1.5px solid #E0DCD8;border-radius:8px;
+                    font-size:1rem;font-family:inherit;margin-bottom:0.75rem;
+                ">
+                <label style="display:block;font-size:0.85rem;font-weight:600;color:#585754;margin-bottom:0.25rem;">Description (optional)</label>
+                <textarea id="new-study-desc" rows="2" placeholder="What will you study?" style="
+                    width:100%;padding:0.6rem 0.8rem;border:1.5px solid #E0DCD8;border-radius:8px;
+                    font-size:0.95rem;font-family:inherit;resize:vertical;margin-bottom:0.75rem;
+                "></textarea>
+                <div style="display:flex;gap:0.5rem;">
+                    <button id="confirm-create-study" style="
+                        padding:0.55rem 1.25rem;background:#8C1515;color:#fff;border:none;
+                        border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer;
+                        font-family:inherit;
+                    ">Create Course</button>
+                    <button id="cancel-create-study" style="
+                        padding:0.55rem 1.25rem;background:transparent;color:#585754;
+                        border:1px solid #E0DCD8;border-radius:8px;font-size:0.9rem;
+                        font-weight:600;cursor:pointer;font-family:inherit;
+                    ">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Course cards rendered by JS -->
+            <div class="phase-grid" id="individual-study-grid">
+                <div id="individual-study-empty" style="
+                    grid-column:1/-1;text-align:center;padding:2.5rem 1rem;
+                    color:#8B8A88;font-size:0.95rem;
+                ">
+                    <p style="font-size:1.5rem;margin-bottom:0.5rem;">&#128218;</p>
+                    <p><strong style="color:#585754;">No individual study courses yet</strong></p>
+                    <p>Click <strong>+ New Course</strong> to create your first one.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Platform Section -->
     <section class="platform-section" id="tools">
         <div class="section-container">
@@ -659,5 +720,127 @@
 
     <!-- External JavaScript -->
     <script src="js/msib.js"></script>
+
+    <!-- Individual Study Management -->
+    <script>
+    (function() {
+      'use strict';
+      var STORAGE_KEY = 'msib-individual-studies';
+      var grid = document.getElementById('individual-study-grid');
+      var emptyState = document.getElementById('individual-study-empty');
+      var createBtn = document.getElementById('create-study-btn');
+      var modal = document.getElementById('create-study-modal');
+      var confirmBtn = document.getElementById('confirm-create-study');
+      var cancelBtn = document.getElementById('cancel-create-study');
+      var titleInput = document.getElementById('new-study-title');
+      var descInput = document.getElementById('new-study-desc');
+
+      function loadStudies() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+      }
+      function saveStudies(data) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      }
+      function generateId() {
+        return Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+      }
+
+      function renderStudyCards() {
+        var studies = loadStudies();
+        var ids = Object.keys(studies);
+        // Remove existing cards (not the empty state)
+        grid.querySelectorAll('.course-card[data-individual]').forEach(function(c) { c.remove(); });
+
+        if (!ids.length) {
+          emptyState.style.display = '';
+          return;
+        }
+        emptyState.style.display = 'none';
+
+        ids.sort(function(a,b) { return (studies[b].createdAt||0) - (studies[a].createdAt||0); });
+        ids.forEach(function(id) {
+          var s = studies[id];
+          var card = document.createElement('a');
+          card.href = 'portal/individual-study.html?id=' + id;
+          card.className = 'course-card';
+          card.setAttribute('data-individual', 'true');
+          card.setAttribute('data-tag', 'individual');
+
+          var lectureCount = (s.lectures || []).length;
+          var fcCount = (s.flashcards || []).length;
+
+          card.innerHTML =
+            '<div class="course-card__phase-tag" style="background:#007C92;">Individual Study</div>' +
+            '<h4 class="course-title">' + escHtml(s.title || 'Untitled Course') + '</h4>' +
+            '<div class="course-card__code">IND-' + id.slice(0,6).toUpperCase() + '</div>' +
+            '<p class="course-card__description">' + escHtml(s.description || 'No description') + '</p>' +
+            '<div class="course-card__meta">' +
+              '<span class="course-card__meta-item">' + lectureCount + ' lecture' + (lectureCount !== 1 ? 's' : '') + '</span>' +
+              '<span class="course-card__meta-item">' + fcCount + ' card' + (fcCount !== 1 ? 's' : '') + '</span>' +
+            '</div>';
+          grid.appendChild(card);
+        });
+      }
+
+      // ── Show/hide create modal ──
+      createBtn.addEventListener('click', function() {
+        modal.style.display = modal.style.display === 'none' ? '' : 'none';
+        if (modal.style.display !== 'none') titleInput.focus();
+      });
+      cancelBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+        titleInput.value = '';
+        descInput.value = '';
+      });
+
+      // ── Create course ──
+      confirmBtn.addEventListener('click', function() {
+        var title = titleInput.value.trim();
+        if (!title) { titleInput.focus(); return; }
+
+        var id = generateId();
+        var studies = loadStudies();
+        studies[id] = {
+          title: title,
+          description: descInput.value.trim(),
+          createdAt: Date.now(),
+          lectures: [],
+          readings: [],
+          notes: '',
+          quizQuestions: [],
+          flashcards: []
+        };
+        saveStudies(studies);
+
+        // Navigate to the new course
+        window.location.href = 'portal/individual-study.html?id=' + id;
+      });
+
+      // Allow Enter key in title to create
+      titleInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); confirmBtn.click(); }
+      });
+
+      function escHtml(str) {
+        var div = document.createElement('div');
+        div.textContent = str || '';
+        return div.innerHTML;
+      }
+
+      // Render on load
+      renderStudyCards();
+
+      // Also include individual study cards in the search
+      var origSearch = document.querySelector('#course-search');
+      if (origSearch) {
+        origSearch.addEventListener('input', function() {
+          var q = origSearch.value.toLowerCase();
+          grid.querySelectorAll('.course-card[data-individual]').forEach(function(card) {
+            card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+          });
+        });
+      }
+    })();
+    </script>
 </body>
 </html>

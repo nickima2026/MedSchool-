@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Individual Study — MSIB.io</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── Editable section helpers ── */
+    .editable-area {
+      min-height: 80px;
+      border: 1.5px dashed var(--color-border, #E0DCD8);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      position: relative;
+      background: var(--color-surface, #fff);
+      transition: border-color 0.2s;
+    }
+    .editable-area:hover { border-color: var(--color-accent, #007C92); }
+    .editable-area:focus-within { border-color: var(--color-primary, #8C1515); }
+
+    .add-item-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1.5px solid var(--color-primary, #8C1515);
+      color: var(--color-primary, #8C1515);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .add-item-btn:hover {
+      background: var(--color-primary, #8C1515);
+      color: #fff;
+    }
+
+    .item-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--color-border, #E0DCD8);
+    }
+    .item-row:last-child { border-bottom: none; }
+    .item-row input[type="text"],
+    .item-row input[type="url"] {
+      flex: 1;
+      padding: 0.4rem 0.6rem;
+      border: 1px solid var(--color-border, #E0DCD8);
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+    .item-row input:focus { outline: none; border-color: var(--color-primary, #8C1515); }
+    .item-row .delete-btn {
+      background: none;
+      border: none;
+      color: #c0392b;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0.25rem;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+    }
+    .item-row .delete-btn:hover { opacity: 1; }
+
+    /* inline modal for adding content */
+    .inline-form {
+      background: var(--color-surface-alt, #F5F3F0);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 0.75rem;
+      display: none;
+    }
+    .inline-form.active { display: block; }
+    .inline-form label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-text-secondary, #585754);
+      margin-bottom: 0.25rem;
+      margin-top: 0.5rem;
+    }
+    .inline-form label:first-child { margin-top: 0; }
+    .inline-form input, .inline-form textarea, .inline-form select {
+      width: 100%;
+      padding: 0.5rem 0.7rem;
+      border: 1px solid var(--color-border, #E0DCD8);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+    .inline-form textarea { min-height: 60px; resize: vertical; }
+    .inline-form .form-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    .inline-form .form-actions button {
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+    .inline-form .btn-save {
+      background: var(--color-primary, #8C1515);
+      color: #fff;
+    }
+    .inline-form .btn-save:hover { background: #6B0F0F; }
+    .inline-form .btn-cancel {
+      background: transparent;
+      border: 1px solid var(--color-border, #E0DCD8);
+      color: var(--color-text-secondary, #585754);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--color-text-muted, #8B8A88);
+      font-size: 0.9rem;
+    }
+    .empty-state strong { display: block; margin-bottom: 0.25rem; color: var(--color-text-secondary, #585754); }
+
+    /* Course title editor */
+    .course-title-edit {
+      background: transparent;
+      border: none;
+      border-bottom: 2px dashed rgba(255,255,255,0.4);
+      color: #fff;
+      font-size: inherit;
+      font-weight: inherit;
+      font-family: inherit;
+      width: 100%;
+      padding: 0.2rem 0;
+    }
+    .course-title-edit:focus {
+      outline: none;
+      border-bottom-color: #fff;
+    }
+    .course-title-edit::placeholder { color: rgba(255,255,255,0.6); }
+
+    .course-desc-edit {
+      background: transparent;
+      border: none;
+      border-bottom: 1px dashed rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+      font-family: inherit;
+      width: 100%;
+      resize: none;
+      min-height: 2.5em;
+      padding: 0.2rem 0;
+    }
+    .course-desc-edit:focus { outline: none; border-bottom-color: rgba(255,255,255,0.7); }
+    .course-desc-edit::placeholder { color: rgba(255,255,255,0.5); }
+
+    /* Delete course button */
+    .delete-course-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .delete-course-btn:hover { background: rgba(192,57,43,0.6); }
+  </style>
+</head>
+<body>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="topnav">
+    <div class="container">
+      <a href="../index.html" class="topnav__brand">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="24" height="24" rx="4" fill="#8C1515"/>
+          <path d="M14 7v14M7 14h14" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M8 21h12" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        </svg>
+        MSIB.io
+      </a>
+      <button class="topnav__hamburger" aria-label="Menu">&#9776;</button>
+      <ul class="topnav__links">
+        <li><a href="../index.html#phase1">Phase 1</a></li>
+        <li><a href="../index.html#phase2">Phase 2</a></li>
+        <li><a href="../index.html#phase3">Phase 3</a></li>
+        <li><a href="../index.html#individual-study">My Studies</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== COURSE HEADER ===== -->
+  <header class="course-header" style="position:relative;">
+    <div class="container">
+      <nav style="font-size:0.85rem;opacity:0.7;margin-bottom:var(--space-md,16px);">
+        <a href="../index.html" style="color:#fff;">MSIB.io</a> &rsaquo;
+        <a href="../index.html#individual-study" style="color:#fff;">Individual Study</a> &rsaquo;
+        <span id="breadcrumb-title">My Course</span>
+      </nav>
+      <h1><input type="text" class="course-title-edit" id="course-title" placeholder="Name your course..." value=""></h1>
+      <div class="course-header__code" id="course-code">IND-001</div>
+      <div style="margin-top:0.5rem;">
+        <textarea class="course-desc-edit" id="course-desc" placeholder="Add a short description..." rows="2"></textarea>
+      </div>
+      <button class="delete-course-btn" id="delete-course-btn" title="Delete this course">Delete Course</button>
+    </div>
+  </header>
+
+  <!-- ===== COURSE LAYOUT ===== -->
+  <div class="container">
+    <div class="course-layout">
+
+      <!-- Sidebar -->
+      <aside class="course-sidebar">
+        <ul class="course-sidebar__nav">
+          <li class="course-sidebar__section-title">Course Content</li>
+          <li><a href="#overview" class="active">Overview</a></li>
+          <li><a href="#lectures">Lectures</a></li>
+          <li><a href="#reading">Reading</a></li>
+          <li><a href="#notes">Notes</a></li>
+          <li class="course-sidebar__section-title">Practice</li>
+          <li><a href="#exams">Exams &amp; Quiz</a></li>
+          <li><a href="#flashcards">Flashcards</a></li>
+          <li class="course-sidebar__section-title">Progress</li>
+          <li><a href="#study-tools">Study Tools</a></li>
+          <li><a href="#resources">Resources</a></li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="course-content">
+
+        <!-- OVERVIEW -->
+        <section id="overview">
+          <h2>Overview</h2>
+          <div id="overview-content">
+            <div class="empty-state">
+              <strong>Your individual study course</strong>
+              Use the sections below to add lectures, readings, notes, flashcards, and quizzes. All content is saved automatically in your browser.
+            </div>
+          </div>
+          <div style="background:var(--color-surface-alt,#F5F3F0);padding:var(--space-md,16px);border-radius:8px;border-left:3px solid var(--color-accent,#007C92);margin-top:1rem;">
+            <strong>Claude/Cowork Integration:</strong>
+            <p style="margin-bottom:0;">Ask Claude to help generate flashcards, quiz questions, lecture outlines, or reading lists for this topic. Paste the results into the sections below.</p>
+          </div>
+        </section>
+
+        <!-- LECTURES -->
+        <section id="lectures">
+          <h2>Lectures</h2>
+          <div id="lectures-list" class="editable-area">
+            <div class="empty-state">No lectures added yet.</div>
+          </div>
+          <button class="add-item-btn" data-target="lecture-form">+ Add Lecture</button>
+          <div class="inline-form" id="lecture-form">
+            <label>Lecture Title</label>
+            <input type="text" id="lecture-title-input" placeholder="e.g., Introduction to Cardiology">
+            <label>URL (optional)</label>
+            <input type="url" id="lecture-url-input" placeholder="https://youtube.com/...">
+            <label>Duration (optional)</label>
+            <input type="text" id="lecture-duration-input" placeholder="e.g., 45 min">
+            <div class="form-actions">
+              <button class="btn-save" id="save-lecture">Save</button>
+              <button class="btn-cancel" data-dismiss="lecture-form">Cancel</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- READING -->
+        <section id="reading">
+          <h2>Reading &amp; References</h2>
+          <div id="reading-list" class="editable-area">
+            <div class="empty-state">No readings added yet.</div>
+          </div>
+          <button class="add-item-btn" data-target="reading-form">+ Add Reading</button>
+          <div class="inline-form" id="reading-form">
+            <label>Title</label>
+            <input type="text" id="reading-title-input" placeholder="e.g., Harrison's Principles of Internal Medicine">
+            <label>URL (optional)</label>
+            <input type="url" id="reading-url-input" placeholder="https://...">
+            <label>Type</label>
+            <select id="reading-type-input">
+              <option value="textbook">Textbook</option>
+              <option value="article">Article</option>
+              <option value="website">Website</option>
+              <option value="video">Video</option>
+              <option value="deck">Anki Deck</option>
+            </select>
+            <label>Free?</label>
+            <select id="reading-free-input">
+              <option value="true">Free</option>
+              <option value="false">Paid</option>
+            </select>
+            <div class="form-actions">
+              <button class="btn-save" id="save-reading">Save</button>
+              <button class="btn-cancel" data-dismiss="reading-form">Cancel</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- NOTES -->
+        <section id="notes">
+          <h2>Notes</h2>
+          <p class="text-muted" style="font-size:0.85rem;margin-bottom:0.75rem;">Your personal study notes for this course. Saved automatically.</p>
+          <div id="notes-editor" contenteditable="true" style="min-height:200px;border:1.5px solid var(--color-border,#E0DCD8);border-radius:8px;padding:1rem;background:#fff;font-size:0.95rem;line-height:1.6;outline:none;" data-placeholder="Start typing your notes here..."></div>
+        </section>
+
+        <!-- EXAMS / QUIZ -->
+        <section id="exams">
+          <h2>Self-Assessment Quiz</h2>
+          <div class="quiz-container" id="quiz-container">
+            <div class="empty-state" id="quiz-empty">
+              <strong>No quiz questions yet</strong>
+              Add your own questions below, or ask Claude to generate quiz questions from your notes.
+            </div>
+          </div>
+          <button class="add-item-btn" data-target="quiz-form" style="margin-top:0.75rem;">+ Add Question</button>
+          <div class="inline-form" id="quiz-form">
+            <label>Question</label>
+            <textarea id="quiz-question-input" placeholder="What is the mechanism of action of..."></textarea>
+            <label>Option A</label>
+            <input type="text" id="quiz-a-input" placeholder="First option">
+            <label>Option B</label>
+            <input type="text" id="quiz-b-input" placeholder="Second option">
+            <label>Option C</label>
+            <input type="text" id="quiz-c-input" placeholder="Third option">
+            <label>Option D</label>
+            <input type="text" id="quiz-d-input" placeholder="Fourth option">
+            <label>Correct Answer</label>
+            <select id="quiz-correct-input">
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
+            <label>Explanation (optional)</label>
+            <textarea id="quiz-explanation-input" placeholder="Why this answer is correct..."></textarea>
+            <div class="form-actions">
+              <button class="btn-save" id="save-quiz">Save</button>
+              <button class="btn-cancel" data-dismiss="quiz-form">Cancel</button>
+            </div>
+          </div>
+          <div style="text-align:center;margin-top:var(--space-lg,24px);display:none;" id="quiz-controls">
+            <button class="btn btn--secondary" id="reset-quiz-btn">Reset Quiz</button>
+          </div>
+        </section>
+
+        <!-- FLASHCARDS -->
+        <section id="flashcards">
+          <h2>Flashcards</h2>
+          <div id="flashcard-deck-area">
+            <div class="empty-state" id="fc-empty">
+              <strong>No flashcards yet</strong>
+              Add cards below. Click a card to flip it.
+            </div>
+            <div class="flashcard-deck" id="fc-deck" style="display:none;"
+                 data-deck-name="individual-study" data-cards='[]'>
+              <p class="text-center text-muted flashcard-counter">1 / 0</p>
+              <div class="flashcard">
+                <div class="flashcard__front"><p>Loading...</p></div>
+                <div class="flashcard__back"><p>Loading...</p></div>
+              </div>
+              <div class="flashcard-controls">
+                <button data-action="prev" class="btn btn--secondary">&larr; Previous</button>
+                <button data-action="next" class="btn btn--secondary">Next &rarr;</button>
+              </div>
+              <div style="text-align:center;margin-top:var(--space-md,16px);">
+                <button data-action="anki-export" class="anki-export">&#x2B07; Export for Anki</button>
+              </div>
+            </div>
+          </div>
+          <button class="add-item-btn" data-target="fc-form" style="margin-top:0.75rem;">+ Add Flashcard</button>
+          <div class="inline-form" id="fc-form">
+            <label>Front (question/term)</label>
+            <textarea id="fc-front-input" placeholder="e.g., What are the branches of the aortic arch?"></textarea>
+            <label>Back (answer/definition)</label>
+            <textarea id="fc-back-input" placeholder="e.g., Brachiocephalic trunk, left common carotid, left subclavian"></textarea>
+            <div class="form-actions">
+              <button class="btn-save" id="save-fc">Save</button>
+              <button class="btn-cancel" data-dismiss="fc-form">Cancel</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- STUDY TOOLS / PROGRESS -->
+        <section id="study-tools">
+          <h2>Study Progress</h2>
+          <div class="progress-bar"><div class="progress-bar__fill" style="width:0%"></div></div>
+          <p class="progress-label text-muted" style="font-size:0.85rem;">0/6 completed</p>
+          <ul class="checklist" id="checklist-area" data-course-id="">
+            <li><input type="checkbox" id="chk-1"><label for="chk-1">Read overview &amp; learning objectives</label></li>
+            <li><input type="checkbox" id="chk-2"><label for="chk-2">Complete all lectures</label></li>
+            <li><input type="checkbox" id="chk-3"><label for="chk-3">Finish required reading</label></li>
+            <li><input type="checkbox" id="chk-4"><label for="chk-4">Review flashcards (3+ passes)</label></li>
+            <li><input type="checkbox" id="chk-5"><label for="chk-5">Take self-assessment quiz</label></li>
+            <li><input type="checkbox" id="chk-6"><label for="chk-6">Write summary notes</label></li>
+          </ul>
+        </section>
+
+        <!-- RESOURCES -->
+        <section id="resources">
+          <h2>All Resources</h2>
+          <div id="all-resources-list">
+            <div class="empty-state">Resources from your lectures and readings will appear here.</div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>Medical School in a Box</h4>
+          <p style="font-size:0.85rem;">AI-augmented medical education platform built on Claude Desktop and the Mac Mini M4.</p>
+        </div>
+        <div>
+          <h4>Curriculum</h4>
+          <ul>
+            <li><a href="../index.html#phase1">Pre-Clerkship</a></li>
+            <li><a href="../index.html#phase2">Clerkship</a></li>
+            <li><a href="../index.html#phase3">Scholarly</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__copyright">
+        &copy; 2026 MSIB.io &mdash; Medical School in a Box. Built with Claude.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core MSIB.js for tabs, flashcards, quizzes, checklists -->
+  <script src="../js/msib.js"></script>
+  <script src="../js/msib-user.js"></script>
+  <script src="../js/msib-auth-guard.js"></script>
+
+  <!-- Individual Study Controller -->
+  <script>
+  (function() {
+    'use strict';
+
+    // ── Get course ID from URL ──
+    var params = new URLSearchParams(window.location.search);
+    var courseId = params.get('id');
+    if (!courseId) {
+      window.location.replace('../index.html#individual-study');
+      return;
+    }
+
+    var STORAGE_KEY = 'msib-individual-studies';
+
+    function loadAllStudies() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+    }
+    function saveAllStudies(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    var allStudies = loadAllStudies();
+    var course = allStudies[courseId];
+    if (!course) {
+      // Course doesn't exist — maybe deleted
+      window.location.replace('../index.html#individual-study');
+      return;
+    }
+
+    // ── Initialize defaults ──
+    if (!course.lectures) course.lectures = [];
+    if (!course.readings) course.readings = [];
+    if (!course.notes) course.notes = '';
+    if (!course.quizQuestions) course.quizQuestions = [];
+    if (!course.flashcards) course.flashcards = [];
+
+    function save() {
+      allStudies[courseId] = course;
+      saveAllStudies(allStudies);
+    }
+
+    // ── Header ──
+    var titleInput = document.getElementById('course-title');
+    var descInput = document.getElementById('course-desc');
+    var breadcrumb = document.getElementById('breadcrumb-title');
+    var codeEl = document.getElementById('course-code');
+
+    titleInput.value = course.title || '';
+    descInput.value = course.description || '';
+    breadcrumb.textContent = course.title || 'Untitled';
+    codeEl.textContent = 'IND-' + courseId.slice(0,6).toUpperCase();
+    document.title = (course.title || 'Individual Study') + ' — MSIB.io';
+
+    // Set checklist course ID
+    var checklistArea = document.getElementById('checklist-area');
+    checklistArea.setAttribute('data-course-id', 'ind-' + courseId);
+    checklistArea.querySelectorAll('input[type="checkbox"]').forEach(function(cb, i) {
+      cb.id = 'ind-' + courseId + '-' + (i+1);
+      cb.nextElementSibling.setAttribute('for', cb.id);
+    });
+
+    // Auto-save title & description on change
+    var saveTimer;
+    function debounceSave() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(function() {
+        course.title = titleInput.value;
+        course.description = descInput.value;
+        breadcrumb.textContent = titleInput.value || 'Untitled';
+        document.title = (titleInput.value || 'Individual Study') + ' — MSIB.io';
+        save();
+      }, 500);
+    }
+    titleInput.addEventListener('input', debounceSave);
+    descInput.addEventListener('input', debounceSave);
+
+    // ── Delete course ──
+    document.getElementById('delete-course-btn').addEventListener('click', function() {
+      if (confirm('Delete "' + (course.title || 'this course') + '"? This cannot be undone.')) {
+        delete allStudies[courseId];
+        saveAllStudies(allStudies);
+        window.location.replace('../index.html#individual-study');
+      }
+    });
+
+    // ── Toggle inline forms ──
+    document.querySelectorAll('.add-item-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var form = document.getElementById(btn.dataset.target);
+        if (form) form.classList.toggle('active');
+      });
+    });
+    document.querySelectorAll('[data-dismiss]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var form = document.getElementById(btn.dataset.dismiss);
+        if (form) form.classList.remove('active');
+      });
+    });
+
+    // ═══════════════════════════════════════
+    // LECTURES
+    // ═══════════════════════════════════════
+    var lecturesList = document.getElementById('lectures-list');
+
+    function renderLectures() {
+      if (!course.lectures.length) {
+        lecturesList.innerHTML = '<div class="empty-state">No lectures added yet.</div>';
+        return;
+      }
+      lecturesList.innerHTML = course.lectures.map(function(l, i) {
+        var link = l.url ? '<a href="' + escHtml(l.url) + '" target="_blank" style="color:var(--color-primary);">' + escHtml(l.title) + '</a>' : escHtml(l.title);
+        var dur = l.duration ? ' <span class="text-muted" style="margin-left:auto;font-size:0.85rem;">' + escHtml(l.duration) + '</span>' : '';
+        return '<div class="item-row">&#9654; ' + link + dur +
+          '<button class="delete-btn" data-type="lecture" data-index="' + i + '" title="Remove">&times;</button></div>';
+      }).join('');
+    }
+    renderLectures();
+
+    document.getElementById('save-lecture').addEventListener('click', function() {
+      var title = document.getElementById('lecture-title-input').value.trim();
+      if (!title) return;
+      course.lectures.push({
+        title: title,
+        url: document.getElementById('lecture-url-input').value.trim(),
+        duration: document.getElementById('lecture-duration-input').value.trim()
+      });
+      save();
+      renderLectures();
+      document.getElementById('lecture-title-input').value = '';
+      document.getElementById('lecture-url-input').value = '';
+      document.getElementById('lecture-duration-input').value = '';
+      document.getElementById('lecture-form').classList.remove('active');
+    });
+
+    // ═══════════════════════════════════════
+    // READINGS
+    // ═══════════════════════════════════════
+    var readingList = document.getElementById('reading-list');
+
+    function renderReadings() {
+      if (!course.readings.length) {
+        readingList.innerHTML = '<div class="empty-state">No readings added yet.</div>';
+        return;
+      }
+      readingList.innerHTML = course.readings.map(function(r, i) {
+        var link = r.url ? '<a href="' + escHtml(r.url) + '" target="_blank">' + escHtml(r.title) + '</a>' : escHtml(r.title);
+        var tag = r.free === 'true' ? '<span class="resource-list__tag resource-list__tag--free">Free</span>' :
+                  '<span class="resource-list__tag resource-list__tag--paid">$</span>';
+        return '<div class="item-row">&#128214; ' + link + ' <span class="text-muted" style="font-size:0.8rem;margin-left:0.5rem;">' + escHtml(r.type || '') + '</span> ' + tag +
+          '<button class="delete-btn" data-type="reading" data-index="' + i + '" title="Remove">&times;</button></div>';
+      }).join('');
+    }
+    renderReadings();
+
+    document.getElementById('save-reading').addEventListener('click', function() {
+      var title = document.getElementById('reading-title-input').value.trim();
+      if (!title) return;
+      course.readings.push({
+        title: title,
+        url: document.getElementById('reading-url-input').value.trim(),
+        type: document.getElementById('reading-type-input').value,
+        free: document.getElementById('reading-free-input').value
+      });
+      save();
+      renderReadings();
+      renderAllResources();
+      document.getElementById('reading-title-input').value = '';
+      document.getElementById('reading-url-input').value = '';
+      document.getElementById('reading-form').classList.remove('active');
+    });
+
+    // ═══════════════════════════════════════
+    // NOTES
+    // ═══════════════════════════════════════
+    var notesEditor = document.getElementById('notes-editor');
+    notesEditor.innerHTML = course.notes || '';
+
+    var notesTimer;
+    notesEditor.addEventListener('input', function() {
+      clearTimeout(notesTimer);
+      notesTimer = setTimeout(function() {
+        course.notes = notesEditor.innerHTML;
+        save();
+      }, 800);
+    });
+
+    // ═══════════════════════════════════════
+    // QUIZ
+    // ═══════════════════════════════════════
+    var quizContainer = document.getElementById('quiz-container');
+    var quizEmpty = document.getElementById('quiz-empty');
+    var quizControls = document.getElementById('quiz-controls');
+
+    function renderQuiz() {
+      // Remove old questions (keep empty state)
+      quizContainer.querySelectorAll('.quiz-question, .quiz-score').forEach(function(el) { el.remove(); });
+
+      if (!course.quizQuestions.length) {
+        quizEmpty.style.display = '';
+        quizControls.style.display = 'none';
+        return;
+      }
+      quizEmpty.style.display = 'none';
+      quizControls.style.display = '';
+
+      course.quizQuestions.forEach(function(q, i) {
+        var qEl = document.createElement('div');
+        qEl.className = 'quiz-question';
+        qEl.setAttribute('data-correct', q.correct);
+        qEl.innerHTML =
+          '<div class="quiz-question__number">Question ' + (i+1) + ' of ' + course.quizQuestions.length +
+          ' <button class="delete-btn" data-type="quiz" data-index="' + i + '" title="Remove" style="float:right;">&times;</button></div>' +
+          '<div class="quiz-question__stem">' + escHtml(q.question) + '</div>' +
+          '<button class="quiz-option" data-option="A">A. ' + escHtml(q.a) + '</button>' +
+          '<button class="quiz-option" data-option="B">B. ' + escHtml(q.b) + '</button>' +
+          '<button class="quiz-option" data-option="C">C. ' + escHtml(q.c) + '</button>' +
+          '<button class="quiz-option" data-option="D">D. ' + escHtml(q.d) + '</button>' +
+          '<div class="quiz-explanation">' + escHtml(q.explanation || '') + '</div>';
+        quizContainer.appendChild(qEl);
+      });
+
+      // Add score area
+      var scoreEl = document.createElement('div');
+      scoreEl.className = 'quiz-score';
+      scoreEl.style.display = 'none';
+      scoreEl.innerHTML = '<div class="quiz-score__number">0%</div><p>Quiz Complete</p>';
+      quizContainer.appendChild(scoreEl);
+
+      // Re-init quiz engine from msib.js
+      if (typeof initQuizzes === 'function') initQuizzes();
+    }
+    renderQuiz();
+
+    document.getElementById('save-quiz').addEventListener('click', function() {
+      var q = document.getElementById('quiz-question-input').value.trim();
+      if (!q) return;
+      course.quizQuestions.push({
+        question: q,
+        a: document.getElementById('quiz-a-input').value.trim(),
+        b: document.getElementById('quiz-b-input').value.trim(),
+        c: document.getElementById('quiz-c-input').value.trim(),
+        d: document.getElementById('quiz-d-input').value.trim(),
+        correct: document.getElementById('quiz-correct-input').value,
+        explanation: document.getElementById('quiz-explanation-input').value.trim()
+      });
+      save();
+      renderQuiz();
+      // Clear form
+      ['quiz-question-input','quiz-a-input','quiz-b-input','quiz-c-input','quiz-d-input','quiz-explanation-input'].forEach(function(id) {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('quiz-form').classList.remove('active');
+    });
+
+    document.getElementById('reset-quiz-btn').addEventListener('click', function() {
+      renderQuiz();
+    });
+
+    // ═══════════════════════════════════════
+    // FLASHCARDS
+    // ═══════════════════════════════════════
+    var fcDeck = document.getElementById('fc-deck');
+    var fcEmpty = document.getElementById('fc-empty');
+
+    function renderFlashcards() {
+      if (!course.flashcards.length) {
+        fcDeck.style.display = 'none';
+        fcEmpty.style.display = '';
+        return;
+      }
+      fcEmpty.style.display = 'none';
+      fcDeck.style.display = '';
+      fcDeck.setAttribute('data-cards', JSON.stringify(course.flashcards));
+      fcDeck.setAttribute('data-deck-name', 'ind-' + courseId);
+      // Re-init flashcard engine
+      if (typeof initFlashcards === 'function') initFlashcards();
+    }
+    renderFlashcards();
+
+    document.getElementById('save-fc').addEventListener('click', function() {
+      var front = document.getElementById('fc-front-input').value.trim();
+      var back = document.getElementById('fc-back-input').value.trim();
+      if (!front || !back) return;
+      course.flashcards.push({ front: front, back: back });
+      save();
+      renderFlashcards();
+      document.getElementById('fc-front-input').value = '';
+      document.getElementById('fc-back-input').value = '';
+      document.getElementById('fc-form').classList.remove('active');
+    });
+
+    // ═══════════════════════════════════════
+    // ALL RESOURCES (aggregated view)
+    // ═══════════════════════════════════════
+    function renderAllResources() {
+      var container = document.getElementById('all-resources-list');
+      var items = [];
+      course.lectures.forEach(function(l) {
+        items.push('&#9654; ' + (l.url ? '<a href="' + escHtml(l.url) + '" target="_blank">' + escHtml(l.title) + '</a>' : escHtml(l.title)));
+      });
+      course.readings.forEach(function(r) {
+        items.push('&#128214; ' + (r.url ? '<a href="' + escHtml(r.url) + '" target="_blank">' + escHtml(r.title) + '</a>' : escHtml(r.title)));
+      });
+      if (!items.length) {
+        container.innerHTML = '<div class="empty-state">Resources from your lectures and readings will appear here.</div>';
+      } else {
+        container.innerHTML = '<ul class="resource-list">' + items.map(function(it) {
+          return '<li>' + it + '</li>';
+        }).join('') + '</ul>';
+      }
+    }
+    renderAllResources();
+
+    // ═══════════════════════════════════════
+    // DELEGATED DELETE HANDLER
+    // ═══════════════════════════════════════
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.delete-btn');
+      if (!btn) return;
+      var type = btn.dataset.type;
+      var idx = parseInt(btn.dataset.index, 10);
+      if (type === 'lecture') {
+        course.lectures.splice(idx, 1);
+        save(); renderLectures(); renderAllResources();
+      } else if (type === 'reading') {
+        course.readings.splice(idx, 1);
+        save(); renderReadings(); renderAllResources();
+      } else if (type === 'quiz') {
+        course.quizQuestions.splice(idx, 1);
+        save(); renderQuiz();
+      }
+    });
+
+    // ── Helper ──
+    function escHtml(str) {
+      var div = document.createElement('div');
+      div.textContent = str || '';
+      return div.innerHTML;
+    }
+
+    // Re-init MSIB core features after dynamic content is loaded
+    if (typeof initChecklists === 'function') initChecklists();
+    if (typeof initScrollSpy === 'function') initScrollSpy();
+    if (typeof initMobileNav === 'function') initMobileNav();
+
+  })();
+  </script>
+</body>
+</html>
