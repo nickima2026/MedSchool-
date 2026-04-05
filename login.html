@@ -335,7 +335,7 @@
             'Content-Type': 'application/json',
             'apikey': SUPABASE_ANON_KEY,
           },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({ email, redirect_to: `${window.location.origin}/reset-password.html` }),
         }
       );
       return { ok: res.ok };
