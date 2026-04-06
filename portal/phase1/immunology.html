@@ -560,7 +560,7 @@
             padding: var(--spacing-xl);
         }
 
-        /* Quizzes Tab */
+        /* USMLE Quizzes Tab */
         .quiz-questions {
             display: flex;
             flex-direction: column;
@@ -888,7 +888,8 @@
     <div class="tab-bar">
         <button class="tab active" data-tab="lectures">&#128196; Lectures & Transcripts</button>
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
-        <button class="tab" data-tab="quizzes">&#10067; Quizzes</button>
+        <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
+        <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -955,10 +956,20 @@
                 </div>
             </div>
 
-            <!-- Quizzes Tab -->
+            <!-- Course Quizzes Tab -->
+            <div class="tab-content" data-tab-content="course-quizzes">
+                <div style="background:rgba(0,124,146,0.05);border:1px solid rgba(0,124,146,0.15);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--color-text-secondary);">
+                    Questions generated from your <strong>notes, lecture transcripts, and course materials</strong> — testing what was actually covered in class.
+                </div>
+                <div id="courseQuizContainer" class="quiz-empty">
+                    No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.
+                </div>
+            </div>
+
+            <!-- USMLE Quizzes Tab -->
             <div class="tab-content" data-tab-content="quizzes">
                 <div id="quizContainer" class="quiz-empty">
-                    No quizzes available yet. Check back soon.
+                    No USMLE quizzes available yet. Check back soon.
                 </div>
             </div>
 
@@ -1126,7 +1137,9 @@
             notes: [],
             noteDraft: "",
             quizAnswers: {},
+            courseQuizAnswers: {},
             quizRevealed: {},
+            courseQuizRevealed: {},
         };
 
         // Utility: Render Lectures List
@@ -1273,7 +1286,7 @@
             const container = document.getElementById("quizContainer");
 
             if (QUIZZES.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No quizzes available yet. Check back soon.</div>';
+                container.innerHTML = '<div class="quiz-empty">No USMLE quizzes available yet. Check back soon.</div>';
                 return;
             }
 
@@ -1362,6 +1375,12 @@
             }
         }
 
+        // Utility: Render Course Quizzes
+        function renderCourseQuizzes() {
+            const container = document.getElementById("courseQuizContainer");
+            container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1398,6 +1417,7 @@
                 document.querySelector(`[data-tab-content="${state.activeTab}"]`).classList.add("active");
 
                 if (state.activeTab === "quizzes") renderQuizzes();
+                if (state.activeTab === "course-quizzes") renderCourseQuizzes();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });
