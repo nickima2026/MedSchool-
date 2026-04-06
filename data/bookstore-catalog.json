@@ -2,8 +2,8 @@
   "meta": {
     "version": "1.0",
     "updated": "2026-04-05",
-    "stanfordBookstore": "https://www.bkstr.com/stanfordstore",
-    "stanfordMedShop": "https://www.bkstr.com/stanfordstore/shop/stanford-medicine"
+    "stanfordBookstore": "https://www.bkstr.com/stanfordstore/shop/medical",
+    "stanfordMedShop": "https://www.bkstr.com/stanfordstore/shop/medical"
   },
   "categories": [
     {
@@ -98,7 +98,7 @@
       "currency": "USD",
       "description": "The comprehensive pathology reference. Detailed mechanisms, morphology, and clinical correlations.",
       "vendor": "stanford-bookstore",
-      "url": "https://www.bkstr.com/stanfordstore",
+      "url": "https://www.bkstr.com/stanfordstore/shop/medical",
       "tags": ["reference"],
       "yearRecommended": [1, 2]
     },
@@ -112,7 +112,7 @@
       "currency": "USD",
       "description": "Comprehensive biochemistry text covering enzyme kinetics, metabolism, molecular biology, and gene expression.",
       "vendor": "stanford-bookstore",
-      "url": "https://www.bkstr.com/stanfordstore",
+      "url": "https://www.bkstr.com/stanfordstore/shop/medical",
       "tags": ["required"],
       "yearRecommended": [1]
     },
@@ -322,7 +322,7 @@
       "currency": "USD",
       "description": "Official Stanford Medicine branded hoodie from the specialty shop.",
       "vendor": "stanford-bookstore",
-      "url": "https://www.bkstr.com/stanfordstore/shop/stanford-medicine",
+      "url": "https://www.bkstr.com/stanfordstore/shop/medical",
       "tags": ["branded"],
       "yearRecommended": [1, 2, 3, 4]
     }
@@ -337,7 +337,7 @@
       "name": "Stanford Bookstore",
       "icon": "external-link",
       "note": "Available at 519 Lasuen Mall or online at bkstr.com",
-      "url": "https://www.bkstr.com/stanfordstore",
+      "url": "https://www.bkstr.com/stanfordstore/shop/medical",
       "phone": "(650) 329-1217",
       "email": "stanford@bkstr.com"
     },
