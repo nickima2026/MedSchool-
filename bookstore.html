@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore — Medical School in a Box</title>
+    <meta name="description" content="Shop textbooks, clinical equipment, digital subscriptions, and gear for your medical education. Curated for the Stanford Discovery Curriculum.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+    /* === Bookstore-Specific Styles === */
+
+    .bookstore-hero {
+        background: linear-gradient(135deg, var(--color-secondary) 0%, #1a2a3a 100%);
+        color: #fff;
+        padding: var(--space-3xl) 0;
+        text-align: center;
+    }
+    .bookstore-hero h1 { color: #fff; font-size: 2.25rem; margin-bottom: var(--space-sm); }
+    .bookstore-hero p { color: rgba(255,255,255,0.8); font-size: 1.1rem; max-width: 600px; margin: 0 auto var(--space-lg); }
+
+    .bookstore-hero__info {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-sm);
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: var(--radius);
+        padding: var(--space-sm) var(--space-lg);
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.9);
+    }
+    .bookstore-hero__info a { color: var(--color-accent-light); }
+
+    /* Filter / Search Bar */
+    .bookstore-controls {
+        background: var(--color-surface);
+        border-bottom: 1px solid var(--color-border);
+        padding: var(--space-md) 0;
+        position: sticky;
+        top: 48px; /* below topnav */
+        z-index: 90;
+    }
+    .bookstore-controls__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--space-lg);
+        display: flex;
+        gap: var(--space-md);
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    @media (min-width: 768px) {
+        .bookstore-controls__inner { padding: 0 var(--space-3xl); }
+    }
+    .bookstore-search {
+        flex: 1;
+        min-width: 200px;
+        padding: var(--space-sm) var(--space-md);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        background: var(--color-bg);
+        color: var(--color-text);
+    }
+    .bookstore-search:focus { outline: 2px solid var(--color-accent); border-color: transparent; }
+
+    .filter-chips {
+        display: flex;
+        gap: var(--space-xs);
+        flex-wrap: wrap;
+    }
+    .filter-chip {
+        padding: 6px 14px;
+        border-radius: 20px;
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        color: var(--color-text-secondary);
+        font-size: 0.85rem;
+        font-family: var(--font-body);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .filter-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .filter-chip.active {
+        background: var(--color-accent);
+        color: #fff;
+        border-color: var(--color-accent);
+    }
+
+    /* Category Sections */
+    .bookstore-section {
+        padding: var(--space-2xl) 0;
+    }
+    .bookstore-section:nth-child(even) { background: var(--color-surface-alt); }
+
+    .bookstore-section__header {
+        max-width: var(--max-width);
+        margin: 0 auto var(--space-xl);
+        padding: 0 var(--space-lg);
+    }
+    @media (min-width: 768px) {
+        .bookstore-section__header { padding: 0 var(--space-3xl); }
+    }
+    .bookstore-section__header h2 {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        font-size: 1.5rem;
+    }
+    .bookstore-section__header p { color: var(--color-text-secondary); margin-bottom: 0; }
+
+    /* Product Grid */
+    .product-grid {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--space-lg);
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: var(--space-lg);
+    }
+    @media (min-width: 768px) {
+        .product-grid { padding: 0 var(--space-3xl); }
+    }
+
+    /* Product Card */
+    .product-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        padding: var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        transition: box-shadow 0.2s, transform 0.15s;
+    }
+    .product-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+    .product-card[data-hidden="true"] { display: none; }
+
+    .product-card__tags {
+        display: flex;
+        gap: var(--space-xs);
+        flex-wrap: wrap;
+        margin-bottom: var(--space-sm);
+    }
+    .product-tag {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 2px 8px;
+        border-radius: 3px;
+    }
+    .product-tag--essential { background: #FDECEA; color: var(--color-primary); }
+    .product-tag--required { background: #FFF3CD; color: #856404; }
+    .product-tag--recommended { background: #D4EDDA; color: #155724; }
+    .product-tag--free { background: #D1ECF1; color: #0C5460; }
+    .product-tag--board-prep { background: #E2D9F3; color: #4A235A; }
+    .product-tag--subscription { background: &DEE8D0; color: #7D4E1E; }
+    .product-tag--premium { background: #2E4057; color: #fff; }
+    .product-tag--branded { background: var(--color-primary); color: #fff; }
+
+    .product-card__name {
+        font-family: var(--font-heading);
+        font-size: 1.1rem;
+        color: var(--color-secondary);
+        margin-bottom: var(--space-xs);
+        line-height: 1.3;
+    }
+    .product-card__subcategory {
+        font-size: 0.8rem;
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-sm);
+    }
+    .product-card__description {
+        font-size: 0.9rem;
+        color: var(--color-text-secondary);
+        line-height: 1.5;
+        flex: 1;
+        margin-bottom: var(--space-md);
+    }
+
+    .product-card__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: var(--space-md);
+        border-top: 1px solid var(--color-border);
+    }
+    .product-card__price {
+        font-family: var(--font-heading);
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--color-secondary);
+    }
+    .product-card__price--free { color: var(--color-success); }
+
+    .product-card__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: var(--radius-sm);
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    .product-card__cta--external {
+        background: var(--color-accent);
+        color: #fff;
+    }
+    .product-card__cta--external:hover {
+        background: var(--color-accent-light);
+        color: #fff;
+        text-decoration: none;
+    }
+    .product-card__cta--free {
+        background: var(--color-success);
+        color: #fff;
+    }
+    .product-card__cta--free:hover {
+        background: #24704A;
+        color: #fff;
+        text-decoration: none;
+    }
+    .cta-arrow { font-size: 1rem; }
+
+    /* Year badges */
+    .product-card__years {
+        display: flex;
+        gap: 4px;
+        margin-bottom: var(--space-sm);
+    }
+    .year-badge {
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 2px 6px;
+        border-radius: 3px;
+        background: var(--color-surface-alt);
+        color: var(--color-text-muted);
+        border: 1px solid var(--color-border);
+    }
+
+    /* Vendor info bar */
+    .vendor-info {
+        max-width: var(--max-width);
+        margin: var(--space-2xl) auto 0;
+        padding: 0 var(--space-lg);
+    }
+    @media (min-width: 768px) {
+        .vendor-info { padding: 0 var(--space-3xl); }
+    }
+    .vendor-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: var(--space-md);
+    }
+    .vendor-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        padding: var(--space-md);
+    }
+    .vendor-card h4 { font-size: 1rem; margin-bottom: var(--space-xs); }
+    .vendor-card p { font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: var(--space-xs); }
+    .vendor-card a { font-size: 0.85rem; }
+
+    /* Empty state */
+    .bookstore-empty {
+        text-align: center;
+        padding: var(--space-3xl);
+        color: var(--color-text-muted);
+    }
+    .bookstore-empty__icon { font-size: 3rem; margin-bottom: var(--space-md); }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+        .bookstore-hero h1 { font-size: 1.75rem; }
+        .bookstore-controls__inner { flex-direction: column; }
+        .product-grid { grid-template-columns: 1fr; }
+        .bookstore-hero__info { font-size: 0.8rem; padding: var(--space-xs) var(--space-md); }
+    }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="topnav">
+        <div class="container">
+            <div class="topnav__brand">
+                <a href="index.html" style="display:flex;align-items:center;gap:8px;color:#fff;text-decoration:none;">
+                    <svg viewBox="0 0 40 40" width="32" height="32" class="logo-icon">
+                        <rect x="16" y="8" width="8" height="24" fill="currentColor"/>
+                        <rect x="8" y="16" width="24" height="8" fill="currentColor"/>
+                        <path d="M20 28 Q15 28 12 25 L12 12 Q15 9 20 9 Q25 9 28 12 L28 25 Q25 28 20 28" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                    <span class="logo-text">MSIB.io</span>
+                </a>
+            </div>
+            <ul class="topnav__links">
+                <li><a href="index.html#phase1">Phase 1</a></li>
+                <li><a href="index.html#phase2">Phase 2</a></li>
+                <li><a href="index.html#phase3">Phase 3</a></li>
+                <li><a href="index.html#tools">Tools</a></li>
+                <li><a href="bookstore.html" style="color:var(--color-accent-light);">Bookstore</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="bookstore-hero">
+        <div class="container">
+            <h1>Medical School Bookstore</h1>
+            <p>Textbooks, equipment, digital resources, and gear — curated for the Stanford Discovery Curriculum and organized by what you actually need, when you need it.</p>
+            <div class="bookstore-hero__info">
+                <span>Formerly at Stanford Medical Bookstore</span>
+                <span>|</span>
+                <a href="https://www.bkstr.com/stanfordstore" target="_blank" rel="noopener">Stanford Bookstore &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter / Search Controls -->
+    <div class="bookstore-controls">
+        <div class="bookstore-controls__inner">
+            <input type="text" id="bookstore-search" class="bookstore-search" placeholder="Search products..." aria-label="Search products">
+            <div class="filter-chips">
+                <button class="filter-chip active" data-filter="all">All</button>
+                <button class="filter-chip" data-filter="textbooks">Textbooks</button>
+                <button class="filter-chip" data-filter="equipment">Equipment</button>
+                <button class="filter-chip" data-filter="digital">Digital</button>
+                <button class="filter-chip" data-filter="gear">Gear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Sections -->
+    <main id="bookstore-main">
+
+        <!-- Textbooks -->
+        <section class="bookstore-section" data-category="textbooks" id="textbooks">
+            <div class="bookstore-section__header">
+                <h2>Textbooks & Review Books</h2>
+                <p>Core textbooks, board review, and reference materials organized by course</p>
+            </div>
+            <div class="product-grid" id="grid-textbooks">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Equipment -->
+        <section class="bookstore-section" data-category="equipment" id="equipment">
+            <div class="bookstore-section__header">
+                <h2>Clinical Equipment</h2>
+                <p>Stethoscopes, diagnostic kits, lab coats, and anatomy tools</p>
+            </div>
+            <div class="product-grid" id="grid-equipment">
+            </div>
+        </section>
+
+        <!-- Digital -->
+        <section class="bookstore-section" data-category="digital" id="digital">
+            <div class="bookstore-section__header">
+                <h2>Digital Resources</h2>
+                <p>Question banks, flashcard subscriptions, video libraries, and software</p>
+            </div>
+            <div class="product-grid" id="grid-digital">
+            </div>
+        </section>
+
+        <!-- Gear -->
+        <section class="bookstore-section" data-category="gear" id="gear">
+            <div class="bookstore-section__header">
+                <h2>Apparel & Gear</h2>
+                <p>Scrubs, lab coats, Stanford Medicine branded items</p>
+            </div>
+            <div class="product-grid" id="grid-gear">
+            </div>
+        </section>
+
+        <!-- Empty state -->
+        <div class="bookstore-empty" id="bookstore-empty" style="display:none;">
+            <div class="bookstore-empty__icon">&#128269;</div>
+            <h3>No products found</h3>
+            <p>Try a different search term or clear your filters.</p>
+        </div>
+    </main>
+
+    <!-- Vendor Info -->
+    <section class="bookstore-section" style="padding-bottom:var(--space-3xl);">
+        <div class="vendor-info">
+            <h2 style="margin-bottom:var(--space-lg);">Where to Buy</h2>
+            <div class="vendor-cards">
+                <div class="vendor-card">
+                    <h4>Stanford Bookstore</h4>
+                    <p>519 Lasuen Mall (White Plaza), Stanford, CA 94305</p>
+                    <p>Phone: (650) 329-1217 &middot; <a href="mailto:stanford@bkstr.com">stanford@bkstr.com</a></p>
+                    <a href="https://www.bkstr.com/stanfordstore" target="_blank" rel="noopener">Shop Online &rarr;</a>
+                </div>
+                <div class="vendor-card">
+                    <h4>Stanford Medicine Shop</h4>
+                    <p>Branded apparel and gifts from the Stanford Medicine specialty collection.</p>
+                    <a href="https://www.bkstr.com/stanfordstore/shop/stanford-medicine" target="_blank" rel="noopener">Browse Collection &rarr;</a>
+                </div>
+                <div class="vendor-card">
+                    <h4>Amazon</h4>
+                    <p>Most textbooks and equipment ship with Prime. Links go directly to verified products.</p>
+                    <a href="https://www.amazon.com" target="_blank" rel="noopener">Amazon.com &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4 class="footer-title">Curriculum</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#phase1">Phase 1: Pre-Clerkship</a></li>
+                    <li><a href="index.html#phase2">Phase 2: Clerkship</a></li>
+                    <li><a href="index.html#phase3">Phase 3: Scholarly</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 class="footer-title">Tools</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#tools">Platform Overview</a></li>
+                    <li><a href="#">Mac Mini Setup</a></li>
+                    <li><a href="#">Software Stack</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 class="footer-title">Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="bookstore.html">Bookstore</a></li>
+                    <li><a href="#">Study Guides</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 class="footer-title">About</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Stanford Discovery Curriculum</a></li>
+                    <li><a href="#">Our Mission</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Medical School in a Box. Based on Stanford School of Medicine Discovery Curriculum.</p>
+        </div>
+    </footer>
+
+    <script>
+    /* === Bookstore Catalog Engine === */
+    (function() {
+        // Inline catalog data (loaded from data/bookstore-catalog.json at build time)
+        const CATALOG = {
+            products: [
+                { id:"first-aid-step1", name:"First Aid for the USMLE Step 1 2026", category:"textbooks", subcategory:"Board Review", price:54.99, description:"The #1 best-selling review book for USMLE Step 1. Annually updated with high-yield facts, mnemonics, and clinical vignettes.", vendor:"amazon", url:"https://www.amazon.com/dp/1264946694", tags:["essential","board-prep"], yearRecommended:[1,2] },
+                { id:"pathoma", name:"Pathoma: Fundamentals of Pathology", category:"textbooks", subcategory:"Pathology", price:99.95, description:"Dr. Husain Sattar's pathology textbook + video subscription. Concise, high-yield, pairs perfectly with First Aid.", vendor:"external", url:"https://www.pathoma.com", tags:["essential","video-included"], yearRecommended:[1,2] },
+                { id:"netter-atlas", name:"Netter's Atlas of Human Anatomy (8th Ed)", category:"textbooks", subcategory:"Anatomy", price:84.99, description:"The gold standard anatomy atlas. Frank Netter's iconic illustrations covering every region and system.", vendor:"amazon", url:"https://www.amazon.com/dp/0323793738", tags:["essential"], yearRecommended:[1] },
+                { id:"costanzo-physiology", name:"Costanzo Physiology (7th Ed)", category:"textbooks", subcategory:"Physiology", price:62.99, description:"Clear, concise organ-system physiology. Excellent for understanding mechanisms before boards.", vendor:"amazon", url:"https://www.amazon.com/dp/0323793339", tags:["recommended"], yearRecommended:[1] },
+                { id:"robbins-pathology", name:"Robbins & Cotran Pathologic Basis of Disease (10th Ed)", category:"textbooks", subcategory:"Pathology", price:99.99, description:"The comprehensive pathology reference. Detailed mechanisms, morphology, and clinical correlations.", vendor:"stanford-bookstore", url:"https://www.bkstr.com/stanfordstore", tags:["reference"], yearRecommended:[1,2] },
+                { id:"lehninger-biochem", name:"Lehninger Principles of Biochemistry (8th Ed)", category:"textbooks", subcategory:"Biochemistry", price:119.99, description:"Comprehensive biochemistry text covering enzyme kinetics, metabolism, molecular biology, and gene expression.", vendor:"stanford-bookstore", url:"https://www.bkstr.com/stanfordstore", tags:["required"], yearRecommended:[1] },
+                { id:"brs-physiology", name:"BRS Physiology (Board Review Series)", category:"textbooks", subcategory:"Board Review", price:54.99, description:"High-yield physiology review with 350+ USMLE-style questions. Perfect for rapid review before exams.", vendor:"amazon", url:"https://www.amazon.com/dp/1975153804", tags:["board-prep"], yearRecommended:[1,2] },
+                { id:"stethoscope-littmann-classic", name:"3M Littmann Classic III Stethoscope", category:"equipment", subcategory:"Diagnostic Tools", price:119.99, description:"Dual-sided chestpiece, tunable diaphragm. The workhorse stethoscope for medical students and residents.", vendor:"amazon", url:"https://www.amazon.com/dp/B00GICJOA0", tags:["essential"], yearRecommended:[1] },
+                { id:"stethoscope-littmann-cardio", name:"3M Littmann Cardiology IV Stethoscope", category:"equipment", subcategory:"Diagnostic Tools", price:239.99, description:"Premium stethoscope with superior acoustic performance. Ideal for cardiology rotations and beyond.", vendor:"amazon", url:"https://www.amazon.com/dp/B076DGXJ3V", tags:["premium"], yearRecommended:[1,2] },
+                { id:"diagnostic-set", name:"Welch Allyn Diagnostic Set (Ophthalmoscope + Otoscope)", category:"equipment", subcategory:"Diagnostic Tools", price:349.99, description:"LED ophthalmoscope and fiber-optic otoscope. Essential for head-to-toe physical exam training.", vendor:"amazon", url:"https://www.amazon.com/dp/B00ID7B55I", tags:["essential"], yearRecommended:[1] },
+                { id:"lab-coat", name:"Medelita Consultation Lab Coat (Short)", category:"equipment", subcategory:"Apparel", price:68.00, description:"Professional short lab coat for clinical rotations. Wrinkle-resistant, multiple pockets.", vendor:"amazon", url:"https://www.amazon.com/dp/B07BGXY7TV", tags:["essential"], yearRecommended:[1] },
+                { id:"anatomy-kit", name:"Complete Dissection Kit (22-piece)", category:"equipment", subcategory:"Lab Equipment", price:39.99, description:"Stainless steel dissection tools: scalpels, forceps, scissors, probes, and carrying case.", vendor:"amazon", url:"https://www.amazon.com/dp/B087FQQKXH", tags:["required"], yearRecommended:[1] },
+                { id:"reflex-hammer", name:"MDF Tromner Reflex Hammer", category:"equipment", subcategory:"Diagnostic Tools", price:24.99, description:"Dual-head neurological reflex hammer. Chrome-plated with pointed tip for plantar reflex testing.", vendor:"amazon", url:"https://www.amazon.com/dp/B003XEPWKC", tags:["recommended"], yearRecommended:[1,2] },
+                { id:"uworld-step1", name:"UWorld USMLE Step 1 QBank (12-month)", category:"digital", subcategory:"Question Banks", price:429.00, description:"2,800+ practice questions with detailed explanations. The gold standard for Step 1 preparation.", vendor:"external", url:"https://www.uworld.com/usmle/step-1", tags:["essential","subscription"], yearRecommended:[2] },
+                { id:"amboss-qbank", name:"AMBOSS Step 1 + Library (12-month)", category:"digital", subcategory:"Question Banks", price:299.00, description:"Integrated QBank + medical knowledge library with pop-up explanations. Great as a clinical companion.", vendor:"external", url:"https://www.amboss.com/us/usmle", tags:["recommended","subscription"], yearRecommended:[1,2] },
+                { id:"anki-premade", name:"AnKing Step 1/2 Deck (Free)", category:"digital", subcategory:"Flashcards", price:0, description:"Community-curated Anki deck combining Zanki + lolnotacop. 30,000+ cards tagged by resource. Pairs with MSIB's built-in Anki.", vendor:"external", url:"https://www.ankingmed.com", tags:["free","essential"], yearRecommended:[1,2] },
+                { id:"boards-beyond", name:"Boards and Beyond (12-month)", category:"digital", subcategory:"Video Library", price:249.00, description:"Dr. Jason Ryan's 400+ video lectures covering Step 1 content. Organized by First Aid chapter.", vendor:"external", url:"https://www.boardsbeyond.com", tags:["recommended","subscription"], yearRecommended:[1,2] },
+                { id:"osmosis", name:"Osmosis Prime (12-month)", category:"digital", subcategory:"Video Library", price:399.00, description:"Visual medical education platform with 2,000+ videos, flashcards, and study schedules.", vendor:"external", url:"https://www.osmosis.org", tags:["recommended","subscription"], yearRecommended:[1,2] },
+                { id:"complete-anatomy", name:"Complete Anatomy (Annual License)", category:"digital", subcategory:"Software", price:74.99, description:"3D anatomy platform with dissection tools, AR features, and clinical correlations. Runs natively on Mac.", vendor:"external", url:"https://3d4medical.com", tags:["recommended"], yearRecommended:[1] },
+                { id:"scrubs-figs", name:"FIGS Scrubs Set (Top + Pants)", category:"gear", subcategory:"Clinical Apparel", price:116.00, description:"Premium medical scrubs with 4-way stretch, antimicrobial fabric, and multiple pockets.", vendor:"external", url:"https://www.wearfigs.com", tags:["recommended"], yearRecommended:[2] },
+                { id:"stanford-med-hoodie", name:"Stanford Medicine Branded Hoodie", category:"gear", subcategory:"Branded Apparel", price:65.00, description:"Official Stanford Medicine branded hoodie from the specialty shop.", vendor:"stanford-bookstore", url:"https://www.bkstr.com/stanfordstore/shop/stanford-medicine", tags:["branded"], yearRecommended:[1,2,3,4] }
+            ]
+        };
+
+        // Render a single product card
+        function renderCard(p) {
+            const isFree = p.price === 0;
+            const priceStr = isFree ? 'Free' : '$' + p.price.toFixed(2);
+            const priceClass = isFree ? ' product-card__price--free' : '';
+            const ctaClass = isFree ? 'product-card__cta--free' : 'product-card__cta--external';
+            const ctaText = isFree ? 'Get Free' : 'Shop';
+
+            const tagsHTML = p.tags.map(t =>
+                '<span class="product-tag product-tag--' + t + '">' + t.replace('-', ' ') + '</span>'
+            ).join('');
+
+            const yearsHTML = p.yearRecommended.map(y =>
+                '<span class="year-badge">Year ' + y + '</span>'
+            ).join('');
+
+            return '<div class="product-card" data-category="' + p.category + '" data-name="' + p.name.toLowerCase() + '" data-desc="' + p.description.toLowerCase() + '" data-tags="' + p.tags.join(' ') + '">' +
+                '<div class="product-card__tags">' + tagsHTML + '</div>' +
+                '<div class="product-card__years">' + yearsHTML + '</div>' +
+                '<h3 class="product-card__name">' + p.name + '</h3>' +
+                '<div class="product-card__subcategory">' + p.subcategory + '</div>' +
+                '<p class="product-card__description">' + p.description + '</p>' +
+                '<div class="product-card__footer">' +
+                    '<span class="product-card__price' + priceClass + '">' + priceStr + '</span>' +
+                    '<a href="' + p.url + '" target="_blank" rel="noopener" class="product-card__cta ' + ctaClass + '">' + ctaText + ' <span class="cta-arrow">&rarr;</span></a>' +
+                '</div>' +
+            '</div>';
+        }
+
+        // Populate grids
+        function populateGrids() {
+            var categories = ['textbooks', 'equipment', 'digital', 'gear'];
+            categories.forEach(function(cat) {
+                var grid = document.getElementById('grid-' + cat);
+                if (!grid) return;
+                var items = CATALOG.products.filter(function(p) { return p.category === cat; });
+                grid.innerHTML = items.map(renderCard).join('');
+            });
+        }
+
+        // Filter logic
+        var activeFilter = 'all';
+        var searchQuery = '';
+
+        function applyFilters() {
+            var cards = document.querySelectorAll('.product-card');
+            var sections = document.querySelectorAll('.bookstore-section[data-category]');
+            var visibleCount = 0;
+
+            cards.forEach(function(card) {
+                var matchesCategory = activeFilter === 'all' || card.dataset.category === activeFilter;
+                var matchesSearch = !searchQuery ||
+                    card.dataset.name.indexOf(searchQuery) !== -1 ||
+                    card.dataset.desc.indexOf(searchQuery) !== -1 ||
+                    card.dataset.tags.indexOf(searchQuery) !== -1;
+                var visible = matchesCategory && matchesSearch;
+                card.dataset.hidden = visible ? 'false' : 'true';
+                if (visible) visibleCount++;
+            });
+
+            // Show/hide category sections
+            sections.forEach(function(sec) {
+                var cat = sec.dataset.category;
+                if (activeFilter !== 'all' && cat !== activeFilter) {
+                    sec.style.display = 'none';
+                } else {
+                    var hasVisible = sec.querySelectorAll('.product-card:not([data-hidden="true"])').length > 0;
+                    sec.style.display = hasVisible ? '' : 'none';
+                }
+            });
+
+            // Empty state
+            document.getElementById('bookstore-empty').style.display = visibleCount === 0 ? '' : 'none';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            populateGrids();
+
+            // Filter chips
+            document.querySelectorAll('.filter-chip').forEach(function(chip) {
+                chip.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
+                    chip.classList.add('active');
+                    activeFilter = chip.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            // Search
+            var searchInput = document.getElementById('bookstore-search');
+            var debounceTimer;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(function() {
+                    searchQuery = searchInput.value.toLowerCase().trim();
+                    applyFilters();
+                }, 200);
+            });
+        });
+    })();
+    </script>
+</body>
+</html>
