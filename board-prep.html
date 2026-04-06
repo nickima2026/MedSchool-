@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board Prep Resources — Medical School in a Box</title>
+    <meta name="description" content="Curated board preparatory resources for USMLE, COMLEX, and specialty exams. Question banks, video libraries, flashcards, and clinical study tools.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+    /* === Board Prep Page Styles === */
+
+    .bp-hero {
+        background: linear-gradient(135deg, #1a3a2a 0%, var(--color-secondary) 100%);
+        color: #fff;
+        padding: var(--space-3xl) 0;
+        text-align: center;
+    }
+    .bp-hero h1 { color: #fff; font-size: 2.25rem; margin-bottom: var(--space-sm); }
+    .bp-hero p { color: rgba(255,255,255,0.8); font-size: 1.1rem; max-width: 650px; margin: 0 auto var(--space-lg); }
+
+    .bp-hero__badges {
+        display: flex;
+        justify-content: center;
+        gap: var(--space-md);
+        flex-wrap: wrap;
+    }
+    .bp-hero__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 20px;
+        padding: 6px 16px;
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.9);
+        font-family: var(--font-body);
+    }
+
+    /* Filter Bar */
+    .bp-controls {
+        background: var(--color-surface);
+        border-bottom: 1px solid var(--color-border);
+        padding: var(--space-md) 0;
+        position: sticky;
+        top: 48px;
+        z-index: 90;
+    }
+    .bp-controls__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--space-lg);
+        display: flex;
+        gap: var(--space-md);
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    @media (min-width: 768px) {
+        .bp-controls__inner { padding: 0 var(--space-3xl); }
+    }
+    .bp-search {
+        flex: 1;
+        min-width: 200px;
+        padding: var(--space-sm) var(--space-md);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        background: var(--color-bg);
+        color: var(--color-text);
+    }
+    .bp-search:focus { outline: 2px solid var(--color-accent); border-color: transparent; }
+
+    .filter-chips {
+        display: flex;
+        gap: var(--space-xs);
+        flex-wrap: wrap;
+    }
+    .filter-chip {
+        padding: 6px 14px;
+        border-radius: 20px;
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        color: var(--color-text-secondary);
+        font-size: 0.85rem;
+        font-family: var(--font-body);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .filter-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .filter-chip.active {
+        background: var(--color-accent);
+        color: #fff;
+        border-color: var(--color-accent);
+    }
+
+    /* Sections */
+    .bp-section {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: var(--space-2xl) var(--space-lg);
+    }
+    @media (min-width: 768px) {
+        .bp-section { padding: var(--space-2xl) var(--space-3xl); }
+    }
+    .bp-section__header {
+        margin-bottom: var(--space-xl);
+    }
+    .bp-section__header h2 {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        color: var(--color-text);
+        margin-bottom: var(--space-xs);
+    }
+    .bp-section__header p {
+        color: var(--color-text-secondary);
+        font-size: 0.95rem;
+    }
+
+    /* Resource Grid */
+    .resource-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    @media (min-width: 600px) {
+        .resource-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 960px) {
+        .resource-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Resource Card */
+    .resource-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg, 12px);
+        padding: var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .resource-card:hover {
+        border-color: var(--color-accent);
+        box-shadow: 0 4px 16px rgba(0,124,146,0.08);
+    }
+
+    .resource-card__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    .resource-tag {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+    .resource-tag--primary    { background: #8C1515; color: #fff; }
+    .resource-tag--comlex     { background: #2E4057; color: #fff; }
+    .resource-tag--qbank      { background: #007C92; color: #fff; }
+    .resource-tag--video      { background: #6B46C1; color: #fff; }
+    .resource-tag--flashcards { background: #D90�06; color: #fff; }
+    .resource-tag--free       { background: #059669; color: #fff; }
+    .resource-tag--clinical   { background: #DC2626; color: #fff; }
+    .resource-tag--radiology  { background: #4B5563; color: #fff; }
+    .resource-tag--reference  { background: #7C3AED; color: #fff; }
+
+    .resource-card__exams {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: 2px;
+    }
+    .exam-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        font-family: var(--font-mono, 'Source Code Pro', monospace);
+        background: var(--color-bg, #f4f4f5);
+        color: var(--color-text-secondary);
+        border: 1px solid var(--color-border);
+    }
+
+    .resource-card__name {
+        font-family: var(--font-heading);
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--color-text);
+        line-height: 1.3;
+    }
+    .resource-card__type {
+        font-size: 0.8rem;
+        color: var(--color-text-secondary);
+        font-weight: 500;
+    }
+    .resource-card__description {
+        font-size: 0.88rem;
+        color: var(--color-text-secondary);
+        line-height: 1.5;
+        flex: 1;
+    }
+    .resource-card__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding-top: var(--space-sm);
+        border-top: 1px solid var(--color-border);
+    }
+    .resource-card__price {
+        font-family: var(--font-mono, 'Source Code Pro', monospace);
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--color-text);
+    }
+    .resource-card__price--free { color: #059669; }
+
+    .resource-card__cta {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: var(--radius);
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    .resource-card__cta--visit {
+        background: var(--color-accent);
+        color: #fff;
+    }
+    .resource-card__cta--visit:hover { background: #006272; }
+    .resource-card__cta--free {
+        background: #059669;
+        color: #fff;
+    }
+    .resource-card__cta--free:hover { background: #047857; }
+
+    /* Empty State */
+    .bp-empty {
+        text-align: center;
+        padding: var(--space-3xl);
+        color: var(--color-text-secondary);
+    }
+    .bp-empty__icon { font-size: 3rem; margin-bottom: var(--space-md); }
+
+    /* Tip callout */
+    .bp-tip {
+        max-width: var(--max-width);
+        margin: 0 auto var(--space-2xl);
+        padding: 0 var(--space-lg);
+    }
+    @media (min-width: 768px) {
+        .bp-tip { padding: 0 var(--space-3xl); }
+    }
+    .bp-tip__box {
+        background: linear-gradient(135deg, rgba(0,124,146,0.06) 0%, rgba(140,21,21,0.04) 100%);
+        border: 1px solid rgba(0,124,146,0.2);
+        border-radius: var(--radius-lg, 12px);
+        padding: var(--space-lg) var(--space-xl);
+    }
+    .bp-tip__box h3 {
+        font-family: var(--font-heading);
+        font-size: 1.1rem;
+        color: var(--color-text);
+        margin-bottom: var(--space-sm);
+    }
+    .bp-tip__box p {
+        font-size: 0.9rem;
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+    }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="topnav" role="navigation">
+        <div class="container">
+            <div class="topnav__brand">
+                <a href="index.html" style="display:flex;align-items:center;gap:8px;color:#fff;text-decoration:none;">
+                    <svg viewBox="0 0 40 40" width="32" height="32" class="logo-icon">
+                        <rect x="16" y="8" width="8" height="24" fill="currentColor"/>
+                        <rect x="8" y="16" width="24" height="8" fill="currentColor"/>
+                        <path d="M20 28 Q15 28 12 25 L12 12 Q15 9 20 9 Q25 9 28 12 L28 25 Q25 28 20 28" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                    <span class="logo-text">MSIB.io</span>
+                </a>
+            </div>
+            <ul class="topnav__links">
+                <li><a href="index.html#phase1">Phase 1</a></li>
+                <li><a href="index.html#phase2">Phase 2</a></li>
+                <li><a href="index.html#phase3">Phase 3</a></li>
+                <li><a href="index.html#tools">Tools</a></li>
+                <li><a href="bookstore.html">Bookstore</a></li>
+                <li><a href="board-prep.html" style="color:var(--color-accent-light);">Board Prep</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="bp-hero">
+        <div class="container">
+            <h1>Board Prep Resources</h1>
+            <p>Question banks, video libraries, flashcards, and clinical tools — everything you need to prepare for USMLE, COMLEX, and specialty board exams.</p>
+            <div class="bp-hero__badges">
+                <span class="bp-hero__badge">USMLE Step 1 / 2 CK / 3</span>
+                <span class="bp-hero__badge">COMLEX Level 1 / 2 / 3</span>
+                <span class="bp-hero__badge">Specialty Boards</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter / Search Controls -->
+    <div class="bp-controls">
+        <div class="bp-controls__inner">
+            <input type="text" id="bp-search" class="bp-search" placeholder="Search resources..." aria-label="Search board prep resources">
+            <div class="filter-chips">
+                <button class="filter-chip active" data-filter="all">All</button>
+                <button class="filter-chip" data-filter="primary">Primary QBanks</button>
+                <button class="filter-chip" data-filter="supplementary">Study Tools</button>
+                <button class="filter-chip" data-filter="clinical">Clinical & Cases</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resource Sections -->
+    <main id="bp-main">
+
+        <!-- Primary Board Prep -->
+        <section class="bp-section" data-section="primary" id="primary">
+            <div class="bp-section__header">
+                <h2>Primary Board Prep Websites (USMLE & COMLEX)</h2>
+                <p>The core platforms most medical students rely on for structured question banks, video courses, and comprehensive board review</p>
+            </div>
+            <div class="resource-grid" id="grid-primary"></div>
+        </section>
+
+        <!-- Supplementary Tools -->
+        <section class="bp-section" data-section="supplementary" id="supplementary">
+            <div class="bp-section__header">
+                <h2>Supplementary & Specialized Study Tools</h2>
+                <p>Visual mnemonics, detailed lectures, subject-specific platforms, and flashcard systems to complement your core prep</p>
+            </div>
+            <div class="resource-grid" id="grid-supplementary"></div>
+        </section>
+
+        <!-- Clinical Decision -->
+        <section class="bp-section" data-section="clinical" id="clinical">
+            <div class="bp-section__header">
+                <h2>Clinical Decision & Case Studies</h2>
+                <p>Interactive clinical vignettes, peer-reviewed question sets, and case-based reasoning tools for exam readiness</p>
+            </div>
+            <div class="resource-grid" id="grid-clinical"></div>
+        </section>
+
+        <!-- Empty state -->
+        <div class="bp-empty" id="bp-empty" style="display:none;">
+            <div class="bp-empty__icon">&#128269;</div>
+            <h3>No resources found</h3>
+            <p>Try a different search term or clear your filters.</p>
+        </div>
+    </main>
+
+    <!-- Tip Box -->
+    <div class="bp-tip">
+        <div class="bp-tip__box">
+            <h3>Getting Started with Board Prep</h3>
+            <p>Most students begin active board prep during their second year, but starting early with tools like Anki flashcards and Pathoma pays dividends. A strong foundation is built by pairing a primary QBank (UWorld is the gold standard) with a video resource (Boards & Beyond or Pathoma) and daily Anki reviews. Many of these platforms offer free trials or institutional access through Stanford — check with your school before purchasing.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4 class="footer-title">Curriculum</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#phase1">Phase 1: Pre-Clerkship</a></li>
+                    <li><a href="index.html#phase2">Phase 2: Clerkship</a></li>
+                    <li><a href="index.html#phase3">Phase 3: Scholarly</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 class="footer-title">Tools</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#tools">Platform Overview</a></li>
+                    <li><a href="#">Mac Mini Setup</a></li>
+                    <li><a href="#">Software Stack</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 class="footer-title">Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="bookstore.html">Bookstore</a></li>
+                    <li><a href="board-prep.html">Board Prep</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4 class="footer-title">About</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Stanford Discovery Curriculum</a></li>
+                    <li><a href="#">Our Mission</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Medical School in a Box. Based on Stanford School of Medicine Discovery Curriculum.</p>
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        const RESOURCES = [
+            // === PRIMARY BOARD PREP ===
+            {
+                id: "uworld",
+                name: "UWorld Medical",
+                section: "primary",
+                type: "Question Bank",
+                exams: ["USMLE Step 1", "Step 2 CK", "Step 3", "PANCE"],
+                price: 429,
+                pricePer: "12-month",
+                description: "The gold standard QBank with 2,800+ practice questions and detailed explanations. Known for realistic, exam-caliber vignettes that closely mirror actual board questions.",
+                url: "https://www.uworld.com/usmle/step-1",
+                tags: ["qbank", "primary"],
+                free_trial: true
+            },
+            {
+                id: "amboss",
+                name: "AMBOSS",
+                section: "primary",
+                type: "QBank + Knowledge Library",
+                exams: ["USMLE Step 1", "Step 2 CK", "COMLEX"],
+                price: 299,
+                pricePer: "12-month",
+                description: "Integrated QBank and medical knowledge library with pop-up explanations. Excellent for quick reference during study sessions and as a clinical companion.",
+                url: "https://www.amboss.com/us/usmle",
+                tags: ["qbank", "reference"],
+                free_trial: true
+            },
+            {
+                id: "boards-beyond",
+                name: "Boards & Beyond",
+                section: "primary",
+                type: "Video Library",
+                exams: ["USMLE Step 1", "Step 2 CK", "Step 3"],
+                price: 249,
+                pricePer: "12-month",
+                description: "Dr. Jason Ryan's 400+ on-demand video lectures covering preclinical and clinical content. Organized by First Aid chapter for seamless integration with your study plan.",
+                url: "https://www.boardsbeyond.com",
+                tags: ["video", "primary"],
+                free_trial: true
+            },
+            {
+                id: "osmosis",
+                name: "Osmosis",
+                section: "primary",
+                type: "Videos + Flashcards + QBank",
+                exams: ["USMLE Step 1", "Step 2 CK", "COMLEX"],
+                price: 399,
+                pricePer: "12-month",
+                description: "Visual medical education platform with 2,000+ videos, integrated flashcards, QBank, and customizable study schedules. Strong focus on visual and conceptual learning.",
+                url: "https://www.osmosis.org",
+                tags: ["video", "flashcards", "primary"],
+                free_trial: true
+            },
+            {
+                id: "comlex-prep",
+                name: "COMBANK / COMQUEST",
+                section: "primary",
+                type: "COMLEX Question Banks",
+                exams: ["COMLEX Level 1", "Level 2", "Level 3"],
+                price: 399,
+                pricePer: "12-month",
+                description: "Specialized question banks for DO students preparing for COMLEX-USA exams. Covers OMM/OPP topics not found in USMLE-focused resources alongside core medical content.",
+                url: "https://www.combankonline.com",
+                tags: ["qbank", "comlex"],
+                free_trial: false
+            },
+            {
+                id: "med-mastery",
+                name: "Med Mastery",
+                section: "primary",
+                type: "Clinical Skills & Procedures",
+                exams: ["USMLE Step 2 CK", "Clinical Rotations"],
+                price: 199,
+                pricePer: "12-month",
+                description: "Focused on clinical skills, ECG interpretation, imaging, and procedural knowledge. Expert-led courses designed to bridge the gap between textbook knowledge and bedside practice.",
+                url: "https://www.medmastery.com",
+                tags: ["clinical", "video"],
+                free_trial: true
+            },
+
+            // === SUPPLEMENTARY TOOLS ===
+            {
+                id: "picmonic",
+                name: "Picmonic",
+                section: "supplementary",
+                type: "Visual Mnemonics",
+                exams: ["USMLE Step 1", "Step 2 CK", "COMLEX"],
+                price: 299,
+                pricePer: "12-month",
+                description: "Illustrated stories and character-based mnemonics for memorizing complex medical facts. Research-backed spaced repetition with 1,000+ animated learning cards.",
+                url: "https://www.picmonic.com",
+                tags: ["flashcards"],
+                free_trial: true
+            },
+            {
+                id: "ninja-nerd",
+                name: "Ninja Nerd",
+                section: "supplementary",
+                type: "Long-Form Video Lectures",
+                exams: ["USMLE Step 1", "Step 2 CK"],
+                price: 0,
+                pricePer: null,
+                description: "Detailed, whiteboard-style video lectures covering foundational sciences and clinical medicine. Known for thorough explanations and high production quality. Free on YouTube with premium options.",
+                url: "https://www.ninjanerd.org",
+                tags: ["video", "free"],
+                free_trial: false
+            },
+            {
+                id: "sketchy",
+                name: "Sketchy Medical",
+                section: "supplementary",
+                type: "Visual Learning (Micro/Pharm/Path)",
+                exams: ["USMLE Step 1", "COMLEX"],
+                price: 349,
+                pricePer: "12-month",
+                description: "Iconic sketch-based video system for microbiology, pharmacology, and pathology. Memorable visual scenes that encode high-yield facts into long-term memory. A student favorite.",
+                url: "https://www.sketchy.com",
+                tags: ["video"],
+                free_trial: true
+            },
+            {
+                id: "onlinemeded",
+                name: "Online MedEd",
+                section: "supplementary",
+                type: "Clinical Video Series",
+                exams: ["USMLE Step 2 CK", "Step 3", "Clerkships"],
+                price: 0,
+                pricePer: null,
+                description: "Concise video series covering clinical concepts for clerkship rotations and Step 2 CK. Core content is free, making it an excellent complement to clinical year study.",
+                url: "https://onlinemeded.org",
+                tags: ["video", "clinical", "free"],
+                free_trial: false
+            },
+            {
+                id: "radiopaedia",
+                name: "Radiopaedia",
+                section: "supplementary",
+                type: "Radiology Reference Library",
+                exams: ["Radiology Boards", "USMLE Step 2 CK"],
+                price: 0,
+                pricePer: null,
+                description: "Comprehensive open-access radiology resource with 55,000+ cases and 13,000+ articles. The go-to reference for medical imaging interpretation during rotations and beyond.",
+                url: "https://radiopaedia.org",
+                tags: ["reference", "radiology", "free"],
+                free_trial: false
+            },
+            {
+                id: "brainscape",
+                name: "Brainscape",
+                section: "supplementary",
+                type: "Flashcard Platform",
+                exams: ["USMLE Step 1", "Step 2 CK", "COMLEX"],
+                price: 0,
+                pricePer: null,
+                description: "Adaptive flashcard app with user-created and expert-curated medical decks. Confidence-based repetition algorithm optimizes review timing. Free tier available with premium upgrade.",
+                url: "https://www.brainscape.com",
+                tags: ["flashcards", "free"],
+                free_trial: false
+            },
+
+            // === CLINICAL DECISION & CASE STUDIES ===
+            {
+                id: "clinical-odyssey",
+                name: "Clinical Odyssey",
+                section: "clinical",
+                type: "Interactive Clinical Vignettes",
+                exams: ["USMLE Step 2 CK", "Step 3", "Clinical Rotations"],
+                price: 0,
+                pricePer: null,
+                description: "Interactive clinical case simulations that walk you through patient encounters from presentation to diagnosis. Developed to build clinical reasoning skills through branching scenarios.",
+                url: "https://www.clinicalodyssey.com",
+                tags: ["clinical", "free"],
+                free_trial: false
+            },
+            {
+                id: "statpearls",
+                name: "StatPearls",
+                section: "clinical",
+                type: "Peer-Reviewed QBank + Reference",
+                exams: ["USMLE Step 1", "Step 2 CK", "Step 3", "COMLEX"],
+                price: 0,
+                pricePer: null,
+                description: "Extensive peer-reviewed medical reference with QBank-style questions. Over 9,200 topics authored by 47,000+ contributors. Free through NCBI/PubMed — a living medical textbook.",
+                url: "https://www.statpearls.com",
+                tags: ["qbank", "reference", "free"],
+                free_trial: false
+            },
+            {
+                id: "passmedicine",
+                name: "Passmedicine",
+                section: "clinical",
+                type: "High-Volume MCQs",
+                exams: ["USMLE Step 1", "Step 2 CK", "MRCP", "PLAB"],
+                price: 79,
+                pricePer: "6-month",
+                description: "High-volume multiple-choice question platform designed for rapid-fire medical revision. Over 3,500 questions organized by specialty with performance analytics and progress tracking.",
+                url: "https://www.passmedicine.com",
+                tags: ["qbank"],
+                free_trial: true
+            }
+        ];
+
+        // Render a resource card
+        function renderCard(r) {
+            var isFree = r.price === 0;
+            var priceStr = isFree ? 'Free' : '$' + r.price.toFixed(0) + (r.pricePer ? '/' + r.pricePer : '');
+            var priceClass = isFree ? ' resource-card__price--free' : '';
+            var ctaClass = isFree ? 'resource-card__cta--free' : 'resource-card__cta--visit';
+            var ctaText = isFree ? 'Access Free' : 'Visit Site';
+
+            var tagsHTML = r.tags.map(function(t) {
+                return '<span class="resource-tag resource-tag--' + t + '">' + t.replace('-', ' ') + '</span>';
+            }).join('');
+
+            var examsHTML = r.exams.map(function(e) {
+                return '<span class="exam-badge">' + e + '</span>';
+            }).join('');
+
+            var trialNote = r.free_trial ? '<span style="font-size:0.75rem;color:#059669;font-weight:500;">Free trial available</span>' : '';
+
+            return '<div class="resource-card" data-section="' + r.section + '" data-name="' + r.name.toLowerCase() + '" data-desc="' + r.description.toLowerCase() + '" data-tags="' + r.tags.join(' ') + '" data-exams="' + r.exams.join(' ').toLowerCase() + '">' +
+                '<div class="resource-card__tags">' + tagsHTML + '</div>' +
+                '<div class="resource-card__exams">' + examsHTML + '</div>' +
+                '<h3 class="resource-card__name">' + r.name + '</h3>' +
+                '<div class="resource-card__type">' + r.type + '</div>' +
+                '<p class="resource-card__description">' + r.description + '</p>' +
+                '<div class="resource-card__footer">' +
+                    '<div><span class="resource-card__price' + priceClass + '">' + priceStr + '</span> ' + trialNote + '</div>' +
+                    '<a href="' + r.url + '" target="_blank" rel="noopener" class="resource-card__cta ' + ctaClass + '">' + ctaText + ' &rarr;</a>' +
+                '</div>' +
+            '</div>';
+        }
+
+        // Populate grids
+        function populateGrids() {
+            var sections = { primary: [], supplementary: [], clinical: [] };
+            RESOURCES.forEach(function(r) {
+                if (sections[r.section]) sections[r.section].push(r);
+            });
+            Object.keys(sections).forEach(function(key) {
+                var grid = document.getElementById('grid-' + key);
+                if (grid) grid.innerHTML = sections[key].map(renderCard).join('');
+            });
+        }
+
+        // Filter logic
+        var activeFilter = 'all';
+        var searchTerm = '';
+        var debounceTimer;
+
+        function applyFilters() {
+            var cards = document.querySelectorAll('.resource-card');
+            var sections = document.querySelectorAll('.bp-section');
+            var visibleCount = 0;
+
+            cards.forEach(function(card) {
+                var matchFilter = activeFilter === 'all' || card.getAttribute('data-section') === activeFilter;
+                var matchSearch = !searchTerm ||
+                    card.getAttribute('data-name').indexOf(searchTerm) !== -1 ||
+                    card.getAttribute('data-desc').indexOf(searchTerm) !== -1 ||
+                    card.getAttribute('data-tags').indexOf(searchTerm) !== -1 ||
+                    card.getAttribute('data-exams').indexOf(searchTerm) !== -1;
+                var visible = matchFilter && matchSearch;
+                card.style.display = visible ? '' : 'none';
+                if (visible) visibleCount++;
+            });
+
+            sections.forEach(function(sec) {
+                var secName = sec.getAttribute('data-section');
+                var matchSec = activeFilter === 'all' || secName === activeFilter;
+                var secCards = sec.querySelectorAll('.resource-card');
+                var anyVisible = false;
+                secCards.forEach(function(c) { if (c.style.display !== 'none') anyVisible = true; });
+                sec.style.display = (matchSec && anyVisible) ? '' : 'none';
+            });
+
+            document.getElementById('bp-empty').style.display = visibleCount === 0 ? '' : 'none';
+        }
+
+        // Event listeners
+        document.querySelectorAll('.filter-chip').forEach(function(chip) {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
+                chip.classList.add('active');
+                activeFilter = chip.getAttribute('data-filter');
+                applyFilters();
+            });
+        });
+
+        document.getElementById('bp-search').addEventListener('input', function(e) {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(function() {
+                searchTerm = e.target.value.toLowerCase().trim();
+                applyFilters();
+            }, 200);
+        });
+
+        // Initialize
+        populateGrids();
+    })();
+    </script>
+
+</body>
+</html>
