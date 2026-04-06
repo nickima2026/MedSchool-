@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the developmental milestones from birth to 5 years?", back: "2 months: social smile, head control. 4 months: rolling, reaching. 6 months: sitting, babbling. 9 months: crawling, pincer grasp. 12 months: cruising, mama/dada with meaning. 18 months: walking, 10-20 words. 2 years: 50-100 words, two-word phrases. 3 years: 1000 words, toilet training, tricycle. Delays suggest developmental disorder, hearing loss, cognitive impairment." },
+  { front: "Describe the pathophysiology and management of bronchiolitis.", back: "Bronchiolitis: viral (RSV most common) inflammation of bronchioles, affects infants <2 years. Presents with cough, rhinorrhea, wheeze, crackles, respiratory distress. Diagnosis: clinical, viral testing (RSV antigen, PCR). Management: supportive (oxygen, fluids), bronchodilators controversial, ribavirin rarely indicated. Most recover; high-risk (prematurity, CHD, immunocompromised) require hospitalization." },
+  { front: "What is the approach to fever in young children and febrile seizure management?", back: "Fever in infants <3 months: serious bacterial infection risk requires workup (CBC, CMP, UA, blood culture, CSF), empiric antibiotics. Febrile seizures: brief seizures in young children (6 months-5 years) with fever. Usually benign, self-limited. Treatment: temperature control, rectal diazepam prophylaxis only if multiple seizures per febrile illness." },
+  { front: "Describe the pathophysiology and management of type 1 diabetes in children.", back: "Type 1: autoimmune beta-cell destruction, rapid onset in children. Presents with polyuria, polydipsia, weight loss, DKA (30% at diagnosis). Management: insulin therapy (basal-bolus or pump), carbohydrate counting, glucose monitoring (continuous monitors ideal). Tight control (HbA1c <7%) reduces microvascular complications. Psychological support for family essential." },
+  { front: "What are the signs of child abuse and mandated reporting requirements?", back: "Physical abuse: injuries inconsistent with history, delay in seeking care, repeated injuries. Sexual abuse: anatomic abnormalities, STI, behavioral changes. Neglect: malnutrition, poor hygiene, untreated illness. Emotional abuse: behavioral problems, withdrawal. All healthcare providers are mandated reporters (legal duty). Report to child protective services; investigation required." },
+  { front: "Describe the immunization schedule and vaccines in children.", back: "Routine vaccines: DTaP, polio, MMR, varicella, pneumococcal, meningococcal, HPV, hepatitis B/A, influenza. Contraindications: severe allergic reaction to component, severe immunosuppression. Vaccine-preventable disease outbreaks occur in under-immunized populations (measles in unvaccinated). MMR contraindicated in pregnancy; timing of catch-up crucial." },
+  { front: "What is the approach to congenital heart disease screening and management?", back: "CHD: structural abnormality of heart/great vessels, present in 1% of live births. Screening: fetal ultrasound, newborn pulse oximetry, clinical exam. Acyanotic (ASD, VSD, PDA, CoA): left-to-right shunt, volume overload. Cyanotic (Tetralogy of Fallot, TGA, HLHS): right-to-left shunt, hypoxia. Management: medical (PGE1 keeps PDA open), surgical repair." },
+  { front: "Describe the pathophysiology and management of acute otitis media.", back: "Acute otitis media: bacterial (S. pneumoniae, H. influenzae, M. catarrhalis) or viral infection of middle ear, common in young children. Presents with ear pain, fever, otoscopic findings (erythema, bulging). Diagnosis: otoscopy. Treatment: analgesics, observation (high cure rate), antibiotics (amoxicillin first-line) if high-risk. Ventilation tubes if recurrent." },
+  { front: "What is the diagnostic approach to cough in children?", back: "Viral (most common): URI (rhinorrhea, cough), croup (barky cough), bronchiolitis (wheeze). Bacterial: pneumonia (fever, consolidation), whooping cough (paroxysmal cough, whoop). Foreign body: unilateral findings, acute onset. Reflux, asthma also common. Chest X-ray if concern for lower respiratory infection. Most coughs viral; antibiotics unnecessary unless bacterial pneumonia." },
+  { front: "Describe the pathophysiology and management of nephrotic syndrome in children.", back: "Nephrotic syndrome in children: minimal change disease (95% of cases). Presents with proteinuria >3.5 g/day, hypoalbuminemia, edema, hyperlipidemia. Diagnosis: clinical + urinalysis (proteinuria, no hematuria/casts). Treatment: corticosteroids (prednisone); 90% respond. Complications: infections (due to antibody loss), thrombosis, acute kidney injury. Monitor for steroid side effects." },
+  { front: "What are the causes and management of failure to thrive?", back: "FTT: weight <5th percentile or crossing major growth percentile. Organic: GI disease, malabsorption, cardiac disease, metabolic disorder, CNS pathology. Inorganic: inadequate intake (neglect, poverty, feeding problems), environmental factors. Workup: detailed history, physical exam, minimal labs initially. Management: nutritional support, treat underlying disease, psychosocial intervention." },
+  { front: "Describe the management of asthma exacerbation in children.", back: "Mild-moderate exacerbation: increased beta-2 agonist (albuterol), consider corticosteroids (prednisone). Severe: continuous albuterol, IV magnesium, corticosteroids, supplemental oxygen. Critical: epinephrine if status asthmaticus, mechanical ventilation if respiratory failure. Prevention: controller medications (inhaled corticosteroids), trigger avoidance, asthma action plan." },
+  { front: "What is the approach to a child with diarrhea and dehydration?", back: "Diarrhea: viral most common (rotavirus, norovirus), bacterial (Shigella, Campylobacter, EAEC), parasitic. Assess dehydration: mild (5-10%), moderate (10-15%), severe (>15%). Rehydration: oral (preferred) with low-osmolarity solutions, IV if severe/unable to tolerate. Antibiotics only for invasive bacteria (bloody stools, high fever). Zinc supplementation in developing countries." },
+  { front: "Describe the management of newborn jaundice and hyperbilirubinemia.", back: "Jaundice in newborns: physiologic (peaks day 3-5), pathologic if rapid rise. Risk factors: prematurity, isoimmune hemolysis, infection. Diagnosis: serum bilirubin, phototherapy/exchange transfusion thresholds age-dependent. Management: phototherapy (blue light converts bilirubin to water-soluble form), increase feeding (oral/IV), exchange transfusion if severe. Prevent bilirubin neurotoxicity (kernicterus)." },
+  { front: "What is the approach to attention-deficit/hyperactivity disorder (ADHD) diagnosis and treatment?", back: "ADHD: inattention, hyperactivity-impulsivity symptoms before age 12, impairment across settings. Diagnosis: clinical interview, rating scales (Vanderbilt, Conners), rule out medical causes (thyroid, sleep disorder), hearing/vision. Treatment: stimulants (methylphenidate, amphetamine) first-line, atomoxetine, alpha-2 agonists. Behavioral therapy essential. Monitor growth, BP, heart rate." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the diagnostic approach to fever of unknown origin?", back: "FUO: fever >38.3C for >3 weeks with no diagnosis after initial workup. Categories: infectious (endocarditis, tuberculosis, atypical infections), malignancy (lymphoma, leukemia), autoimmune (lupus, vasculitis). Workup: blood cultures, imaging (CT, echocardiogram), ESR/CRP, biopsy if indicated. Requires systematic evaluation to avoid missed diagnosis." },
+  { front: "Describe the management of hypertensive crisis and hypertensive emergency.", back: "Hypertensive urgency: elevated BP without end-organ damage (>180/120). Hypertensive emergency: elevated BP with acute end-organ damage (encephalopathy, MI, stroke, pulmonary edema). Emergency treatment: IV labetalol, nicardipine, hydralazine. Target SBP reduction 10-15% in first hour. Careful titration prevents ischemic complications." },
+  { front: "What is the pathophysiology and management of hyperkalemia?", back: "Hyperkalemia: serum K+ >5.5 mEq/L causes cardiac arrhythmias, muscle weakness. Causes: renal failure, medication (ACE-I, K-sparing diuretics), tissue breakdown. Diagnosis: EKG shows peaked T waves, wide QRS. Treatment: emergency if symptomatic (calcium gluconate stabilizes membrane), insulin-glucose, beta-agonists, diuretics, cation exchangers, dialysis." },
+  { front: "Describe the approach to hyponatremia and SIADH.", back: "Hyponatremia: Na+ <135 mEq/L. Check volume status (hypovolemic, euvolemic, hypervolemic), osmolality, urine osmolality/sodium. SIADH (euvolemic, concentrated urine): from lung cancer, CNS disease, medications, pulmonary disease. Treatment: fluid restriction for euvolemic SIADH, hypertonic saline for symptomatic hyponatremia (seizures, coma). Cautious correction prevents osmotic demyelination." },
+  { front: "What is the diagnostic approach to dyslipidemia and atherosclerotic cardiovascular disease (ASCVD) risk reduction?", back: "Dyslipidemia: elevated LDL, low HDL, elevated triglycerides. Risk assessment: Framingham, ASCVD risk calculator. Statin intensity based on risk (moderate/high/very high dose). Non-statin therapies: ezetimibe, PCSK9 inhibitors, bempedoic acid, inclisiran. Lifestyle: diet, exercise, smoking cessation essential." },
+  { front: "Describe the management of acute lower gastrointestinal bleeding.", back: "Lower GI bleeding: source below ligament of Treitz. Colonoscopy with hemostasis (thermal, injection, clip, band). Diverticular bleeding: most common, usually self-limited. IBD: treat inflammation. Angiodysplasia: cauterization. Vascular lesions (aortoenteric fistula): surgery. Risk stratification: Rockall score predicts outcome. Transfuse if Hgb <7." },
+  { front: "What are the complications of cirrhosis and their management?", back: "Cirrhosis complications: ascites (diuretics, sodium restriction, paracentesis), variceal bleeding (beta-blocker prophylaxis, endoscopic therapy), hepatic encephalopathy (lactulose, rifaxomicin), spontaneous bacterial peritonitis (cephalosporin, albumin), hepatorenal syndrome (vasoconstrictors, dialysis), hepatocellular carcinoma (surveillance, transplant). Prognosis guided by MELD score." },
+  { front: "Describe the pathophysiology and management of type 2 diabetes.", back: "Type 2: insulin resistance, progressive beta-cell dysfunction. Diagnosis: HbA1c >6.5%, fasting glucose >126, OGTT >200. Management: lifestyle (weight loss, exercise), metformin first-line, add GLP-1 agonist or SGLT2 inhibitor for cardiovascular/renal benefit, insulin if needed. Target HbA1c <7% in most (individualize for elderly, frail)." },
+  { front: "What is the diagnostic approach to elevated liver enzymes?", back: "Pattern recognition: ALT/AST >1000 suggests acute hepatitis or ischemia. AST >ALT suggests cirrhosis/alcohol. ALP/GGT >3x upper limit normal suggests cholestasis. Check INR (synthetic function), bilirubin (conjugation), ultrasound (structure). Differential: viral/autoimmune hepatitis, steatosis, medication toxicity, hemolysis, hemochromatosis." },
+  { front: "Describe the management of anemia in chronic kidney disease.", back: "Anemia from erythropoietin deficiency in kidney disease. Diagnosis: low Hgb with low reticulocyte count, elevated creatinine. Management: ESA (epoetin, darbepoetin) to target Hgb 10-11 g/dL (avoid >12 g/dL due to thrombosis risk). Iron supplementation if iron-deficient. Evaluate for other causes (B12, folate, bleeding)." },
+  { front: "What is the approach to asymptomatic proteinuria and albuminuria?", back: "Microalbuminuria (30-300 mg/day): marker of early renal disease, increased cardiovascular risk. Macroproteinuria (>300 mg/day): advanced disease. Causes: diabetes (most common), hypertension, glomerular disease. Management: ACE-I/ARB reduces proteinuria/slows decline. Strict BP control. Monitor renal function regularly. Referral to nephrology if >1 g/day or declining GFR." },
+  { front: "Describe the management of chronic obstructive pulmonary disease exacerbation.", back: "COPD exacerbation: acute worsening of symptoms (increased sputum, dyspnea, change in sputum color). Treatment: bronchodilators (beta-2 agonist, anticholinergic), corticosteroids (systemic), antibiotics if bacterial (purulent sputum). Oxygen therapy to maintain SaO2 88-92% (avoid hypoxemia but prevent CO2 retention in CO2 retainers). Noninvasive ventilation if respiratory failure." },
+  { front: "What is the diagnostic approach to syncope?", back: "Syncope: transient loss of consciousness with amnesia. Cardiac: arrhythmia (prolonged QT, brugada), structural disease (AS, HCM). Vasovagal: prodrome (lightheadedness, sweating). Orthostatic: positional hypotension. Seizure: postictal confusion. EKG essential. Holter/event monitor for arrhythmia. Echocardiogram if cardiac structural disease suspected. Tilt table test for vasovagal." },
+  { front: "Describe the management of chronic heart failure with reduced ejection fraction.", back: "HFrEF (EF <40%): ACE-I/ARB for mortality benefit. Beta-blockers (carvedilol, metoprolol succinate) reduce mortality. Aldosterone antagonists reduce mortality. Diuretics for symptoms. Consider ARB/sacubitril-valsartan, SGLT2 inhibitors. ICD for EF <35% despite optimal therapy (primary prevention). CRT if wide QRS with synchrony delay." },
+  { front: "What is the role of screening colonoscopy in colorectal cancer prevention?", back: "Screening reduces colorectal cancer mortality by 15-20%. Average-risk: colonoscopy starting age 45-50 (USPSTF varies). Interval: every 10 years if normal. Remove polyps <1 cm (hyperplastic benign), 6-9 mm (follow-up in 3-6 years), >1 cm (remove, resection for advanced features). High-risk: earlier screening or increased frequency." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

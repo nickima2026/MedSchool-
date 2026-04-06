@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the pathophysiological mechanisms of acute coronary syndrome and how does it differ from stable angina?", back: "ACS results from plaque rupture with superimposed thrombosis causing acute coronary occlusion. Stable angina is demand-induced ischemia from fixed stenosis. STEMI: complete occlusion with ST elevation. NSTEMI: partial occlusion or collateral perfusion without ST elevation." },
+  { front: "Describe the management of STEMI including reperfusion therapy and complications.", back: "Reperfusion is primary PCI (preferred) or fibrinolysis within 120 minutes and 30 minutes respectively. Dual antiplatelet therapy (aspirin, P2Y12 inhibitor), anticoagulation, beta-blockers, ACE inhibitors. Complications: cardiogenic shock, arrhythmias, mechanical (papillary muscle rupture, VSD, free wall rupture)." },
+  { front: "What are the diagnostic criteria for heart failure and how do you differentiate systolic from diastolic dysfunction?", back: "HF diagnosis: symptoms + signs of pulmonary/systemic congestion + reduced ejection fraction (HFrEF <40%) or preserved EF (HFpEF >50%). Systolic: dilated LV with reduced contractility. Diastolic: stiff ventricle with impaired relaxation. Echocardiogram confirms type." },
+  { front: "Explain the pathophysiology of pulmonary edema and its management.", back: "Increased pulmonary capillary wedge pressure (left heart failure) or decreased plasma oncotic pressure (hypoalbuminemia) causes fluid transudation into alveoli. Management: diuretics, nitrates, oxygen, positive pressure (CPAP/PEEP), identify and treat underlying cause. Acute pulmonary edema is a medical emergency." },
+  { front: "What is the mechanism of action and clinical use of different heart failure medications?", back: "ACE inhibitors: reduce afterload, improve survival. Beta-blockers: reduce HR, contractility, arrhythmias. Aldosterone antagonists: reduce fibrosis, hyperkalemia risk. Diuretics: reduce preload. ARBs/sacubitril-valsartan: neurohormonal blockade. SGLT2 inhibitors: reduce hospitalization in HFrEF." },
+  { front: "Describe the pathophysiology and management of atrial fibrillation including stroke prevention.", back: "AF is chaotic atrial electrical activity causing irregular ventricular response, loss of atrial kick, increased thrombus risk. Management: rate control (beta-blocker, calcium channel blocker, digoxin) or rhythm control (antiarrhythmics, ablation). Anticoagulation per CHA2DS2-VASc score reduces stroke risk." },
+  { front: "What are the causes of hypertensive urgency and emergency, and how are they managed?", back: "Urgency: elevated BP without end-organ damage (medication adjustment). Emergency: elevated BP with end-organ damage (hypertensive encephalopathy, ACS, stroke, aortic dissection). IV agents: labetalol, nicardipine, hydralazine. Careful titration prevents stroke." },
+  { front: "Explain the pathophysiology of aortic dissection and its classification.", back: "Dissection of media layer causes separation of intimal flap, compromising true/false lumen perfusion. Type A: involves ascending aorta (surgical emergency). Type B: descending only (medical management usually). Presents with sudden, severe, tearing chest/back pain. Diagnosis via CT angiography." },
+  { front: "What are the types of shock and their hemodynamic profiles?", back: "Cardiogenic: low CO, elevated SVR (heart failure, MI, arrhythmia). Hypovolemic: low CO, elevated SVR (hemorrhage, dehydration). Septic: low SVR, elevated CO (infection). Anaphylactic: low SVR, elevated CO (allergic reaction). Obstructive: low CO, elevated SVR (PE, tension pneumothorax, tamponade)." },
+  { front: "Describe the management of cardiogenic shock and indications for mechanical support.", back: "Optimize preload, reduce afterload, improve contractility (dobutamine, milrinone). Treat underlying cause (revascularize in MI). Mechanical support: IABP, Impella, extracorporeal membranous oxygenation (ECMO) for bridge to recovery/transplant. Goal: restore end-organ perfusion, reverse lactate, improve urine output." },
+  { front: "What is the role of echocardiography in cardiac assessment and diagnosis?", back: "Transthoracic echo: images all cardiac chambers, assesses EF, wall motion, valvular function, pericardial disease. Transesophageal echo: superior images of posterior structures, valves, atrial septum. Stress echo: assesses inducible ischemia. Tissue Doppler: evaluates diastolic dysfunction." },
+  { front: "Explain the mechanisms of various valvular lesions and their hemodynamic consequences.", back: "Mitral stenosis: impaired diastolic filling, elevated LA pressure, pulmonary congestion. Mitral regurgitation: systolic backflow, eccentric left atrial jet. Aortic stenosis: increased LV afterload, concentric hypertrophy, risk of syncope. Aortic regurgitation: increased preload, eccentric LV dilation." },
+  { front: "What are the pathophysiology and management of acute respiratory distress syndrome (ARDS)?", back: "ARDS results from ALI with increased pulmonary capillary permeability, hyaline membrane formation, impaired gas exchange. Diagnosed by: acute onset, bilateral infiltrates, low PaO2/FiO2 ratio, absence of cardiac cause. Management: lung-protective ventilation (low tidal volumes, high PEEP), treat underlying cause, supportive care." },
+  { front: "Describe the causes and management of pneumothorax including tension pneumothorax.", back: "Spontaneous: primary (young, tall males, smoking) or secondary (COPD, cystic fibrosis). Traumatic: blunt or penetrating injury. Tension: hypotension, JVD, tracheal deviation. Management: observation if small and stable; needle decompression then chest tube if large or hypoxic. Tension is a medical emergency." },
+  { front: "What is chronic obstructive pulmonary disease (COPD) and how is it managed?", back: "COPD is chronic irreversible airway obstruction from emphysema, chronic bronchitis. Diagnosis: post-bronchodilator FEV1/FVC <0.70. Management: smoking cessation, bronchodilators, corticosteroids, oxygen therapy. Exacerbations treated with steroids, antibiotics, oxygen. Vaccinations (pneumococcal, influenza) prevent complications." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

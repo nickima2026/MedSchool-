@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the approach to difficult airway assessment and management?", back: "Difficult airway prediction: Mallampati (oropharyngeal visualization), thyromental distance (<6 cm difficult), mouth opening (<3 cm limited), neck mobility (stiffness limits access). Mallampati III-IV, short neck, micrognathia, obesity increase difficulty. Management: maintain spontaneous ventilation, prepare alternative devices (video laryngoscope, fiberoptic scope), have backup plan, consider awake intubation for predicted difficulty." },
+  { front: "Describe rapid sequence intubation and aspiration precautions.", back: "RSI: anesthesia technique minimizing aspiration risk in full stomach. Preparation: preoxygenation, position (head up 25 degrees), medications (induction agent, paralytic), cricoid pressure (controversial). Sequence: loss of consciousness, immediate intubation, no bag-mask ventilation typically. Agents: ketamine/propofol induction, succinylcholine (rapid paralysis) or rocuronium (longer duration). Confirm tube placement (end-tidal CO2, lung auscultation)." },
+  { front: "What is total intravenous anesthesia (TIVA) and its advantages?", back: "TIVA: all anesthesia delivered via IV (propofol, etomidate, ketamine) without volatile anesthetics. Advantages: reduced PONV (postoperative nausea/vomiting), better pain control, faster emergence, environmental benefits (no pollution). Target-controlled infusion: computerized pump adjusts infusion based on target plasma concentration. Requires peripheral/central IV access, monitoring of consciousness (bispectral index), analgesia." },
+  { front: "Describe volatile anesthetic agents and their properties.", back: "Volatile anesthetics: sevoflurane (most common), isoflurane, desflurane delivered via vaporizer + fresh gas flow. Properties: potency (minimum alveolar concentration), cardiovascular effects, emergence time, metabolism. Sevoflurane: rapid induction, low airway irritability, minimal metabolism. Isoflurane: slower emergence, myocardial depression. Desflurane: pungent, rapid emergence, airway irritability. All cause dose-dependent respiratory/cardiovascular depression." },
+  { front: "What is the pathophysiology and management of malignant hyperthermia?", back: "MH: pharmacogenetic disorder triggered by volatile anesthetics/succinylcholine causing rhabdomyolysis, hyperthermia, hyperkalemia, cardiac arrhythmias. Mechanism: abnormal sarcoplasmic reticulum calcium release. Signs: muscle rigidity (postoperative), elevated creatine kinase, myoglobinuria, dark urine, acute kidney injury. Treatment: stop triggering agents, hyperventilate, IV dantrolene sodium (2.5 mg/kg), active cooling, treat hyperkalemia." },
+  { front: "Describe the management of anaphylaxis during anesthesia.", back: "Perioperative anaphylaxis: IgE-mediated reaction during induction or surgery. Triggers: antibiotics (beta-lactams), muscle relaxants, blood products, latex. Presentation: hypotension, tachycardia, flushing, bronchospasm, angioedema. Immediate management: stop triggering agent, 100% oxygen, IM epinephrine (0.3-0.5 mg), IV fluids, H1/H2 blockers, corticosteroids. Tryptase levels confirm mast cell degranulation. Allergy testing post-recovery." },
+  { front: "What are the principles of regional anesthesia and nerve blockade?", back: "Regional anesthesia: local anesthetic injected near nerves (peripheral or neuraxial). Techniques: peripheral nerve block (ultrasound-guided), epidural, spinal. Advantages: excellent analgesia, reduced systemic medication, faster recovery. Local anesthetics: lidocaine (faster onset), bupivacaine (longer duration), mepivacaine. Toxicity: seizures, cardiac arrhythmias if overdose/intravascular injection. Ultrasound guidance improves accuracy, reduces complications." },
+  { front: "Describe epidural and spinal anesthesia technique and complications.", back: "Epidural: catheter threaded into epidural space, local anesthetic injected gradually (allows titration). Spinal: single injection of local anesthetic into CSF (faster onset, higher block). Complications: post-dural puncture headache (especially spinal), epidural hematoma (anticoagulation risk), infection (meningitis, epidural abscess), high/total spinal block (respiratory paralysis), hypotension. Neuraxial preferred for lower extremity surgery, pain relief in labor." },
+  { front: "What is the approach to managing perioperative hypotension?", back: "Hypotension perioperatively: caused by anesthetic agents, hypovolemia, cardiac dysfunction, sepsis. Assessment: measure BP, assess perfusion (urine output, lactate), check CVP if available. Management: reduce anesthetic depth, IV fluids (crystalloid 500 mL bolus), vasopressors (phenylephrine, norepinephrine, vasopressin) if refractory. Identify underlying cause (bleeding, arrhythmia, anaphylaxis). Avoid profound hypotension (organ ischemia risk)." },
+  { front: "Describe the pharmacology of neuromuscular blocking agents.", back: "Neuromuscular blockers: paralytic agents for intubation/ventilation. Depolarizing (succinylcholine): rapid onset/offset, hyperkalemia risk, malignant hyperthermia trigger. Non-depolarizing: rocuronium (rapid), cisatracurium (metabolized), vecuronium (hepatic metabolism). Monitoring: train-of-four twitch assessment (full recovery = 4 twitches equal). Reversal: sugammadex (rocuronium only) or neostigmine (with glycopyrrolate). Recovery time important for extubation." },
+  { front: "What is the role of neuraxial anesthesia in postoperative pain management?", back: "Neuraxial opioids: epidural/spinal morphine provides prolonged analgesia (12-24 hours from single dose). Benefits: reduced systemic opioid requirements, improved pain control, lower PONV. Risks: respiratory depression (monitor closely), urinary retention, pruritus. Epidural continuous infusion: local anesthetic + opioid combination, patient-controlled epidural analgesia (PCEA). Improves outcomes vs IV opioid analgesia alone." },
+  { front: "Describe the management of postoperative nausea and vomiting (PONV).", back: "PONV: common side effect, risk factors: female, non-smoker, volatile anesthetics, opioid use, postoperative pain. Prevention: avoid triggering agents (volatile anesthetics, high-dose opioids), use TIVA, adequate hydration, multimodal antiemetic (ondansetron, dexamethasone, scopolamine patch). Treatment: antiemetics, fluid therapy, position changes. Delayed PONV (>2 hours): different mechanism, managed with continued antiemetics." },
+  { front: "What is the diagnostic approach to emergence delirium and postoperative cognitive dysfunction?", back: "Emergence delirium: confusion, agitation immediately post-anesthesia (resolves <30 minutes). Causes: hypoxia, hypercapnia, pain, full bladder, ICU environment. Prevention: adequate oxygenation, extubation readiness assessment, anxiolysis. POCD: subtle cognitive impairment lasting days-weeks post-op. Risk factors: advanced age, major surgery, prolonged anesthesia. Mechanism unclear (inflammation, microemboli). Prevention: minimize anesthesia depth, early mobilization, cognitive engagement." },
+  { front: "Describe the pharmacokinetics and kinetics principles in anesthesiology.", back: "Pharmacokinetics: absorption (IV rapid), distribution (plasma to tissues), metabolism (hepatic, renal, plasma esterase), elimination. Context-sensitive half-time: time for plasma concentration to decrease 50% after infusion stopped (important for recovery time). Accumulation: occurs with repeated doses or prolonged infusions. Metabolism variability: genetic (pseudocholinesterase deficiency prolongs succinylcholine), hepatic dysfunction, renal impairment. Dosing adjustments necessary in elderly, hepatic/renal disease." },
+  { front: "What is the approach to perioperative temperature management and hypothermia prevention?", back: "Perioperative hypothermia: anesthetics impair thermoregulation. Complications: coagulopathy, infection risk, delayed drug metabolism, shivering post-op (increases oxygen consumption). Prevention: active warming (forced-air, circulating water blankets), IV fluid warming, minimal exposure, increased ambient temperature. Core temperature monitoring (esophageal, bladder if hourly urine output needed). Hypothermia <32C may require extracorporeal rewarming." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

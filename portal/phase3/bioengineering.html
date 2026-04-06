@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the principles of medical device design and regulatory approval?", back: "Medical device design: identify clinical problem, design solution, prototype, animal/bench testing, human clinical trials, FDA approval (510k or PMA pathway). FDA classification: Class I (low risk, general controls), Class II (moderate risk, special controls + 510k), Class III (high risk, PMA premarket approval). Risk management: identify hazards, assess severity/probability, design mitigation. Post-market surveillance: adverse event reporting, recall management." },
+  { front: "Describe tissue engineering and regenerative medicine approaches.", back: "Tissue engineering: combine cells, biomaterials, bioreactors to grow tissue replacements. Applications: skin (burns, chronic wounds), cartilage (arthritis), bone (defects), cardiac patches. Scaffolds: natural (collagen, gelatin) or synthetic (polymers, ceramics) provide structure. Cell sources: autologous (patient's own), allogeneic (donor), induced pluripotent stem cells (reprogrammed adult cells). Bioreactors: control environment (nutrient supply, oxygen, mechanical stimulation) to promote growth." },
+  { front: "What are biomaterials and their clinical applications?", back: "Biomaterials: materials in contact with biological system. Types: metals (titanium implants, stents), ceramics (hip replacements, bone scaffolds), polymers (sutures, drug delivery), hydrogels (wound dressings, tissue engineering). Properties: biocompatibility (no adverse immune reaction), mechanical strength (mimics tissue), biodegradability (resorbed at controlled rate). Applications: implants, drug delivery systems, wound care, diagnostic devices." },
+  { front: "Describe biocompatibility testing and material selection criteria.", back: "Biocompatibility: material's ability to coexist with tissue without adverse effects. Testing: cytotoxicity (cell survival in material presence), sensitization (allergic response), irritation (irritation response), systemic toxicity. ISO standards: define testing requirements. Selection criteria: mechanical properties (match tissue stiffness), surface properties (hydrophilicity, texture), degradation rate, manufacturing scalability. Long-term implants: require extensive testing. Material failures cause implant rejection/complications." },
+  { front: "What is drug delivery system design and targeting strategies?", back: "Drug delivery: maximize therapeutic effect, minimize toxicity. Formulations: tablets, capsules, injectables, patches, inhalers. Strategies: controlled release (extended action), targeted delivery (to specific organ/cell), nanoparticles (smaller size improves penetration, reduces toxicity). Examples: liposomal doxorubicin (nanoparticle chemotherapy), inhaled bronchodilators (lung-targeted), transdermal patches (steady-state delivery). Pharmacokinetics: peak concentration, duration of action influenced by formulation." },
+  { front: "Describe orthopedic implants and joint replacement engineering.", back: "Orthopedic implants: replace damaged bone/joint. Total knee replacement: femoral component (metal), tibial component (metal+plastic), patellar component. Material: titanium alloy (femur), polyethylene (bearing surface). Considerations: stability, range of motion, durability (10-20+ years), ease of revision if needed. Complications: loosening (aseptic/septic), wear, periprosthetic fractures. Modern designs: kinematic alignment, patient-specific instruments improve outcomes." },
+  { front: "What is the design and clinical application of cardiac devices?", back: "Cardiac devices: pacemakers (bradycardia management), implantable cardioverter-defibrillators (ICD - arrhythmia termination), cardiac resynchronization therapy (CRT - heart failure). Leads: transvenous (through veins to heart). Power source: battery (~10 years). Programming: nonprogrammable, single-chamber, dual-chamber, biventricular. Complications: lead fracture, infection, inappropriate shocks. Remote monitoring: wireless transmission of device data, early detection of issues." },
+  { front: "Describe artificial organs and mechanical circulatory support.", back: "Mechanical circulatory support: temporary (extracorporeal) or permanent (implantable) for severe heart failure. ECMO (extracorporeal membrane oxygenation): temporary support during cardiogenic shock. Ventricular assist devices (VAD): long-term support (bridge to transplant or destination therapy). Artificial organs: artificial heart (total artificial heart), bioartificial liver, artificial kidney prototype. Engineering challenges: power delivery (wireless, battery), thrombosis prevention, durability, infection prevention." },
+  { front: "What are diagnostic biosensors and point-of-care testing devices?", back: "Biosensors: detect biomolecules (glucose, troponin, pathogens). Principles: transduction (biorecognition element converts analyte to measurable signal), signal detection. Examples: glucose meters (electrochemical), lateral flow assays (COVID rapid tests), immunoassays. Point-of-care testing: rapid results (minutes vs hours) at bedside/clinic/home. Benefits: faster diagnosis, treatment initiation, patient convenience. Challenges: accuracy validation, regulatory approval, cost." },
+  { front: "Describe microfluidics and lab-on-a-chip technology.", back: "Microfluidics: manipulate small fluid volumes in channels (micrometers). Applications: diagnostic devices (blood testing from microliter sample), drug screening (cell culture), chemical synthesis. Lab-on-chip: integrate multiple functions (sample preparation, reaction, detection) on single device. Advantages: reduced sample/reagent volume, rapid results, integration, portability. Challenges: fabrication complexity, reproducibility, interfacing with standard equipment." },
+  { front: "What is the design of surgical instruments and minimally invasive tools?", back: "Surgical instruments: optimize efficiency, reduce tissue trauma. Laparoscopic instruments: long shaft (access cavity), small tip (fit through trocar), ergonomic handle. Robotics: da Vinci system adds precision, tremor filtering, 3D visualization. Electrosurgical instruments: monopolar (single electrode), bipolar (paired electrodes) coagulate/cut tissue. Instruments must: be sterilizable (reusable) or single-use, withstand repeated use, have appropriate mechanical properties. Innovation: smaller diameter, better visualization, improved ergonomics." },
+  { front: "Describe biomechanics and material properties in device design.", back: "Biomechanics: study movement/forces in biological systems. Material properties: strength (stress-strain relationship), elasticity (return to original shape), plasticity (permanent deformation). Stress analysis: finite element analysis (computational) predicts device performance under physiologic loads. Fatigue testing: simulates millions of cycles (heartbeats, walking) to assess durability. Factor of safety: device designed to withstand loads far exceeding expected in vivo forces." },
+  { front: "What are 3D printing and personalized medicine applications in biomedical engineering?", back: "3D printing (additive manufacturing): layer-by-layer construction. Medical applications: surgical planning models (printed from patient CT/MRI), custom implants (patient-specific prosthetics), tissue scaffolds, drug delivery devices. Materials: plastics, metals (titanium), ceramics, hydrogels, living cells (bioprinting). Benefits: customization (perfect fit), reduced surgery time, improved outcomes. Challenges: regulatory approval (FDA), material properties, cost, quality control." },
+  { front: "Describe infection prevention in device design and material considerations.", back: "Device-associated infections: risk depends on material, geometry, implant duration. Prevention: biocompatible materials (reduced immune activation), smooth surfaces (prevent biofilm formation), antimicrobial coatings (silver, copper, antibiotics), removable/replaceable components. Biofilm formation: bacteria embed in extracellular matrix, resist antibiotics. Design: minimize crevices/dead space, optimize surface properties. Post-manufacture: sterilization (validated process) prevents contamination." },
+  { front: "What is the role of computational modeling and simulation in device development?", back: "Computational modeling: finite element analysis (stress/strain), fluid dynamics (flow in stents), computational biology (drug diffusion, cellular response). Advantages: predict performance before prototype, optimize design, reduce expensive physical testing. Applications: stent design (optimal diameter, strut thickness), vessel flow (minimize thrombosis), implant fit (minimize stress shielding). Limitations: model simplifications may not capture real complexity, validation against physical testing required." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

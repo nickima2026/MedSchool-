@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the components of innate immunity and their mechanisms of pathogen recognition?", back: "Pattern recognition receptors (TLRs, NOD-like receptors) recognize PAMPs. Physical barriers: skin, mucous membranes. Chemical mediators: complement, lysozyme. Cellular: neutrophils, macrophages, NK cells. Innate immunity provides immediate response; triggers adaptive immunity via antigen presentation." },
+  { front: "Describe the classical, alternative, and lectin pathways of complement activation.", back: "Classical: antibody-antigen complexes activate C1q, then C2, C4. Alternative: microbial surfaces directly activate C3. Lectin: mannose-binding lectin activates C1s. All converge at C3 convertase. Cascade produces: C3a/C5a (anaphylatoxins), C3b (opsonin), MAC (C5b-C9) causes lysis. Deficiencies increase infection/SLE risk." },
+  { front: "What is the structure and function of the major histocompatibility complex (MHC)?", back: "MHC Class I (all cells): presents intracellular peptides to CD8+ T cells. MHC Class II (antigen-presenting cells): presents extracellular peptides to CD4+ T cells. Highly polymorphic, important for transplant rejection. Presents processed peptides in peptide-binding groove. Critical for adaptive immune recognition." },
+  { front: "Explain the development and selection of T cells in the thymus.", back: "Thymocytes develop from bone marrow precursors. Double-negative cells express neither CD4 nor CD8. Double-positive cells express both. Positive selection: cells recognizing self-MHC survive. Negative selection: cells with high affinity for self-antigen undergo apoptosis. Mature single-positive (CD4+ or CD8+) thymocytes exit to periphery." },
+  { front: "What are the types of T helper cells and their cytokine production?", back: "Th1: IFN-gamma (cell-mediated immunity, intracellular pathogens). Th2: IL-4, IL-5, IL-13 (humoral immunity, parasites, allergies). Th17: IL-17 (extracellular bacteria, autoimmunity). Tfh: help B cells in germinal centers. Treg: IL-10, TGF-beta (immune tolerance, self-tolerance). Differentiation depends on antigen type and initial cytokine milieu." },
+  { front: "Describe B cell development and antibody class switching.", back: "B cells develop in bone marrow. Heavy chain gene recombination occurs in pro-B cells; light chain in pre-B cells. Immature B cells express IgM. Antigen-dependent activation in germinal centers. Class switch recombination: AID enzyme-mediated switch to IgG, IgA, IgE. Somatic hypermutation increases affinity." },
+  { front: "What are the five immunoglobulin classes and their functions?", back: "IgM: first antibody produced, pentameric, fixes complement, low affinity. IgD: co-receptor on B cells. IgG: most abundant, crosses placenta, opsonizes, fixes complement. IgA: dimer secreted in mucus, maintains mucosal immunity. IgE: mast cell binding, anaphylaxis, parasitic immunity. Each has distinct effector functions." },
+  { front: "Explain the mechanism of antibody-dependent cellular cytotoxicity (ADCC).", back: "Antibodies bind antigens on target cells. Fc portion binds Fc receptors on effector cells (NK, macrophages, neutrophils). Cross-linking triggers ADCC: effector cells lyse target cells. Important for viral infections, tumor immunity, vaccine efficacy. Also mechanism of autoimmune destruction." },
+  { front: "What are the primary and secondary immune responses?", back: "Primary: first antigen exposure, IgM produced first, low affinity. Takes 1-2 weeks to peak. Secondary: subsequent exposure, rapid IgG production, high affinity, stronger response. Memory cells (B and T) persist years. Basis for vaccination: primes immune response before pathogen encounter." },
+  { front: "Describe the role of dendritic cells in antigen presentation and immune activation.", back: "Dendritic cells capture antigen via endocytosis/phagocytosis. Migrate to lymph nodes, present processed antigen on MHC to T cells. Produce cytokines (IL-12) directing Th differentiation. Professional antigen-presenting cells: critical bridge between innate and adaptive immunity." },
+  { front: "What is the mechanism of immune tolerance and breakdown in autoimmunity?", back: "Central tolerance: deletion of self-reactive thymocytes (T cells) and B cells in bone marrow. Peripheral tolerance: Treg cells, anergy, immune-privilege sites. Breakdown: loss of Treg function, defective negative selection, epitope spreading, molecular mimicry. Results in autoimmune diseases (lupus, rheumatoid arthritis)." },
+  { front: "Explain hypersensitivity reactions and their mechanisms.", back: "Type I (immediate): IgE-mediated, mast cell/basophil degranulation, anaphylaxis minutes. Type II (cytotoxic): IgG/IgM antibodies against cell-surface antigens, ADCC, hemolytic anemia. Type III (immune complex): antigen-antibody complexes activate complement, vasculitis, serum sickness. Type IV (delayed): T cell-mediated, contact dermatitis, TB skin test." },
+  { front: "What are the mechanisms of immune evasion by pathogens?", back: "Antigenic variation: HIV, influenza change surface proteins. Molecular mimicry: pathogen antigens resemble self. Immune suppression: HIV kills CD4+ cells, CMV downregulates MHC. Complement inhibition: some pathogens produce complement-regulatory proteins. Latency: herpes viruses hide from immune system. Understanding evasion guides vaccine design." },
+  { front: "Describe the components and function of the lymphoid system.", back: "Primary lymphoid organs: bone marrow (B cell development), thymus (T cell development). Secondary: lymph nodes (antigen processing, cell activation), spleen (filtration, antibody production), Peyer's patches (mucosal immunity), MALT. Lymphatic vessels return fluid/cells to circulation. Lymphoid follicles organize immune responses." },
+  { front: "What is the significance of cytokine networks in immune regulation?", back: "Cytokines: secreted signaling molecules mediating cell-to-cell communication. Th1 cytokines (IFN-gamma) promote cell-mediated immunity; Th2 (IL-4) promote humoral. IL-2: T cell growth. TNF-alpha: inflammation. IL-10: anti-inflammatory. Imbalance causes disease: excess Th1 in diabetes, excess Th2 in asthma/allergies." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

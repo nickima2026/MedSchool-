@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the borders and contents of the femoral triangle?", back: "Borders: medial (adductor longus), lateral (sartorius), superior (inguinal ligament). Contents (medial to lateral): femoral vein, artery, and nerve. The mnemonic VAN helps identify structures during inguinal procedures." },
+  { front: "Describe the anatomical basis for axillary nerve injury in proximal humerus fractures.", back: "The axillary nerve passes through the quadrangular space with the posterior circumflex humeral artery. Proximal humerus fractures, especially surgical neck fractures, can stretch or tear the nerve, causing deltoid paralysis and shoulder abduction weakness." },
+  { front: "What is the clinical significance of the popliteal artery and its branches?", back: "The popliteal artery branches into anterior and posterior tibial arteries. Popliteal artery injuries from knee trauma or Baker's cyst rupture can cause acute limb ischemia. Posterior tibial pulse is assessed medial to the medial malleolus." },
+  { front: "Explain the anatomical relationship between the recurrent laryngeal nerve and the thyroid.", back: "The left recurrent laryngeal nerve loops under the aortic arch; the right loops under the right subclavian. Both ascend lateral to the thyroid. During thyroidectomy, RLN injury causes hoarseness and vocal cord paralysis." },
+  { front: "What structures are at risk during cricothyrotomy?", back: "The cricothyroid membrane lies between the cricoid and thyroid cartilages. A vertical incision through this membrane accesses the airway. The cricothyroid artery runs vertically and must be identified to minimize bleeding." },
+  { front: "Describe the layers of the anterior abdominal wall and their embryological origin.", back: "Skin, superficial fascia, external/internal obliques (lateral), transversus abdominis, transversalis fascia, peritoneum. The anterior rectus sheath encloses the rectus abdominis. These layers are critical for hernia repair and surgical planning." },
+  { front: "What is the significance of the portal triad in hepatic anatomy?", back: "Hepatic artery, portal vein, and common bile duct travel together in the hepatoduodenal ligament. Recognition of this anatomy is essential during abdominal surgery to avoid vascular or biliary injury." },
+  { front: "Explain the anatomy of the inguinal canal and structures vulnerable during hernia repair.", back: "The canal extends from the deep to superficial rings, carrying the spermatic cord (or round ligament in females). The ilioinguinal and iliohypogastric nerves run superficially; the genital branch of the genitofemoral nerve is deep. Mesh placement and nerve preservation are critical." },
+  { front: "What is the clinical importance of the dorsal scapular artery and nerve?", back: "The dorsal scapular nerve (C5) innervates the rhomboid and levator scapulae. The dorsal scapular artery branches from the subclavian. Injuries cause scapular winging and weakness of scapular retraction." },
+  { front: "Describe the anatomy of the rotator cuff and common sites of impingement.", back: "The rotator cuff (supraspinatus, infraspinatus, teres minor, subscapularis) stabilizes the shoulder. Subacromial impingement occurs between the rotator cuff and acromion, causing pain and functional loss." },
+  { front: "What are the landmarks and neurovascular structures in the triangles of the neck?", back: "Anterior triangle: bounded by SCM, midline, mandible. Contains carotid arteries, jugular vein, vagus nerve. Posterior triangle: SCM, trapezius, clavicle. Contains accessory nerve (CN XI), brachial plexus. Critical for neck dissection and block placement." },
+  { front: "Explain the blood supply to the femoral head and the significance of femoral neck fractures.", back: "The medial and lateral femoral circumflex arteries supply the femoral head. Intracapsular (femoral neck) fractures disrupt blood supply, risking avascular necrosis. Age and fracture type determine healing outcomes." },
+  { front: "What is the anatomical basis for superior vena cava syndrome?", back: "The SVC receives blood from the upper body and drains into the right atrium. Obstruction by tumor, thrombosis, or fibrosis causes venous congestion, facial edema, and upper extremity swelling." },
+  { front: "Describe the compartments of the leg and the consequences of compartment syndrome.", back: "Four compartments: anterior (tibialis anterior, foot dorsiflexion), lateral (peroneals, foot eversion), superficial posterior (gastrocnemius, plantaris, soleus), deep posterior (tibialis posterior, flexor digitorum/hallucis longus). Rising compartmental pressure impairs perfusion and requires emergent fasciotomy." },
+  { front: "What is the Adamkiewicz artery and its clinical significance?", back: "The Adamkiewicz (great radicular) artery is the major spinal artery supply, typically arising from the left T9-L2 vertebral level. During thoracic aortic repair, its ligation causes paraplegia. Localization via preoperative angiography guides surgical technique." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the basic principles of chest X-ray interpretation?", back: "CXR interpretation: systematically assess airway (trachea midline), breathing (lungs for infiltrates/pneumothorax), circulation (heart size, silhouette), disability (bones, soft tissue). ABCDE approach. Infiltrates: consolidation (airspace disease - pneumonia, edema), interstitial (reticular pattern). Pneumothorax: absent lung markings. Pleural effusion: blunting of costophrenic angles. Follow up abnormal findings with CT." },
+  { front: "Describe the interpretation of abdominal imaging and common findings.", back: "Abdominal X-ray: assess for free air (upright or left lateral decubitus), bowel obstruction (dilated loops, air-fluid levels), volvulus (coffee bean sign). Ultrasound: gallstones (echogenic, shadow), AAA (>3 cm), free fluid. CT: superior for most pathology (appendicitis, diverticulitis, mesenteric ischemia, perforation). MRI: no radiation, better soft tissue contrast, useful for liver, pancreas." },
+  { front: "What is the role of CT angiography in acute pulmonary embolism diagnosis?", back: "CTPA: gold standard for PE diagnosis. Technique: IV contrast bolus with scanning during pulmonary arterial enhancement (best sensitivity for PE). Sensitivity/specificity: >95% for main/lobar PE, lower for subsegmental. D-dimer negative = low probability, can skip imaging in low-risk. High-risk (shock, RV dysfunction): consider thrombolysis regardless." },
+  { front: "Describe the imaging approach to acute stroke.", back: "Acute stroke imaging: non-contrast CT (excludes hemorrhage), then CTA or MRA to assess vasculature (occlusion, stenosis). MRI: superior for ischemic stroke detection (DWI shows acute infarction), less sensitive for hemorrhage. Perfusion imaging: identifies mismatch (penumbra) that might benefit from intervention. Imaging guides treatment decisions: tPA, thrombectomy, supportive care." },
+  { front: "What are the imaging features of pneumonia on chest X-ray?", back: "Pneumonia patterns: consolidation (lobar, focal, multifocal), atypical infiltrates (reticular, interstitial). Lobar consolidation typical of bacterial (S. pneumoniae, H. influenzae). Atypical pattern suggests viral or atypical bacteria (mycoplasma, legionella). Cavitation suggests TB or aspiration. CXR follows clinical resolution (may lag 6-8 weeks); CT if concern for complications (effusion, abscess, empyema)." },
+  { front: "Describe the imaging approach to acute abdomen.", back: "Acute abdomen imaging: CT abdomen/pelvis with contrast (IV, oral, rectal depending on indication) is gold standard. Shows appendicitis (dilated appendix, periappendiceal fat stranding), diverticulitis (inflamed diverticula, pericolonic fat), perforation (free air), volvulus (twisted mesentery), bowel obstruction. Ultrasound: first-line if pregnant, can assess appendicitis/cholecystitis. Plain films: limited but can show free air." },
+  { front: "What are the imaging findings of deep vein thrombosis on ultrasound?", back: "DVT ultrasound: compression of venous lumen with transducer (normally collapses fully). Non-compressibility = DVT. Gray-scale: echogenic thrombus. Doppler: absent flow across occlusion. Bilateral comparison helpful. Proximal DVT (popliteal, femoral, iliac): clinically significant. Calf DVT: lower risk but can propagate. Serial ultrasound if initial negative but high suspicion." },
+  { front: "Describe the interpretation of CT findings in trauma patients.", back: "Trauma imaging: FAST exam (bedside ultrasound) rapidly assesses free intra-abdominal fluid suggesting hemorrhage. CT (trauma pan-scan): head, C-spine, chest, abdomen/pelvis. Identifies injuries requiring intervention (hemorrhage, organ injury, fractures). Mechanism guides imaging: blunt vs penetrating, high-energy mechanism suggests more injury. CT guides surgical decisions and triage." },
+  { front: "What are the imaging features and findings of acute coronary syndrome?", back: "ACS imaging: EKG first (ST elevation, T wave changes). Troponin elevation confirms myocardial infarction. Chest X-ray: may show pulmonary edema, cardiomegaly. Echocardiography: assesses wall motion abnormalities (regional ischemia), ejection fraction, complications (VSD, papillary muscle rupture, free wall rupture). Cardiac MRI: delayed gadolinium enhancement shows infarction pattern." },
+  { front: "Describe the imaging approach to suspected aortic dissection.", back: "Aortic dissection imaging: CT angiography (gold standard) shows intimal flap, true/false lumen, branch vessel involvement, malperfusion. TEE (transesophageal echocardiography): excellent sensitivity, used if unstable or CT unavailable. MRI: not first-line (time constraint). Type A (ascending aorta) needs urgent surgery; Type B (descending) may be managed medically. Imaging guides triage." },
+  { front: "What are the imaging features of pneumothorax?", back: "Pneumothorax imaging: CXR shows absent lung markings, lung edge visible away from chest wall, mediastinal shift if tension pneumothorax. CT more sensitive (detects small pneumothorax). Tension pneumothorax: hemodynamic instability, mediastinal/cardiac shift, compromised venous return. Clinical diagnosis (hemodynamic instability) warrants needle decompression before imaging." },
+  { front: "Describe the imaging approach to suspected malignancy.", back: "Malignancy imaging: depends on tumor type and staging. Chest CT: detects lung cancers, mediastinal lymphadenopathy, metastases. Abdominal/pelvic CT: colorectal, gastric, ovarian, renal, pancreatic cancers. MRI: excellent soft tissue contrast (brain, liver, pelvic malignancies). PET-CT: detects areas of high metabolic activity (primary tumor, metastases). Staging guides treatment, prognosis." },
+  { front: "What is the role of ultrasound in obstetric imaging?", back: "OB ultrasound: first trimester (8-14 weeks) confirms pregnancy, dating, viability, nuchal translucency screening. Second trimester (18-24 weeks) anatomy scan assesses fetal structures, placental location, amniotic fluid. Third trimester (28-40 weeks) assesses fetal growth, position, biophysical profile. Doppler: assesses umbilical/cerebroplacental flow, detects IUGR. Transvaginal ultrasound: early pregnancy, cervical length assessment." },
+  { front: "Describe the imaging approach to hepatic masses.", back: "Liver masses: ultrasound initial, then CT/MRI for characterization. Benign: hemangioma (bright on MRI, enhances peripherally), adenoma (no gadolinium retention), simple cyst. HCC: enhances arterially, washes out on venous/delayed phase, risk factors (cirrhosis). CT/MRI criteria: lesion >10 mm with typical enhancement = HCC. Biopsy if indeterminate. Surveillance recommended if cirrhosis." },
+  { front: "What are the imaging features of acute pulmonary embolism complications?", back: "PE complications: right heart strain (dilated RV, elevated RV/LV ratio >0.9 on CT). Chronic thromboembolic disease: vessel webs, mosaicism of lung perfusion. Infarction: wedge-shaped opacities. Pleural effusion: may accompany PE. Imaging assessment: CTA, echo (RV dysfunction), BNP (prognosis). Severity influences treatment: massive PE warrants thrombolysis; submassive requires monitoring for decompensation." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

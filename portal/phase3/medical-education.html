@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the principles of curriculum design in medical education?", back: "Curriculum: planned learning experiences with defined objectives, content, instructional methods, assessment. Design: align objectives (what students learn) with assessment (how we measure learning) using backwards design. Content: knowledge, skills (clinical, procedural), attitudes (professionalism). Sequence: foundations then clinical, simple to complex. Accreditation: LCME standards for US medical schools require competency-based curriculum addressing knowledge, skills, behaviors. Evaluation: continuous improvement based on assessment data." },
+  { front: "Describe Bloom's taxonomy and learning objectives.", back: "Bloom's taxonomy: levels of learning from simple to complex. Lower order: remember (facts), understand (concepts). Higher order: apply (new situations), analyze (components), evaluate (judgment), create (new knowledge). Objectives: state what students will be able to do (action verb + content + conditions). Example: \"Student will analyze EKG for acute MI findings.\" Importance: guides instruction and assessment (avoid assessing only factual recall, include higher-order thinking). Assessment alignment: align assessment with learning objective (don't teach higher-order but test recall)." },
+  { front: "What is competency-based medical education (CBME)?", back: "CBME: focus on demonstrated competencies (knowledge, skills, attitudes) rather than time-based training (years in program). Competency domains: medical knowledge, patient care, professionalism, systems-based practice, communication, practice-based learning. Assessment: multiple methods (exams, clinical performance, 360-degree feedback, procedural competency checklists). Variable progression: students advance when competencies demonstrated, not fixed timeline. Benefits: personalized learning, addresses deficiencies. Challenges: assessment complexity, variable training length, cost." },
+  { front: "Describe active learning strategies and their effectiveness.", back: "Active learning: learners engage with material (vs passive lectures). Strategies: case studies (apply knowledge), group discussions, simulation (practice skills), peer teaching, problem-based learning (student-centered). Evidence: active learning improves retention, application, outcomes vs lectures. Barriers: requires more preparation time, larger class sizes challenge implementation, faculty comfort with less control. Modern medical education: shift from lectures to active learning (flipped classrooms record lectures, class time for discussion/application)." },
+  { front: "What is assessment in medical education and its purposes?", back: "Assessment purposes: summative (measure competency, gate-keep advancement), formative (feedback for improvement without grades), diagnostic (identify learning needs). Methods: written exams (knowledge), practical exams (clinical skills - OSCE), portfolio (long-term growth), 360-degree feedback (peer/patient perspective). Validity: assessment measures what it claims to measure. Reliability: consistent results across raters/times. Feedback: essential for learning; specific, timely, actionable feedback most effective. Progression: gate-keeping at critical points prevents advancing unprepared students." },
+  { front: "Describe clinical reasoning and diagnostic accuracy.", back: "Clinical reasoning: process of gathering information, generating diagnoses, testing hypotheses. Cognitive biases: anchoring bias (overweight first impression), availability bias (recent cases), confirmation bias (seek confirming info). Errors: premature closure (settle on diagnosis before adequate workup), search satisficing (stop searching once find first diagnosis). Improvement: metacognition (reflect on thinking), systematic approach (differential diagnosis), case reviews, peer discussion. Teaching: explicit instruction on reasoning process, deliberate practice with feedback." },
+  { front: "What is the role of simulation and virtual reality in medical education?", back: "Simulation: practice skills in safe, controlled environment before patient contact. Types: mannequins (high-fidelity for resuscitation), part-task trainers (specific skills - iv placement, intubation), standardized patients (actors portraying patients). Virtual reality: immersive training (surgery simulation, clinical scenarios). Advantages: safe practice, error tolerance, repetition, immediate feedback. Effectiveness: improves confidence, skills transfer to patient care. Cost: expensive initial investment, training required. Combination: simulation + supervised patient care optimal for skill development." },
+  { front: "Describe feedback mechanisms in clinical teaching.", back: "Feedback: information about performance (actual vs expected). Effective feedback: specific (avoid 'good job'), timely (soon after performance), actionable (can improve), balanced (strengths + areas for growth). Delivery: direct conversation preferred over written only, allow response, collaborative problem-solving. Barriers: feedback-averse learners, uncertain faculty (how to provide), time constraints. Regular feedback: weekly preferred over end-of-rotation. Impact: improved learning, motivation, retention. Psychologically safe environment: essential for receptiveness to feedback." },
+  { front: "What is the role of mentorship and role modeling in medical education?", back: "Mentorship: sustained relationship between experienced (mentor) and developing (mentee) professional. Functions: advising (career guidance), coaching (skill development), advocacy (opportunity creation), support (emotional). Benefits: improved specialty choice clarity, career satisfaction, research productivity. Role modeling: visible example of desired behavior/attitudes (professionalism, work-life balance, evidence-based practice). Importance: medical students learn as much from observation as explicit teaching. Challenges: finding mentors, sustaining relationships, gender disparities (women have fewer mentors)." },
+  { front: "Describe the hidden curriculum in medical education.", back: "Hidden curriculum: informal lessons learned from institutional culture, not explicitly taught. Messages: time/efficiency valued over patient relationships, hierarchy/authority respected, emotional distance protective, competitive culture. Negative aspects: cynicism, moral disengagement, burnout, unprofessional behavior modeling. Recognition: acknowledge hidden curriculum, intentionally address. Positive: role modeling professionalism, collaboration, lifelong learning, advocacy. Impact: shapes values, attitudes, behaviors as much as formal curriculum. Changes: institutional culture shift required to improve." },
+  { front: "What are the competencies and skills required for interprofessional collaboration?", back: "Interprofessional education (IPE): learning with/from other professions. Competencies: communication (clear, respectful), teamwork (roles, collaboration), conflict resolution, patient-centered care. Skills: shared decision-making, delegation, complementary expertise recognition. Benefits: improved outcomes (team care), efficiency, patient satisfaction, reduced errors. Barriers: profession-specific jargon, hierarchy perceptions, scheduling challenges. Implementation: joint classroom experiences, clinical teamwork, simulation. Patient outcomes: better with collaborative care vs siloed practice." },
+  { front: "Describe wellness and addressing burnout in medical education.", back: "Physician burnout: emotional exhaustion, depersonalization, reduced personal accomplishment. Prevalence: 50% of US physicians. Causes: excessive workload, lack of autonomy, bureaucracy, EHR burden, moral distress. Student/resident burnout: high workload, limited autonomy, financial debt. Prevention: work-hour limits, schedule flexibility, institutional support, mental health resources. Interventions: stress management training, mindfulness, peer support, addressing system issues. Outcomes: burnout associated with medical errors, patient harm, suicide." },
+  { front: "What is the role of patient partnerships in medical education?", back: "Patient partnerships: patients involved in curriculum design, teaching, evaluation. Examples: patients teach clinical examination skills (more realistic than mannequins), provide feedback on student performance, share illness experiences. Benefits: patient-centered perspective, authenticity, humanization of medicine. Barriers: recruitment/compensation, scheduling, privacy concerns. Co-teaching: students learn from patient perspective alongside faculty knowledge. Governance: patient input into educational decisions. Outcomes: improved communication skills, empathy, patient satisfaction." },
+  { front: "Describe precision health education and personalized learning.", back: "Precision education: tailor learning to individual student needs (learning style, pace, knowledge gaps). Assessment: identify student strengths/weaknesses (diagnostic testing, learning analytics). Adaptive learning: technology adjusts content difficulty/pace based on performance. Personalization: recommend resources, focus areas, career paths. Technology: learning management systems, adaptive platforms, AI tutoring. Benefits: efficiency (focus on weaknesses), engagement (relevant), outcomes. Challenges: data privacy, algorithmic bias, technology accessibility." },
+  { front: "What is the role of assessment of learning vs. assessment for learning?", back: "Assessment of learning (summative): measures knowledge/skills at endpoint (exams, final grades). Purpose: gate-keeping, credentialing, accountability. Assessment for learning (formative): provides feedback during learning process (quizzes, practice tests, peer review). Purpose: inform instruction, identify gaps, adjust teaching. Both needed: summative proves competency, formative improves learning. Feedback quality: timely, specific, actionable feedback from formative assessment most effective. Low-stakes vs. high-stakes: formative typically low-stakes (safe to make mistakes), summative high-stakes (determines advancement)." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

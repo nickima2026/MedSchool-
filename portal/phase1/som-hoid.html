@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the pathophysiology and management of acute leukemia?", back: "Acute leukemia: clonal proliferation of immature hematopoietic cells (blasts >20% of bone marrow). AML: myeloid differentiation block, poor prognosis without treatment. ALL: lymphoid blasts, better prognosis especially in children. Diagnosis: bone marrow biopsy, flow cytometry, cytochemistry. Treatment: intensive chemotherapy (cytarabine-daunorubicin for AML). Target mutations guide therapy." },
+  { front: "Describe chronic myeloid leukemia and imatinib therapy.", back: "CML: Philadelphia chromosome t(9,22) creates BCR-ABL fusion gene producing constitutively active tyrosine kinase. Three phases: chronic (low blast %), accelerated (blast 10-19%), blast crisis (>20%). Imatinib inhibits BCR-ABL, achieving complete cytogenetic response in most. Monitor BCR-ABL transcript levels." },
+  { front: "What is the pathophysiology of chronic lymphocytic leukemia and its management?", back: "CLL: clonal proliferation of mature B cells, often CD5+. Smudge cells on blood smear. Indolent course; many patients don't require immediate treatment. Diagnosis: lymphocytosis >5000, clonal B cells on flow cytometry. Treatment: chemoimmunotherapy (rituximab-fludarabine) or targeted therapy (BTK inhibitors like ibrutinib) for advanced disease." },
+  { front: "Describe the diagnosis and management of lymphomas including Hodgkin's and non-Hodgkin's.", back: "Hodgkin lymphoma: Reed-Sternberg cells, classical subtypes. Non-Hodgkin: diffuse large B-cell (most common, aggressive), follicular (indolent), Burkitt (very aggressive). Diagnosis: lymph node excision biopsy, PET/CT staging. Treatment: Hodgkin's and aggressive NHL respond to ABVD chemotherapy. Rituximab added for B-cell NHL." },
+  { front: "What is multiple myeloma and its diagnostic criteria?", back: "Multiple myeloma: clonal plasma cell proliferation in bone marrow >30% or serum/urine M protein, anemia, hypercalcemia, lytic bone lesions (CRAB criteria). Diagnosis: bone marrow biopsy, serum/urine protein electrophoresis, beta-2 microglobulin. Treatment: proteasome inhibitors (bortezomib), immunomodulatory drugs (lenalidomide), corticosteroids, autologous transplant." },
+  { front: "Explain the pathophysiology and management of disseminated intravascular coagulation.", back: "DIC: widespread thrombin generation consuming platelets/coagulation factors. Causes: sepsis, trauma, malignancy, placental abruption. Laboratory findings: elevated PT/PTT, low platelets, low fibrinogen, elevated D-dimer/fibrin split products. Management: treat underlying cause, supportive transfusions (platelets, FFP, cryoprecipitate), anticoagulation controversial." },
+  { front: "What is the approach to thrombocytopenia and immune thrombocytopenic purpura management?", back: "Thrombocytopenia: platelets <150,000/mcL. ITP is autoimmune, typically >100,000 (chronic) diagnosed by exclusion. Acute ITP in children often self-limited. Treatment: observation if asymptomatic, corticosteroids, IVIG, splenectomy, thrombopoietin agonists. Avoid NSAIDs and aspirin." },
+  { front: "Describe the management of anemia of chronic disease and functional iron deficiency.", back: "Anemia of chronic disease from inflammation suppressing hepcidin, increasing iron sequestration. Associated with chronic infections, autoimmune disease, malignancy. Management: ESA (erythropoietin) cautiously, iron supplementation. Functional iron deficiency can occur despite normal iron stores in IBD or on hemodialysis." },
+  { front: "What is the pathophysiology of hereditary hemolytic anemias including sickle cell disease?", back: "Sickle cell: valine substitution in beta-globin causes hemoglobin S polymerization under hypoxia, red cell sickling, vaso-occlusive crises, hemolysis. Diagnosis: sickle prep test, hemoglobin electrophoresis. Complications: acute chest syndrome, stroke, end-organ damage. Treatment: hydroxyurea, voxelotor, supportive care, potential gene therapy." },
+  { front: "Explain the pathophysiology and management of thalassemia.", back: "Thalassemia: inherited disorder of globin chain synthesis causing hemolysis and ineffective hematopoiesis. Beta-thalassemia major requires transfusions from infancy, causing iron overload (cardiomyopathy, cirrhosis). Alpha-thalassemia deletions range from asymptomatic to hydrops fetalis. Treatment: transfusions, iron chelation, spleen management." },
+  { front: "What is the approach to fever of unknown origin and infectious workup?", back: "FUO: fever >38.3C for >3 weeks with no diagnosis after initial workup. Categories: infectious (endocarditis, tuberculosis, atypical infections), malignancy (lymphoma, leukemia), autoimmune (lupus, vasculitis). Workup: cultures, blood smear, CT imaging, ESR/CRP, ECG (if endocarditis suspected), biopsy if indicated." },
+  { front: "Describe the pathophysiology and management of sepsis and septic shock.", back: "Sepsis: systemic inflammatory response to infection with organ dysfunction (SOFA score ≥2). Septic shock: sepsis with persistent hypotension despite fluid resuscitation, requiring vasopressor support. Management: rapid blood cultures, broad-spectrum antibiotics within 1 hour, fluid resuscitation, vasopressor support, source control." },
+  { front: "What are the pathophysiology and management of bacterial endocarditis?", back: "Endocarditis: bacterial infection of native or prosthetic valve. Risk factors: IV drug use, structural heart disease, dental procedures. Presents with fever, new murmur, septic emboli. Diagnosis: blood cultures (pre-antibiotic), echocardiography. Modified Duke criteria for diagnosis. Treatment: prolonged IV antibiotics based on culture/sensitivities. Surgical intervention for large vegetations." },
+  { front: "Explain tuberculosis pathophysiology, latent infection, and drug-resistant TB.", back: "TB: Mycobacterium tuberculosis, transmitted via airborne droplets. Latent TB: controlled by immune system, no symptoms, no infectivity. Active TB: reactivation or progressive primary infection. MDR-TB: resistant to isoniazid/rifampicin. Treatment: standard 6-month regimen (RIPE: rifampicin, isoniazid, pyrazinamide, ethambutol). Directly observed therapy improves adherence." },
+  { front: "What is the management of opportunistic infections in HIV/AIDS?", back: "CD4+ <200: prophylaxis for PCP (TMP-SMX), toxoplasmosis (TMP-SMX if CD4 <100). CD4+ <50: MAC prophylaxis (azithromycin). OIs: PCP (treated with TMP-SMX), toxoplasmosis (pyrimethamine-sulfadiazine), CMV (ganciclovir), cryptococcal meningitis (fluconazole-amphotericin B). ART initiation crucial for immune reconstitution." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

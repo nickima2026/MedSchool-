@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the basic study designs used in epidemiology and their advantages/disadvantages?", back: "Cohort: follows exposed/unexposed groups over time, determines incidence, causality. Case-control: compares diseased/non-diseased looking backward, efficient for rare disease. Cross-sectional: prevalence at single point, associations only. RCT: gold standard for efficacy, high cost, ethical constraints. Observational studies prone to bias but often necessary." },
+  { front: "Define and differentiate incidence and prevalence.", back: "Incidence: new cases occurring in a defined population over time (incidence rate per person-years). Prevalence: all existing cases at a point in time (number or percentage). Prevalence = incidence × disease duration. Incidence used to assess risk; prevalence for health burden. Chronic disease has low incidence but high prevalence." },
+  { front: "What is relative risk and how is it calculated?", back: "Relative risk (RR): ratio of disease risk in exposed vs unexposed groups. RR = [disease in exposed / total exposed] / [disease in unexposed / total unexposed]. RR >1: increased risk. RR = 1: no association. RR <1: protective effect. Used in cohort studies. Easily understood by lay public but can be misleading with rare outcomes." },
+  { front: "Describe odds ratio and when it is used.", back: "Odds ratio (OR): odds of exposure given disease vs odds given no disease. OR = [disease-exposed / disease-unexposed] / [no disease-exposed / no disease-unexposed]. Used in case-control studies. Approximates RR when disease is rare (<10% incidence). OR >1, <1 interpreted as RR. Can be calculated from odds." },
+  { front: "What is sensitivity and specificity in diagnostic testing?", back: "Sensitivity: proportion of diseased individuals with positive test (true positive rate). Sensitivity = TP/(TP+FN). High sensitivity = few false negatives, good for rule-out testing. Specificity: proportion of non-diseased with negative test (true negative rate). Specificity = TN/(TN+FP). High specificity = few false positives, good for rule-in testing." },
+  { front: "Define positive and negative predictive values and their relationship to disease prevalence.", back: "Positive predictive value (PPV): probability disease present if test positive. PPV = TP/(TP+FP). Negative predictive value (NPV): probability disease absent if test negative. NPV = TN/(TN+FN). PPV/NPV depend on prevalence: higher prevalence increases PPV, decreases NPV. Same test has different predictive values in different populations." },
+  { front: "What is confounding and how is it controlled?", back: "Confounding: third variable associated with both exposure and outcome, distorts association. Example: smoking confounds association between alcohol and lung cancer. Control by: randomization (RCT), matching (case-control), stratification, or statistical adjustment (regression). Residual confounding may persist despite efforts." },
+  { front: "Describe bias and its types in epidemiological studies.", back: "Selection bias: systematic difference in characteristics of selected vs non-selected (loss to follow-up in cohort, recall bias in case-control). Information bias: misclassification of exposure/outcome (interviewer bias, measurement error). Publication bias: preferential publication of positive results. Blinding reduces information bias; random sampling reduces selection bias." },
+  { front: "What is the number needed to treat (NNT) and number needed to harm (NNH)?", back: "NNT: number of patients treated with intervention to prevent one outcome. NNT = 1 / (ARR), where ARR = absolute risk reduction. Lower NNT = more beneficial treatment. NNH: number treated to cause one adverse effect. NNH = 1 / ARR for harm. Clinically useful: compare NNT/NNH to guide treatment decisions." },
+  { front: "Describe outbreak investigation methodology.", back: "Steps: confirm outbreak exists, establish case definition, identify cases, perform descriptive epidemiology (time, place, person), generate hypotheses, conduct analytical study (case-control) to identify source, implement control measures, communicate findings. Foodborne: obtain detailed food history (attack rates by food item identify source)." },
+  { front: "What is herd immunity and vaccination thresholds?", back: "Herd immunity: population immunity preventing disease spread. Threshold = 1 - 1/R0, where R0 = basic reproduction number (avg secondary cases per primary case). Measles R0 = 12, requires 92% immunity. Smaller R0 (influenza R0 = 1-2) requires lower vaccination coverage. Vaccination coverage below threshold allows outbreaks." },
+  { front: "Explain attributable risk and population attributable risk.", back: "Attributable risk (AR): excess disease risk due to exposure. AR = Incidence in exposed - Incidence in unexposed. Population attributable risk (PAR): excess disease risk in population attributable to exposure. PAR = AR × (prevalence of exposure in population). PAR accounts for exposure prevalence; more relevant for public health." },
+  { front: "What is the difference between association and causation and Bradford Hill criteria?", back: "Association: statistical relationship between variables (correlation). Causation: exposure causes outcome. Bradford Hill criteria strengthen causation: strength (high RR/OR), consistency (multiple studies), dose-response, temporal (exposure precedes outcome), plausibility (mechanism), experimental evidence, specificity (narrow effect), analogy. No criterion alone proves causation." },
+  { front: "Describe randomized controlled trials and their key elements.", back: "RCT: gold standard for establishing efficacy. Randomization ensures equal distribution of confounders. Blinding (single/double/triple) prevents bias. Inclusion/exclusion criteria define population. Primary/secondary outcomes specified a priori. Intention-to-treat analysis preserves randomization benefits. Sample size calculation ensures adequate power." },
+  { front: "What is statistical significance and p-value interpretation?", back: "p-value: probability of obtaining observed result by chance if null hypothesis true (no effect). p <0.05 conventionally considered statistically significant. Does NOT indicate effect size or clinical significance. Confidence interval (e.g., 95% CI) provides range of plausible values. Large sample sizes produce small p-values even with tiny clinically insignificant effects." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the principles of hemostasis and surgical bleeding control?", back: "Surgical hemostasis: direct pressure, vessel ligation, electrocautery (thermal), topical agents (thrombin, collagen). Identify bleeding source, apply appropriate technique. Avoid massive transfusion (coagulopathy risk). TEG/ROTEM guides transfusion thresholds. Preoperative anticoagulation management critical. Complications: thromboembolism if inadequate anticoagulation reversal." },
+  { front: "Describe the surgical management of acute appendicitis.", back: "Appendicitis: acute inflammation of appendix, McBurney point tenderness, elevated WBC. Diagnosis: clinical + imaging (CT/ultrasound). Appendectomy is definitive treatment (open or laparoscopic). Antibiotic therapy started preoperatively. Complicated appendicitis (perforation, abscess): may require percutaneous drainage before interval appendectomy. Mortality <1% uncomplicated, higher if perforated." },
+  { front: "What is the surgical approach to peptic ulcer disease?", back: "Peptic ulcer perforation: acute presentation with pneumoperitoneum. Treatment: urgent surgical closure (omental patch, primary repair). Intraoperative vagal testing optional. Highly selective vagotomy largely abandoned due to PPI effectiveness. Medical management (H. pylori eradication, PPIs) prevents ulcer recurrence. Surgery now reserved for complications (perforation, uncontrolled bleeding)." },
+  { front: "Describe the principles of surgical wound management and infection prevention.", back: "Wound classification: clean (no infection risk), clean-contaminated (minor break in sterility), contaminated (major break or traumatic), dirty (established infection). Antibiotic prophylaxis: clean-contaminated receives preoperative antibiotics. Wound closure: tension-free, eversion of skin edges, layered closure. Postoperative: keep clean/dry, early mobilization. SSI rates <2% with prophylaxis." },
+  { front: "What is the surgical management of acute cholecystitis?", back: "Acute cholecystitis: RUQ pain, Murphy sign positive, elevated WBC, ultrasound shows thick wall/pericholecystic fluid. Treatment: NPO, IV fluids, antibiotics, cholecystectomy (open or laparoscopic, within 72 hours preferentially). Acalculous cholecystitis higher mortality; requires ICU-level care. Bile duct stones: ERCP with sphincterotomy pre- or post-cholecystectomy." },
+  { front: "Describe the diagnosis and surgical management of small bowel obstruction.", back: "SBO: abdominal pain, vomiting, constipation, distension. Causes: adhesions (post-op), hernia, malignancy. CT imaging diagnoses and assesses severity. Partial obstruction: bowel rest, NG tube, IV fluids, spontaneous resolution in 60-80%. Complete obstruction: surgical exploration. Intraoperative assessment guides resection vs lysis of adhesions." },
+  { front: "What is the surgical approach to acute compartment syndrome?", back: "Compartment syndrome: elevated compartmental pressure impairs perfusion, causes muscle ischemia/necrosis. Risk factors: crush injury, tight casts, ischemic reperfusion. Diagnosis: clinical (pain out of proportion, pain with passive stretch). Treatment: emergency fasciotomy. Delay >8 hours risks permanent disability/amputation. Prevention: avoid tight dressings, early surgical intervention." },
+  { front: "Describe the surgical management of traumatic hemorrhage and shock.", back: "Massive hemorrhage: establish two large-bore IVs, massive transfusion protocol (1:1:1 ratio PRBC:FFP:platelets). Control bleeding: direct pressure, tourniquet for limb trauma, packing for truncal. Permissive hypotension (SBP 90 mmHg) reduces bleeding. Urgent OR for operative hemostasis. DIC monitoring/correction essential. Complications: coagulopathy, hypothermia, acidosis." },
+  { front: "What is the surgical management of acute mesenteric ischemia?", back: "AMI: acute abdominal pain, elevated lactate, CT angiography shows vascular occlusion. Arterial (thromboembolism) requires urgent revascularization (thrombectomy, bypass). Venous thrombosis: anticoagulation, surgery if gangrene. Second-look laparotomy assesses bowel viability. High mortality (>50%) despite treatment. Prevention: anticoagulate high-risk patients (atrial fibrillation)." },
+  { front: "Describe the surgical principles for vascular injury management.", back: "Vascular injury: hemorrhage control, establish proximal/distal control, assess viability. Repair: primary repair preferred, vein graft if gaps. Fasciotomy prevent compartment syndrome. Amputation if extensive tissue loss/damage beyond repair. Time-sensitive: ischemic tissue tolerates 6-8 hours (warm), longer if hypothermia. Anticoagulation, fasciotomy essential." },
+  { front: "What is the surgical management of acute pancreatitis?", back: "Acute pancreatitis: epigastric pain, elevated lipase, imaging shows inflammation/fluid collections. Management: NPO, IV fluids, analgesia. Most resolve with conservative therapy. Necrotizing pancreatitis: infected necrosis requires intervention (percutaneous drainage, step-up approach, debridement). Pseudocyst: observe if asymptomatic, drain if symptoms. Prophylactic antibiotics controversial." },
+  { front: "Describe the surgical approach to penetrating abdominal trauma.", back: "Penetrating trauma: assess hemodynamic stability. Unstable: rapid transport to OR for exploratory laparotomy. Stable with peritoneal violation: diagnostic laparoscopy or CT imaging. Indications for laparotomy: evisceration, peritonitis, hemodynamic instability. Explore all tracts, control bleeding, repair/resect damaged organs. High mortality depends on organs injured." },
+  { front: "What is the surgical management of inguinal and femoral hernias?", back: "Inguinal hernia: most common hernia, higher risk in males, increases with age, Valsalva. Repair: open mesh (tension-free), laparoscopic (reduced recurrence), robotic. Femoral hernia: risk of incarceration/strangulation higher than inguinal. Emergency repair if strangulated (bowel ischemia). Recurrence rates: open <10%, laparoscopic 5%, depend on technique." },
+  { front: "Describe the surgical management of acute ischemic bowel and perforated viscus.", back: "Acute ischemic bowel: vascular occlusion, pain out of proportion to exam initially. CT angiography diagnoses. May be reversible with revascularization or require resection if gangrenous. Perforated viscus: free air on imaging, peritonitis on exam. Urgent surgery: primary repair if possible, resection with anastomosis or ostomy depending on location/contamination." },
+  { front: "What is the surgical approach to trauma with hemorrhagic shock?", back: "Hemorrhagic shock from severe bleeding. Immediate management: control bleeding (pressure, tourniquet), establish IV access, permissive hypotension (SBP 90), massive transfusion protocol. Minimize on-table time in unstable patient (damage control philosophy). Abbreviated operation: pack abdomen/pelvis, return to ICU for resuscitation, anesthesia, then definitive repair." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

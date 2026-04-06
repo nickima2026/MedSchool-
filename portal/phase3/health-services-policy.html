@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the key components of healthcare systems and their functions?", back: "Healthcare system components: financing (insurance, government, out-of-pocket), delivery (primary care, hospitals, specialists), workforce (physicians, nurses, allied health), governance (regulation, accreditation). Functions: promote health (prevention), restore health (treatment), maintain health (chronic disease management). Models: Beveridge (government-funded, UK NHS), Bismarck (employer-mandated insurance, Germany), private (market-based, US hybrid), out-of-pocket (developing countries). Effectiveness measured: access, quality, equity, cost." },
+  { front: "Describe healthcare financing models and affordability.", back: "Financing models: single-payer (government insures all), multipayer (multiple insurance options), fee-for-service (payment per service), capitation (fixed payment per patient regardless of utilization), bundled (fixed payment for condition episode). US: multipayer system, mix of public (Medicare, Medicaid) and private (employer, individual). Affordability crisis: rising premiums, deductibles, medical bankruptcies. Solutions proposed: price regulation, public option, Medicare for All. Trade-offs: access vs cost vs quality." },
+  { front: "What is the triple aim in healthcare quality improvement?", back: "Triple aim: improve health outcomes, patient experience, reduce costs (later expanded to quadruple aim adding workforce wellbeing). Outcomes: mortality, morbidity, functional status, quality of life. Experience: satisfaction, shared decision-making, communication, access. Cost: total spending per capita. Strategies: care coordination, chronic disease management, preventive care, efficiency improvement. Tensions: improving outcomes increases costs; reducing costs may reduce quality. Measurement: dashboard of metrics tracked over time." },
+  { front: "Describe quality measurement and performance metrics in healthcare.", back: "Quality metrics: structure (resources available - staffing, equipment), process (what's done - screening, treatment), outcome (results - mortality, readmission). Examples: mortality rate (outcome), screening rate (process), hospital staffing (structure). Data sources: administrative data (claims), clinical data (EHR), patient-reported outcomes (satisfaction). Benchmarking: compare performance to peers, identify high-performers. Public reporting: hospitals/physicians ranked on quality/safety metrics. Incentives: pay-for-performance links reimbursement to quality." },
+  { front: "What is the role of primary care and family medicine in healthcare systems?", back: "Primary care: first contact with healthcare system, continuous relationship with providers. Functions: preventive care, acute illness management, chronic disease management, coordination of specialty care, psychosocial support. Benefits: lower cost, better outcomes, improved satisfaction, equity (serves all populations). Challenges: reimbursement lower than specialists, administrative burden, workforce shortage. Policy: strengthen primary care infrastructure, increase reimbursement, loan forgiveness for primary care providers. Health systems: organize around primary care (patient-centered medical home)." },
+  { front: "Describe healthcare workforce distribution and shortages.", back: "Workforce shortages: physicians, nurses, mental health providers, primary care (especially in rural areas). Causes: training capacity, geographic maldistribution (urban concentration), low pay/burnout in primary care/rural practice. Implications: limited access to care, delayed diagnosis, worse outcomes. Solutions: increase training capacity (medical school enrollment), incentives (loan forgiveness, increased reimbursement, housing assistance), telemedicine, task shifting (nurse practitioners, PAs). Global: brain drain from low-resource to high-resource countries." },
+  { front: "What are hospital readmission rates and strategies for reduction?", back: "Readmission: hospitalization within 30 days of discharge, marker of quality/safety. Predictors: age, comorbidities, complexity, inadequate discharge planning, poor post-discharge follow-up. Prevention: care coordination (discharge appointments, medication reconciliation), patient education, telehealth follow-up, social support assessment. Financial: CMS penalties for excess 30-day readmissions in certain conditions. Disparities: minority and low-income patients have higher readmission rates (barriers to follow-up care, resources)." },
+  { front: "Describe healthcare quality gaps and disparities.", back: "Quality gaps: differences in care between providers/institutions. Disparities: systematic differences by race, income, gender, geography. Examples: minorities receive less guideline-concordant treatment for cancer, women undertreated for coronary artery disease, rural patients have limited specialist access. Causes: implicit bias, discrimination, structural (insurance coverage, transportation), cultural (communication). Solutions: diversity in workforce, implicit bias training, care coordination, culturally tailored interventions, policy addressing systemic racism." },
+  { front: "What is the role of pay-for-performance and alternative payment models?", back: "Fee-for-service: payment per service (incentivizes volume over value). Pay-for-performance: bonuses for quality metrics (readmission rates, mortality, patient satisfaction). Alternative payment models: bundled payments (fixed payment for episode of care), capitation (fixed per patient regardless of utilization), accountable care organizations (shared savings if quality improves/costs decrease). Incentives: value-based models reward outcome improvement, cost reduction. Challenges: risk adjustment (fairness for caring for sicker patients), administrative complexity, transition burden." },
+  { front: "Describe chronic disease management and care coordination.", back: "Chronic disease management: systematic approach to improve outcomes (diabetes, hypertension, asthma, COPD, heart disease). Components: identification (registry of patients), self-management education, medication therapy management, regular monitoring (labs, vital signs), specialist coordination. Care coordination: ensure communication between primary/specialty care, prevent duplicative testing, identify gaps. Benefits: improved outcomes, reduced complications, hospital admissions. Technology: EHR integration, patient portals, telehealth monitoring." },
+  { front: "What is the diagnostic approach to healthcare costs and economic analysis?", back: "Healthcare costs: growing faster than GDP (10-18% in developed countries). Analysis: cost-effectiveness (cost per unit benefit, e.g., cost per QALY), cost-utility (quality of life adjustment), cost-benefit (convert outcomes to dollars). Interventions: value-based medicine (benefit exceeds cost), low-value care (no benefit or modest benefit at high cost). Examples: routine annual exams low-value, preventive vaccinations high-value. Policy: eliminate low-value care, negotiate drug prices, increase primary care vs specialty care." },
+  { front: "Describe healthcare innovation and technology adoption.", back: "Healthcare innovation: new treatments (drugs, devices), delivery models (telemedicine, urgent care), payment models (bundled payments), processes (automation). Barriers: cost, workflow disruption, training needs, liability concerns, slow evidence generation. Adoption: early adopters (technology enthusiasts), early majority (consider evidence), late majority (peer pressure), laggards (resistant). Policy: reimbursement for new technologies, research funding, regulatory pathways that balance innovation with safety. Digital health: EHR, mobile health, AI accelerating innovation." },
+  { front: "What is the role of patient safety and error reduction in healthcare systems?", back: "Patient safety: culture of transparency, reporting, learning from adverse events. Medical errors: medication errors (wrong drug/dose), procedural errors, diagnostic errors (missed diagnoses). Prevention: bar-code verification (medications), time-outs (before surgery), checklists, teamwork training, system design (forcing functions prevent errors). Reporting: safety event reporting systems (not punitive), root cause analysis. Disclosure: transparent communication with patients about errors. Measurement: adverse event rates, near-misses tracked." },
+  { front: "Describe health information technology and electronic health records.", back: "EHR: digital patient medical records accessible to authorized providers. Benefits: information availability (reduce duplicate testing), safety (drug interaction alerts), analytics (identify high-risk patients). Challenges: interoperability (different systems can't communicate), user burden (documentation time), workflow disruption, upfront costs. Meaningful use: federal incentives for EHR adoption, meaningful use requirements. Standards: HL7, FHIR enable data exchange. Privacy: HIPAA regulates patient information access." },
+  { front: "What are the principles of health policy advocacy and legislation?", back: "Health policy: legislation/regulations affecting health (coverage expansion, payment models, safety standards, environmental regulations). Advocacy: stakeholders push for policies aligned with their interests. Process: agenda-setting (identify issue), policy formation (develop bill), adoption (vote), implementation (enforcement), evaluation. Evidence: research informs policy-making (translation gap between evidence and practice). Stakeholders: providers, patients, industry, insurers, government with competing interests. Equity focus: policies should benefit vulnerable populations." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

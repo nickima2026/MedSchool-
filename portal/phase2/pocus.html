@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is point-of-care ultrasound (POCUS) and its role in emergency/critical care?", back: "POCUS: bedside ultrasound performed by clinician for rapid diagnosis. Advantages: real-time assessment, no radiation, repeatable, guides procedures, improves clinical outcomes. Common applications: FAST exam (free fluid), pneumothorax, cardiac function, IVC diameter (volume status), lung sliding (pneumothorax ruling out). Limitations: operator-dependent, may miss subtle findings, no radiation safety concerns." },
+  { front: "Describe the FAST (Focused Assessment with Sonography for Trauma) exam and findings.", back: "FAST: 4-point ultrasound in trauma to detect free intra-abdominal fluid (blood). Views: RUQ (Morrison pouch - hepatorenal), LUQ (splenorenal), pelvic, pericardial. Positive (free fluid): indicates bleeding, need for resuscitation/surgery. Can be repeated at bedside, no transport needed. Sensitivity/specificity ~96% for hemoperitoneum if >500 mL. Extended FAST: includes lung/pneumothorax assessment." },
+  { front: "What is the diagnostic approach to pneumothorax using bedside ultrasound?", back: "Pneumothorax ultrasound: assess lung sliding (normal: echogenic line moves with respiration). Absent lung sliding suggests pneumothorax. Findings: absent B-lines, barcode sign (M-mode shows repetitive pattern), absent lung pulse. Sensitivity/specificity >95% if trained. Advantage: detect small PTX missed on CXR, dynamic assessment. CXR still obtained for confirmation if stable, or needle decompression immediately if tension PTX and hemodynamic instability." },
+  { front: "Describe the cardiac POCUS exam and assessment of cardiac function.", back: "Cardiac POCUS: assess ejection fraction (visual estimate of 4-chamber view), pericardial effusion (fluid around heart), wall motion abnormalities (regional ischemia), septal motion (RV dysfunction). Parasternal long axis, short axis, apical 4-chamber, subcostal views. Applications: cardiogenic shock (low EF), tamponade (large pericardial effusion), acute MI (wall motion abnormality), sepsis (systolic dysfunction). Limited echo guides hemodynamic management." },
+  { front: "What is the role of POCUS in assessing volume status?", back: "Volume status assessment: IVC diameter and collapsibility guides fluid responsiveness. Dilated IVC (>2 cm) with minimal collapse (<50%) suggests volume overload. Thin IVC (<1.5 cm) with collapse suggests hypovolemia. Caval index (end-expiration minus end-inspiration diameter/end-expiration) guides assessment. Limitations: operator-dependent, affected by respiratory mechanics, abdominal pressure. Combine with clinical assessment." },
+  { front: "Describe POCUS applications in procedural guidance.", back: "Procedural guidance: ultrasound increases success, decreases complications. Central line placement: visualize vessel (internal jugular, subclavian, femoral), assess patency/depth, monitor needle advancement. Abdominal paracentesis: localize largest fluid pocket, avoid organs. Joint aspiration: identify joint space, needle trajectory. Thoracentesis: locate effusion, guide tap. Landmark-guided procedures have lower success/higher complication rates." },
+  { front: "What are the findings of deep vein thrombosis on POCUS?", back: "DVT ultrasound: assess vein compressibility (normal vein collapses with transducer pressure; DVT does not compress). Gray scale: echogenic thrombus. Doppler: absence of flow across vessel. Evaluate bilateral legs, assess proximal (popliteal, femoral, iliac - clinically significant) vs distal (calf). Serial ultrasound if initial negative but high suspicion. Limitations: obesity, edema may impair imaging." },
+  { front: "Describe the biliary POCUS exam and findings of cholecystitis.", back: "Biliary POCUS: assess gallbladder (size, gallstones, wall thickening), sonographic Murphy sign (pain with transducer pressure over GB), pericholecystic fluid. Acute cholecystitis findings: dilated GB, thick wall, stones, positive Murphy. Assess common bile duct diameter (>6 mm suggests obstruction). Sensitivity/specificity ~95% for cholecystitis. POCUS guides rapid diagnosis in ED." },
+  { front: "What is the diagnostic approach to free peritoneal fluid on POCUS?", back: "Free fluid on POCUS: assessed at multiple sites (RUQ, LUQ, pelvic). Minimal fluid (trauma): Morrison pouch (RUQ). Larger volumes: pelvis, paracolic gutters. Appearance: anechoic (transudative) vs echogenic (hemorrhagic, infected). Quantification rough: trace (<500 mL), moderate (500-2000 mL), large (>2000 mL). Further imaging (CT) if minimal free fluid in high-risk patient or need for intervention." },
+  { front: "Describe the lung POCUS exam for pneumonia and ARDS assessment.", back: "Lung ultrasound: normal shows A-lines (horizontal reverberation artifact), lung sliding. Pneumonia: B-lines (vertical artifacts) indicate consolidation, hepatization (echogenic infiltrate). ARDS: bilateral B-lines, consolidation indicating alveolar filling. Advantage: detect infiltrates not on CXR initially, assess extent. Serial exams monitor improvement/deterioration. Pleural effusion visible under consolidation." },
+  { front: "What is the role of POCUS in perimortem cesarean section?", back: "Perimortem cesarean: emergency obstetric procedure in cardiac arrest during pregnancy. POCUS confirms: pregnancy presence (gestational sac, fetal heart rate if present), uterine size, fluid. Informs decision to proceed with emergency cesarean vs other resuscitation. Perform if >20 weeks gestation (viable fetus). Early identification of pregnant cardiac arrest patient guides therapy (left lateral displacement, perimortem cesarean if unsuccessful resuscitation)." },
+  { front: "Describe POCUS in evaluation of hydronephrosis and acute kidney injury.", back: "Renal ultrasound: assess hydronephrosis (dilated collecting system suggests obstruction). Longitudinal view shows kidney size, echogenicity (increased with chronic disease). Duplex Doppler: renal artery resistive index (RI) elevation suggests intrinsic renal disease. Postrenal obstruction: hydronephrosis bilateral or in solitary kidney with elevated Cr. POCUS can assess obstructive AKI vs intrinsic AKI." },
+  { front: "What are the findings and diagnosis of pericardial effusion and tamponade on POCUS?", back: "Pericardial effusion: fluid around heart in pericardial space (anechoic). Measure largest separation (>1 cm significant). Tamponade features: large effusion, RA/RV diastolic collapse indicating elevated pericardial pressure. Findings on POCUS: absent cardiac motion, muffled heart sounds, hypotension, JVD = clinical tamponade. Pericardiocentesis guided by ultrasound increases success." },
+  { front: "Describe POCUS assessment of inferior vena cava (IVC) for volume status and DVT.", back: "IVC assessment: subcostal long-axis view shows IVC diameter and collapsibility. Normal: <2 cm diameter, >50% collapse with inspiration. Dilated non-collapsible IVC: volume overload (CHF, RV dysfunction). Thin collapsible IVC: hypovolemia. Caval index guides fluid responsiveness. DVT assessment: visualize IVC for thrombus (echogenic material, non-compressibility). IVC filter assessment: confirm placement, assess patency." },
+  { front: "What are the limitations and pitfalls of POCUS?", back: "Limitations: operator-dependent (training/experience critical), image quality affected by obesity/emphysema/air, limited by field of view, miss subtle findings, cannot assess all pathology (complement with full imaging). Pitfalls: over-interpretation of minor findings, false reassurance from negative exam in low pre-test probability, missing findings in difficult-to-scan patients. Clinical correlation essential; POCUS augments not replaces judgment." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

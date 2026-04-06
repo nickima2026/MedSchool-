@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the systematic approach to the trauma patient and ATLS protocol?", back: "ATLS: Primary survey (A-airway, B-breathing, C-circulation, D-disability, E-exposure), resuscitation, secondary survey, definitive care. Airway: establish patency (jaw thrust for suspected C-spine injury). Breathing: oxygen, assess perfusion. Circulation: two large-bore IVs, massive transfusion protocol if hemorrhaging. Disability: neurologic assessment. Exposure: log-roll to assess back/pelvis." },
+  { front: "Describe the pathophysiology and management of severe traumatic brain injury.", back: "TBI: head trauma causing intracranial injury (contusion, hemorrhage, axonal injury). GCS <9 indicates severe TBI. Complications: increased ICP (cerebral edema, herniation), secondary brain injury (hypoxia, hypotension). Management: secure airway (intubation at GCS <9), head of bed 30 degrees, osmotic therapy (mannitol, hypertonic saline), avoid hyperthermia/hypercarbia. Neurosurgery consultation if mass lesion." },
+  { front: "What is the diagnostic approach to chest pain in the emergency department?", back: "Acute coronary syndrome: chest pressure/tightness, radiation to arm/jaw. STEMI: S-T elevation with cardiac biomarker elevation. NSTEMI: elevated troponin without S-T elevation. Unstable angina: chest pain without biomarker elevation. Workup: EKG, troponin (serial if initial negative), chest X-ray. Risk stratification: HEART score, TIMI risk score. Admit high-risk patients." },
+  { front: "Describe the management of acute pulmonary embolism and deep vein thrombosis.", back: "PE: acute dyspnea, pleuritic chest pain, tachycardia, hypoxia from pulmonary artery occlusion. Diagnosis: D-dimer, CT pulmonary angiography (CTPA). DVT: leg swelling, pain, Homan sign. Diagnosis: compression ultrasound. Treatment: anticoagulation (unfractionated heparin, LMWH, fondaparinux), direct oral anticoagulants, thrombolysis/embolectomy if massive PE." },
+  { front: "What is the diagnostic approach to severe abdominal pain in the ED?", back: "Acute abdomen: peritoneal irritation signs (rebound, guarding). Differential: appendicitis, cholecystitis, perforation, bowel obstruction, AAA. Workup: CBC, metabolic panel, lactate (ischemia), imaging (CT abdomen/pelvis preferred, ultrasound if pregnant). Lactate >2 mmol/L suggests ischemia. Urgent surgical consultation if peritonitis/hemodynamic instability." },
+  { front: "Describe the management of sepsis and septic shock in the ED.", back: "Sepsis: systemic inflammatory response to infection with organ dysfunction (SOFA ≥2). Septic shock: hypotension requiring vasopressor support. Immediate: rapid blood cultures (pre-antibiotic), broad-spectrum antibiotics (Piperacillin-tazobactam or cefepime + vancomycin + fluoroquinolone for atypicals), IV fluids (30 mL/kg bolus). Vasopressor if hypotensive despite fluids." },
+  { front: "What is the approach to altered mental status in the emergency department?", back: "Altered mental status: delirium (acute, fluctuating), dementia (chronic), psychosis, intoxication. Workup: vital signs, finger-stick glucose, EKG, CT head if trauma/acute onset, toxicology, metabolic panel, blood cultures if febrile. Differential: hypoglycemia, hypoxia, hypercarbia, infection, medication, stroke, intracranial pathology. Treat life-threatening causes first." },
+  { front: "Describe the management of acute severe hypertension and hypertensive emergency.", back: "Hypertensive emergency: acute end-organ damage (encephalopathy, ACS, pulmonary edema, stroke, aortic dissection, acute kidney injury). IV agents: labetalol (bolus or infusion), nicardipine infusion (preferred, titratable), hydralazine IV push. Target: reduce SBP 10-15% in first hour, then more gradually (over hours) to avoid ischemia. Avoid precipitous drops." },
+  { front: "What is the diagnostic approach and management of aortic dissection?", back: "Aortic dissection: sudden severe tearing chest/back pain, BP differential between arms, pulse differential, malperfusion of organs. Diagnosis: CT angiography (gold standard), echocardiography if unstable. Type A (ascending aorta): surgical emergency (mortality 1%/hour). Type B (descending): medical management with BP/HR control (labetalol, nitroprusside, beta-blockers). Mortality ~20% overall." },
+  { front: "Describe the management of acute myocardial infarction (STEMI).", back: "STEMI: S-T elevation MI is acute myocardial infarction with coronary occlusion. Door-to-balloon goal <90 minutes. Treatment: primary PCI (preferred revascularization), dual antiplatelet therapy (aspirin, P2Y12 inhibitor), anticoagulation, beta-blockers, ACE-I, statins. Complications: cardiogenic shock, mechanical (papillary muscle rupture, VSD, free wall rupture), arrhythmias." },
+  { front: "What is the approach to anaphylaxis in the ED?", back: "Anaphylaxis: IgE-mediated hypersensitivity with rapid onset (minutes-hours) of respiratory/cardiovascular collapse. Triggers: medications, food, stinging insects, latex. Presentation: angioedema, urticaria, wheezing, hypotension, cardiovascular collapse. Treatment: IM epinephrine (0.3-0.5 mg of 1:1000 solution) immediately, IV access, oxygen, IV fluids, H1/H2 blockers, corticosteroids, observation for biphasic reaction." },
+  { front: "Describe the management of acute asthma exacerbation and status asthmaticus.", back: "Acute asthma: wheezing, dyspnea, peak flow reduction, elevated pulsus paradoxus. Mild-moderate: beta-2 agonists (albuterol), corticosteroids (prednisone). Severe: continuous albuterol, IV corticosteroids, IV magnesium, subcutaneous epinephrine. Status asthmaticus (no response): intubation, mechanical ventilation, avoid hyperinflation (permissive hypercapnia). ICU admission." },
+  { front: "What is the diagnostic approach to stroke in the ED?", back: "Acute stroke: sudden focal neurologic deficit. Time-critical: tPA window <4.5 hours, thrombectomy window <24 hours. Workup: CT head (excludes hemorrhage), EKG, troponin, glucose, CBC, metabolic panel. NIHSS score (0-42) predicts severity/outcome. Inclusion/exclusion criteria for tPA based on imaging, labs, history. Rapid assessment critical for treatment window." },
+  { front: "Describe the management of acute poisoning and overdose.", back: "Poisoning: acute toxin exposure. Stabilization: airway, breathing, circulation. Decontamination: remove clothing, skin washing (unless corrosive then just water). Specific antidotes: opioid (naloxone), benzodiazepine (flumazenil if seizures), anticholinergic (physostigmine), cyanide (hydroxocobalamin). Activated charcoal if within 1 hour. Hemodialysis for some toxins (metformin, salicylates)." },
+  { front: "What is the diagnostic approach to severe allergic reaction and urticaria?", back: "Urticaria (hives) and angioedema: mast cell degranulation, histamine release from allergen exposure. Triggers: food, medication (ACE-I, NSAIDs), insect sting, infection, idiopathic (50%). Angioedema: deep tissue swelling, airway-threatening. Treatment: H1 blocker (diphenhydramine), H2 blocker (famotidine), corticosteroids (prednisone). Epinephrine if anaphylaxis. Identify and avoid trigger." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the pathophysiology of diabetes mellitus type 1 and type 2?", back: "Type 1: autoimmune beta-cell destruction causing absolute insulin deficiency, presenting with hyperglycemia, DKA, polyuria, polydipsia. Type 2: insulin resistance with relative insulin deficiency, gradual onset, often obese. Type 2 is 90% of diabetes cases; preventable with lifestyle modification." },
+  { front: "Describe the management of diabetic ketoacidosis and hyperosmolar hyperglycemic state.", back: "DKA: high glucose, low pH, elevated anion gap metabolic acidosis, ketosis. Treatment: IV fluids, insulin, electrolyte repletion (especially potassium). HHS: extremely high glucose without ketosis, severe dehydration, altered mental status. Similar management but slower correction due to higher osmolality." },
+  { front: "What are the complications of diabetes and their prevention?", back: "Microvascular: retinopathy, nephropathy, neuropathy. Macrovascular: CAD, stroke, peripheral vascular disease. Prevention: tight glucose control (HbA1c <7%), BP control, lipid management, ACE inhibitor/ARB. Annual eye/foot screening. Early intervention prevents progression." },
+  { front: "Explain the pathophysiology of thyroid dysfunction and Hashimoto's vs Graves' disease.", back: "Hashimoto's: autoimmune destruction of thyroid, hypothyroidism, elevated TSH, anti-TPO/anti-thyroglobulin antibodies. Graves' disease: TSH receptor antibodies cause hyperthyroidism, thyroid-stimulating immunoglobulins, ophthalmopathy. Hashimoto's treated with levothyroxine; Graves' with antithyroid drugs, beta-blockers, radioiodine." },
+  { front: "What is the approach to thyroid nodules and differentiation of benign from malignant?", back: "Palpable nodule >1 cm warrants ultrasound and TSH measurement. US features favoring malignancy: irregular margins, microcalcifications, tall-to-wide ratio, increased vascularity. FNA biopsy performed based on Bethesda criteria. Benign nodules followed with ultrasound; malignant nodules require thyroidectomy." },
+  { front: "Describe the management of hypercalcemia and its major causes.", back: "Most common: hyperparathyroidism (elevated PTH) and malignancy (PTH-rP secretion, calcitriol production). Symptoms: polyuria, polydipsia, nephrolithiasis, bone disease, altered mental status. Treatment: hydration, loop diuretic, bisphosphonates, calcitonin, treat underlying cause. Acute symptomatic hypercalcemia is medical emergency." },
+  { front: "What is the pathophysiology of osteoporosis and hip fracture risk?", back: "Osteoporosis: reduced bone mineral density, increased fracture risk from falls or minimal trauma. Risk factors: age, female, low body weight, smoking, corticosteroid use. Diagnosis: DEXA scan T-score <-2.5. Prevention: calcium, vitamin D, weight-bearing exercise. Treatment: bisphosphonates, hormone therapy (if postmenopausal)." },
+  { front: "Explain the approach to knee pain and osteoarthritis management.", back: "Osteoarthritis: degenerative joint disease from cartilage loss, osteophyte formation. Presents with pain worse with activity, morning stiffness <1 hour. Diagnosis: clinical and X-ray findings (joint space narrowing, osteophytes). Management: weight loss, NSAIDs, intra-articular corticosteroid injections, physical therapy. Total knee replacement for severe disease." },
+  { front: "What is fibromyalgia and how is it differentiated from other rheumatologic diseases?", back: "Fibromyalgia: widespread musculoskeletal pain, fatigue, sleep disturbance, mood disorder. Diagnosis: clinical, negative labs/imaging (rule out other disease), tender point examination. Associated with poor sleep quality, stress. Treatment: exercise, cognitive behavioral therapy, antidepressants (amitriptyline, pregabalin, duloxetine)." },
+  { front: "Describe the management of systemic lupus erythematosus and lupus nephritis.", back: "SLE: autoimmune disease with ANA positivity, affecting multiple organs. Manifestations: rash, arthritis, serositis, hematologic cytopenias, nephritis. Treatment: NSAIDs for mild disease, corticosteroids for moderate/severe, immunosuppressants for lupus nephritis. Hydroxychloroquine for skin/joint symptoms." },
+  { front: "What is the pathophysiology of menstrual disorders and abnormal uterine bleeding?", back: "Anovulation from PCOS, thyroid disease, or stress causes heavy irregular bleeding. Structural causes: fibroid, polyp, malignancy. Diagnosis: pelvic ultrasound, endometrial biopsy if >45 years. Treatment: hormonal contraceptives, progestin IUD, NSAIDs, tranexamic acid. Rule out malignancy in postmenopausal bleeding." },
+  { front: "Explain the management of polycystic ovary syndrome and infertility.", back: "PCOS: hyperandrogenism, ovulatory dysfunction, polycystic ovaries on ultrasound. Presents with irregular menses, hirsutism, acne, infertility. Management: lifestyle modification (weight loss), hormonal contraceptives for cycle regulation, anti-androgens (spironolactone). Clomiphene or metformin for ovulation induction." },
+  { front: "What is the approach to amenorrhea and evaluation of hypothalamic-pituitary-ovarian axis?", back: "Primary: no menses by age 15. Secondary: loss of established menses. Assess: pregnancy, thyroid, prolactin, FSH/LH. Low FSH/LH: hypothalamic or pituitary cause. High FSH: ovarian failure. MRI if pituitary cause suspected. Treatment: address underlying cause (restore weight, reduce stress, hormone replacement)." },
+  { front: "Describe the management of osteoarthritis of the hip and indications for replacement.", back: "Hip OA: groin pain worse with activity/weight-bearing, limited range of motion, positive Thomas test. Diagnosis: clinical and X-ray (joint space narrowing, osteophytes). Management: activity modification, NSAIDs, physical therapy, intra-articular injections. Total hip replacement indicated for severe pain/disability affecting function." },
+  { front: "What is the pathophysiology of gout and acute attack management?", back: "Gout results from monosodium urate crystal deposition in joints from hyperuricemia (underexcretion or overproduction). Acute attack: NSAIDs, colchicine, corticosteroids. Chronic management: allopurinol or febuxostat to lower uric acid <6 mg/dL. Avoid triggers (alcohol, purines, diuretics). Prophylaxis during uric acid-lowering therapy." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

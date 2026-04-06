@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the pathophysiological mechanisms of acute kidney injury and how are they classified?", back: "AKI is acute reduction in GFR over hours/days. Prerenal: decreased perfusion (hypovolemia, hypotension, vasoconstrictors). Intrinsic: direct renal damage (acute tubular necrosis, glomerulonephritis, interstitial nephritis). Postrenal: obstruction (stones, BPH, malignancy). Urine osmolality/sodium distinguishes prerenal from intrinsic." },
+  { front: "Describe the management of acute glomerulonephritis and rapidly progressive glomerulonephritis.", back: "RPGN requires urgent immunosuppression to prevent irreversible renal failure. ANCA-associated: corticosteroids + cyclophosphamide/rituximab. Anti-GBM: plasmapheresis + immunosuppression. Immune complex (lupus, post-infectious): treat underlying disease. Renal biopsy confirms diagnosis." },
+  { front: "What are the causes and management of chronic kidney disease and progression to end-stage renal disease?", back: "Common causes: diabetes, hypertension, glomerulonephritis, polycystic kidney disease. Management: ACE inhibitor/ARB (renal protection), antihypertensive drugs, low sodium diet, phosphate restriction, avoid NSAIDs. GFR <15 mL/min/1.73 m2 requires dialysis/transplant planning." },
+  { front: "Explain the pathophysiology of nephrotic syndrome and its major complications.", back: "Nephrotic syndrome: proteinuria >3.5 g/day, hypoalbuminemia, edema, hyperlipidemia. Complications: thrombosis (hypercoagulable state), infection (complement loss), cardiovascular disease (dyslipidemia). Causes: minimal change (children), focal segmental glomerulosclerosis, membranous (adults, associated malignancy)." },
+  { front: "What is the approach to hematuria and proteinuria?", back: "Hematuria: distinguish glomerular from non-glomerular (RBC casts, dysmorphic RBCs suggest glomerular). Non-glomerular: urologic workup (imaging, cystoscopy). Proteinuria >3.5 g/24 hours is nephrotic range. Quantify with 24-hour urine or spot urine protein-creatinine ratio. Evaluate for underlying cause." },
+  { front: "Describe the mechanism and management of hypertension in kidney disease.", back: "Kidney disease causes hypertension via sodium retention, renin-angiotensin activation, sympathetic hyperactivity. Target BP <120 mmHg (KDIGO). ACE inhibitors/ARBs preferred due to renal protection. Avoid NSAIDs. Fluid restriction and loop diuretics for edema. Tight BP control slows progression." },
+  { front: "What are the types of gastroesophageal reflux disease (GERD) and treatment options?", back: "GERD results from lower esophageal sphincter dysfunction. Diagnosis: clinical presentation, endoscopy shows erosions/Barrett's esophagus. Management: lifestyle modifications (elevate head, small meals), H2 blockers, proton pump inhibitors. Barrett's esophagus requires surveillance for dysplasia/cancer." },
+  { front: "Explain the pathophysiology of peptic ulcer disease and Helicobacter pylori infection.", back: "H. pylori colonizes gastric mucosa, causing chronic inflammation and ulcer disease. NSAIDs inhibit prostaglandins, increasing ulcer risk. Diagnosis: serology, urea breath test, stool antigen, endoscopic biopsy. Treatment: triple or quadruple therapy (PPI + antibiotics). NSAID users need gastroprotection." },
+  { front: "What is the approach to acute upper gastrointestinal bleeding and risk stratification?", back: "Stabilize: IV access, type and cross, correct coagulopathy. Identify source via upper endoscopy (peptic ulcer, varices, Mallory-Weiss tear). Risk stratification: Glasgow-Blatchford score predicts need for intervention. Variceal bleeding: endoscopic therapy + octreotide. Peptic ulcer: PPI + H. pylori eradication." },
+  { front: "Describe the pathophysiology and management of cirrhosis and portal hypertension.", back: "Cirrhosis is irreversible hepatic fibrosis from alcohol, hepatitis, autoimmune disease. Portal hypertension causes ascites, variceal bleeding, hepatic encephalopathy, renal dysfunction. Management: treat underlying cause, diuretics for ascites, beta-blockers for variceal prevention, albumin for spontaneous bacterial peritonitis." },
+  { front: "What are the causes and assessment of acute liver failure?", back: "ALF is acute hepatic encephalopathy within 26 weeks of symptom onset without prior liver disease. Causes: acetaminophen (most common in US), viral hepatitis, autoimmune, drug-induced, ischemic. Assess with PT/INR, ammonia, bilirubin, grade encephalopathy. Manage supportively, consider transplant for poor prognosis." },
+  { front: "Explain viral hepatitis types and their epidemiology and transmission.", back: "Hepatitis A: fecal-oral, acute only, no chronic disease, vaccine-preventable. Hepatitis B: blood/sexual exposure, chronic in ~5%, cirrhosis/HCC risk, vaccine-preventable. Hepatitis C: blood exposure, chronic in ~80%, curable with DAAs. Hepatitis D: requires HBV co-infection. Hepatitis E: fecal-oral, fulminant in pregnant women." },
+  { front: "What is the approach to diarrhea and inflammatory bowel disease?", back: "Acute diarrhea: viral gastroenteritis usually self-limited. Bloody diarrhea suggests invasive pathogen or IBD. Chronic diarrhea: assess osmotic vs secretory vs inflammatory vs fatty. IBD: Crohn's (transmural, can affect any GI site) vs ulcerative colitis (mucosal, colon only). Diagnosis: colonoscopy with biopsy. Treatment: mesalamine, biologics, surgery for complications." },
+  { front: "Describe the management of irritable bowel syndrome and functional dyspepsia.", back: "IBS is functional disorder with abdominal pain/altered bowel habits without structural disease. Rome IV criteria used for diagnosis. Treatment: dietary modification, soluble fiber, antispasmodics (dicyclomine), SSRIs if diarrhea-predominant. Functional dyspepsia: sensation of discomfort in upper abdomen without ulcer. PPI or H2 blocker empiric trial." },
+  { front: "What is the pathophysiology of celiac disease and non-celiac gluten sensitivity?", back: "Celiac disease: autoimmune response to gluten in genetically predisposed individuals (HLA-DQ2/DQ8). Causes villous atrophy, malabsorption, anemia, osteoporosis. Diagnosis: serology (tTG-IgA), duodenal biopsy. Management: strict gluten-free diet. Non-celiac gluten sensitivity lacks serologic markers and villous changes but responds to gluten avoidance." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

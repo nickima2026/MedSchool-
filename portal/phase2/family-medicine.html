@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the role of family medicine in preventive health and screening?", back: "Family medicine: comprehensive, longitudinal primary care across lifespan. Preventive care: cancer screening (breast, colorectal, cervical), cardiovascular risk reduction (lipid management, BP control, smoking cessation), immunizations, counseling (diet, exercise, mental health). Screening recommendations vary by age/sex/risk. Continuity of care improves outcomes." },
+  { front: "Describe the approach to preventive counseling for cardiovascular disease.", back: "CVD prevention: assess 10-year ASCVD risk (Framingham, AHA/ACC calculator). Lifestyle: diet (Mediterranean, DASH), exercise (150 min moderate/week), smoking cessation, weight loss. Pharmacologic: aspirin (if high risk, age 50-60), statins (moderate/high intensity per risk), antihypertensive agents. Regular monitoring of BP, lipids, glucose. Family history guides intensity." },
+  { front: "What is the diagnostic approach to new-onset back pain in primary care?", back: "Back pain: mechanical (posture, strain) most common (90%). Red flags suggest serious pathology: fever/chills (infection), trauma/osteoporosis risk (fracture), cancer history (metastasis), progressive neurologic deficit (myelopathy), urinary retention (cauda equina - emergency). Imaging: avoid routine X-ray (most mechanical pain improves without imaging), MRI if red flags/neurologic findings." },
+  { front: "Describe the management of chronic pain and opioid prescribing guidelines.", back: "Chronic pain: duration >3 months from acute injury, persists despite healing. Assessment: pain scale, functional impact, depression/anxiety screening, substance use history. Non-pharmacologic: physical therapy, cognitive-behavioral therapy, mindfulness. Pharmacologic: acetaminophen, NSAIDs (with gastric protection if risk), topical agents, neuropathic agents (gabapentin). Opioids: reserved for cancer pain or carefully selected chronic pain; lowest effective dose, regular monitoring, UDS, controlled substance agreement." },
+  { front: "What is the approach to preventive health maintenance in the adolescent?", back: "Adolescent visit: vital signs, BMI, sexual maturity assessment. Screening: depression/anxiety (PHQ-9), suicidality, substance use (CRAFFT), sexual health (contraception, STI risk), eating disorders, bullying. Counseling: STI/HIV prevention, abstinence/contraception, seat belt/helmet use, substance avoidance. Vaccines: HPV (through age 26), Tdap, meningococcal, influenza annual." },
+  { front: "Describe the pathophysiology and management of prediabetes and metabolic syndrome.", back: "Prediabetes: fasting glucose 100-125 mg/dL or HbA1c 5.7-6.4%. Metabolic syndrome: obesity, hypertension, dyslipidemia, elevated glucose. Risk: progression to type 2 diabetes in 15-30 years. Prevention: lifestyle (weight loss 5-10%, exercise 150 min/week) reduces progression 58%. Metformin if high risk or rapid progression. Monitor annually." },
+  { front: "What is the diagnostic approach to insomnia and sleep disorders in primary care?", back: "Insomnia: difficulty falling/staying asleep or early morning awakening for >3 months, daytime impairment. Assess: sleep/wake times, caffeine/alcohol/medications, mood, pain, sleep apnea symptoms (snoring, witnessed apnea, daytime somnolence). Sleep apnea screen: STOP-BANG questionnaire. Management: sleep hygiene, CBT-I (effective), short-term sedatives (benzodiazepines, zolpidem), consider polysomnography if suspected sleep apnea." },
+  { front: "Describe the management of seasonal affective disorder and mood disorders in primary care.", back: "Seasonal affective disorder: depression during winter (short daylight hours), resolves in spring. More common in northern latitudes. Risk factors: family history depression, bipolar disorder. Treatment: light therapy (10,000 lux light box 20-30 min daily), SSRIs (start fall before symptoms), vitamin D supplementation. Regular exercise, outdoor exposure. Distinguish from bipolar disorder (manic episodes)." },
+  { front: "What is the approach to preventive health in the elderly?", back: "Elderly prevention: individualize screening (life expectancy, functional status). Cancer: colorectal screening stop at age 75 (or if <10-year life expectancy), breast mammography if >75 years with prior screening, PSA screening controversial. Cardiovascular: BP/lipid management as above, aspirin if high risk. Falls prevention: strength/balance training, medication review, vision/hearing. Osteoporosis screening (DEXA) at 65 for women, 70 for men." },
+  { front: "Describe the management of hypertension in primary care and therapeutic goals.", back: "Hypertension management: confirm with home or ambulatory monitoring. Lifestyle: DASH diet, sodium <2300 mg/day, weight loss, exercise, limit alcohol. Pharmacologic: goal <130/80 per ACC/AHA (some prefer <140/90 if elderly/comorbidities). First-line: ACE-I/ARB (especially if diabetes/CKD), thiazide diuretic, calcium channel blocker. Combination therapy if inadequate response." },
+  { front: "What is the role of family medicine in managing multiple chronic conditions?", back: "Polypharmacy common in elderly with multiple chronic diseases. Management: regular medication review (eliminate unnecessary drugs), assess adherence, monitor for drug interactions and adverse effects. Coordinate care with specialists. Establish medication list at each visit. Use medication reconciliation at transitions of care. Consider deprescribing (stopping inappropriate medications)." },
+  { front: "Describe the approach to counseling regarding tobacco cessation.", back: "Smoking: 15% US prevalence, leading preventable cause of death. Cessation counseling: ask about use, assess readiness/stage of change, motivational interviewing. Pharmacotherapy: nicotine replacement (patches, gum, lozenges), varenicline (Chantix - high efficacy), bupropion. Behavioral support: counseling, group programs, quit-smoking apps. Repeat counseling at each visit; multiple attempts usual." },
+  { front: "What is the diagnostic approach to joint pain and osteoarthritis in the outpatient setting?", back: "Joint pain: mechanical (osteoarthritis), inflammatory (rheumatoid, gout, pseudogout), infectious (septic joint). History: onset (insidious vs acute), location, morning stiffness duration, systemic symptoms. Exam: warmth, effusion, range of motion, erythema. Labs: CRP/ESR (inflammation), RF/anti-CCP (rheumatoid), uric acid (gout). Imaging: X-ray (osteoarthritis), ultrasound (effusion, inflammation)." },
+  { front: "Describe the management of hyperlipidemia and lipid-lowering therapy.", back: "Hyperlipidemia: elevated LDL, low HDL, elevated triglycerides. Risk assessment: 10-year ASCVD risk calculator. Statin intensity: moderate for 5-7.5% risk reduction, high for >7.5%. Additional agents: ezetimibe (LDL reduction), PCSK9 inhibitors (additional LDL reduction), bempedoic acid, inclisiran. Non-statin: bile acid sequestrants, niacin, fibrates (triglyceride-focused). Lifestyle: diet, exercise, smoking cessation." },
+  { front: "What is the approach to preventive health in women across lifespan?", back: "Women's health prevention: contraception counseling (efficacy, side effects, STI protection), cervical cancer screening (HPV testing), breast cancer screening (mammography age 40-50 onwards), cardiovascular risk (BP/lipid management), bone health (DEXA at 65, calcium/vitamin D). Pregnancy planning: folic acid supplementation, medication review. Menopause: hormone therapy for moderate-severe vasomotor symptoms (short-term use preferred)." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

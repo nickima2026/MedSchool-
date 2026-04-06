@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the fundamental machine learning algorithms used in medicine?", back: "Supervised learning: regression (continuous outcomes - mortality risk), classification (binary/multiclass - disease diagnosis). Algorithms: random forests, support vector machines, neural networks. Unsupervised learning: clustering identifies patient subgroups (precision medicine). Deep learning: convolutional neural networks for imaging (pathology, radiology), recurrent neural networks for time-series data (EHR). Validation: cross-validation, holdout test set prevents overfitting." },
+  { front: "Describe clinical decision support systems and machine learning in diagnosis.", back: "Clinical decision support: algorithms assist clinicians in diagnosis/treatment. Examples: sepsis alert systems (lactate + organ dysfunction), stroke alert (symptom timing), chest pain prediction (HEART score automation). Integration: EHR-embedded, real-time alerts. Benefits: improved detection, reduced adverse events, better outcomes. Pitfalls: alert fatigue (too many alerts ignored), incomplete data (missing lab values), over-reliance on algorithm. Human-in-the-loop: clinician makes final decision." },
+  { front: "What is deep learning for medical imaging and image analysis?", back: "Deep learning (convolutional neural networks): automatically learn image features. Applications: chest X-ray interpretation (pneumonia, tuberculosis), mammography (breast cancer), CT (lung nodule detection), pathology (tumor classification). Performance: often matches or exceeds radiologist accuracy. Challenges: training data requirements (thousands of images), model interpretability ('black box'), domain adaptation (algorithm trained on one hospital fails at another)." },
+  { front: "Describe genomic analysis and personalized medicine applications.", back: "Genomic analysis: whole-genome/exome sequencing identifies disease-causing variants. Applications: cancer genomics (tumor sequencing guides targeted therapy), pharmacogenomics (CYP450 variants affect drug metabolism), rare disease diagnosis. Bioinformatics: sequence alignment, variant calling, annotation. Precision medicine: tailor treatment based on individual genomic/phenotypic characteristics. Challenges: data interpretation (benign vs pathogenic variants), access, privacy." },
+  { front: "What is natural language processing (NLP) and its clinical applications?", back: "NLP: algorithms extract information from unstructured clinical text (notes, discharge summaries). Applications: clinical documentation automation, adverse event detection from notes, phenotyping (identify patients with specific conditions), drug-drug interaction detection. Named entity recognition: identifies medical concepts (drug names, diagnoses). Information extraction: converts narrative text to structured data. Challenges: clinical acronyms, abbreviations, domain-specific language." },
+  { front: "Describe predictive modeling for patient risk stratification.", back: "Predictive models: forecast patient outcomes (mortality, readmission, disease progression). Variables: demographics, vital signs, labs, diagnoses, medications. Algorithms: logistic regression (interpretable), machine learning (higher accuracy, less interpretable). Applications: ICU mortality (APACHE, SOFA), surgical risk (ACS-NSQIP), sepsis (qSOFA). Validation: external validation on new populations essential (internal validation inflates accuracy). Risk scores guide clinical decisions, resource allocation." },
+  { front: "What are the challenges of AI/ML implementation in healthcare?", back: "Implementation challenges: data quality (missing data, errors), bias (training data skewed toward certain populations), generalization (model trained on one hospital fails elsewhere), interpretability (clinicians need to understand algorithms), integration (EHR system compatibility), regulatory approval (FDA clearance required), cost (computational resources). Validation standards: external validation on diverse populations, real-world performance tracking, continuous monitoring for algorithm drift." },
+  { front: "Describe reinforcement learning applications in medicine.", back: "Reinforcement learning: algorithm learns optimal actions to maximize reward through trial-and-error interaction. Medical applications: optimal treatment sequencing (which antibiotic for sepsis?), ventilator weaning (optimal PEEP/FiO2), cancer treatment optimization (chemotherapy dosing, timing). Challenge: requires simulation (ethical issues with trial-and-error on patients). Potential: personalize treatment strategies." },
+  { front: "What is federated learning and its privacy implications?", back: "Federated learning: train models on distributed data (each hospital keeps data locally, algorithm updates shared). Advantages: privacy preservation (data never leaves institution), larger training sets (all hospitals' data without centralization), regulatory compliance (HIPAA). Applications: multi-institutional studies, infectious disease surveillance. Challenges: communication overhead, less data per site, algorithm coordination. Alternative to centralized data warehouse." },
+  { front: "Describe explainable AI (XAI) and interpretability in clinical decision support.", back: "XAI: methods to make black-box ML models interpretable. Techniques: SHAP (SHapley Additive exPlanations) - identifies feature contributions, LIME (local interpretable model-agnostic explanations), feature importance. Clinical applications: understand why model predicted sepsis, which labs/vitals most influential. Benefits: clinician trust, regulatory approval, bias detection. Limitations: can't fully explain deep neural networks, computational cost." },
+  { front: "What is the role of bioinformatics in drug discovery and development?", back: "Bioinformatics: computational approaches accelerate drug discovery. Target identification: genomic/proteomic data identifies disease mechanisms. Molecular docking: computer simulates drug-protein interactions. Virtual screening: identifies promising compounds from millions. ADMET prediction: predicts drug absorption, metabolism, toxicity. Clinical trial simulation: predicts efficacy/safety. Reduces development time/cost. Challenges: translating in-silico findings to clinical benefit, validation." },
+  { front: "Describe computational epidemiology and disease modeling.", back: "Disease modeling: predict disease spread (pandemics), assess intervention impact. Models: SEIR (susceptible-exposed-infected-recovered), agent-based simulations. COVID-19: models predicted healthcare capacity needs, informed lockdown decisions. Parameters: transmission rate, incubation period, recovery time, population structure. Validation: compare predictions to actual data. Challenges: parameter uncertainty, behavioral changes, new variant emergence." },
+  { front: "What are the applications of artificial intelligence in drug repurposing?", back: "Drug repurposing: identify new uses for existing drugs (faster than developing new drugs). AI approaches: similarity networks (find drugs similar to known effective ones), network pharmacology (identify drug-target-disease relationships), literature mining (text analysis finds associations). Examples: ivermectin screening for COVID-19 (ultimately ineffective), dexamethasone for severe COVID (effective). Reduces cost, accelerates availability." },
+  { front: "Describe wearable sensors and remote monitoring in digital health.", back: "Wearable technology: smartwatches, continuous glucose monitors, patches measure vital signs/biomarkers. Data: heart rate, SpO2, ECG, temperature, activity, sleep. Applications: AFib detection (Apple watch), glucose monitoring (diabetics), continuous blood pressure (hypertension management). Challenges: data privacy, integration with EHR, clinical validation, liability. Telemedicine: combines wearables with virtual visits, remote patient monitoring." },
+  { front: "What is the role of computer vision and image segmentation in surgery?", back: "Computer vision: algorithms analyze surgical images/videos. Applications: real-time guidance (surgical navigation), tissue classification (cancer vs normal), anatomical landmark identification. Image segmentation: precisely outlines organs/tissues. Deep learning: automated tumor margin detection, intraoperative guidance systems. Benefits: improved precision, reduced operative time, better outcomes. Challenges: real-time processing requirements, surgical environment variability, regulatory approval." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

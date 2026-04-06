@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the diagnostic criteria and pathophysiology of major depressive disorder?", back: "MDD: >5 symptoms for >2 weeks including depressed mood or anhedonia. SIGECAPS: sleep, interest, guilt, energy, concentration, appetite, psychomotor, suicidality. Etiology: biogenic (monoamine hypothesis), genetic, life stressors. Pathophysiology: decreased serotonin/norepinephrine/dopamine. Complications: suicide (12% lifetime mortality). Assessment: PHQ-9, suicidality." },
+  { front: "Describe the pathophysiology and treatment of generalized anxiety disorder.", back: "GAD: excessive worry about multiple domains for >6 months. Physical symptoms: muscle tension, insomnia, hypervigilance. Pathophysiology: dysregulation of GABA, amygdala hyperactivity. Neurotransmitters: serotonin, norepinephrine, glutamate. Treatment: SSRIs first-line, SNRIs, buspirone, cognitive-behavioral therapy. Benzodiazepines for acute anxiety (abuse potential limits use)." },
+  { front: "What is posttraumatic stress disorder (PTSD) and how is it treated?", back: "PTSD: follows trauma with re-experiencing (flashbacks, nightmares), avoidance, negative mood/cognitions, hyperarousal. Diagnosis: symptoms >1 month. Neurobiology: amygdala hyperactivity, prefrontal cortex hypoactivity. Treatment: trauma-focused cognitive-behavioral therapy (gold standard), EMDR, SSRIs (sertraline, paroxetine). Psychoeducation, safety planning essential." },
+  { front: "Describe the pathophysiology and management of bipolar disorder.", back: "Bipolar I: manic episodes (elevated mood, decreased need for sleep, grandiosity, impulsive behavior, racing thoughts) + depressive episodes. Bipolar II: hypomanic episodes (less severe, no psychosis) + depressive episodes. Lifetime prevalence ~1%. Etiology: genetic, neurotransmitter dysregulation (dopamine, serotonin, glutamate). Treatment: mood stabilizers (lithium, valproate, carbamazepine), antipsychotics, psychotherapy." },
+  { front: "What is schizophrenia and what is the mechanism of antipsychotic action?", back: "Schizophrenia: hallucinations (especially auditory), delusions, disorganized speech/behavior, negative symptoms (avolition, flat affect), cognitive impairment. Dopamine hypothesis: excess dopamine in mesolimbic pathway. First-generation antipsychotics: dopamine antagonists, extrapyramidal side effects. Second-generation: serotonin-dopamine antagonists, fewer movement disorders, metabolic side effects." },
+  { front: "Describe the pathophysiology and management of panic disorder.", back: "Panic disorder: recurrent unexpected panic attacks (sudden intense fear, physical symptoms: palpitations, sweating, tremor, dyspnea, chest pain) + persistent concern about future attacks. Amygdala hyperactivity, HPA axis dysregulation. Treatment: SSRIs (first-line), benzodiazepines for acute attacks, cognitive-behavioral therapy, exposure therapy. Avoidance behaviors perpetuate disorder." },
+  { front: "What is obsessive-compulsive disorder (OCD) and evidence-based treatments?", back: "OCD: recurrent obsessions (intrusive thoughts causing anxiety) and compulsions (repetitive behaviors reducing anxiety). Content: contamination, symmetry, harm, sexuality. Pathophysiology: orbitofrontal cortex hyperactivity, serotonin dysfunction. Treatment: SSRIs (high doses, longer trial period), cognitive-behavioral therapy (exposure and response prevention), higher success rates than other anxiety disorders." },
+  { front: "Describe the pathophysiology and management of substance use disorders.", back: "Substance use disorder: problematic use despite negative consequences, tolerance, withdrawal, social/occupational impairment. Pathophysiology: dopamine reward pathway hijacking, genetic predisposition, environmental factors. Withdrawal syndromes: alcohol (seizures, delirium tremens), opioids (discomfort, hyperactivity), benzodiazepines (seizures). Treatment: behavioral, medication-assisted (naltrexone, buprenorphine, methadone), peer support." },
+  { front: "What is the diagnostic approach to psychosis?", back: "Psychosis: delusions (fixed false beliefs) or hallucinations (perceptual disturbance without external stimulus). Causes: schizophrenia, bipolar disorder, depression with psychosis, substance-induced, medical (CNS infection, endocrine, toxic), delirium. Workup: history, exam, urine drug screen, labs (TSH, glucose, metabolic), neuroimaging if structural concern. Rule out organic causes first." },
+  { front: "Describe the management of acute agitation and violent behavior.", back: "Agitation: escalation of behavior from anxiety to physical aggression. De-escalation techniques: calm tone, respect personal space, empathetic listening, offer choices. Pharmacologic: benzodiazepines (lorazepam, midazolam), antipsychotics (haloperidol, olanzapine) if psychotic. Restraint: last resort if danger to self/others, requires emergency commitment. Safety of staff and patient paramount." },
+  { front: "What is the approach to suicidality assessment and prevention?", back: "Suicide assessment: direct inquiry about ideation, plan, intent, access to means. Risk factors: male, age (elderly, young adult), psychiatric illness (depression, psychosis, substance abuse), recent loss, social isolation. Protective factors: family support, religious beliefs, treatment adherence. Management: hospitalization if high imminent risk, safety planning, follow-up. Means restriction (firearm/medication removal) critical." },
+  { front: "Describe the management of depression in the medically ill.", back: "Depression common in chronic medical illness (cardiac, cancer, neurologic, pain disorders). Medical causes: hypothyroidism, B12 deficiency, medication side effects (steroids, statins, antihypertensives), pain. Treatment: SSRIs safe in most (adjust for renal/hepatic disease), SNRIs if energy important, tricyclics if pain/insomnia coexists. Psychotherapy, activity, medical optimization essential." },
+  { front: "What is adjustment disorder and how does it differ from MDD?", back: "Adjustment disorder: maladaptive response to identified stressor (loss, illness, relocation), symptoms within 3 months of stressor, duration <6 months after stressor ends. Symptoms less severe than MDD, no other diagnosis. Treatment: psychotherapy (supportive, cognitive-behavioral), problem-solving. Medication only if severe depressive/anxiety symptoms warrant additional diagnosis." },
+  { front: "Describe the pathophysiology and treatment of autism spectrum disorder (ASD).", back: "ASD: persistent deficits in social communication, restricted/repetitive behaviors/interests from early childhood. Neurobiology: atypical brain connectivity, synaptic pruning abnormalities, genetic factors. Diagnosis: clinical (DSM-5 criteria), developmental history, standardized tools. Treatment: behavioral intervention (applied behavior analysis), speech/occupational therapy, educational support, medication for co-occurring symptoms (ADHD, anxiety)." },
+  { front: "What is the diagnostic approach to personality disorders?", back: "Personality disorders: enduring maladaptive patterns affecting cognition, emotion, interpersonal function. Cluster A: odd/eccentric (paranoid, schizoid, schizotypal). Cluster B: dramatic/emotional (antisocial, borderline, histrionic, narcissistic). Cluster C: anxious/fearful (avoidant, dependent, obsessive-compulsive). Assessment: long-term patterns, impact on functioning. Treatment: psychotherapy (CBT, dialectical behavior therapy for borderline), limited medication evidence." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

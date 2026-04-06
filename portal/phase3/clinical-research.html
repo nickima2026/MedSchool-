@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the role of translational research in moving discoveries to clinical practice?", back: "Translational research: bridges bench science and clinical care (T1 translational: lab to human testing, T2: clinical trial to practice implementation). Phases: basic research identifies target, T1 develops drug/device, Phase I-IV clinical trials test safety/efficacy, FDA approval, T2 ensures adoption. Time: discovery to FDA approval 10-15 years, $1-2 billion cost. Barriers: only 10% of promising basic discoveries become drugs, regulatory requirements, manufacturing scale-up, market incentives." },
+  { front: "Describe clinical trial phases and their objectives.", back: "Phase I: safety/dosage in small group (20-100), healthy volunteers if possible. Phase II: efficacy/side effects in patient population (100-500), preliminary efficacy data. Phase III: efficacy/monitoring adverse reactions in large population (1000-5000), compares to standard treatment. Phase IV: post-market surveillance, long-term effects, additional indications. IND application: before Phase I starts, Sponsor submits preclinical data, toxicology, chemistry/manufacture, research plan. NDA/BLA: after Phase III, FDA approval application." },
+  { front: "What is adaptive trial design and its advantages?", back: "Adaptive design: prospectively planned modifications during trial based on interim analysis results (efficacy, safety, futility). Types: dose adaptation (adjust dose per safety/efficacy data), sample size re-estimation (increase N if underpowered), dropping or adding arms (stop ineffective treatment). Advantages: faster completion, smaller sample sizes, cost savings, ethical (stop ineffective/harmful treatments earlier). Challenges: statistical complexity, pre-specification of adaptation rules, regulatory approval, data integrity." },
+  { front: "Describe real-world evidence (RWE) and pragmatic trials in clinical research.", back: "RWE: data from routine clinical practice vs controlled trial setting. Sources: electronic health records, claims data, patient registries, wearables. Pragmatic trials: conducted in real-world settings with minimal exclusion criteria, diverse populations, fewer protocol-mandated visits. Advantages: generalizability (represents real-world practice), recruitment easier (fewer exclusions), cost-effectiveness. Challenges: less controlled (confounding, adherence variability), data quality issues, regulatory acceptance (lower evidence quality than RCTs). Complementary to traditional trials." },
+  { front: "What is the role of patient-centered outcomes research?", back: "PCOR: research prioritizing patient-relevant outcomes (quality of life, function, symptom burden) vs surrogate endpoints (lab values, imaging). Patient engagement: patients involved in research question development, outcome selection, protocol design. Comparative effectiveness research: compares treatments patients choose between, informs decision-making. Benefits: research addresses what matters to patients, improves adherence, better outcomes. Challenges: outcome measurement complexity, diverse patient preferences, regulatory acceptance." },
+  { front: "Describe clinical trial recruitment and retention strategies.", back: "Recruitment challenges: awareness, eligibility, willingness to participate. Strategies: community outreach, digital marketing, diverse recruitment sites, simplified inclusion criteria (pragmatic approach). Barriers: transportation, time commitment, side effect concerns, distrust (historical trauma). Retention: frequent contact, flexible visit scheduling, incentives (honorarium for time), relationship building with staff. Diversity emphasis: minorities underrepresented in research, recruitment in underserved communities. Retention dropout rates 10-30%; higher in longer trials, rural populations." },
+  { front: "What is the role of biostatisticians and power analysis in clinical trials?", back: "Biostatisticians: design trials, analyze data, interpret results. Power analysis: determines sample size needed to detect treatment effect with specified power (usually 80-90%). Considers: expected effect size, baseline rate, primary outcome type (continuous vs binary), significance level (alpha 0.05). Underpowered trial: likely fails to detect true effect (Type II error). Overpowered: wastes resources. Sample size calculation guides feasibility, budget. Intent-to-treat analysis: preserves randomization benefits despite non-adherence." },
+  { front: "Describe rare disease clinical trials and special design considerations.", back: "Rare diseases: small patient populations (hundreds to thousands worldwide). Design challenges: recruitment difficulty, heterogeneous disease manifestations, historical controls acceptable. Adaptive designs: essential for efficiency. Master protocols: umbrella trials test multiple drugs in single disease, basket trials test single drug across diseases. Accelerated approval pathways: FDA allows approval on surrogate endpoints with requirement for confirmatory trial. Patient registries: identify eligible participants, natural history data. Costs: similar to common diseases but per-patient costs higher." },
+  { front: "What is the role of drug metabolism/pharmacogenomics in clinical trial design?", back: "Pharmacogenomics: genetic variation in drug metabolism affects response. CYP450 enzymes: polymorphisms cause poor/rapid/ultra-rapid metabolism. Clinical examples: warfarin dosing (CYP2C9, VKORC1 variants), clopidogrel activation (CYP2C19 variants), codeine metabolism (CYP2D6 variants). Trial design: stratify randomization by genotype, test drug responsiveness by genotype (precision medicine trials). Regulatory: FDA label information includes genetic information for some drugs. Benefits: predict responders, reduce adverse effects." },
+  { front: "Describe basket and umbrella trial designs.", back: "Basket trial: single drug, multiple disease types based on shared biomarker (e.g., EGFR mutation across cancer types). Advantages: smaller per-disease sample sizes, faster completion, identifies unexpected benefits. Challenges: heterogeneity between disease types, loss of disease-specific efficacy signals. Umbrella trial: single disease, multiple drugs targeting different pathways (e.g., lung cancer with different mutations). Advantages: efficient, personalized medicine, reduced patient burden. Challenges: complex logistics, multiple comparison issues, regulatory coordination." },
+  { front: "What is the role of real-time monitoring and data safety boards in trials?", back: "Data Safety Monitoring Board (DSMB): independent committee reviews interim safety/efficacy data. Functions: assess safety (unexpected adverse events), efficacy (early stopping if promising results or futility), study conduct adherence. Meeting frequency: varies by trial risk. Stopping rules: pre-specified thresholds for efficacy/futility/harm. Blinding: DSMB sees unblinded data while sponsor/investigators remain blinded. Recommendations: continue, modify, or stop trial. Benefits: protects subjects, maintains integrity, early termination if clear benefit/harm." },
+  { front: "Describe clinical trial registries and publication requirements.", back: "Trial registration: NCT identifier from ClinicalTrials.gov (US) or WHO International Clinical Trials Registry. Requirements: US FDA requires registration for many trials, international registries coordinate. Benefits: transparency, protocol accessibility, results reporting. Publication: journal requirements increasingly mandate registration pre-publication. Results reporting: within 12 months of study completion (FDA requirement). Trial registry posting: summarizes results, links to published paper. Selective reporting bias: registration prevents outcome switching." },
+  { front: "What are the ethical challenges specific to pediatric clinical trials?", back: "Pediatric trial ethics: special protections for vulnerable population. Assent: child's agreement (in addition to parental consent) if age >7 years. Minimal risk: standard consent. Greater than minimal risk: only if direct benefit or Institutional Review Board approval. Surrogate consent: parents decide (assume best interest). Research-only intervention: requires minimal risk. Challenges: inability to consent, fast growth/development (different physiology than adults), different disease manifestations. Pediatric exclusivity regulations: incentivize pediatric studies." },
+  { front: "Describe the role of comparative effectiveness research in health policy.", back: "CER: compares effectiveness of interventions for real-world populations in real-world settings. Goal: inform clinical decisions, health policy, resource allocation. Methods: RCTs, observational studies, systematic reviews, patient registries. Examples: comparing antihypertensives (ALLHAT), cardiovascular outcomes in diabetes (ACCORD). Applications: clinical practice guidelines, formulary decisions, Medicare coverage policies. Funding: NIH, AHRQ, PCORI support CER. Challenges: heterogeneous effects (treatment A better in subgroup X, treatment B better in subgroup Y), implementation complexity." },
+  { front: "What is the role of registry-based studies in clinical research?", back: "Registry studies: observational cohorts tracking patients over time (disease-specific or general population). Data collection: demographics, diagnoses, treatments, outcomes. Advantages: real-world data, long-term follow-up, lower cost than RCTs, identify rare outcomes. Uses: post-market surveillance, comparative effectiveness, natural history, identify patient subgroups. Examples: cancer registries track survival/treatment patterns, cardiovascular registries monitor device safety. Challenges: selection bias, missing data, confounding, generalizability. Integration: increasingly combined with RCT data for comprehensive evidence." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

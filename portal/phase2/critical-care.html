@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the approach to mechanical ventilation modes and settings?", back: "Ventilation modes: AC (assist-control), SIMV (synchronized intermittent mandatory ventilation), pressure support, CPAP. Settings: tidal volume (6-8 mL/kg ideal body weight), respiratory rate (12-16/min), PEEP (5-15 cm H2O), FiO2 titrated to SpO2 88-95%. Monitor: plateau pressure (<30 cm H2O), driving pressure, compliance. Lung-protective ventilation reduces ARDS mortality." },
+  { front: "Describe the management of acute respiratory distress syndrome (ARDS).", back: "ARDS: bilateral infiltrates, low PaO2/FiO2 ratio (<300), acute onset within 1 week, no cardiac cause. Risk factors: sepsis, aspiration, pneumonia, trauma, transfusion. Management: lung-protective ventilation (low tidal volumes, high PEEP), prone positioning (if severe), neuromuscular blockade (early), treat underlying cause. Mortality ~40%; prevention of secondary injury critical." },
+  { front: "What is the diagnostic approach to shock and management by type?", back: "Shock: inadequate tissue perfusion (hypotension, altered mental status, lactate >2). Types: hypovolemic (hemorrhage, dehydration), cardiogenic (heart failure, MI), distributive (sepsis, anaphylaxis), obstructive (PE, pneumothorax). Management: fluids (crystalloid, blood products if hemorrhaging), vasopressors (norepinephrine, vasopressin), inotropes (dobutamine, milrinone), treat underlying cause." },
+  { front: "Describe the management of sepsis and septic shock in the ICU.", back: "Sepsis: SIRS response to infection with organ dysfunction (SOFA ≥2). Septic shock: hypotension despite fluids, requiring vasopressors. ICU management: broad-spectrum antibiotics (modified by cultures), 30 mL/kg fluid bolus, norepinephrine if persistent hypotension, source control (drainage, debridement), organ support (ventilation, dialysis, ECMO if refractory)." },
+  { front: "What is the approach to elevated intracranial pressure management?", back: "Increased ICP: cause neurologic decline, herniation if unchecked. Management: head of bed 30 degrees, avoid hyperthermia/hypercarbia/hypoxia, osmotic therapy (mannitol 0.25-1 g/kg or hypertonic saline 3% or 23.4%). Sedation/analgesia, neuromuscular blockade. Limit IV fluids. Consider decompressive craniectomy if refractory. ICP monitoring if indicated." },
+  { front: "Describe the management of acute kidney injury in the ICU.", back: "AKI: acute rise in creatinine/reduced urine output. Causes: prerenal (sepsis, hypotension), intrinsic (acute tubular necrosis, glomerulonephritis), postrenal (obstruction). Management: optimize volume status, discontinue nephrotoxic drugs, monitor K+/phosphate, dialysis if refractory hyperkalemia/pulmonary edema. RRT indication: K+ >6.5, severe metabolic acidosis, volume overload." },
+  { front: "What is the diagnostic approach to acute liver failure?", back: "ALF: encephalopathy within 26 weeks without prior liver disease, INR >1.5. Causes: acetaminophen (US most common), viral hepatitis, autoimmune, drug-induced. Management: supportive care, manage encephalopathy (lactulose, rifaxomicin, treat underlying cause), coagulopathy correction, glucose management, infection prevention. Transplant evaluation if poor prognosis." },
+  { front: "Describe the management of electrolyte abnormalities in the ICU.", back: "Hyperkalemia: life-threatening arrhythmias. Treatment: calcium gluconate (stabilize membrane), insulin-glucose, beta-agonists, diuretics, dialysis. Hypokalemia: arrhythmias, muscle weakness. Replacement slowly to avoid overcorrection. Hyponatremia: fluid restriction (SIADH), hypertonic saline (symptomatic), gradual correction (<8 mEq/L/24 hrs) prevent osmotic demyelination." },
+  { front: "What is the approach to coagulopathy management in critical illness?", back: "Coagulopathy: DIC, massive transfusion, anticoagulation reversal. DIC: consumed platelets/factors, elevated D-dimer/PT/PTT, low fibrinogen, thrombosis/bleeding paradoxically. Management: treat underlying disease, transfuse based on TEG/ROTEM, heparin if microvascular thrombosis. FFP, cryoprecipitate for fibrinogen <100 mg/dL, platelets <50 if bleeding." },
+  { front: "Describe vasopressor selection and titration in shock.", back: "Norepinephrine: first-line for septic/distributive shock (alpha and beta effects, increases BP and CO). Vasopressin: adjunct for refractory hypotension. Epinephrine: alternative if inadequate response to norepinephrine. Phenylephrine: pure alpha, used if tachycardia problematic. Dobutamine/milrinone: inotropes if cardiogenic shock (low BP despite fluids). Titrate to MAP ≥65 mmHg." },
+  { front: "What is the diagnostic approach to fever in the ICU?", back: "ICU fever: common, multiple causes. Infectious: pneumonia (VAP - ventilator-associated), UTI, bloodstream infection (central line), sinusitis, intra-abdominal. Non-infectious: inflammatory (post-op), medications, transfusion reactions, thromboemboli. Workup: cultures (blood, urine, sputum), imaging (CXR, CT), source control, empiric antibiotics if sepsis suspected. Avoid empiric antibiotics if fever alone." },
+  { front: "Describe the management of sedation and analgesia in mechanically ventilated patients.", back: "Sedation: prevents anxiety, synchronizes with ventilator, improves oxygenation. Agents: propofol (rapid onset/offset, hypotensive), midazolam (slower offset), dexmedetomidine (preserves cognition). Analgesia: opioids (fentanyl preferred - short-acting, no active metabolites). Avoid over-sedation (increases delirium, mortality). Daily sedation interruption assesses readiness for extubation." },
+  { front: "What is the approach to ventilator-associated pneumonia (VAP) prevention?", back: "VAP: bacterial infection in mechanically ventilated patients. Prevention: head of bed elevation 30-45 degrees, spontaneous breathing trials, oral hygiene (chlorhexidine), avoid gastric colonization (selective decontamination controversial), subglottic secretion drainage, minimize sedation. Diagnosis: fever, infiltrate, elevated WBC, sputum culture. Broad-spectrum antibiotics, de-escalate per cultures." },
+  { front: "Describe the management of acute cardiac tamponade.", back: "Cardiac tamponade: pericardial fluid restricting ventricular filling, cardiogenic shock. Beck triad: elevated JVP, hypotension, muffled heart sounds. Diagnosis: echocardiography shows pericardial effusion + diastolic RA/RV collapse. Treatment: urgent pericardiocentesis (needle aspiration for fluid removal), definitive drain placement if needed. Avoid diuretics/nitrates (decrease preload further)." },
+  { front: "What is the diagnostic approach to stress hyperglycemia and ICU glucose management?", back: "Stress hyperglycemia: elevated glucose in critical illness despite no diabetes history. Mechanism: cytokine-induced insulin resistance, catecholamine effects. Management: insulin titration to target glucose 140-180 mg/dL in most critically ill (lower targets <110 increase hypoglycemia risk). Avoid hypoglycemia (neuroglycopenia). Continuous glucose monitors help titration." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

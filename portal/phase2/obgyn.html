@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the diagnostic approach to pregnancy and initial prenatal care?", back: "Diagnosis: beta-hCG (positive 10-14 days post-conception), ultrasound confirms intrauterine pregnancy. Dating ultrasound in first trimester (most accurate). Prenatal care: measure BP, weight, glucose screening (24-28 weeks), anemia screening, STI testing, antibody titers (rubella, blood type). Nuchal translucency at 11-14 weeks for aneuploidy risk." },
+  { front: "Describe the pathophysiology and management of gestational diabetes.", back: "Gestational diabetes: glucose intolerance first detected in pregnancy, resolves postpartum. Screening: 50-g glucose tolerance test at 24-28 weeks; if elevated, 3-hour GTT. Management: dietary control (first-line), insulin if required. Complications: large for gestational age, neonatal hypoglycemia, shoulder dystocia. Increased postpartum type 2 diabetes risk." },
+  { front: "What is preeclampsia and how is it managed?", back: "Preeclampsia: hypertension (>140/90) + proteinuria (>0.3 g/24 hours) after 20 weeks. Severe: BP >160/110, symptoms (headache, epigastric pain, visual changes), organ involvement. HELLP: hemolysis, elevated LFTs, low platelets (subset). Management: antihypertensive therapy, magnesium sulfate seizure prophylaxis, delivery (definitive treatment). Eclampsia: seizure from preeclampsia (medical emergency)." },
+  { front: "Describe the pathophysiology and management of placental abruption.", back: "Placental abruption: premature placental separation causing bleeding into decidua. Risk factors: trauma, cocaine use, hypertension, prior abruption. Presents with vaginal bleeding, abdominal pain, contractions, fetal distress. Diagnosis: clinical + ultrasound (identifies location). Management: hospitalization, fetal monitoring, transfusion if massive bleeding. Delivery if fetal distress or >35 weeks." },
+  { front: "What is the management of labor and normal delivery?", back: "Labor: regular uterine contractions, cervical dilation/effacement. Stages: latent (0-3 cm, hours), active (3-7 cm), transition (7-10 cm, intense contractions), second stage (pushing, 30 min-2 hours), third stage (placental delivery). Augmentation: oxytocin if hypotonic contractions. Pain control: epidural, intermittent IV opioids. Delivery: crowning, controlled delivery of head, assessment of newborn (Apgar score)." },
+  { front: "Describe the diagnosis and management of abnormal labor patterns.", back: "Arrest of dilation: no cervical change >4 hours with adequate contractions. Arrest of descent: no fetal descent >1 hour in second stage. Causes: cephalopelvic disproportion, malposition, maternal exhaustion. Management: augmentation with oxytocin, position changes, assisted delivery (vacuum, forceps), cesarean if no progress. High-dose oxytocin protocols improve outcomes." },
+  { front: "What are the indications for cesarean delivery?", back: "Absolute: placenta previa, placental abruption, vasa previa, cord prolapse, fetal distress unresponsive to intervention. Relative: failure to progress, CPD, previous classical cesarean, transverse lie, breech (selected cases). Maternal request now accepted indication. TOLAC (trial of labor after cesarean) possible if prior one low-transverse incision." },
+  { front: "Describe the pathophysiology and management of postpartum hemorrhage.", back: "Postpartum hemorrhage: >500 mL after vaginal delivery (>1000 mL after cesarean). Causes: uterine atony (most common), placental retention, maternal coagulopathy, genital tract trauma. Management: uterotonic agents (oxytocin, ergot, carboprost), bimanual uterine massage, fluid resuscitation, transfusion, hysterectomy if refractory. Prevention: third stage active management (oxytocin, cord traction, uterine massage)." },
+  { front: "What is the diagnostic approach to infertility?", back: "Infertility: inability to conceive after 1 year of unprotected intercourse (6 months if >35 years). Female factors: ovulation (anovulation, PCOS), tubal (blocked, pelvic adhesions), uterine (fibroids, polyps), endometriosis. Male factors: sperm count/motility/morphology (semen analysis). Workup: ovulation assessment (LH surge, progesterone), hysterosalpingography, ultrasound. Treatment: ovulation induction, ART." },
+  { front: "Describe the pathophysiology and management of polycystic ovary syndrome (PCOS).", back: "PCOS: hyperandrogenism, ovulatory dysfunction, polycystic ovaries. Presents with irregular menses, hirsutism, acne, infertility, metabolic dysfunction (insulin resistance, obesity). Diagnosis: Rotterdam criteria (2 of 3: hyperandrogenism, ovulatory dysfunction, polycystic ovaries). Management: lifestyle (weight loss, exercise), oral contraceptives for cycle regulation, anti-androgens (spironolactone), insulin sensitizers (metformin)." },
+  { front: "What is the diagnostic approach to abnormal uterine bleeding (AUB)?", back: "AUB: heavy, frequent, or prolonged menses. Causes: structural (polyp, fibroid, malignancy), anovulation (PCOS, thyroid disease), coagulopathy. Diagnosis: pelvic ultrasound, endometrial biopsy if >45 years or risk factors. Management: NSAIDs (first-line), hormonal contraceptives, progestin IUD, tranexamic acid. Hysterectomy reserved for refractory cases." },
+  { front: "Describe the pathophysiology and management of endometriosis.", back: "Endometriosis: ectopic endometrial tissue causing pelvic pain, dysmenorrhea, dyspareunia, infertility. Diagnosis: clinical presentation, ultrasound (ovarian cysts), MRI, definitive diagnosis by laparoscopy/biopsy. Management: NSAIDs, hormonal contraceptives, progestins (oral, IUD, implant), GnRH agonists, surgical excision. High recurrence rate; multi-modal therapy often needed." },
+  { front: "What is cervical cancer screening and HPV prevention?", back: "Cervical cancer: HPV-associated, preventable with vaccination (Gardasil 9) and screening. Screening: Pap smear, HPV testing, or HPV-based primary screening. Abnormal results: colposcopy with biopsy. CIN1: observe or treat. CIN2/3: excisional procedure (LEEP). Vaccination: ages 11-26 (through age 45 catch-up), reduces cervical cancer incidence >95%." },
+  { front: "Describe the pathophysiology and management of ovarian masses.", back: "Ovarian masses: cystic (functional cysts, dermoid) vs solid (tumors). Diagnosis: ultrasound, CA-125 if concern for malignancy. Functional cysts: typically resolve spontaneously. Complex masses: MRI for characterization, tumor markers (CA-125, AFP, beta-hCG). Management: observation for benign, surgical removal if malignancy suspected. Early-stage epithelial ovarian cancer: hysterectomy, bilateral salpingo-oophorectomy, staging, chemotherapy." },
+  { front: "What is the diagnostic approach to ovarian cancer risk and genetic screening?", back: "Ovarian cancer risk factors: age, family history (BRCA1/2), personal history of cancer. BRCA mutations: 40-50% lifetime risk. Screening: controversial (no proven benefit of early detection). High-risk: BRCA testing, prophylactic oophorectomy by age 40 (BRCA1) or 45 (BRCA2), enhanced surveillance. Diagnosis: imaging, CA-125, definitive by surgical staging." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

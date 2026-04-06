@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the patterns of Mendelian inheritance and how do you recognize them in pedigrees?", back: "Autosomal dominant: vertical transmission, affected individuals in each generation, affects males/females equally. Autosomal recessive: horizontal transmission (siblings affected), consanguinity increases risk, requires two mutant alleles. X-linked recessive: males predominantly affected, carrier females. X-linked dominant: females more severely affected (hemizygous males may be lethal)." },
+  { front: "Describe the pathophysiology of cystic fibrosis and its diagnosis.", back: "CF: CFTR gene mutations cause defective chloride channel, impaired mucociliary clearance. Leads to pancreatic insufficiency, malabsorption, airway infection (Pseudomonas aeruginosa), progressive lung disease. Diagnosis: sweat chloride test >60 mEq/L, genetic testing. Treatment: pancreatic enzyme replacement, airway clearance, CFTR modulators (ivacaftor, lumacaftor)." },
+  { front: "What is the mechanism of trinucleotide repeat expansion diseases?", back: "Trinucleotide repeats (CAG, CGG) expand during meiosis. Huntington disease: CAG repeats in HTT gene, progressive neurodegeneration in midlife. Fragile X: CGG repeats in FMR1 gene, mental retardation, behavioral issues. Anticipation: expansion increases in successive generations. No somatic gene therapy currently available." },
+  { front: "Explain achondroplasia and dwarfism inheritance patterns.", back: "Achondroplasia: autosomal dominant FGFR3 mutation, 80% de novo (paternal age effect). Presents with short stature, rhizomelic shortening, frontal bossing, lumbar lordosis, spinal stenosis. Homozygous is usually lethal. Other dwarfisms: hypochondroplasia (milder), proportionate dwarf (Turner, growth hormone deficiency)." },
+  { front: "What is the diagnostic and management approach to familial hypercholesterolemia?", back: "FH: autosomal dominant LDL receptor mutations (90%), apoB mutations (5%), PCSK9 mutations (5%). Heterozygotes: 1 in 500, homozygotes rare. Presents with premature atherosclerosis, tendon xanthomas, corneal arcus. Diagnosis: elevated LDL, family history. Treatment: statins, ezetimibe, PCSK9 inhibitors, apheresis for severe disease." },
+  { front: "Describe the pathophysiology of hemophilia A and B and management.", back: "Hemophilia A: Factor VIII deficiency (X-linked, males affected). Hemophilia B: Factor IX deficiency. Severity: <1% severe, 1-5% moderate, >5% mild. Presents with spontaneous bleeding, hematomas, hemarthroses. Diagnosis: prolonged aPTT, low factor levels. Treatment: factor replacement (recombinant preferred), desmopressin for mild, bypass agents for inhibitors." },
+  { front: "What are the mechanisms of chromosomal abnormalities and their clinical consequences?", back: "Trisomy 21 (Down): intellectual disability, cardiac defects, GI anomalies. Trisomy 18 (Edwards): severe abnormalities, lethal. Trisomy 13 (Patau): severe abnormalities, lethal. Turner (45,X): short stature, gonadal dysgenesis, cardiac defects. Klinefelter (47,XXY): tall, infertility, gynecomastia. Diagnosis: karyotype, FISH, microarray." },
+  { front: "Explain the concept of genomic imprinting and associated disorders.", back: "Imprinting: epigenetic silencing of one parental allele. Prader-Willi: loss of paternal chromosome 15 (hypotonia, intellectual disability, obesity, hypogonadism). Angelman: loss of maternal chromosome 15 (seizures, ataxia, happy demeanor). DiGeorge: 22q11 deletion (cardiac, palatal, thymic, renal, learning abnormalities)." },
+  { front: "What is the pathophysiology of neurofibromatosis type 1 and type 2?", back: "NF1: autosomal dominant NF1 gene, 50% de novo. Causes neurofibromas, cafe-au-lait spots, optic nerve gliomas, pheochromocytoma, Lisch nodules. Increased malignancy risk (MPNST). NF2: bilateral vestibular schwannomas (acoustic neuromas), meningiomas. Earlier onset, more severe than NF1." },
+  { front: "Describe BRCA1/BRCA2 mutations and hereditary cancer syndromes.", back: "BRCA1/BRCA2: autosomal dominant tumor suppressor genes. Carriers: 45-87% lifetime breast cancer risk, 40-50% ovarian cancer (BRCA1 higher). Pancreatic, prostate cancer also increased. Genetic testing indicated for family history. Management: enhanced surveillance, prophylactic surgery (mastectomy, oophorectomy), chemoprevention (tamoxifen, raloxifene)." },
+  { front: "What is the inheritance pattern and clinical manifestations of marfan syndrome?", back: "Marfan syndrome: autosomal dominant fibrillin-1 (FBN1) mutations. Skeletal: tall stature, arachnodactyly, pectus deformity, scoliosis. Ocular: ectopia lentis, myopia. Cardiovascular: aortic root dilation, dissection (life-threatening). Diagnosis: clinical criteria (Ghent nosology), genetic testing. Management: beta-blockers/ARBs for aorta, surgical intervention if needed." },
+  { front: "Explain the mechanism of CRISPR-Cas9 gene editing and its applications.", back: "CRISPR: clustered regularly interspaced short palindromic repeats. Cas9 endonuclease cuts DNA at guide RNA-specified site. Allows precise genome editing: disrupt genes (loss-of-function) or insert sequences (gain-of-function). Applications: sickle cell, beta-thalassemia, certain cancers. Challenges: off-target effects, delivery, ethical concerns." },
+  { front: "What are genomic and proteomic approaches in precision medicine?", back: "Genomics: analyze patient's DNA mutations, guide treatment selection (tumor genotyping for cancer therapy). Proteomics: measure protein expression, identify biomarkers. Pharmacogenomics: genetic variation in drug metabolism (CYP450 enzymes), guides dosing. Enables personalized medicine: right drug, right dose, right patient." },
+  { front: "Describe the pathophysiology and management of alpha-1 antitrypsin deficiency.", back: "AAT: protease inhibitor protecting lung tissue. Deficiency causes early-onset emphysema (smoking accelerates), liver cirrhosis. PiZZ genotype most severe. Diagnosis: low AAT level, PiM/S/Z typing. Treatment: smoking cessation (critical), AAT augmentation therapy IV monthly. Liver transplant for cirrhosis." },
+  { front: "What is the genetic basis of familial adenomatous polyposis and its management?", back: "FAP: autosomal dominant APC gene mutation, >100 colorectal polyps by age 30. Nearly 100% develop colorectal cancer without intervention. Also increased gastric, duodenal, pancreatic, thyroid, meningioma risk. Management: prophylactic colectomy by age 15-20, surveillance of remaining bowel and other sites. Genetic testing for family members." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

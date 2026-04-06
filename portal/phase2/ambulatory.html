@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the role of outpatient clinics in chronic disease management?", back: "Ambulatory care: longitudinal management of chronic conditions. Advantages: continuity, relationship with patient, cost-effective compared to ED/hospitalization. Chronic disease management: diabetes, hypertension, heart failure, COPD, asthma. Regular visits: assess control, medication adherence, modify therapies, prevent complications. Care coordination with specialists, pharmacists, social work improves outcomes." },
+  { front: "Describe the diagnostic approach to dyslipidemia and lipid targets.", back: "Dyslipidemia: elevated LDL, low HDL, elevated triglycerides increase atherosclerotic risk. Lipid panel: total cholesterol, LDL, HDL, triglycerides. LDL targets: depends on ASCVD risk (very high: <70, high: <100, moderate: <130). HDL: goal >40 men, >50 women. Triglycerides: goal <150. Assessment: fasting vs non-fasting lipids acceptable. Risk calculator guides treatment intensity." },
+  { front: "What is the approach to medication refills and chronic medication management?", back: "Medication refills: review at each visit (indication, efficacy, side effects, adherence). Reconcile medications with patient/pharmacy. Address barriers: cost, side effects, complexity. Pill organizers, reminders improve adherence. E-prescribing improves accuracy. Controlled substance refills: strict regulations, check prescription drug monitoring program, assess misuse risk. Regular monitoring labs (renal function, LFTs, glucose) ensure safety." },
+  { front: "Describe the management of acute exacerbations of chronic conditions in the outpatient setting.", back: "COPD exacerbation: increased sputum/dyspnea/cough. Mild-moderate: increased bronchodilators, consider oral corticosteroids, antibiotics if bacterial signs. Asthma exacerbation: increased beta-2 agonist use, oral corticosteroids, close monitoring. CHF exacerbation: diuretics increased, Na restriction, monitoring. Depression exacerbation: assess suicidality, increase psychotherapy, medication adjustment. Know admission criteria for each condition." },
+  { front: "What is the diagnostic approach to fatigue and functional decline in the outpatient setting?", back: "Fatigue: common complaint (10-15% of primary care visits). Causes: anemia (iron deficiency, B12, chronic disease), thyroid disorder, depression, deconditioning, malignancy, infection (EBV, COVID-19). Workup: vital signs, weight loss, depression screening, labs (CBC, TSH, BMP, CMP), imaging if indicated. Most organic fatigue improves with treatment of underlying condition." },
+  { front: "Describe preventive health screenings in the outpatient setting across age groups.", back: "Preventive screening: varies by age, sex, risk. Adult (18-39): BP, cholesterol (if risk factors), cervical (women), STI (sexually active). Middle-age (40-64): lipids, glucose, cancer screening (breast, colorectal, cervical), BP. Elderly (65+): cancer screening (individualize), cardiovascular, cognitive, functional, falls risk, hearing, vision. Implement per national guidelines (USPSTF, ACS)." },
+  { front: "What is the role of patient education and lifestyle modification counseling?", back: "Patient education: critical for chronic disease control. Topics: disease pathophysiology, medication purpose/side effects, diet, exercise, monitoring. Teach-back: patient explains back understanding to confirm comprehension. Motivational interviewing: elicit intrinsic motivation for change. Written materials, videos enhance retention. Refer to specialists (diabetes educator, dietitian, PT) for intensive counseling. Follow-up reinforces learning." },
+  { front: "Describe the diagnostic approach to abnormal vital signs in the outpatient setting.", back: "Elevated BP (outpatient): confirm with repeat measurements (home monitoring), assess for secondary causes if younger or resistant hypertension. Tachycardia: assess hydration, pain, fever, anxiety, medications, thyroid disease, arrhythmias. Tachypnea: assess for respiratory disease, cardiac disease, pain, anxiety, metabolic derangement. Fever: obtain history of recent travel, sick contacts, symptoms to narrow differential." },
+  { front: "What is the approach to medication side effects and adverse reactions?", back: "Side effects: common reason for discontinuation/non-adherence. Assessment: temporal relationship to medication start, risk factors, severity. Common: GI upset (GI meds), sexual dysfunction (antidepressants, antihypertensives), hyperkalemia (ACE-I), rashes (antibiotics). Management: dose reduction, timing changes, alternative agents. Serious: stop immediately, monitor, treat. Report to pharmacovigilance. Educate patient on expected side effects pre-prescription." },
+  { front: "Describe the management of acute illness in the outpatient setting and triage decisions.", back: "Acute illness assessment: vital signs (stability), severity of symptoms, duration. Red flags: hemodynamic instability, respiratory distress, altered mental status, severe pain → ED referral. Mild-moderate infection: outpatient management possible with follow-up. Prescribe antibiotics appropriately (avoid empiric for viral). Arrange close follow-up (24-48 hours phone/visit) to assess response." },
+  { front: "What is the diagnostic approach to weight changes in the outpatient setting?", back: "Weight loss: unintentional loss concerning (malignancy, chronic disease, depression, hyperthyroidism, medications). Workup: detailed history (diet, symptoms, medications), labs (TSH, glucose, CBC, CMP, liver/kidney function), imaging if indicated. Weight gain: assess dietary changes, exercise, medications (antipsychotics, antidepressants, corticosteroids), endocrine disorder (hypothyroidism). Monitor BMI, metabolic parameters." },
+  { front: "Describe the role of outpatient specialty referrals and care coordination.", back: "Specialty referral: when expertise beyond primary care needed (cardiology for HTN not at goal, gastroenterology for GI symptoms). Clear referral: indicate urgency, question to answer, relevant history. Follow-up: obtain specialist notes, review recommendations, implement changes in primary care. Coordinate with multiple specialists: ensure medication reconciliation, prevent duplication, optimize adherence." },
+  { front: "What is the diagnostic approach to new-onset anemia in the outpatient setting?", back: "Anemia: low hemoglobin in outpatient labs. Assess reticulocyte count (low suggests bone marrow issue; high suggests hemolysis/bleeding). Differential: iron deficiency (microcytic, hypochromic), B12 deficiency (macrocytic), folate deficiency (macrocytic), anemia of chronic disease (normocytic/microcytic). Workup: iron studies, B12, folate, renal function, peripheral smear. Oral iron supplementation for iron deficiency." },
+  { front: "Describe the management of polypharmacy and medication safety in the elderly.", back: "Polypharmacy (>5 medications) common, increases adverse effects, falls, cognitive impairment. Review each visit: indication still present? Dose appropriate for renal/hepatic function? Drug-drug interactions? Over-the-counter supplements included? Deprescribe inappropriate agents (anticholinergics, benzodiazepines, NSAIDs). Beers Criteria lists potentially inappropriate medications in elderly. Simpler regimens improve adherence." },
+  { front: "What is the approach to preventive cardiovascular care in the outpatient setting?", back: "Cardiovascular prevention: assess 10-year ASCVD risk. Lifestyle: diet (Mediterranean, DASH), exercise (150 min moderate/week), smoking cessation, weight management, stress reduction. Pharmacologic: aspirin (if high risk), statin (moderate-high intensity per risk), antihypertensive agents (goal <130/80), diabetes control. Regular visits: BP/lipids/glucose monitoring. Refer to cardiac rehab post-MI." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the social determinants of health and their impact?", back: "Social determinants: non-medical factors influencing health (income, education, neighborhood, housing, food security, transportation, social support). Mechanisms: stress (chronic activation of HPA axis), material deprivation (limited access to resources), behavioral (smoking, limited exercise), healthcare access. Health disparities: systematic inequalities across socioeconomic groups, races/ethnicities. Examples: infant mortality higher in low-income/Black communities. Interventions: address root causes (housing, jobs, education), not just medical treatment. Population-level approach shifts from individual to community." },
+  { front: "Describe health equity and strategies to reduce disparities.", back: "Health equity: absence of systematic disparities in health/healthcare access. Disparities: preventable differences in health outcomes across groups. Approaches: structural (policy, healthcare system), clinical (provider cultural competence, bias training), community (resources, trust building). Specific strategies: community health workers, culturally tailored interventions, language services, implicit bias training, collection of race/ethnicity data. Challenges: historical trauma, mistrust of healthcare system, systemic racism. Accountability: healthcare organizations establish equity metrics." },
+  { front: "What is the role of public health in disease prevention and health promotion?", back: "Public health: science/art of preventing disease, prolonging life, promoting health through organized efforts. Levels: primary (prevent disease - vaccination, health education), secondary (early detection - screening), tertiary (manage disease - treatment, rehabilitation). Agencies: CDC (federal), state health departments, local health boards. Functions: surveillance, investigation, enforcement, education, vaccination programs. Population focus: benefits community, not just individuals. Examples: water fluoridation prevents cavities, seatbelt laws reduce injury mortality." },
+  { front: "Describe global health and international health emergencies.", back: "Global health: health issues across national boundaries (infectious diseases, chronic disease, maternal mortality). Challenges: limited resources in low-income countries, brain drain (healthcare workers emigrate), antimicrobial resistance, climate change. Organizations: WHO (coordinates response), NGOs (MSF, Gates Foundation), GAVI (vaccine alliance). COVID-19 pandemic: exposed gaps in preparedness, global vaccine inequality, supply chain vulnerabilities. Sustainability: health system strengthening, capacity building in low-resource settings." },
+  { front: "What is the role of occupational health and safety?", back: "Occupational health: health/safety of workers. Hazards: physical (noise, radiation), chemical (toxic exposures), ergonomic (repetitive strain), biological (bloodborne pathogens, infections), psychosocial (stress, burnout). Prevention: engineering controls (noise reduction), administrative (work rotation), personal protective equipment (PPE). OSHA: enforces standards, investigates complaints. Surveillance: occupational health clinics track health of workers exposed to hazards. Healthcare workers: exposed to bloodborne pathogens, physical injury, stress." },
+  { front: "Describe environmental health and climate change impacts.", back: "Environmental health: relationship between environment and human health. Exposures: air pollution (asthma, cancer), water contamination (cholera, lead), pesticides (neurological effects), radiation, noise. Climate change: increases heat illness, vector-borne diseases (malaria, dengue expand northward), malnutrition (crop failure), mental health (eco-anxiety). Vulnerable populations: low-income, minorities in polluted areas, outdoor workers. Prevention: clean air/water regulations, renewable energy, sustainable agriculture, community resiliency." },
+  { front: "What is the role of maternal and child health (MCH) programs?", back: "MCH: focus on pregnant women, infants, children. Goals: reduce maternal mortality, infant mortality, ensure healthy development. Interventions: prenatal care (blood pressure/glucose monitoring, education), skilled birth attendance, postpartum care (postpartum hemorrhage prevention, mental health), childhood immunizations, nutrition programs, early intervention (developmental screening). Disparities: Black women 3-4x maternal mortality rate vs white women. Barriers: healthcare access, transportation, income. Cost-effective: every dollar in prenatal care saves $10 in neonatal care." },
+  { front: "Describe mental health in community health and addressing disparities.", back: "Mental health: significant public health burden (depression, anxiety, substance use, suicidality). Disparities: minorities have less mental healthcare access, stigma reduces help-seeking, trauma exposure (violence, discrimination) increases psychiatric illness. Community-based interventions: school mental health programs, peer support groups, community health worker training. Integration: screen for depression in primary care, coordinate behavioral/medical care. Prevention: social support, stress reduction programs, trauma-informed care. Stigma reduction: public education campaigns." },
+  { front: "What are the principles of community-based participatory research?", back: "CBPR: community members equitably involved in research process (problem definition, design, implementation, interpretation). Benefits: research addresses community priorities, increases trust, improves recruitment/retention, sustainable outcomes. Process: builds on community strengths/partnerships, results in community benefit. Example: research on lead exposure in low-income neighborhoods identifies community solutions (housing remediation). Challenges: time-intensive, requires power-sharing, competing community/academic priorities, funding limited for CBPR." },
+  { front: "Describe the role of health education and health literacy.", back: "Health literacy: ability to understand health information and make informed decisions. Low health literacy: associated with worse outcomes, higher healthcare costs, medication non-adherence. Barriers: complex medical language (jargon), limited education, language barriers, cognitive impairment. Interventions: teach-back (patient explains back understanding), simplified written materials, visual aids, interpreter services. Health education: community programs on disease prevention, healthy behaviors, chronic disease management. Culturally tailored: adapts to community values/beliefs." },
+  { front: "What is the diagnostic approach to food insecurity and its health impacts?", back: "Food insecurity: lack of reliable access to adequate food due to financial constraints. Prevalence: 10% of US households. Health impacts: malnutrition, stunting in children, developmental delays, anemia, dental disease, chronic disease (obesity, diabetes). Assessment: validated questionnaires (USDA Food Security Scale). Screening: ask at each visit if patient struggling to afford food. Interventions: SNAP (food stamps), WIC (women/infants/children), food banks, community gardens, nutrition education. Social determinant: addressing requires policy change (increasing wages, affordable housing)." },
+  { front: "Describe the role of community health workers (CHWs).", back: "CHWs: trusted community members providing health education, navigation, health services. Background: typically from community served, bilingual, understand cultural context. Roles: disease prevention education, chronic disease management support, health system navigation, social support. Benefits: increased healthcare access, culturally appropriate care, cost-effective (lower cost than providers), improved outcomes. Barriers: low pay, limited benefits, inconsistent training standards. Integration: healthcare systems increasingly employ CHWs as bridge between community/system." },
+  { front: "What are the principles of health justice and health activism?", back: "Health justice: connects health to broader social justice, recognizes systemic inequities. Health activism: organizing for policy change (healthcare access, environmental cleanup, worker protections). Examples: civil rights movement improved healthcare access, environmental justice movements reduce pollution exposure in communities of color. Approaches: community organizing, advocacy, policy change, addressing power imbalances. Goal: systemic change vs individual behavior change. Healthcare providers: role in advocacy (support patients' social needs, attest to harms of policies)." },
+  { front: "Describe disaster public health and emergency preparedness.", back: "Disaster types: natural (hurricanes, earthquakes), human-made (chemical spills, nuclear accidents), intentional (bioterrorism). Public health role: epidemiologic investigation, disease surveillance, water/sanitation safety, infection prevention, mental health support. Preparedness: emergency action plans, stockpiles (vaccines, PPE), workforce training, communication systems. Response: rapid assessment, establishment of command structure, alternate care sites if healthcare surge. Recovery: long-term health monitoring, psychosocial support, rebuilding infrastructure. Vulnerable populations: require evacuation assistance, medical supplies continuity." },
+  { front: "What is the role of policy advocacy in improving public health outcomes?", back: "Health policy: legislation/regulations affecting health (tobacco taxes, seatbelt laws, clean air standards, healthcare access). Evidence-base: use research to inform policy, translate findings to policy-makers. Advocacy: healthcare providers testify before legislatures, provide expert opinion, organize communities. Examples: sugar taxes reduce obesity/diabetes, helmet laws reduce motorcycle injury mortality, clean air regulations reduce asthma hospitalizations. Challenges: industry opposition (tobacco, food), political polarization, time from policy to measurable outcomes. Equity focus: prioritize policies benefiting vulnerable populations." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

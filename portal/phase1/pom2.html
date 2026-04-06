@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the diagnostic approach to a patient with chest pain?", back: "Determine onset, character (pressure, sharp, pleuritic), location, radiation, associated symptoms. Assess cardiac risk factors and exam findings. Use EKG, troponin, chest X-ray as appropriate. HEART score risk-stratifies acute coronary syndrome risk." },
+  { front: "Describe the differential diagnosis for acute dyspnea and how to narrow it.", back: "Cardiac (heart failure, ACS, arrhythmia), pulmonary (pneumonia, asthma, PE), metabolic (DKA, sepsis), musculoskeletal, anxiety. History of onset, vital signs, exam findings, and imaging (CXR, EKG, echocardiogram, BNP) guide diagnosis." },
+  { front: "What is the approach to a patient presenting with syncope?", back: "Determine if true loss of consciousness with amnesia. Assess for cardiac causes (arrhythmia, structural disease), vasovagal triggers, orthostatic hypotension, neurologic seizure. EKG, echocardiogram, and telemetry may be indicated. High-risk patients warrant admission." },
+  { front: "How do you approach a patient with fever and suspected sepsis?", back: "Rapid assessment: obtain vitals, assess perfusion, obtain cultures before antibiotics, initiate broad-spectrum antibiotics. Lactate, CBC, metabolic panel, urinalysis help identify source. SIRS/qSOFA score predicts sepsis. Early goal-directed therapy improves outcomes." },
+  { front: "What is the diagnostic workup for new-onset headache?", back: "Red flags: thunderclap onset (subarachnoid hemorrhage), fever + neck stiffness (meningitis), focal neurologic deficits, altered consciousness, age >50 (temporal arteritis). Most benign headaches are migraines/tension-type. Imaging indicated only with red flags." },
+  { front: "Describe the approach to abnormal liver function tests and differentiate cholestasis from hepatitis.", back: "Elevated transaminases (ALT > AST) suggest hepatitis; disproportionate alkaline phosphatase/bilirubin suggests cholestasis. Obtain INR, albumin, bilirubin, ultrasound to assess for cirrhosis, ductular dilation. Differential includes viral hepatitis, autoimmune disease, cirrhosis, medication toxicity." },
+  { front: "What is the diagnostic approach to hypertension and screening for secondary causes?", back: "Confirm with home or ambulatory monitoring. Screen for secondary causes (renal artery stenosis, pheochromocytoma, primary aldosteronism, sleep apnea) if sudden onset, resistant hypertension, age <30, or abnormal labs. Most is essential hypertension." },
+  { front: "How do you evaluate a patient with anemia and what tests help determine etiology?", back: "Calculate reticulocyte count (low suggests bone marrow problem; high suggests hemolysis/bleeding). Peripheral smear, iron studies, B12/folate, renal function, reticulocyte production index guide diagnosis. Microcytic (iron deficiency, thalassemia), normocytic (hemolysis, bleeding), macrocytic (B12, folate deficiency)." },
+  { front: "What is the approach to a patient with abnormal glucose and diabetes screening?", back: "Fasting glucose >126 mg/dL, random glucose >200 mg/dL with symptoms, or HbA1c >6.5% diagnoses diabetes. Screen high-risk patients (obesity, family history, age >45). OGTT may be needed for prediabetes classification. Repeat testing needed to confirm diagnosis." },
+  { front: "Describe the diagnostic approach to renal dysfunction and differentiate acute kidney injury from chronic kidney disease.", back: "Calculate GFR and interpret creatinine trend. Acute rise suggests AKI (prerenal from dehydration, intrinsic from nephritis, or postrenal from obstruction). Check urine electrolytes, sediment, ultrasound. Chronic disease shows anemia, hyperphosphatemia, small echogenic kidneys." },
+  { front: "What is the approach to a patient with palpitations and arrhythmia detection?", back: "Characterize: sudden vs gradual onset, regular vs irregular, associated syncope/dyspnea/chest pain. EKG captures rhythm. Holter monitor (24 hours), event monitor (weeks), or loop recorder (years) detect paroxysmal arrhythmias. Echocardiogram assesses structural disease." },
+  { front: "How do you approach weight gain and obesity from a diagnostic perspective?", back: "Obtain careful history: appetite, thyroid symptoms, mood, medications (steroids, antipsychotics). Screen: TSH, glucose, lipids. Exclude Cushing syndrome (24-hour urine free cortisol, low-dose dexamethasone suppression test) if centripetal obesity present. Most is simple caloric excess." },
+  { front: "What is the approach to a patient with joint pain and arthritis?", back: "Obtain: number of joints (monoarticular, oligoarticular, polyarticular), onset (acute vs insidious), inflammatory markers (ESR, CRP), RF/anti-CCP, ANA for autoimmune disease. Imaging: X-ray for osteoarthritis, ultrasound for inflammation. Monoarticular joint with effusion warrants arthrocentesis." },
+  { front: "Describe the diagnostic approach to hyponatremia and hypernatremia.", back: "Check osmolality and urine osmolality/sodium. Hyponatremia with high urine osmolality (SIADH, on thiazide) vs low osmolality (polydipsia). Hypernatremia: assess thirst mechanism and output. Insensible losses, diabetes insipidus (central vs nephrogenic), or inadequate water intake." },
+  { front: "What is the approach to evidence-based medicine and critical appraisal of studies?", back: "Assess: study design (RCT > cohort > case-control > case series), population relevance, randomization, blinding, outcome measures, confounders. Calculate NNT, NNH, sensitivity/specificity. Consider publication bias. Apply results only to similar populations." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

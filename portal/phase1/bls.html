@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1379,6 +1406,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the correct hand placement and compression depth for adult CPR?", back: "Place the heel of one hand on the center of the chest between the nipples, place the other hand on top. Compress at least 2 inches (5 cm) but not exceeding 2.4 inches at a rate of 100-120 compressions per minute." },
+  { front: "When should rescue breaths be provided during CPR and what is the recommended ratio?", back: "After 30 chest compressions, deliver 2 rescue breaths. Each breath should last 1 second and result in visible chest rise. If untrained or uncomfortable, hands-only CPR (compression-only) is equally effective for adults." },
+  { front: "What is the proper use of an automated external defibrillator (AED)?", back: "Turn on the AED, apply pads to bare, dry chest, and follow voice prompts. Continue CPR while the AED analyzes. Deliver shock if advised, then resume immediate CPR at 100-120 compressions/minute. Recheck rhythm every 2 minutes." },
+  { front: "Describe the recovery position and when it should be used.", back: "Place unconscious patient on their side with one arm extended, one leg flexed, head tilted back to maintain airway. Use for unresponsive patients with a pulse and normal breathing. Prevents aspiration if vomiting occurs." },
+  { front: "What is the correct technique for relieving choking in a conscious adult using the Heimlich maneuver?", back: "Stand behind the patient, place a fist slightly above the navel and below the ribcage. Grasp your fist with your other hand and make quick, upward thrusts. Repeat until the object is expelled or patient becomes unconscious." },
+  { front: "When should you activate emergency services (call 911) and what information should you provide?", back: "Activate immediately for unresponsiveness, lack of breathing, severe chest pain, or signs of stroke. Provide location, number of patients, chief complaint, patient's mental status, and any interventions already provided." },
+  { front: "What is the correct head-tilt chin-lift maneuver and why is it important?", back: "Tilt the head backward by applying pressure to the forehead with one hand while lifting the chin with two fingers of the other hand. This maneuver opens the airway by advancing the tongue away from the pharyngeal wall, critical for rescue breathing." },
+  { front: "Describe the signs of stroke (F.A.S.T.) and immediate management.", back: "Face drooping, Arm weakness, Speech difficulty, Time to call 911. Acute ischemic stroke requires tPA within 4.5 hours or thrombectomy within 24 hours. Do not delay calling emergency services." },
+  { front: "What are the indications for stopping CPR?", back: "Stop CPR when: spontaneous circulation returns, advanced life support arrives, DNR order is presented, rescuer exhaustion/danger occurs, or resuscitation has been ongoing for extended periods (>30 minutes with no response in arrests not from hypothermia)." },
+  { front: "How should you perform CPR on an infant versus an adult?", back: "Infant: use 2 fingers (index and middle) or 2-thumb technique for compressions at 1.5 inches depth. Compress at 100-120/minute, give 30 compressions then 2 breaths (or ratio 15:2 for 2-rescuer). Child: use 1-2 hands at 2 inches depth." },
+  { front: "What is the significance of early defibrillation in cardiac arrest?", back: "Defibrillation success decreases 7-10% for every minute without treatment. Ventricular fibrillation (VF) is most responsive to defibrillation. Automated external defibrillators should be retrieved and applied within 3-5 minutes of collapse." },
+  { front: "Describe the management of a choking infant (< 1 year old).", back: "Use back blows (5 rapid blows between shoulder blades) alternating with chest thrusts (5 thrusts with 2 fingers on the breastbone). Do not perform abdominal thrusts on infants due to abdominal organ injury risk. Use the sequence until object expulsion or loss of consciousness." },
+  { front: "What is the proper jaw-thrust maneuver and when should it be used?", back: "Place fingers behind the angles of the mandible and thrust the lower jaw forward while stabilizing the head. Use this for suspected cervical spine injury, as it opens the airway while minimizing head-neck movement." },
+  { front: "How do you assess responsiveness and breathing in a cardiac arrest victim?", back: "Tap the patient and shout, \"Are you okay?\" Check for normal breathing (not gasping) for no more than 10 seconds. Agonal gasping is not normal breathing. If unresponsive and not breathing normally, assume cardiac arrest and start CPR." },
+  { front: "What is the post-resuscitation care protocol for patients who survive cardiac arrest?", back: "Maintain targeted temperature management (32-36 C for 12-24 hours), monitor EKG, optimize oxygenation/ventilation, treat underlying cause, and provide ICU-level care. Prognostication should be deferred at least 72 hours due to effects of sedation and hypothermia." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1416,6 +1499,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

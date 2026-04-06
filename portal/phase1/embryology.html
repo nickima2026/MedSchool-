@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the embryological origin of the heart and what defects result from defective neural crest migration?", back: "The heart arises from the first and second pharyngeal arches via neural crest cells. Defective migration causes truncus arteriosus, tetralogy of Fallot, transposition of the great arteries, and DiGeorge syndrome (22q11 deletion)." },
+  { front: "Describe the development of the diaphragm and types of congenital diaphragmatic hernias.", back: "The diaphragm develops from the septum transversum, pleuroperitoneal membrane, dorsal mesentery, and muscularization from the body wall. Bochdalek hernia (posterolateral) is most common. Foramen of Morgagni (anterior) and hiatal hernias also occur." },
+  { front: "What is the embryological basis for neural tube defects and how are they prevented?", back: "Neural tube defects (anencephaly, spina bifida) result from failure of the neural tube to close during weeks 3-4. Caused by inadequate folate or genetic factors. High-dose folic acid supplementation decreases risk by 50-70%." },
+  { front: "Explain the derivation of pharyngeal arch structures and associated anomalies.", back: "First arch (Meckel's cartilage) gives rise to mandible, malleus, incus. Second arch (Reichert's cartilage) gives stapes, incus, facial nerve. Treacher Collins syndrome, Pierre Robin sequence, and hemifacial microsomia result from first/second arch abnormalities." },
+  { front: "What is the embryological origin of the ureter and what causes duplex collecting systems?", back: "The ureter arises from the ureteric bud (Wolffian duct). Complete duplication occurs with two ureteric buds, leading to ectopic ureters, vesicoureteral reflux, and increased infection risk. Often asymptomatic but discovered incidentally." },
+  { front: "Describe the embryological development of the external genitalia and genital anomalies.", back: "External genitalia develop from cloacal tissue (genital tubercle, urogenital folds, labioscrotal swellings) under androgen influence. Defects cause hypospadias (ventral displacement of urethral meatus), epispadias, and intersex development." },
+  { front: "What is the embryological origin of the foregut and its derivatives, and what defects can occur?", back: "The foregut gives rise to pharynx, esophagus, stomach, duodenum (proximal), liver, pancreas, and respiratory tract. Tracheoesophageal fistula, esophageal atresia, pancreatic annulus, and biliary atresia result from abnormal partitioning." },
+  { front: "Explain the embryological development of the kidney and common renal anomalies.", back: "The kidney develops from the metanephric mesoderm and ureteric bud (weeks 5-12). Renal agenesis, hypoplasia, ectopia, and fusion (horseshoe kidney) result from developmental errors. Horseshoe kidney increases obstruction and infection risk." },
+  { front: "What is the embryological basis for cleft palate and associated syndromes?", back: "The palate develops from three processes: medial nasal, lateral nasal, and maxillary (weeks 6-9). Cleft palate may be isolated or associated with trisomy 13/18, DiGeorge syndrome, or fetal alcohol syndrome. Increased risk with anticonvulsants." },
+  { front: "Describe the development of the venous system and consequences of situs inversus totalis.", back: "The IVC, azygos, and portal systems develop from embryologic venous plexuses. Situs inversus totalis (visceral mirror-imaging) results from defects in left-right axis determination. Associated with Kartagener syndrome (immotile cilia)." },
+  { front: "What is the embryological origin of the lymphatic system and what causes lymphedema?", back: "The lymphatic system develops from primary lymph sacs (mesonephric region) starting week 5. Congenital lymphedema results from aplasia or hypoplasia of lymphatic channels. Milroy disease is hereditary lymphedema due to VEGFR3 mutations." },
+  { front: "Explain the embryological development of the eye and congenital anomalies.", back: "The eye develops from the optic vesicle (week 4), lens placode, and neural crest-derived periocular mesenchyme. Cataracts result from lens opacification (maternal infection, metabolic disease). Microphthalmos and anophthalmia reflect arrested development." },
+  { front: "What is the embryological basis for patent foramen ovale and atrial septal defects?", back: "The foramen ovale is a normal fetal shunt between atria. Ostium secundum ASD (most common, 80%) results from inadequate septum secundum or excessive septum primum resorption. Ostium primum ASD involves endocardial cushion defects." },
+  { front: "Describe the embryological development of the skeletal system and achondroplasia pathogenesis.", back: "Bone develops via endochondral ossification (appendicular skeleton) or intramembranous ossification (skull). Achondroplasia results from FGFR3 mutations causing impaired cartilage growth. Presents with short stature, rhizomelic shortening, and lumbar lordosis." },
+  { front: "What is the embryological origin of the adrenal gland and consequences of adrenal hypoplasia congenita?", back: "The adrenal cortex develops from coelomic mesoderm (mesodermal origin); medulla from neural crest (ectoderm). Adrenal hypoplasia congenita causes severe adrenal insufficiency in infancy due to DAX1 or AIRE mutations. Presents with salt-wasting and hypoglycemia." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

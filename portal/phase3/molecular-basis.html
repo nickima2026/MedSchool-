@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the fundamental mechanisms of enzyme catalysis and drug action?", back: "Enzyme catalysis: enzymes lower activation energy, facilitate substrate-product conversion. Michaelis-Menten kinetics: describes enzyme kinetics (Vmax, Km). Drug mechanisms: competitive inhibition (blocks active site), non-competitive (binds elsewhere, reduces Vmax), suicide inhibitors (irreversibly bind, used for selective toxicity). Lock-and-key model: enzyme active site shape/chemistry specific for substrate. Clinical examples: statins inhibit HMG-CoA reductase (cholesterol synthesis), ACE inhibitors inhibit ACE (blood pressure)." },
+  { front: "Describe signal transduction pathways and cellular communication.", back: "Signal transduction: extracellular signal (hormone, growth factor) activates receptor, intracellular cascade. Pathways: MAPK (growth/proliferation), PI3K/AKT (metabolism, survival), JAK/STAT (inflammation, immunity), Wnt/beta-catenin (development). Second messengers: cAMP, IP3, Ca2+. Amplification: single receptor activation activates many downstream effectors. Dysregulation: cancer mutations often in growth signaling (EGFR, BRAF, RAS). Drugs target: receptors (hormone antagonists), kinases (tyrosine kinase inhibitors), second messengers." },
+  { front: "What is the pathophysiology of angiogenesis and vascular development?", back: "Angiogenesis: formation of new blood vessels from existing vasculature. Triggers: hypoxia (HIF-1 alpha upregulates VEGF), inflammation, tumors. VEGF: key growth factor for endothelial cells. Process: endothelial sprouting, migration, tube formation, stabilization. Regulation: pro-angiogenic (VEGF, FGF) vs anti-angiogenic (endostatin, angiostatin) factors. Cancer: tumors promote angiogenesis to meet metabolic demands. Therapy: anti-angiogenic agents (bevacizumab, tyrosine kinase inhibitors) starve tumors." },
+  { front: "Describe inflammation and immune response mechanisms.", back: "Inflammation: response to tissue injury/pathogen involving innate + adaptive immunity. Innate: immediate response (neutrophils, macrophages release cytokines TNF, IL-1, IL-6, IL-8). Adaptive: B cell antibodies, T cell responses. Acute inflammation: edema (vasodilation, vascular permeability), pain, heat, redness. Resolution: fails in chronic inflammation. Molecular: complement cascade, coagulation cascade, fibrinolysis crosstalk. Dysregulation: insufficient inflammation (infection risk), excessive inflammation (autoimmunity, sepsis, ARDS)." },
+  { front: "What are the molecular mechanisms of apoptosis and cell death?", back: "Apoptosis: programmed cell death (vs necrosis, uncontrolled). Pathways: extrinsic (death receptors - Fas, TNF receptor) vs intrinsic (mitochondrial - Bcl-2 family). Executioners: caspases cleave proteins, leading to DNA fragmentation, cell shrinkage, phagocytosis. Regulation: p53 (tumor suppressor) triggers apoptosis in response to DNA damage. Dysregulation: cancer (insufficient apoptosis of abnormal cells), neurodegeneration (excessive apoptosis), autoimmunity (failed apoptosis of self-reactive cells)." },
+  { front: "Describe hypoxia-inducible factor (HIF) and adaptation to hypoxia.", back: "HIF: transcription factor activated under low oxygen. Function: upregulates genes for anaerobic metabolism (LDHA, PKM2), angiogenesis (VEGF), erythropoiesis (EPO). Mechanism: prolyl hydroxylation stabilizes HIF (normoxia = degradation). Clinical: renal hypoxia stimulates EPO (erythropoiesis), tumor hypoxia drives VEGF (angiogenesis, aggressive phenotype), high-altitude acclimatization involves HIF signaling. Targets: HIF inhibitors in development as cancer therapy." },
+  { front: "What are the mechanisms of DNA damage response and repair?", back: "DNA damage: caused by radiation, chemicals, replication errors, reactive oxygen species. Sensors: ATM (double-strand breaks), ATR (single-strand breaks). Response: p53 triggers arrest (allows repair), apoptosis (if damage irreparable). Repair pathways: nucleotide excision repair (UV damage), mismatch repair (replication errors), homologous recombination (double-strand breaks), non-homologous end joining (emergency repair, error-prone). Lynch syndrome: mismatch repair mutations increase cancer risk. Brca1/2: homologous recombination defect, breast/ovarian cancer risk." },
+  { front: "Describe the molecular basis of neurotransmission and synaptic plasticity.", back: "Neurotransmission: axon terminal releases neurotransmitter, binds postsynaptic receptor, produces response (excitatory/inhibitory). Mechanisms: ligand-gated ion channels (fast, ionotropic) vs G-protein coupled receptors (slow, metabotropic). Reuptake: transporters recycle neurotransmitter (antidepressants block). Synaptic plasticity: LTP (long-term potentiation) from NMDA calcium influx + AMPA insertion. Kinase cascades: ERK, PKA, PKC phosphorylate targets, strengthen synapse. BDNF: growth factor supports plasticity. Dysregulation: depression (reduced serotonin), schizophrenia (excess dopamine)." },
+  { front: "What are the molecular mechanisms of cancer development?", back: "Carcinogenesis: multi-step process (initiation, promotion, progression). Mutations: oncogenes (growth-promoting, dominant, gain-of-function) vs tumor suppressors (growth-limiting, recessive, loss-of-function). Critical genes: RAS (growth signaling, 30% cancers), TP53 (DNA damage response, 50% cancers), BRCA1/2 (DNA repair, breast/ovarian), APC (colorectal cancer). Hallmarks: unlimited replication (telomerase), evading apoptosis, angiogenesis, invasion/metastasis. Therapy: chemotherapy (DNA damage), targeted therapy (oncogene inhibition), immunotherapy (immune activation)." },
+  { front: "Describe protein misfolding and neurodegenerative disease mechanisms.", back: "Protein misfolding: proteins fold incorrectly, aggregate (amyloid fibrils). Diseases: Alzheimer (amyloid-beta, tau), Parkinson (alpha-synuclein), Huntington (polyglutamine), prion diseases (PrP). Mechanisms: loss of function (missing normal activity), gain of toxicity (aggregates damage cells), propagation (spreads in brain). Proteasome/autophagy: normal clearance mechanisms overwhelmed. Molecular chaperones: HSP70 attempt refolding. Therapy: target aggregation (BACE inhibitor in Alzheimer), enhance clearance, chaperone mimetics." },
+  { front: "What is the molecular basis of drug metabolism and toxicity?", back: "Phase I (oxidation/reduction): CYP450 enzymes activate/inactivate drugs. Variants: poor/rapid/ultra-rapid metabolizers affect drug efficacy/toxicity. Phase II (conjugation): attach water-soluble groups (glutathione, sulfate) for excretion. Phase III (transport): drug carriers actively excrete. Prodrugs: inactive form converted by metabolism to active (codeine-morphine). Toxicity: toxic metabolites (acetaminophen-NAPQI), drug-drug interactions (inhibit CYP450). Genetic testing: guides dosing for warfarin, clopidogrel, thiopurine." },
+  { front: "Describe the molecular mechanisms of hormone action.", back: "Hormone signaling: hormones bind receptors (nuclear - intracellular, cell surface - extracellular). Nuclear: transcription factor activation (steroid hormones). Cell surface: second messengers (insulin - tyrosine kinase, epinephrine - GPCR-cAMP). Receptor diversity: target tissues express specific receptors (estrogen receptor in breast/uterus). Dysregulation: hormone-responsive cancers (breast - estrogen receptor, prostate - androgen receptor). Therapy: hormone antagonists (tamoxifen blocks estrogen), receptor modulators." },
+  { front: "What are the mechanisms of stem cell differentiation and reprogramming?", back: "Stem cells: self-renewal + differentiation capacity. Differentiation: transcription factor cascades direct lineage commitment (MyoD → myoblasts). Epigenetics: DNA methylation, histone modifications silence/activate genes. Pluripotent stem cells: can differentiate to any cell type. Induced pluripotent stem cells (iPSCs): reprogramming somatic cells via Yamanaka factors (OCT4, SOX2, KLF4, c-MYC). Clinical: iPSCs bypass immune rejection, generate patient-specific therapies. Challenges: tumor formation risk (incomplete reprogramming), efficiency." },
+  { front: "Describe the molecular basis of wound healing and fibrosis.", back: "Wound healing phases: hemostasis (clot), inflammation (cytokines, immune cells), proliferation (angiogenesis, collagen deposition), remodeling (collagen reorganization, scar). Growth factors: PDGF (chemotaxis), FGF (fibroblast activation), VEGF (angiogenesis), TGF-beta (cytokine, pro-fibrotic). Complications: keloids (excessive collagen), chronic wounds (inflammatory phase prolonged), fibrosis (excessive collagen accumulation in organs). Dysregulation: chronic wounds (diabetes, vascular insufficiency), pulmonary fibrosis, liver cirrhosis. Therapy: target TGF-beta (anti-fibrotic), growth factor supplementation." },
+  { front: "What are the mechanisms of immunological tolerance and autoimmunity?", back: "Tolerance: immune system doesn't attack self-antigens. Central: thymus (T cells) and bone marrow (B cells) delete self-reactive cells. Peripheral: Tregs suppress, FasL-mediated killing, immune-privileged sites (CNS, eye). Breakdown: loss of Tregs, defective negative selection, molecular mimicry (pathogen antigens resemble self), bystander activation (inflammation activates self-reactive cells). Autoimmune diseases: SLE (anti-DNA), rheumatoid arthritis (anti-IgG), thyroiditis (anti-thyroid peroxidase). Therapy: immunosuppression, anti-TNF biologics." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

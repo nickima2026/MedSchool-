@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the pathophysiology of ischemic stroke and acute management?", back: "Ischemic stroke results from arterial occlusion (atherosclerotic, cardioembolic, lacunar). Thrombolysis with tPA within 4.5 hours or mechanical thrombectomy within 24 hours restores perfusion. NIHSS score predicts severity. CT/MRI excludes hemorrhage. Risk factors: hypertension, diabetes, atrial fibrillation, hyperlipidemia." },
+  { front: "Describe the pathophysiology and management of intracerebral hemorrhage.", back: "ICH results from rupture of small penetrating vessels, often from chronic hypertension. Hypertensive hemorrhage typically affects basal ganglia, brainstem, cerebellum. Management: BP control (target <180 mmHg systolic), reversal of anticoagulation, management of elevated ICP (head of bed 30 degrees, osmotic therapy). Surgery for cerebellar hemorrhage." },
+  { front: "What is subarachnoid hemorrhage and its management?", back: "SAH from ruptured aneurysm (80% of non-traumatic SAH) presents with thunderclap headache, neck stiffness, photophobia. Complications: rebleeding, vasospasm (days 4-10), hydrocephalus. Management: immediate CT/LP, angiography, endovascular coiling or surgical clipping, triple-H therapy (hypertension, hypervolemia, hemodilution) for vasospasm." },
+  { front: "Explain the pathophysiology of Alzheimer's disease and current treatment options.", back: "Alzheimer's involves amyloid-beta plaque and tau tangles causing neurodegeneration, progressive cognitive decline. Diagnosis: clinical presentation, neuropsychological testing, amyloid/tau PET imaging. Treatment: cholinesterase inhibitors (donepezil), memantine, anti-amyloid monoclonal antibodies (aducanumab, lecanemab). No cure; supportive and symptomatic management." },
+  { front: "What is Parkinson's disease and how is it managed pharmacologically and surgically?", back: "Parkinson's: loss of dopaminergic neurons in substantia nigra causing tremor, rigidity, bradykinesia, postural instability. Diagnosis: clinical presentation plus response to levodopa. Treatment: levodopa-carbidopa, dopamine agonists, MAO-B inhibitors, COMT inhibitors. Deep brain stimulation for severe symptoms or motor complications." },
+  { front: "Describe the pathophysiology and management of multiple sclerosis.", back: "MS is autoimmune demyelination of CNS white matter causing relapsing-remitting or progressive neurological deficits. Diagnosis: MRI (T2/FLAIR lesions), CSF oligoclonal bands, evoked potentials. Treatment: interferon-beta, glatiramer acetate, monoclonal antibodies (natalizumab, alemtuzumab). Acute exacerbations treated with IV methylprednisolone." },
+  { front: "What is the approach to seizures and epilepsy?", back: "Seizure: transient abnormal neuronal firing causing altered consciousness, motor/sensory symptoms. Epilepsy: predisposition to recurrent seizures. Diagnosis: clinical history, EEG, brain MRI. Classification: generalized (tonic-clonic, absence, myoclonic) vs focal. Treatment: antiepileptic drugs (valproate, levetiracetam, lamotrigine). Surgery if focal, drug-refractory epilepsy." },
+  { front: "Explain status epilepticus and emergency management.", back: "Status epilepticus: continuous seizure >5 minutes or repetitive seizures without recovery of consciousness. Medical emergency with high mortality. First-line: benzodiazepine (lorazepam IV). Second-line: fosphenytoin, valproate, lacosamide. Intubate if status continues >30 minutes. Treat underlying cause (infection, trauma, metabolic abnormality)." },
+  { front: "What is the pathophysiology of migraine and management of acute attacks and prevention?", back: "Migraine: unilateral throbbing headache with photophobia, phonophobia, nausea lasting 4-72 hours. Involves trigeminal nerve, meningeal inflammation, cortical spreading depression. Acute treatment: NSAIDs, triptans (sumatriptan), ergotamines. Prevention: beta-blockers, tricyclic antidepressants, valproate, CGRP antagonists." },
+  { front: "Describe the management of tension-type and cluster headaches.", back: "Tension-type: bilateral non-pulsatile pressure sensation, no associated symptoms. Frequent type in population. Treatment: NSAIDs, relaxation therapy, stress reduction. Chronic: tricyclic antidepressants (amitriptyline). Cluster headache: severe unilateral orbital pain with autonomic symptoms (lacrimation, nasal congestion). Treatment: acute triptans/oxygen; prevention: verapamil, lithium." },
+  { front: "What are the causes and management of peripheral neuropathy?", back: "Causes: diabetes (most common), B12 deficiency, alcohol, drugs (chemotherapy, antiretrovirals), autoimmune (CIDP), infections. Distal sensorimotor symptoms with reduced reflexes. Diagnosis: EMG/NCS, B12/folate, glucose, thyroid. Treatment: address underlying cause, symptomatic relief (gabapentin, pregabalin), neuroprotective measures." },
+  { front: "Explain Bell's palsy and how it differs from central facial weakness.", back: "Bell's palsy: idiopathic facial nerve (CN VII) palsy causing unilateral facial weakness (forehead, eye, mouth). Viral (HSV-1 reactivation) suspected. Treat with corticosteroids within 72 hours. Central facial weakness spares forehead due to bilateral cortical innervation (suggests stroke). Most Bell's palsy resolves spontaneously." },
+  { front: "What is the pathophysiology of Guillain-Barré syndrome and its management?", back: "GBS: acute autoimmune demyelinating polyneuropathy presenting with ascending paralysis, respiratory failure risk. Diagnosis: clinical presentation, elevated CSF protein without pleocytosis, EMG (demyelination pattern). Treatment: IVIG or plasmapheresis within 2 weeks of symptom onset. Supportive care: mechanical ventilation, DVT prophylaxis." },
+  { front: "Describe the approach to vertigo and differentiation of central from peripheral causes.", back: "Peripheral: BPPV (benign, positional), vestibular neuritis, Meniere disease. Central: stroke, multiple sclerosis, tumor. Tests: Dix-Hallpike (BPPV), head thrust test, nystagmus character, MRI if central suspected. BPPV treated with canalith repositioning (Epley maneuver). Vestibular rehabilitation for vestibular neuritis." },
+  { front: "What is the management of raised intracranial pressure and cerebral edema?", back: "Causes: hemorrhage, trauma, tumor, ischemic stroke, infection. Signs: headache, altered consciousness, pupil changes, Cushing triad (hypertension, bradycardia, irregular breathing). Management: head elevation 30 degrees, avoid hypercarbia, osmotic therapy (mannitol, hypertonic saline), hyperventilation (acute only), sedation, surgery if mass lesion. Monitor ICP if available." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

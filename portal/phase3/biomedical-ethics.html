@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the core ethical principles in research ethics?", back: "Research ethics: protect human subjects from harm. Core principles: respect for persons (autonomy, informed consent), beneficence (maximize benefit), non-maleficence (minimize harm), justice (fair distribution of research benefits/burdens). IRB (institutional review board) oversees: scientific merit assessment, risk-benefit analysis, informed consent documentation, vulnerable population protections. Historical violations: Tuskegee syphilis study (untreated African Americans), Nazi medical experiments - led to Nuremberg Code." },
+  { front: "Describe informed consent process in clinical research.", back: "Informed consent: subject must understand study purpose, procedures, risks, benefits, alternatives, confidentiality, withdrawal right. Disclosure: written in understandable language (not jargon), covers all material information. Comprehension: assess understanding (teach-back), provide time for questions. Voluntariness: free from coercion, no undue inducement. Documentation: signed consent form. Special considerations: cognitive impairment (surrogate consent), children (parental + assent if age-appropriate), prisoners (special protections)." },
+  { front: "What is equipoise and its role in clinical trial ethics?", back: "Equipoise: genuine uncertainty about which study arm is better. Ethical requirement: randomizing subjects requires honest uncertainty about treatment superiority. Violation: randomizing to treatment known to be inferior is unethical. Individual vs community equipoise: individual (single clinician unsure) vs community (expert disagreement). Maintains: subjects equally likely to receive benefit from any study arm. Justifies: randomization without violating beneficence principle." },
+  { front: "Describe the ethics of clinical trial design and placebo use.", back: "Placebo use ethics: acceptable only if no proven treatment exists (or comparing new to standard). Controversial: using placebo when effective treatment available (unethical unless standard is unavailable in that population). Declaration of Helsinki: sets placebo ethics standards. Equipoise requirement: genuine uncertainty about superiority. Surrogate endpoints: may substitute for hard endpoints if correlation established. Community benefit: research should benefit population studied (not just affluent countries)." },
+  { front: "What are the ethical issues in genetic research and biobanking?", back: "Genetic research ethics: genetic exceptionalism debate (genes uniquely sensitive info). Informed consent: disclose genetic testing, incidental findings (variants unrelated to study), research use, data sharing. Biobanks: long-term storage of biological samples. Issues: consent scope (initial study vs future uses), recontacting subjects (new findings), data ownership/privacy. Return of results: ethical obligation to disclose incidental findings? (e.g., BRCA mutation). Community involvement: indigenous populations demand consultation." },
+  { front: "Describe the ethics of data sharing and open science in research.", back: "Data sharing: promotes transparency, reproducibility, scientific progress. Barriers: privacy concerns (patient identifiable information), intellectual property, competitive advantage, effort/cost. Solutions: de-identification (remove identifiers), differential privacy (noise added for privacy), data use agreements, repositories (NIH Data Share). Open science: preregistration (specify outcomes before study), preprints (rapid communication), code sharing. Benefits: reduce publication bias, duplicate research, methodological issues. Tensions: privacy vs transparency." },
+  { front: "What is research misconduct and what are consequences?", back: "Research misconduct: fabrication (making up data), falsification (altering data), plagiarism (claiming others' work). Implications: wasted research funding, misleads field, patient harm if clinical research. Investigation: institutional research integrity office, federal agencies (NIH, NSF). Consequences: retraction of publications, funding ban, career termination, criminal charges (if funding fraud). Prevention: training, oversight, culture of integrity. High-profile cases: Andrew Wakefield (vaccine-autism fraud), Diedrik Stapel (psychology fraud)." },
+  { front: "Describe the ethics of international research in low-resource settings.", back: "International research ethics: post-colonial concerns (research conducted on but not for populations). Ethical issues: collaborative partnership (local investigators involved), benefit to host community (not just global benefits), resource disparities (unequal access to results), exploitation risk. Standards: Community Engagement, Capacity Building, Fair Negotiation. Benefit sharing: host country/communities share research benefits. Data ownership: sovereignty regarding data. Sustainability: research capacity persists after study end." },
+  { front: "What is the ethics of artificial intelligence in medicine?", back: "AI ethics: algorithmic bias (performs worse in minority populations), transparency ('black box' algorithms), accountability (who responsible if AI fails?), data privacy (training on sensitive health info), human autonomy (replace vs augment clinician?). Issues: training data bias perpetuates health disparities, algorithm drift (performance worsens over time), regulatory framework evolving. Mitigation: diverse training data, external validation, algorithmic audits, clinician oversight, transparent reporting." },
+  { front: "Describe the ethics of precision medicine and patient privacy.", back: "Precision medicine ethics: genomic/phenotypic tailoring of treatment. Privacy risks: genetic discrimination (insurance, employment, social), re-identification of supposedly anonymous genomic data (genetic databases uniquely identify individuals). Regulatory: HIPAA (health data privacy), state genetic privacy laws vary. Consent challenges: secondary use of data (collected for one study, used for another), research vs clinical use distinction blurring. Benefit: improved outcomes vs risk: privacy loss." },
+  { front: "What is the role of institutional review boards (IRB) in research ethics?", back: "IRB: committee reviews human subjects research. Composition: physicians, scientists, community member, ethicist. Review criteria: scientific merit, risk-benefit analysis, informed consent, vulnerable population protections, privacy/confidentiality. Authority: can require modifications, reject studies, terminate ongoing research if unsafe. Expedited review: minimal-risk studies reviewed faster. Continuing review: periodic re-approval for ongoing studies. Limitations: IRBs sometimes inconsistent, variable expertise, heavy workload." },
+  { front: "Describe the ethics of novel therapeutic development and compassionate use.", back: "Novel therapeutics: unproven treatments raise ethical questions. Expanded access programs: provide unapproved drugs to dying patients (Right to Try laws). Ethical tensions: patient autonomy vs beneficence (unproven treatment may harm), desperation bias (dying patients accept unreasonable risks). Standards: animal/preliminary data showing promise required, informed consent highlighting experimental nature. Benefit: potentially life-saving for some, commercial interests in expanded access. Challenges: distinguishing hope from hype." },
+  { front: "What are the ethical considerations in human subject research with vulnerable populations?", back: "Vulnerable populations: reduced autonomy (prisoners, children, cognitively impaired), economically disadvantaged (increased incentive for participation), marginalized (historically exploited - African Americans, Indigenous peoples). Special protections: enhanced informed consent, minimized risk, community engagement, benefit to population studied. Exceptions: minimal risk allows relaxed consent standards. Pediatric research: parental consent + child assent if age-appropriate. Prisoners: research only if direct benefit, additional protections." },
+  { front: "Describe the ethics of resource allocation and healthcare justice.", back: "Healthcare justice: fair distribution of limited resources (organs for transplant, ICU beds during crisis). Allocation principles: utilitarian (maximize lives saved), egalitarian (equal opportunity), prioritarian (favor worst-off). Triage during pandemics: crisis standards of care, allocation protocols (SOFA score, likelihood of survival). Socioeconomic factors: should ability to pay influence allocation? Most healthcare systems emphasize medical need. Implicit bias concerns: race-based formulas may perpetuate disparities." },
+  { front: "What is the ethics of end-of-life care and withdrawing life support?", back: "End-of-life ethics: balance autonomy (patient wishes) with beneficence (clinician duty to help). Advance directives: document treatment preferences (DNR, DNI, organ donation). Surrogate decision-making: if incompetent, surrogate uses substituted judgment (what patient would want) or best-interest standard. Withdrawing support: ethically equivalent to withholding (both allow death). Palliative sedation: ethical if symptom refractory. Physician-assisted death: controversial, legal in limited jurisdictions. Goals of care discussions: essential for guidance." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the key components of a comprehensive history of present illness (HPI)?", back: "Old Carts mnemonic: Onset, Location, Character, Alleviating/Aggravating factors, Radiation, Timing, Severity. Obtain duration, sequence of events, associated symptoms, and impact on function. Thorough HPI guides differential diagnosis." },
+  { front: "How should you obtain and document a patient's review of systems (ROS)?", back: "Systematically screen each organ system (constitutional, eyes, ENT, CV, respiratory, GI, GU, MSK, skin, neuro, psych). Document positive findings thoroughly and negative findings briefly. A thorough ROS may reveal unexpected diagnoses." },
+  { front: "What information is essential in a complete past medical history and medication review?", back: "Record all prior diagnoses, surgeries, hospitalizations, and procedures. Document all current medications including dosage, frequency, and indication. Screen for allergies (drug reactions, environmental). Medication reconciliation prevents drug interactions and duplicate therapy." },
+  { front: "Describe the social history elements critical to clinical assessment.", back: "Obtain: tobacco/alcohol/substance use (pack-years, CAGE screening), occupation, living situation, sexual history, family relationships. Social determinants of health (housing, food insecurity) profoundly impact disease and must be addressed." },
+  { front: "How do you take a focused family history and what is its clinical significance?", back: "Document first and second-degree relatives' health status, age at death, cause of death. Identify patterns: early coronary disease, cancer, hypertension, diabetes, mental illness. Family history guides screening and risk stratification." },
+  { front: "What is the proper technique for measuring blood pressure and sources of error?", back: "Use appropriate cuff size, measure in both arms, seated after 5 minutes rest. White coat hypertension (elevated in office only) is common. Measure at multiple visits before diagnosing hypertension. Ambulatory or home monitoring confirms diagnosis." },
+  { front: "Describe the systematic approach to performing a cardiac examination.", back: "Inspect for JVD, peripheral edema, clubbing. Palpate apex beat and precordium for thrills. Auscultate S1, S2, then murmurs (systolic, diastolic, continuous). Apply maneuvers to characterize murmurs (Valsalva, handgrip, leg raise). Document location, timing, character." },
+  { front: "How do you examine for signs of heart failure on physical exam?", back: "Look for peripheral edema (gravity-dependent), ascites, hepatomegaly, hepatojugular reflux (JVD with RUQ pressure), crackles at lung bases, S3 gallop. Elevated JVP, displaced apex beat, and tachycardia indicate decompensated heart failure." },
+  { front: "What is the proper technique for performing a pulmonary examination and interpreting findings?", back: "Inspect for breathing pattern, use of accessory muscles, cyanosis. Palpate for tactile fremitus. Percuss all zones. Auscultate for breath sounds and adventitious sounds (crackles, wheezes, rhonchi). Interpret findings to localize pathology (consolidation, pleural effusion, pneumothorax)." },
+  { front: "Describe the abdominal examination sequence and significance of findings.", back: "Inspect for distension, scars, skin changes. Auscultate bowel sounds before palpation (which inhibits them). Percuss for fluid thrill, shifting dullness. Palpate for tenderness, masses, hepatosplenomegaly. Rebound/guarding suggest peritonitis." },
+  { front: "How do you assess for peritonitis and what is the clinical significance?", back: "Assess for rebound tenderness (sudden release of palpating pressure causes pain), guarding (patient tenses muscles), and rigidity (board-like hardness). These signs indicate peritoneal inflammation from perforation, appendicitis, or other surgical abdomen. Urgent surgical consultation needed." },
+  { front: "What is the correct technique for assessing mental status and what does it evaluate?", back: "Assess: alertness, orientation (person, place, time), attention span, memory (immediate, recent, remote), language, visuospatial ability, executive function. Use MMSE or Montreal Cognitive Assessment for quantification. Delirium requires acute workup; dementia is gradual." },
+  { front: "Describe the neurological examination sequence and critical red flags.", back: "Assess: mental status, cranial nerves (II-XII), motor (strength, tone, bulk), sensory (light touch, pain, vibration, proprioception), reflexes, coordination (Romberg, gait). Red flags: acute focal deficits (stroke), signs of increased ICP (headache, pupil changes), meningeal signs." },
+  { front: "How do you perform and interpret the Romberg test?", back: "Patient stands with feet together, eyes closed for 20-30 seconds. Positive test (sway/falling) indicates proprioceptive loss (dorsal column disease, B12 deficiency) or cerebellar dysfunction. Always stand ready to catch the patient." },
+  { front: "What findings on examination suggest acute illness requiring hospitalization?", back: "Hemodynamic instability (hypotension, tachycardia, hypoxia), altered mental status, signs of sepsis (fever, tachycardia, altered perfusion), acute neurologic deficits, severe pain, respiratory distress. These warrant urgent evaluation and imaging." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

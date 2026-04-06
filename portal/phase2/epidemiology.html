@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1370,6 +1397,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What is the systematic approach to outbreak investigation?", back: "Outbreak investigation: establish outbreak exists, define case (symptoms, timing, location), search for cases, descriptive epidemiology (time, place, person), generate hypotheses, conduct analytical study (case-control), identify source/exposures, implement control measures, communicate findings. Foodborne: detailed food history determines attack rates by food item. Environmental: assess venue, ventilation, contact patterns. Critical: timely reporting allows public health response." },
+  { front: "Describe epidemic curves and their interpretation.", back: "Epidemic curve: number of cases over time (x-axis). Point source: single exposure, sharp rise then fall. Propagated: person-to-person transmission, sustained rise with waves. Continuous: ongoing exposure (contaminated water, air pollution). Shape suggests source/transmission. Timing of peak relative to exposure can estimate incubation period. Comparing curves in cases vs non-cases helps identify association." },
+  { front: "What are the principles of disease surveillance and reporting?", back: "Surveillance: ongoing systematic collection, analysis, interpretation of health data. Purpose: monitor disease trends, detect outbreaks, guide interventions, evaluate control measures. Reporting requirements: notifiable diseases (public health authority mandated), varies by jurisdiction. Data collection: passive (healthcare providers report), active (health dept contacts facilities), sentinel surveillance. Privacy/confidentiality protected." },
+  { front: "Describe the role of travel history and imported diseases in field epidemiology.", back: "Travel-associated diseases: expand differential diagnosis. Malaria, dengue, Zika: vector-borne diseases in endemic regions. Tuberculosis: global disease burden, import into low-burden countries. Monkeypox: imported to non-endemic countries causing outbreaks. Obtain detailed travel itinerary (countries, dates, rural vs urban, water source, mosquito exposure). Quarantine/isolation if transmissible. Genomic sequencing identifies import chains." },
+  { front: "What is the diagnostic approach to waterborne disease outbreaks?", back: "Waterborne diseases: cholera, typhoid, hepatitis A, cryptosporidium, giardia, legionella. Investigation: assess water source (municipal, private well), treatment (chlorination, filtration), testing (bacteria, viruses, parasites, chemicals). Case-control study identifies association with water exposure. Control measures: boil water advisories, system flushing, treatment adjustment. Environmental sampling guides interventions." },
+  { front: "Describe the role of microbiology and molecular epidemiology in outbreak investigation.", back: "Microbiology: isolates identified to species/serotype guiding source. Antibiotic susceptibility testing identifies resistant strains. Molecular epidemiology: strain typing (pulsed-field gel electrophoresis, whole-genome sequencing) links cases, identifies introduction points. Genomic epidemiology: real-time sequencing tracks transmission chains (COVID-19, monkeypox). Differentiates coincidental cases from outbreak." },
+  { front: "What is the diagnostic approach to acute gastrointestinal illness outbreaks?", back: "GI outbreak investigation: detailed food history (timeline, specific foods, water, high-attack-rate foods). Stool samples: identify pathogen (bacterial culture, viral PCR, parasites). Incubation period guides agent (1-6 hours: toxin-mediated; 6-24 hours: invasion; >24 hours: inflammation). Establish case definition, calculate attack rates by food, identify source. Control: food handler exclusion, environmental cleaning, public notification." },
+  { front: "Describe the epidemiology and public health response to pandemic respiratory pathogens.", back: "Pandemic respiratory pathogens: influenza, COVID-19, emerge from animal sources via zoonotic spillover. Spread: respiratory droplets (short-range) vs aerosol (long-range). Public health response: early detection/reporting, isolation of cases, quarantine of contacts, testing capacity, vaccines if available. Control measures: masks, distancing, ventilation. Modeling projects health system capacity/mortality. Global coordination via WHO." },
+  { front: "What are the principles of vaccine epidemiology and herd immunity calculations?", back: "Vaccine epidemiology: assess vaccine coverage, effectiveness, adverse effects surveillance (VAERS). Herd immunity threshold = 1 - 1/R0 (reproductive number). Measles R0 = 12 requires 92% immunity. Influenza R0 = 1-2 requires 50-75%. Coverage below threshold allows outbreaks. Breakthrough infections tracked separately. Community immunity wanes; booster campaigns maintain coverage. Vaccine preventable disease surveillance monitors outbreaks in unvaccinated." },
+  { front: "Describe the epidemiology of healthcare-associated infections and infection control.", back: "HAI: infections acquired in healthcare settings (>2-3 days post-admission). Common: surgical site, pneumonia (VAP), UTI, bloodstream (central line). Risk factors: immunosuppression, prolonged hospitalization, invasive devices. Surveillance: standardized definitions, reporting to CDC. Prevention: sterilization, hand hygiene, asepsis, isolation precautions, antibiotic stewardship. Outbreak response: source identification, enhanced surveillance, environmental investigation." },
+  { front: "What is the role of sentinel surveillance in early outbreak detection?", back: "Sentinel surveillance: subset of facilities report systematically to detect trends early. Advantages: more detailed data collection, active case finding, rapid reporting. Used for influenza (sentinel sites report ILI weekly), laboratory-confirmed cases. Lower cost than universal surveillance. Limitations: may miss cases outside sentinel sites. Geographic distribution important. Triggers further investigation if cases exceed threshold." },
+  { front: "Describe the epidemiology and control of vector-borne diseases.", back: "Vector-borne diseases: malaria, dengue, Zika, Lyme disease transmitted by arthropods. Epidemiology: depends on vector distribution, human-vector contact, vertebrate reservoir. Surveillance: case reporting, vector surveillance (trap/inspect for disease), environmental assessment. Control: vector control (insecticides, source reduction), personal protection (repellent, clothing), vaccination if available (yellow fever), quarantine of cases." },
+  { front: "What are the principles of dose-response epidemiology and causation?", back: "Dose-response: increasing exposure associated with increasing disease risk (biological plausibility). Examples: smoking dose (pack-years) and lung cancer, asbestos exposure and mesothelioma, alcohol consumption and cirrhosis. Strength of association: RR/OR ≥2 suggests causal. Presence of dose-response strengthens causation argument. Assess for confounding and measurement error. Critical in environmental/occupational epidemiology." },
+  { front: "Describe the epidemiology and public health implications of antimicrobial resistance.", back: "Antimicrobial resistance: major public health threat. Mechanisms: enzymatic degradation, target modification, reduced uptake. Spread: horizontal gene transfer within/between species. Common resistant organisms: MRSA, VRE, ESBL-producing gram-negatives, MDR TB. Surveillance: resistance tracking in laboratories/hospitals. Control: antibiotic stewardship, infection prevention, hand hygiene, immunization. One Health approach: human, animal, environmental coordination." },
+  { front: "What is the diagnostic approach to nosocomial outbreaks (hospital-associated).", back: "Nosocomial outbreak: cluster of cases in healthcare facility. Investigation: case identification (standardized case definition), descriptive epidemiology (timeline, location, patient/staff characteristics), hypothesis generation (common exposure, person-to-person transmission, environmental source). Analytical study: case-control comparing cases vs non-cases. Environmental sampling, molecular typing guides source. Control measures: isolation, cohorting, antibiotic stewardship, hand hygiene emphasis." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1407,6 +1490,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

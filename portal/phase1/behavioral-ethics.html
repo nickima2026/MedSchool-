@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the four principles of medical ethics and their applications?", back: "Autonomy: respect patient's right to self-determination (informed consent). Beneficence: act in patient's best interest. Non-maleficence: avoid harm. Justice: fair distribution of resources, equal treatment. Ethical dilemmas arise when principles conflict (autonomy vs beneficence in case of refusing life-saving transfusion)." },
+  { front: "What is informed consent and what elements must be disclosed?", back: "Informed consent: patient must understand diagnosis, recommended treatment, risks/benefits, alternatives, consequences of refusal. Elements: capacity to decide, voluntary agreement, adequate information, comprehension. Patient decision must be respected even if physician disagrees. Exceptions: emergency (implied), incompetence (surrogate), public health (emergency)." },
+  { front: "Describe the approach to a patient who refuses recommended treatment.", back: "Respect autonomy if patient is competent (understands information, appreciates relevance, expresses stable choice). Clarify reasons for refusal. Explore values/concerns. Offer alternatives. Document discussion thoroughly. If refusing life-sustaining treatment (DNR, withdrawal of support), ensure understanding of consequences. Surrogate decision-maker if incompetent." },
+  { front: "What is the ethical framework for end-of-life care and physician-assisted death?", back: "Advance directives (living will, healthcare proxy) express patient's wishes. Surrogate uses substituted judgment (what patient would want) or best interest standard. Withholding/withdrawing life support ethically equivalent. Passive euthanasia (allowing to die) distinguished from active euthanasia. Physician-assisted death legal in limited US jurisdictions, controversial ethically." },
+  { front: "Describe the principles of justice in healthcare and resource allocation.", back: "Justice: fair distribution of healthcare resources, equal treatment for equal need. Utilitarian: greatest good for greatest number (may sacrifice individuals). Egalitarian: maximize welfare of worst-off. Libertarian: individual rights primary, minimal redistribution. Pandemic triage illustrates justice: allocate ventilators by likelihood of benefit, not ability to pay." },
+  { front: "What are ethical issues in genetic testing and predictive medicine?", back: "Predictive testing raises: right not to know, genetic discrimination (insurance, employment), family implications (whether to test relatives), incidental findings, psychological impact. Ethical obligations: informed consent explaining implications, counseling support, privacy, nondiscrimination. Prenatal testing: counseling about findings, respect for reproductive autonomy." },
+  { front: "Describe the ethical framework for organ transplantation and allocation.", back: "Limited organs require fair allocation criteria: medical urgency (sickest first), waiting time, likelihood of success, geographic location. Living donation: must ensure informed consent, no coercion, medical suitability screening. Directed donation (to specific recipient) generally acceptable if altruistic. Buy/sell organs prohibited except in regulated systems." },
+  { front: "What are the ethical principles in medical research and informed consent?", back: "IRB (institutional review board) protects human subjects. Research must have scientific merit, favorable risk-benefit ratio. Informed consent: subjects understand purpose, procedures, risks, confidentiality, right to withdraw. Special protections: vulnerable populations (children, prisoners, mentally ill). Data safety monitoring halts harmful research. Scientific misconduct (fraud, fabrication) violates ethics." },
+  { front: "Describe cultural competence and its importance in clinical practice.", back: "Cultural competence: understanding patient's cultural beliefs, values, practices affecting health. Explore beliefs about illness causation, family role, treatment preferences. Avoid stereotyping; individual variation within cultures. Use interpreters for language barriers. Respect dietary/spiritual practices. Address health disparities from discrimination, systemic racism. Cultural humility: recognize power imbalances." },
+  { front: "What is the ethical framework for disclosure of medical errors?", back: "Transparency about errors (disclosure) ethically obligatory. Benefits: maintains trust, prevents coverup, allows patient remedy. Disclosure includes: what happened, why, impact on patient, steps taken to prevent recurrence. May expose malpractice liability but reduces litigation costs long-term (apology legislation protects disclosure). Supportive care for error-affected patients." },
+  { front: "Describe the ethical principles governing psychiatric hospitalization and autonomy.", back: "Involuntary hospitalization justified when patient poses danger to self/others AND less restrictive alternatives ineffective. Must meet commitment criteria (dangerousness, serious mental illness, grave disability). Due process: hearing, representation, least restrictive setting. Balances autonomy vs safety/treatment access. Short-term commitment allows stabilization/treatment." },
+  { front: "What are the ethical issues in conflict of interest in medicine?", back: "Conflicts of interest: financial incentives affecting clinical judgment. Examples: pharmaceutical gifts, research funding, ownership stakes in devices. Disclosure of conflicts required. Mitigation: institutional policies, avoiding certain relationships, transparency. Implicit bias: unconscious prejudices affecting treatment decisions. Recognize and counteract through awareness, diverse teams, accountability." },
+  { front: "Describe the ethical framework for DNR (do-not-resuscitate) orders and code status discussions.", back: "DNR: patient declines CPR if cardiac arrest. Based on goals of care, prognosis, medical futility. Distinguish from full code. Should discuss early in serious illness. Document clearly, review periodically. Surrogate decision-maker if incompetent. Timing: respect patient's readiness. CPR rarely restores baseline functional status in advanced disease; realistic expectations important." },
+  { front: "What ethical considerations apply to treatment of medically complex patients with limited resources?", back: "Scarcity requires prioritization: treatments with highest benefit-burden ratio. Consider: goals of care, likelihood of meaningful improvement, burdens (pain, dependence on technology), quality of life. Avoid overtreatment (interventions unlikely to benefit) and undertreatment (denying appropriate care). Multidisciplinary teams (palliative care) help navigate complexity." },
+  { front: "Describe the ethical principles of beneficence and non-maleficence in prescribing medications.", back: "Beneficence: select medication most likely to benefit patient. Non-maleficence: minimize harm (side effects, drug interactions, contraindications). Risk-benefit analysis: weigh therapeutic benefit against harm risk. Shared decision-making: discuss options, side effects, alternatives. Deprescribing: regularly review necessity of medications, discontinue inappropriate/harmful agents." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });

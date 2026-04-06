@@ -708,7 +708,28 @@
             padding: var(--spacing-xl);
         }
 
-        /* Resources Tab */
+                /* Flashcards Tab */
+        .flashcard-container { max-width: 600px; margin: 0 auto; }
+        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-front { background: var(--color-surface); }
+        .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
+        .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
+        .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
+        .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
+        .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
+        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Resources Tab */
         .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -890,6 +911,7 @@
         <button class="tab" data-tab="notes">&#9999; My Notes</button>
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
+        <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -971,6 +993,11 @@
                 <div id="quizContainer" class="quiz-empty">
                     No USMLE quizzes available yet. Check back soon.
                 </div>
+            </div>
+
+            <!-- Flashcards Tab -->
+            <div class="tab-content" data-tab-content="flashcards">
+                <div id="flashcardContainer"></div>
             </div>
 
             <!-- Resources Tab -->
@@ -1381,6 +1408,62 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
+        // Flashcard Data
+        const FLASHCARDS = [
+  { front: "What are the mechanisms of bacterial antibiotic resistance?", back: "Resistance mechanisms: enzymatic degradation (beta-lactamase), target modification (altered penicillin-binding proteins in MRSA), reduced drug uptake (porins, efflux pumps), methylation of ribosomal RNA. Horizontal gene transfer (plasmids, transposons) spreads resistance. ESBL producers, carbapenem resistance increasing. Antibiotic stewardship critical to combat resistance." },
+  { front: "Describe the pathophysiology of gram-negative sepsis and endotoxemia.", back: "Gram-negative bacteria release lipopolysaccharide (LPS/endotoxin) from outer membrane. LPS activates toll-like receptor 4 on immune cells, triggering massive cytokine release (TNF, IL-1, IL-6). Causes fever, tachycardia, hypotension, organ dysfunction. Results in septic shock if untreated. Early antibiotics and source control essential." },
+  { front: "What are the characteristics and pathogenicity of MRSA?", back: "MRSA (methicillin-resistant S. aureus): produces altered penicillin-binding proteins encoded by mecA gene. Healthcare-associated (HA-MRSA) and community-associated (CA-MRSA) strains. CA-MRSA often produces Panton-Valentine leukocidin (PVL) toxin causing severe pneumonia/necrotizing soft tissue infections. Treated with vancomycin, linezolid, daptomycin." },
+  { front: "Explain the life cycle of Plasmodium parasites and malaria pathophysiology.", back: "Malaria parasites transmitted by Anopheles mosquitoes. Sporozoites inject into bloodstream, infect hepatocytes, undergo exoerythrocytic schizogony (1-2 weeks). Merozoites enter RBCs, cause hemolysis, fever cycles (P. vivax/ovale: 48 hrs; P. malariae: 72 hrs). Severe malaria: cerebral, pulmonary edema, acute kidney injury. Treatment: artemisinin combination therapy." },
+  { front: "What is the pathophysiology of viral myocarditis and its diagnosis?", back: "Viral myocarditis: viral infection (enterovirus, adenovirus, parvovirus B19) damages myocardium, causes inflammation. Presents with chest pain, dyspnea, arrhythmias, fulminant heart failure. Diagnosis: elevated troponin, echocardiography shows decreased EF, cardiac MRI (edema/scar), viral serology. Most recover; some progress to cardiomyopathy." },
+  { front: "Describe the mechanisms of viral neuroinvasion and meningitis/encephalitis.", back: "Viruses (enterovirus, HSV, VZV, arboviruses) cross blood-brain barrier via infected endothelial cells or leukocytes. Cause inflammation of meninges (meningitis) or brain parenchyma (encephalitis). Enteroviral meningitis: benign, self-limited. HSV encephalitis: severe, temporal lobe involvement, treated with IV acyclovir. Diagnosis: CSF analysis, PCR, MRI." },
+  { front: "What is the pathophysiology of Clostridioides difficile infection and treatment?", back: "C. difficile: gram-positive anaerobe producing toxins A and B after antibiotic disruption of normal flora. Causes colitis, pseudomembranes, toxic megacolon, perforation. Risk factors: antibiotics (especially fluoroquinolones, clindamycin), age, immunosuppression. Treatment: metronidazole (mild), vancomycin (moderate-severe), fidaxocin preferred. Probiotics ineffective." },
+  { front: "Explain the life cycle and pathophysiology of Leishmania parasites.", back: "Leishmania transmitted by sand fly. Promastigotes injected into skin, converted to amastigotes in macrophages. Cutaneous leishmaniasis: ulcers at bite site. Mucosal: nasal/pharyngeal destruction. Visceral: fever, hepatosplenomegaly, pancytopenia, potentially fatal. Treatment: pentavalent antimony, miltefosine. Prevention: insect repellent, bed nets." },
+  { front: "What are the mechanisms of tick-borne disease transmission and Lyme disease pathophysiology?", back: "Lyme disease: Borrelia burgdorferi transmitted by Ixodes tick in 3+ stages of attachment. Stage 1: erythema migrans (target rash), flu-like illness. Stage 2: neurologic (meningitis, neuritis), cardiac (conduction abnormalities). Stage 3: Lyme arthritis (knee primarily). Early recognition and antibiotic treatment (doxycycline) prevents late manifestations." },
+  { front: "Describe the pathophysiology of influenza and pandemic risk.", back: "Influenza: segmented RNA virus causing acute respiratory illness, fever, myalgia. Spreads via respiratory droplets, highly contagious. Antigenic drift (point mutations) causes seasonal flu; antigenic shift (reassortment) causes pandemics. Complications: secondary bacterial pneumonia (S. pneumoniae, S. aureus), myocarditis. Treatment: neuraminidase inhibitors (oseltamivir)." },
+  { front: "What is the epidemiology and pathophysiology of COVID-19?", back: "SARS-CoV-2 coronavirus causes COVID-19. Spreads via respiratory droplets/aerosol. ACE2 receptor mediates cell entry. Asymptomatic to severe pneumonia/ARDS. Risk factors: age, comorbidities (diabetes, hypertension, obesity). Diagnosis: RT-PCR. Treatment: antivirals (remdesivir), immunomodulators (dexamethasone, tocilizumab). Vaccines reduce severe disease." },
+  { front: "Explain the pathophysiology of streptococcal pharyngitis and rheumatic fever.", back: "Group A Streptococcus causes acute pharyngitis with exudate, fever, cervical lymphadenopathy. Diagnosis: rapid strep test or culture. Treated with penicillin. Untreated/inadequately treated leads to acute rheumatic fever: cardiac (valvulitis, myocarditis), arthritis, chorea, subcutaneous nodules, rash. Prevention: prompt antibiotic treatment." },
+  { front: "What are the mechanisms of toxin-mediated disease in Vibrio cholerae and Shigella?", back: "V. cholerae: secretes cholera toxin via enterotoxigenic plasmid. Toxin ADP-ribosylates Gs protein, increases CAMP, causes massive watery diarrhea (rice-water stools), dehydration, electrolyte loss. Shigella: invades colonic mucosa, produces Shiga toxin causing bloody diarrhea, hemolytic uremic syndrome in severe cases. Treatment: rehydration, supportive care." },
+  { front: "Describe the pathophysiology of mycobacterial infections and drug resistance.", back: "Mycobacteria (M. tuberculosis, M. leprae) have thick waxy cell walls, slow growth, intracellular survival. TB causes chronic pulmonary infection, progressive lung damage, cough, hemoptysis. MDR-TB resistant to isoniazid/rifampicin; XDR-TB resistant to fluoroquinolones/injectable drugs. Leprosy causes skin/nerve damage. Treatment requires prolonged multidrug therapy." },
+  { front: "What is the role of fungal infections in immunocompromised hosts?", back: "Immunosuppressed (CD4+ <200, neutropenia, organ transplant): risk of opportunistic fungi. Candida: oral thrush, esophagitis, invasive disease. Aspergillus: invasive pneumonia, angioinvasion causes hemoptysis. Cryptococcus: meningitis. PCP (Pneumocystis jirovecii): pneumonia in HIV/AIDS, CD4 <200. Diagnosis: culture, antigen detection, histopathology. Treatment: antifungals (azoles, amphotericin B, echinocandins)." }
+];
+
+        // Flashcard State
+        let fcIndex = 0;
+        let fcFlipped = false;
+        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function renderFlashcards() {
+            const container = document.getElementById("flashcardContainer");
+            if (FLASHCARDS.length === 0) {
+                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+                return;
+            }
+            const card = FLASHCARDS[fcOrder[fcIndex]];
+            container.innerHTML = `
+                <div class="flashcard-container">
+                    <div class="flashcard-header">
+                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
+                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    </div>
+                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
+                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
+                        </div>
+                    </div>
+                    <div class="flashcard-hint">Click card to flip</div>
+                    <div class="flashcard-nav">
+                        <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
+                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
+            document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+        }
+
         // Utility: Render Resources
         function renderResources() {
             const container = document.getElementById("resourcesContainer");
@@ -1418,6 +1501,7 @@
 
                 if (state.activeTab === "quizzes") renderQuizzes();
                 if (state.activeTab === "course-quizzes") renderCourseQuizzes();
+                if (state.activeTab === "flashcards") renderFlashcards();
                 if (state.activeTab === "resources") renderResources();
                 if (state.activeTab === "notes") renderNotes();
             });
