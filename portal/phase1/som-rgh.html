@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A 60-year-old smoker presents with chronic productive cough for at least 3 months in each of 2 consecutive years. Pulmonary function tests show an FEV1/FVC ratio of 0.62. What is the most likely diagnosis?",
+                "options": [
+                        "Asthma",
+                        "Chronic bronchitis (COPD)",
+                        "Restrictive lung disease",
+                        "Bronchiectasis"
+                ],
+                "correct": 1,
+                "explanation": "Chronic bronchitis is defined clinically by productive cough for \u22653 months in \u22652 consecutive years. The reduced FEV1/FVC (<0.70) confirms obstructive physiology (COPD). Smoking is the primary cause. Treatment includes bronchodilators, smoking cessation, and pulmonary rehabilitation."
+        },
+        {
+                "question": "A patient with cirrhosis presents with hematemesis. Endoscopy reveals esophageal varices. What is the underlying pathophysiology?",
+                "options": [
+                        "Peptic ulcer disease",
+                        "Portal hypertension causing portosystemic collateral formation",
+                        "Mallory-Weiss tear from vomiting",
+                        "Esophageal cancer"
+                ],
+                "correct": 1,
+                "explanation": "Cirrhosis causes portal hypertension (increased resistance to portal flow through the fibrotic liver). Blood is shunted through portosystemic anastomoses, including esophageal submucosal veins, forming varices. Variceal bleeding is a life-threatening emergency requiring endoscopic band ligation and octreotide."
+        },
+        {
+                "question": "A patient presents with right upper quadrant pain, fever, and jaundice (Charcot triad). Ultrasound shows a dilated common bile duct with a stone. What is the most likely diagnosis?",
+                "options": [
+                        "Acute cholecystitis",
+                        "Ascending cholangitis",
+                        "Hepatitis",
+                        "Pancreatitis"
+                ],
+                "correct": 1,
+                "explanation": "Charcot triad (RUQ pain, fever, jaundice) is classic for ascending cholangitis \u2014 bacterial infection of the biliary tract due to obstruction (usually gallstone). Reynolds pentad adds altered mental status and hypotension (septic cholangitis). Treatment: antibiotics + urgent biliary drainage (ERCP)."
+        },
+        {
+                "question": "A 45-year-old presents with epigastric pain radiating to the back, elevated lipase (>3\u00d7 upper limit of normal), and a history of heavy alcohol use. What is the diagnosis?",
+                "options": [
+                        "Peptic ulcer disease",
+                        "Acute pancreatitis",
+                        "Cholecystitis",
+                        "Mesenteric ischemia"
+                ],
+                "correct": 1,
+                "explanation": "Acute pancreatitis is diagnosed by meeting 2 of 3 criteria: (1) characteristic epigastric pain radiating to the back, (2) lipase >3\u00d7 upper limit of normal, (3) imaging findings. Gallstones and alcohol are the two most common causes (~80% combined). Treatment is supportive: NPO, IV fluids, pain control."
+        },
+        {
+                "question": "A chest X-ray shows bilateral hilar lymphadenopathy and diffuse reticular opacities. The patient has non-caseating granulomas on transbronchial biopsy. What is the most likely diagnosis?",
+                "options": [
+                        "Tuberculosis",
+                        "Sarcoidosis",
+                        "Lung cancer",
+                        "Histoplasmosis"
+                ],
+                "correct": 1,
+                "explanation": "Sarcoidosis is a systemic granulomatous disease characterized by non-caseating granulomas. Bilateral hilar lymphadenopathy (BHL) on CXR is the most common radiographic finding. It predominantly affects young African Americans and often presents with cough, dyspnea, erythema nodosum, and elevated ACE levels."
+        },
+        {
+                "question": "A patient with inflammatory bowel disease has cobblestone mucosa, skip lesions, and transmural inflammation on biopsy. Is this more consistent with Crohn disease or ulcerative colitis?",
+                "options": [
+                        "Ulcerative colitis",
+                        "Crohn disease",
+                        "Ischemic colitis",
+                        "Microscopic colitis"
+                ],
+                "correct": 1,
+                "explanation": "Crohn disease features transmural inflammation, skip lesions (segmental involvement), cobblestone mucosa, non-caseating granulomas, and can affect anywhere from mouth to anus (most commonly terminal ileum). UC shows continuous mucosal inflammation starting from the rectum extending proximally."
+        },
+        {
+                "question": "What is the most common cause of community-acquired pneumonia in adults?",
+                "options": [
+                        "Mycoplasma pneumoniae",
+                        "Haemophilus influenzae",
+                        "Streptococcus pneumoniae",
+                        "Klebsiella pneumoniae"
+                ],
+                "correct": 2,
+                "explanation": "Streptococcus pneumoniae (pneumococcus) is the most common cause of community-acquired pneumonia (CAP) across all age groups. It classically presents with acute onset of fever, productive cough with rusty sputum, and lobar consolidation on chest X-ray."
+        },
+        {
+                "question": "A patient with hepatitis B has the following serologies: HBsAg negative, anti-HBs positive, anti-HBc positive. What is the interpretation?",
+                "options": [
+                        "Acute infection",
+                        "Chronic infection",
+                        "Immunity due to natural infection",
+                        "Immunity due to vaccination"
+                ],
+                "correct": 2,
+                "explanation": "Anti-HBs positive (immunity) + anti-HBc positive (prior exposure) + HBsAg negative (no active infection) = immunity from natural infection (recovered). Vaccination only produces anti-HBs (no anti-HBc because the core antigen is not in the vaccine)."
+        },
+        {
+                "question": "A patient presents with dysphagia to solids and liquids equally from the onset. Barium swallow shows a bird-beak appearance of the distal esophagus. What is the most likely diagnosis?",
+                "options": [
+                        "Esophageal cancer",
+                        "Achalasia",
+                        "Diffuse esophageal spasm",
+                        "GERD with stricture"
+                ],
+                "correct": 1,
+                "explanation": "Achalasia causes dysphagia to both solids AND liquids from onset (motor disorder). The bird-beak sign on barium swallow shows smooth tapering of the distal esophagus with proximal dilation. It results from loss of inhibitory neurons (ganglion cells) in the myenteric plexus. Mechanical obstruction (cancer, stricture) typically causes progressive dysphagia to solids first."
+        },
+        {
+                "question": "A patient with COPD has an ABG showing pH 7.35, PaCO2 55 mmHg, HCO3 30 mEq/L. What acid-base disturbance is present?",
+                "options": [
+                        "Acute respiratory acidosis",
+                        "Compensated respiratory acidosis",
+                        "Metabolic alkalosis",
+                        "Mixed disorder"
+                ],
+                "correct": 1,
+                "explanation": "Elevated PaCO2 (respiratory acidosis) with proportionally elevated HCO3 (renal compensation) and near-normal pH indicates a compensated respiratory acidosis. This is typical of chronic COPD \u2014 the kidneys retain bicarbonate over days to weeks to buffer the chronic CO2 retention."
+        }
+];
+        let RESOURCES = [
+            { title: "Guyton & Hall Textbook of Medical Physiology (14th ed.)", type: "textbook", url: "https://www.elsevier.com/books/guyton-and-hall-textbook-of-medical-physiology/hall/978-0-323-59712-8" },
+            { title: "Costanzo Physiology (7th ed.)", type: "textbook", url: "https://www.elsevier.com/books/physiology/costanzo/978-0-323-79333-3" },
+            { title: "Pathoma — Renal, GI & Hepatic Pathology", type: "subscription", url: "https://www.pathoma.com" },
+            { title: "Boards and Beyond — Renal & GI", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Ninja Nerd — Renal Physiology", type: "free", url: "https://www.youtube.com/c/NinjaNerdScience" },
+            { title: "AMBOSS — Renal System & GI Tract", type: "subscription", url: "https://www.amboss.com/us/knowledge/Renal_system" },
+            { title: "Osmosis — Nephrology & Gastroenterology", type: "subscription", url: "https://www.osmosis.org/learn/Renal_system" },
+            { title: "Khan Academy — Renal & GI Systems", type: "free", url: "https://www.khanacademy.org/science/health-and-medicine/human-anatomy-and-physiology" },
+            { title: "Acid-Base Tutorial (University of Connecticut)", type: "free", url: "https://fitsweb.uchc.edu/student/selectives/TimurGraworothy/index.html" },
+            { title: "Sketchy Medical — GI Pharmacology", type: "subscription", url: "https://www.sketchy.com" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

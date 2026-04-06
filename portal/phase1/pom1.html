@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "During a patient interview, the physician uses the phrase 'Tell me more about that.' This is an example of which communication technique?",
+                "options": [
+                        "Closed-ended question",
+                        "Open-ended facilitation",
+                        "Reflection",
+                        "Confrontation"
+                ],
+                "correct": 1,
+                "explanation": "Open-ended facilitation encourages the patient to elaborate without directing the conversation. It helps build rapport and allows patients to share their narrative in their own words, which is essential for patient-centered interviewing."
+        },
+        {
+                "question": "When auscultating heart sounds, the bell of the stethoscope is best for detecting which type of sounds?",
+                "options": [
+                        "High-pitched sounds like aortic regurgitation",
+                        "Low-pitched sounds like S3 and mitral stenosis murmur",
+                        "Breath sounds",
+                        "Bowel sounds"
+                ],
+                "correct": 1,
+                "explanation": "The bell detects low-frequency sounds (S3, S4, mitral stenosis rumble) when applied lightly. The diaphragm detects high-frequency sounds (S1, S2, aortic regurgitation, mitral regurgitation). Pressing the bell firmly converts it to a diaphragm."
+        },
+        {
+                "question": "A patient's blood pressure is 142/88 mmHg on two separate office visits. According to current ACC/AHA guidelines, this is classified as:",
+                "options": [
+                        "Normal",
+                        "Elevated",
+                        "Stage 1 hypertension",
+                        "Stage 2 hypertension"
+                ],
+                "correct": 2,
+                "explanation": "Per 2017 ACC/AHA guidelines: Normal <120/<80, Elevated 120-129/<80, Stage 1 HTN 130-139/80-89, Stage 2 HTN \u2265140/\u226590. A systolic of 142 and diastolic of 88 meet criteria for Stage 1 hypertension (systolic 130-139 OR diastolic 80-89 would suffice)."
+        },
+        {
+                "question": "During a physical exam, you notice jugular venous distension (JVD) at 45 degrees. This finding is most suggestive of:",
+                "options": [
+                        "Dehydration",
+                        "Right-sided heart failure",
+                        "Left-sided heart failure only",
+                        "Aortic stenosis"
+                ],
+                "correct": 1,
+                "explanation": "JVD reflects elevated right atrial pressure. At 45 degrees, the jugular venous pulsation should not be visible above the clavicle. Elevated JVP suggests right heart failure, cardiac tamponade, constrictive pericarditis, or superior vena cava obstruction."
+        },
+        {
+                "question": "A patient presents with a holosystolic murmur best heard at the apex radiating to the axilla. What is the most likely valvular abnormality?",
+                "options": [
+                        "Aortic stenosis",
+                        "Mitral regurgitation",
+                        "Mitral stenosis",
+                        "Aortic regurgitation"
+                ],
+                "correct": 1,
+                "explanation": "Mitral regurgitation produces a holosystolic (pansystolic) murmur best heard at the apex with radiation to the left axilla. Aortic stenosis produces a crescendo-decrescendo systolic murmur at the right upper sternal border radiating to the carotids."
+        },
+        {
+                "question": "When performing a respiratory exam, you note dullness to percussion over the right lower lung field with decreased breath sounds. What is the most likely finding?",
+                "options": [
+                        "Pneumothorax",
+                        "Pleural effusion",
+                        "Emphysema",
+                        "Asthma exacerbation"
+                ],
+                "correct": 1,
+                "explanation": "Pleural effusion produces dullness to percussion and decreased breath sounds over the affected area. Pneumothorax produces hyperresonance with decreased breath sounds. Emphysema produces hyperresonance. Asthma produces wheezing with normal percussion."
+        },
+        {
+                "question": "A patient reports a medication allergy. Which of the following responses best demonstrates patient safety practices?",
+                "options": [
+                        "Note it in the chart and move on",
+                        "Ask the patient to describe the specific reaction they experienced",
+                        "Assume it is a true allergy and avoid the entire drug class",
+                        "Tell the patient most allergies are not real"
+                ],
+                "correct": 1,
+                "explanation": "It is essential to characterize the reaction (true allergy vs. intolerance vs. side effect). A rash or anaphylaxis suggests true allergy; nausea suggests intolerance. The specific reaction determines which alternatives are safe and whether the drug class should be avoided."
+        },
+        {
+                "question": "The SOAP note format is commonly used for medical documentation. What does the 'A' stand for?",
+                "options": [
+                        "Action",
+                        "Assessment",
+                        "Analysis",
+                        "Audit"
+                ],
+                "correct": 1,
+                "explanation": "SOAP stands for Subjective (patient's symptoms and history), Objective (physical exam and lab findings), Assessment (diagnosis or differential), and Plan (treatment and next steps). The Assessment synthesizes the S and O into clinical reasoning."
+        },
+        {
+                "question": "During a wellness exam, which screening tool is recommended for depression in adults?",
+                "options": [
+                        "Mini-Mental State Exam (MMSE)",
+                        "Patient Health Questionnaire-9 (PHQ-9)",
+                        "Glasgow Coma Scale",
+                        "CAGE questionnaire"
+                ],
+                "correct": 1,
+                "explanation": "The PHQ-9 is a validated 9-item screening tool for depression in primary care. The PHQ-2 (first 2 questions) is often used as an initial screen. MMSE screens for cognitive impairment, GCS assesses consciousness level, and CAGE screens for alcohol use disorder."
+        },
+        {
+                "question": "A patient's BMI is calculated as 32 kg/m\u00b2. This falls into which category?",
+                "options": [
+                        "Normal weight",
+                        "Overweight",
+                        "Obesity class I",
+                        "Obesity class II"
+                ],
+                "correct": 2,
+                "explanation": "BMI categories: <18.5 underweight, 18.5-24.9 normal, 25-29.9 overweight, 30-34.9 obesity class I, 35-39.9 obesity class II, \u226540 obesity class III (morbid). A BMI of 32 is obesity class I."
+        }
+];
+        let RESOURCES = [
+            { title: "Bates' Guide to Physical Examination (13th ed.)", type: "textbook", url: "https://www.lww.com/product/bates-guide-to-physical-examination-and-history-taking-9781975210533" },
+            { title: "Symptom to Diagnosis (Stern et al.)", type: "textbook", url: "https://accessmedicine.mhmedical.com/book.aspx?bookid=2715" },
+            { title: "Stanford Medicine 25 — Physical Exam Videos", type: "free", url: "https://stanfordmedicine25.stanford.edu" },
+            { title: "Geeky Medics — Clinical Skills", type: "free", url: "https://geekymedics.com/category/clinical-skills/" },
+            { title: "AMBOSS — Clinical Skills Library", type: "subscription", url: "https://www.amboss.com/us/knowledge/Clinical_skills" },
+            { title: "Osmosis — Clinical Skills", type: "subscription", url: "https://www.osmosis.org/learn/Clinical_Skills" },
+            { title: "OnlineMedEd — Clinical Reasoning", type: "free", url: "https://onlinemeded.org" },
+            { title: "Aquifer — Virtual Patient Cases", type: "subscription", url: "https://aquifer.org" },
+            { title: "OSCE Stop — Exam Practice", type: "free", url: "https://oscestop.com" },
+            { title: "Medscape — Physical Exam Reference", type: "free", url: "https://emedicine.medscape.com" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

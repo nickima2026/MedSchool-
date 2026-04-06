@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A 30-year-old woman presents with episodic unilateral throbbing headache, nausea, photophobia, and visual aura lasting 20 minutes before headache onset. What is the most likely diagnosis?",
+                "options": [
+                        "Tension-type headache",
+                        "Migraine with aura",
+                        "Cluster headache",
+                        "Trigeminal neuralgia"
+                ],
+                "correct": 1,
+                "explanation": "Migraine with aura presents with reversible neurological symptoms (visual, sensory, or speech) lasting 5-60 minutes before or during a unilateral, pulsating headache with nausea/photophobia. Visual aura (scintillating scotoma, fortification spectra) is the most common type."
+        },
+        {
+                "question": "A patient presents with a rapidly expanding, painful vesicular rash in a dermatomal distribution on the trunk. What is the causative agent?",
+                "options": [
+                        "Herpes simplex virus type 1",
+                        "Varicella-zoster virus (reactivation)",
+                        "Staphylococcus aureus",
+                        "Dermatophyte infection"
+                ],
+                "correct": 1,
+                "explanation": "Herpes zoster (shingles) results from reactivation of latent varicella-zoster virus in dorsal root ganglia. It presents with painful vesicles in a dermatomal distribution that does not cross the midline. Postherpetic neuralgia is the most common complication."
+        },
+        {
+                "question": "A 25-year-old woman presents with optic neuritis. MRI of the brain shows periventricular white matter lesions. CSF shows oligoclonal bands. What is the most likely diagnosis?",
+                "options": [
+                        "Neuromyelitis optica",
+                        "Multiple sclerosis",
+                        "Acute disseminated encephalomyelitis",
+                        "CNS lymphoma"
+                ],
+                "correct": 1,
+                "explanation": "Multiple sclerosis presents with episodes of CNS demyelination disseminated in space and time. Optic neuritis is a common initial presentation. MRI showing periventricular white matter lesions (Dawson fingers) and CSF oligoclonal bands support the diagnosis. Peak onset is 20-40 years, female predominance."
+        },
+        {
+                "question": "A patient presents with a facial rash in a butterfly distribution sparing the nasolabial folds. What is the most likely diagnosis?",
+                "options": [
+                        "Rosacea",
+                        "Systemic lupus erythematosus (malar rash)",
+                        "Seborrheic dermatitis",
+                        "Contact dermatitis"
+                ],
+                "correct": 1,
+                "explanation": "The malar (butterfly) rash of SLE characteristically spares the nasolabial folds, which helps distinguish it from other facial rashes. Seborrheic dermatitis involves the nasolabial folds. Rosacea affects the central face with papules and pustules."
+        },
+        {
+                "question": "A 65-year-old man presents with progressive symmetric weakness, fasciculations, and upper and lower motor neuron signs without sensory loss. What is the most likely diagnosis?",
+                "options": [
+                        "Myasthenia gravis",
+                        "Guillain-Barr\u00e9 syndrome",
+                        "Amyotrophic lateral sclerosis (ALS)",
+                        "Polymyositis"
+                ],
+                "correct": 2,
+                "explanation": "ALS is characterized by combined upper motor neuron (spasticity, hyperreflexia, Babinski) and lower motor neuron (weakness, atrophy, fasciculations) signs without sensory involvement. Progressive bulbar and respiratory weakness leads to death typically within 3-5 years."
+        },
+        {
+                "question": "Which type of skin cancer is most commonly associated with sun exposure and presents as a pearly, translucent papule with telangiectasias and rolled borders?",
+                "options": [
+                        "Squamous cell carcinoma",
+                        "Melanoma",
+                        "Basal cell carcinoma",
+                        "Merkel cell carcinoma"
+                ],
+                "correct": 2,
+                "explanation": "Basal cell carcinoma is the most common skin cancer, presenting as a pearly/translucent nodule with telangiectasias and rolled borders, often on sun-exposed areas. It rarely metastasizes but is locally destructive. Risk factors include chronic UV exposure, fair skin, and prior radiation."
+        },
+        {
+                "question": "A patient with Parkinson disease is started on carbidopa-levodopa. What is the role of carbidopa in this combination?",
+                "options": [
+                        "It crosses the blood-brain barrier to enhance dopamine effects",
+                        "It inhibits peripheral decarboxylation of levodopa, increasing CNS availability",
+                        "It blocks dopamine reuptake in the synapse",
+                        "It stimulates dopamine receptors directly"
+                ],
+                "correct": 1,
+                "explanation": "Carbidopa is a peripheral DOPA decarboxylase inhibitor that prevents conversion of levodopa to dopamine outside the CNS. This increases the amount of levodopa reaching the brain, reduces the required dose, and minimizes peripheral side effects (nausea, orthostatic hypotension)."
+        },
+        {
+                "question": "An elderly patient presents with sudden onset of the worst headache of their life. CT head is negative. What is the next diagnostic step?",
+                "options": [
+                        "MRI brain",
+                        "Lumbar puncture",
+                        "CT angiography",
+                        "Observation and discharge"
+                ],
+                "correct": 1,
+                "explanation": "Thunderclap headache raises concern for subarachnoid hemorrhage (SAH). CT head is ~95% sensitive within 6 hours. If CT is negative, lumbar puncture is the next step to look for xanthochromia or RBCs, as it is more sensitive for detecting small SAH that CT may miss."
+        },
+        {
+                "question": "A patient presents with target lesions (erythema multiforme). Which of the following is the most common trigger?",
+                "options": [
+                        "Penicillin allergy",
+                        "Herpes simplex virus infection",
+                        "Staphylococcal infection",
+                        "Autoimmune disease"
+                ],
+                "correct": 1,
+                "explanation": "HSV is the most common trigger for erythema multiforme minor (target lesions). Drug reactions more commonly cause Stevens-Johnson syndrome/TEN (which is on a different spectrum). EM presents with targetoid lesions with three concentric zones, often on acral surfaces."
+        },
+        {
+                "question": "Which cranial nerve is tested by asking the patient to clench their jaw and move it side to side?",
+                "options": [
+                        "CN V (Trigeminal)",
+                        "CN VII (Facial)",
+                        "CN IX (Glossopharyngeal)",
+                        "CN XII (Hypoglossal)"
+                ],
+                "correct": 0,
+                "explanation": "CN V (trigeminal) has three divisions. The motor component (V3, mandibular) innervates the muscles of mastication (masseter, temporalis, medial/lateral pterygoids). Jaw clenching tests the masseter/temporalis; lateral jaw movement tests the pterygoids. Sensory V1/V2/V3 test facial sensation."
+        }
+];
+        let RESOURCES = [
+            { title: "Kandel's Principles of Neural Science (6th ed.)", type: "textbook", url: "https://www.mhprofessional.com/kandel-s-principles-of-neural-science-9781259642234" },
+            { title: "Clinical Neuroanatomy (Blumenfeld)", type: "textbook", url: "https://www.sinauer.com/clinical-neuroanatomy.html" },
+            { title: "Pathoma — Neuropathology & Dermatopathology", type: "subscription", url: "https://www.pathoma.com" },
+            { title: "Boards and Beyond — Neurology & Dermatology", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Ninja Nerd — Neuroscience Lectures", type: "free", url: "https://www.youtube.com/c/NinjaNerdScience" },
+            { title: "AMBOSS — Neurology & Dermatology", type: "subscription", url: "https://www.amboss.com/us/knowledge/Neurology" },
+            { title: "Osmosis — Neuroscience", type: "subscription", url: "https://www.osmosis.org/learn/Neuroscience" },
+            { title: "UBC Neuroanatomy — Interactive Atlas", type: "free", url: "https://neuroanatomy.ca" },
+            { title: "DermNet — Dermatology Resource", type: "free", url: "https://dermnetnz.org" },
+            { title: "Sketchy Medical — Neuro & Derm Pharmacology", type: "subscription", url: "https://www.sketchy.com" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

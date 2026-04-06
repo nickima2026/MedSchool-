@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 68-year-old with acute dyspnea is undergoing POCUS evaluation. Which finding on lung ultrasound is most consistent with pulmonary edema?",
+                "options": [
+                        "B-lines (comet-tail artifacts) in bilateral lung fields",
+                        "A-lines in lung fields",
+                        "Barcode sign",
+                        "Pleural effusion only"
+                ],
+                "correct": 0,
+                "explanation": "B-lines (comet-tail artifacts) represent fluid in interlobular septa and are seen in pulmonary edema, pneumoconiosis, and diffuse infiltrative disease. Multiple B-lines (>3 per field) in bilateral zones suggest cardiogenic pulmonary edema. A-lines indicate normal lung; barcode (horizontal lines) suggests pneumothorax."
+        },
+        {
+                "question": "During POCUS evaluation of a patient with hypotension and suspected shock, which measure of the inferior vena cava (IVC) suggests hypovolemia?",
+                "options": [
+                        "IVC diameter >2.1 cm with >50% collapse on inspiration",
+                        "IVC diameter <2.1 cm with >50% collapse on inspiration",
+                        "IVC diameter >3 cm with <25% collapse",
+                        "IVC diameter 2-2.8 cm with no respirophasic change"
+                ],
+                "correct": 1,
+                "explanation": "Small IVC (<2.1 cm) that collapses >50% with inspiration suggests hypovolemia/underfilling. Large IVC (>2.8 cm) with minimal collapse suggests elevated CVP (heart failure, tamponade, PE). IVC measurements are limited in predicting fluid responsiveness but provide supportive information."
+        },
+        {
+                "question": "A 45-year-old with right upper quadrant pain undergoes POCUS. Ultrasound shows gallbladder wall thickening (>3mm), pericholecystic fluid, and positive Murphy's sign. Which diagnosis is most likely?",
+                "options": [
+                        "Cholelithiasis",
+                        "Acute cholecystitis",
+                        "Chronic cholecystitis",
+                        "Gallbladder cancer"
+                ],
+                "correct": 1,
+                "explanation": "Acute cholecystitis presents with gallbladder wall thickening (>3mm), pericholecystic fluid, and sonographic Murphy's sign (pain over cystic artery with probe pressure). Sensitivity and specificity >90% when ultrasound findings match clinical presentation. Treatment: NPO, IV fluids, antibiotics, and cholecystectomy."
+        },
+        {
+                "question": "During POCUS cardiac evaluation of a hypotensive patient, the left ventricle appears nearly empty throughout the cardiac cycle. Which interpretation is most appropriate?",
+                "options": [
+                        "Severe systolic dysfunction",
+                        "Hypovolemic shock",
+                        "Mitral stenosis",
+                        "Tamponade"
+                ],
+                "correct": 1,
+                "explanation": "Underfilled, 'kissing' ventricles (minimal cavity size throughout cardiac cycle) suggest hypovolemia. Differentially diagnose causes of shock: hypovolemic (small LV), cardiogenic (dilated, poor function), obstructive (tamponade, PE), or distributive (sepsis). IVC appearance, lung ultrasound, and clinical context guide diagnosis."
+        },
+        {
+                "question": "A patient presents with acute dyspnea and hypoxia. POCUS shows unilateral absence of lung sliding with a 'barcode sign'. Which diagnosis is most likely?",
+                "options": [
+                        "Pneumonia",
+                        "Pulmonary embolism",
+                        "Pneumothorax",
+                        "Pleural effusion"
+                ],
+                "correct": 2,
+                "explanation": "Loss of lung sliding with barcode (horizontal B-lines) indicates pneumothorax. Lung point sign (alternating B and A lines at pleural line) is pathognomonic for pneumothorax. A-lines alone indicate normal lung. Pneumothorax diagnosis by POCUS is >90% sensitive/specific in experienced hands."
+        },
+        {
+                "question": "During POCUS abdominal evaluation, free fluid is noted in all 4 quadrants. The patient is hemodynamically unstable with absent radial pulse. Which condition is most likely?",
+                "options": [
+                        "Ruptured abdominal aortic aneurysm",
+                        "Perforated peptic ulcer",
+                        "Mesenteric ischemia",
+                        "Acute pancreatitis"
+                ],
+                "correct": 0,
+                "explanation": "Ruptured AAA presents with shock, hypotension, pulsatile abdominal mass, and peritoneal free fluid. POCUS shows large aorta (>3 cm) with loss of defined margins suggesting rupture. This is a surgical emergency; transfer to OR is priority. Resuscitation occurs concurrently; avoid aggressive fluid resuscitation."
+        },
+        {
+                "question": "A 35-year-old with acute dyspnea undergoes POCUS. The right atrium is distended (>3 cm), and there is collapse of the right atrium in systole. Which condition is most likely causing these findings?",
+                "options": [
+                        "Right ventricular infarction",
+                        "Acute pulmonary embolism",
+                        "Tamponade",
+                        "Acute cor pulmonale"
+                ],
+                "correct": 2,
+                "explanation": "Tamponade causes RA collapse in systole and RV collapse in diastole as intrapericardial pressure impairs filling. Distended IVC confirms elevated intrathoracic pressure. Clinical findings: hypotension, JVD, muffled heart sounds. Treatment: pericardiocentesis. POCUS is adjunctive; clinical diagnosis is primary."
+        },
+        {
+                "question": "During POCUS of the right upper quadrant, a crescent of anechoic fluid is seen between the liver and Morrison's pouch. What is the significance of this finding in the context of trauma?",
+                "options": [
+                        "Finding is normal; no clinical significance",
+                        "Indicates intra-abdominal bleeding and potential need for transfusion/intervention",
+                        "Suggests hepatic contusion without active bleeding",
+                        "Represents ascites from chronic liver disease"
+                ],
+                "correct": 1,
+                "explanation": "Free fluid in Morrison's pouch (right upper quadrant above kidney) indicates intra-abdominal hemorrhage in trauma. Presence confirms bleeding and may guide need for massive transfusion protocol or surgery. Absence does not rule out bleeding; serial exams are performed. FAST exam (Focused Assessment with Sonography in Trauma) incorporates this finding."
+        },
+        {
+                "question": "A patient with acute scrotal pain undergoes POCUS. The affected testicle shows absent color flow on Doppler ultrasound. Which diagnosis must be excluded immediately?",
+                "options": [
+                        "Epididymitis",
+                        "Testicular torsion",
+                        "Inguinal hernia",
+                        "Hydrocele"
+                ],
+                "correct": 1,
+                "explanation": "Testicular torsion presents as an acute vascular emergency with absent or markedly reduced Doppler flow in the affected testicle. The affected side shows enlarged hypoechoic testicle compared to contralateral side. Requires urgent surgical detorsion within 6-8 hours to preserve fertility. POCUS can guide triage but ultrasound should not delay surgery."
+        },
+        {
+                "question": "During abdominal POCUS in a patient with right lower quadrant pain, the appendix appears thickened (>6mm) with surrounding free fluid. Which diagnosis is most likely?",
+                "options": [
+                        "Appendicitis",
+                        "Mesenteric lymphadenitis",
+                        "Ovarian pathology (female)",
+                        "Inguinal hernia"
+                ],
+                "correct": 0,
+                "explanation": "Acute appendicitis on POCUS shows an appendix diameter >6mm, non-compressibility, echogenic fat surrounding the appendix, and potentially free fluid/abscess. Sensitivity >85%, specificity >89% in experienced hands. Clinical correlation (RLQ pain, fever) improves diagnostic accuracy. Confirms need for CT or surgery."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

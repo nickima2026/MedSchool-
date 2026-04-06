@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A 2-year-old boy has recurrent bacterial infections with encapsulated organisms. His serum immunoglobulin levels are markedly decreased. Flow cytometry shows absent CD19+ cells with normal CD3+ cells. What is the most likely diagnosis?",
+                "options": [
+                        "DiGeorge syndrome",
+                        "X-linked agammaglobulinemia (Bruton's)",
+                        "Common variable immunodeficiency",
+                        "Severe combined immunodeficiency"
+                ],
+                "correct": 1,
+                "explanation": "X-linked agammaglobulinemia (Bruton's) results from a BTK gene mutation, causing a block in B-cell maturation. Patients have absent B cells (CD19+) and very low immunoglobulins but normal T cells. They present after 6 months when maternal antibodies wane."
+        },
+        {
+                "question": "Which type of hypersensitivity reaction is mediated by IgE antibodies and mast cell degranulation?",
+                "options": [
+                        "Type I (immediate)",
+                        "Type II (cytotoxic)",
+                        "Type III (immune complex)",
+                        "Type IV (delayed-type)"
+                ],
+                "correct": 0,
+                "explanation": "Type I hypersensitivity involves IgE-mediated mast cell and basophil degranulation, releasing histamine, leukotrienes, and prostaglandins. Examples include anaphylaxis, allergic rhinitis, asthma, and food allergies. It occurs within minutes of antigen exposure."
+        },
+        {
+                "question": "A patient receives a kidney transplant and develops acute rejection within days. This is primarily mediated by:",
+                "options": [
+                        "Preformed donor-specific antibodies (hyperacute)",
+                        "Host T cells recognizing donor MHC molecules",
+                        "Immune complex deposition",
+                        "NK cell activation only"
+                ],
+                "correct": 1,
+                "explanation": "Acute cellular rejection (days to months) is primarily mediated by host CD8+ T cells recognizing donor MHC class I molecules and CD4+ T cells recognizing donor MHC class II. Hyperacute rejection (minutes to hours) involves preformed antibodies."
+        },
+        {
+                "question": "MHC class I molecules present antigens to which type of T cell?",
+                "options": [
+                        "CD4+ helper T cells",
+                        "CD8+ cytotoxic T cells",
+                        "Natural killer T cells",
+                        "Regulatory T cells"
+                ],
+                "correct": 1,
+                "explanation": "MHC class I molecules (found on all nucleated cells) present intracellular peptides (e.g., viral proteins) to CD8+ cytotoxic T cells. MHC class II molecules (on APCs) present extracellular peptides to CD4+ helper T cells."
+        },
+        {
+                "question": "A child with recurrent Neisseria meningitidis infections is found to have a deficiency of C5-C9 complement components. Which complement pathway component is deficient?",
+                "options": [
+                        "C1 esterase inhibitor",
+                        "Membrane attack complex (MAC)",
+                        "C3 convertase",
+                        "Mannose-binding lectin"
+                ],
+                "correct": 1,
+                "explanation": "C5-C9 form the membrane attack complex (MAC), which creates pores in bacterial membranes. MAC deficiency (C5-C9) specifically predisposes to recurrent Neisseria infections (meningococcal and gonococcal), as these bacteria are particularly susceptible to complement-mediated lysis."
+        },
+        {
+                "question": "Which cytokine is primarily responsible for the differentiation of naive CD4+ T cells into Th1 cells?",
+                "options": [
+                        "IL-4",
+                        "IL-12",
+                        "IL-6",
+                        "IL-10"
+                ],
+                "correct": 1,
+                "explanation": "IL-12 (produced by macrophages and dendritic cells) drives Th1 differentiation via STAT4 and T-bet transcription factor. Th1 cells produce IFN-\u03b3 and are important for cell-mediated immunity against intracellular pathogens. IL-4 drives Th2 differentiation."
+        },
+        {
+                "question": "A patient with systemic lupus erythematosus (SLE) has anti-dsDNA antibodies. The kidney damage in lupus nephritis is primarily due to which type of hypersensitivity?",
+                "options": [
+                        "Type I",
+                        "Type II",
+                        "Type III",
+                        "Type IV"
+                ],
+                "correct": 2,
+                "explanation": "Lupus nephritis is primarily a Type III hypersensitivity reaction. Circulating immune complexes (anti-dsDNA antibodies bound to DNA) deposit in the glomerular basement membrane, activating complement and causing inflammation and tissue damage."
+        },
+        {
+                "question": "Positive selection of T cells in the thymus ensures that mature T cells can:",
+                "options": [
+                        "Recognize foreign antigens with high affinity",
+                        "Recognize self-MHC molecules",
+                        "Eliminate autoreactive T cells",
+                        "Produce all immunoglobulin isotypes"
+                ],
+                "correct": 1,
+                "explanation": "Positive selection occurs in the thymic cortex and ensures T cells can recognize self-MHC. T cells that fail to bind self-MHC die by neglect. Negative selection (in the medulla) then eliminates T cells that bind self-MHC/self-peptide too strongly, preventing autoimmunity."
+        },
+        {
+                "question": "Isotype switching (class switching) from IgM to IgG requires which molecular mechanism?",
+                "options": [
+                        "V(D)J recombination",
+                        "Somatic hypermutation only",
+                        "Switch recombination at switch regions in the heavy chain constant region",
+                        "Light chain rearrangement"
+                ],
+                "correct": 2,
+                "explanation": "Class switch recombination involves DNA recombination between switch (S) regions upstream of different heavy chain constant region genes. This changes the antibody class (e.g., IgM to IgG) without changing antigen specificity. It requires CD40L-CD40 interaction and cytokine signals."
+        },
+        {
+                "question": "A patient on chronic immunosuppressive therapy develops a lymphoma associated with Epstein-Barr virus. This is most likely which type of lymphoma?",
+                "options": [
+                        "Hodgkin lymphoma",
+                        "Post-transplant lymphoproliferative disorder (PTLD)",
+                        "Follicular lymphoma",
+                        "Mantle cell lymphoma"
+                ],
+                "correct": 1,
+                "explanation": "PTLD is an EBV-driven lymphoproliferative disorder occurring in immunosuppressed patients (especially transplant recipients). Impaired T-cell surveillance allows uncontrolled EBV-infected B-cell proliferation. Treatment includes reducing immunosuppression and anti-CD20 therapy (rituximab)."
+        }
+];
+        let RESOURCES = [
+            { title: "Janeway's Immunobiology (10th ed.)", type: "textbook", url: "https://wwnorton.com/books/Janeways-Immunobiology/" },
+            { title: "How the Immune System Works (Sompayrac)", type: "textbook", url: "https://www.wiley.com/en-us/How+the+Immune+System+Works-p-9781119542124" },
+            { title: "Khan Academy — Immunology", type: "free", url: "https://www.khanacademy.org/science/biology/human-biology/immunology" },
+            { title: "Ninja Nerd — Immunology Lectures", type: "free", url: "https://www.youtube.com/c/NinjaNerdScience" },
+            { title: "Osmosis — Immune System", type: "subscription", url: "https://www.osmosis.org/learn/Immune_system" },
+            { title: "AMBOSS — Immunology", type: "subscription", url: "https://www.amboss.com/us/knowledge/Immunology" },
+            { title: "Boards and Beyond — Immunology", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Pixorize — Immunology Visual Mnemonics", type: "subscription", url: "https://pixorize.com" },
+            { title: "Immunology (Kuby) — Online Resources", type: "free", url: "https://www.macmillanlearning.com/college/us/product/Kuby-Immunology/p/1464189781" },
+            { title: "British Society for Immunology — Bitesized Immunology", type: "free", url: "https://www.immunology.org/public-information/bitesized-immunology" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

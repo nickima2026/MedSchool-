@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A patient presents with an inability to abduct the arm between 15\u00b0 and 90\u00b0. Weakness of which muscle is most likely responsible?",
+                "options": [
+                        "Deltoid",
+                        "Supraspinatus",
+                        "Infraspinatus",
+                        "Teres minor"
+                ],
+                "correct": 0,
+                "explanation": "The deltoid (innervated by the axillary nerve, C5-C6) is the primary abductor of the arm from 15\u00b0 to 90\u00b0. The supraspinatus initiates abduction (first 15\u00b0), while the trapezius and serratus anterior contribute above 90\u00b0 via scapular rotation."
+        },
+        {
+                "question": "During a thyroidectomy, the surgeon must identify the recurrent laryngeal nerve to avoid injury. Damage to this nerve would most likely result in:",
+                "options": [
+                        "Loss of sensation above the vocal cords",
+                        "Hoarseness due to paralysis of intrinsic laryngeal muscles",
+                        "Inability to swallow",
+                        "Loss of the cough reflex"
+                ],
+                "correct": 1,
+                "explanation": "The recurrent laryngeal nerve (branch of vagus, CN X) innervates all intrinsic laryngeal muscles except the cricothyroid. Unilateral damage causes hoarseness; bilateral damage can cause airway obstruction due to vocal cord adduction."
+        },
+        {
+                "question": "A stab wound to the posterior triangle of the neck most likely damages which nerve, causing inability to shrug the shoulder?",
+                "options": [
+                        "Long thoracic nerve",
+                        "Spinal accessory nerve (CN XI)",
+                        "Dorsal scapular nerve",
+                        "Suprascapular nerve"
+                ],
+                "correct": 1,
+                "explanation": "The spinal accessory nerve (CN XI) traverses the posterior triangle of the neck superficially, making it vulnerable to injury. It innervates the trapezius and sternocleidomastoid. Damage causes drooping of the shoulder and inability to shrug."
+        },
+        {
+                "question": "A patient with a femoral neck fracture is at risk for avascular necrosis of the femoral head. Which artery is the primary blood supply to the adult femoral head?",
+                "options": [
+                        "Obturator artery",
+                        "Medial circumflex femoral artery",
+                        "Lateral circumflex femoral artery",
+                        "Inferior gluteal artery"
+                ],
+                "correct": 1,
+                "explanation": "The medial circumflex femoral artery (branch of the deep femoral/profunda femoris) provides the primary blood supply to the femoral head via retinacular arteries. Femoral neck fractures can disrupt these vessels, leading to avascular necrosis."
+        },
+        {
+                "question": "A patient presents with 'wrist drop' after falling asleep with the arm draped over a chair. Which nerve is most likely injured?",
+                "options": [
+                        "Median nerve",
+                        "Ulnar nerve",
+                        "Radial nerve",
+                        "Musculocutaneous nerve"
+                ],
+                "correct": 2,
+                "explanation": "The radial nerve runs in the spiral groove of the humerus and is susceptible to compression ('Saturday night palsy'). It innervates the wrist and finger extensors; damage causes wrist drop (inability to extend the wrist and fingers at the MCP joints)."
+        },
+        {
+                "question": "The thoracodorsal nerve is injured during axillary lymph node dissection. Which movement will be weakened?",
+                "options": [
+                        "Arm abduction",
+                        "Arm adduction and medial rotation",
+                        "Arm flexion at the shoulder",
+                        "Scapular protraction"
+                ],
+                "correct": 1,
+                "explanation": "The thoracodorsal nerve innervates the latissimus dorsi, which is a powerful adductor, medial rotator, and extensor of the arm. It is also important in pulling the arm downward, as in climbing or swimming."
+        },
+        {
+                "question": "A lumbar puncture is typically performed at the L3-L4 or L4-L5 interspace. What landmark helps identify the L4 spinous process?",
+                "options": [
+                        "Xiphoid process",
+                        "Supracristal line (iliac crest line)",
+                        "Umbilicus",
+                        "Costal margin"
+                ],
+                "correct": 1,
+                "explanation": "The supracristal line (Tuffier's line) connects the highest points of the iliac crests and typically crosses the L4 spinous process or L4-L5 interspace. This is below the conus medullaris (which ends at L1-L2 in adults), making it safe for lumbar puncture."
+        },
+        {
+                "question": "Which structure passes through the foramen ovale of the skull?",
+                "options": [
+                        "Middle meningeal artery",
+                        "Mandibular division of trigeminal nerve (V3)",
+                        "Maxillary division of trigeminal nerve (V2)",
+                        "Internal carotid artery"
+                ],
+                "correct": 1,
+                "explanation": "The mandibular division (V3) of the trigeminal nerve exits the skull through the foramen ovale. V1 exits through the superior orbital fissure, V2 through foramen rotundum, and the middle meningeal artery enters through foramen spinosum."
+        },
+        {
+                "question": "A patient has a positive Trendelenburg sign on the right side (pelvis drops on the left when standing on the right leg). Which nerve is most likely damaged?",
+                "options": [
+                        "Femoral nerve",
+                        "Obturator nerve",
+                        "Superior gluteal nerve",
+                        "Inferior gluteal nerve"
+                ],
+                "correct": 2,
+                "explanation": "The superior gluteal nerve innervates the gluteus medius and minimus, which stabilize the pelvis during single-leg stance. Damage causes the contralateral pelvis to drop (positive Trendelenburg sign) because these muscles cannot hold the pelvis level."
+        },
+        {
+                "question": "During an appendectomy, the surgeon identifies the appendix by tracing which structure to its base?",
+                "options": [
+                        "Ileocecal valve",
+                        "Taeniae coli",
+                        "Mesoappendix",
+                        "Terminal ileum"
+                ],
+                "correct": 1,
+                "explanation": "The three taeniae coli converge at the base of the appendix on the cecum. Surgeons trace these longitudinal muscle bands distally to reliably locate the appendicular base, regardless of the appendix's variable position."
+        }
+];
+        let RESOURCES = [
+            { title: "Gray's Anatomy for Students (5th ed.)", type: "textbook", url: "https://www.elsevier.com/books/grays-anatomy-for-students/drake/978-0-323-79372-2" },
+            { title: "Netter's Atlas of Human Anatomy (8th ed.)", type: "textbook", url: "https://www.elsevier.com/books/netters-atlas-of-human-anatomy/netter/978-0-323-79372-2" },
+            { title: "Complete Anatomy (3D Atlas App)", type: "subscription", url: "https://3d4medical.com" },
+            { title: "Acland's Video Atlas of Human Anatomy", type: "subscription", url: "https://aclandanatomy.com" },
+            { title: "Teach Me Anatomy", type: "free", url: "https://teachmeanatomy.info" },
+            { title: "Kenhub — Anatomy Learning", type: "subscription", url: "https://www.kenhub.com" },
+            { title: "Ninja Nerd — Anatomy Lectures", type: "free", url: "https://www.youtube.com/c/NinjaNerdScience" },
+            { title: "Visible Body — Human Anatomy Atlas", type: "subscription", url: "https://www.visiblebody.com" },
+            { title: "UMich Blue Link — Anatomy Tables", type: "free", url: "https://www.med.umich.edu/lrc/anatomy/" },
+            { title: "AnatomyZone — 3D Anatomy Tutorials", type: "free", url: "https://anatomyzone.com" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

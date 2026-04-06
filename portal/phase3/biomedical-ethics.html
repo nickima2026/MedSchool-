@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 68-year-old man with advanced ALS requests physician-assisted death in a jurisdiction where it is legal. He is cognitively intact but completely paralyzed and on mechanical ventilation. A physician's key ethical obligation is to:",
+                "options": [
+                        "Automatically grant the request as a matter of autonomy",
+                        "Ensure the request is voluntary, informed, and persistent; confirm he has access to palliative care; verify competence",
+                        "Consult the hospital ethics committee and wait for approval before discussing further",
+                        "Refuse based on the physician's personal moral beliefs"
+                ],
+                "correct": 1,
+                "explanation": "Physician-assisted death (where legal) requires rigorous safeguards: verified competence, voluntariness, persistence of request, and documentation that the patient understands alternatives like palliative sedation. Personal physician beliefs should not override the legal right, but the process must be ethically rigorous."
+        },
+        {
+                "question": "A pharmaceutical company seeks enrollment in a clinical trial for an antidiabetic drug in a low-income country where diabetes care is limited. Most potential participants cannot afford the study drug after the trial ends. What is the primary ethical concern?",
+                "options": [
+                        "The drug may have side effects",
+                        "Exploitation: offering something beneficial during research but unavailable after raises questions about justice and post-trial obligations",
+                        "The country lacks FDA approval authority",
+                        "Language barriers will prevent informed consent"
+                ],
+                "correct": 1,
+                "explanation": "The Declaration of Helsinki requires reasonable assurance that findings will be accessible post-study. Recruiting vulnerable populations for research that offers temporary benefit but permanent unavailability creates 'research-induced' need and inequity."
+        },
+        {
+                "question": "Genetic testing reveals that a 45-year-old woman carries a pathogenic BRCA1 mutation, conferring 70% lifetime breast cancer risk. She requests that her adult children NOT be told. Her children would have a 50% chance of carrying the mutation. The physician should:",
+                "options": [
+                        "Respect the mother's wishes and maintain confidentiality absolutely",
+                        "Immediately contact the children without consent",
+                        "Counsel the mother about the importance of disclosure; explore her concerns; consider duty-to-warn frameworks if severe harm is foreseeable and prevention possible",
+                        "File a report with the state medical board"
+                ],
+                "correct": 2,
+                "explanation": "Genetic information implicates relatives. While confidentiality is important, most ethics frameworks recognize a competing duty to warn relatives of significant, preventable harm. Counseling and supporting disclosure is preferred; duty-to-warn varies by jurisdiction but generally applies when actionable risk is high."
+        },
+        {
+                "question": "A clinical trial for a COVID-19 vaccine is conducted in a developing country. Efficacy is proven, but the vaccine is not accessible locally due to cost. Researchers move to a different disease/population for future funding. This raises which ethical principle concern?",
+                "options": [
+                        "Lack of blinding",
+                        "Researcher misconduct",
+                        "Justice: conducting research where results cannot benefit the population studied",
+                        "Violation of informed consent"
+                ],
+                "correct": 2,
+                "explanation": "Orphan research or 'parachute research' exploits populations by conducting clinical research but leaving the population without access to the benefits. Justice requires equitable benefit-sharing and commitment to post-trial access or knowledge translation."
+        },
+        {
+                "question": "A 14-year-old pregnant adolescent wants to terminate her pregnancy. Her parents do not know she is pregnant and are strongly opposed to abortion. In a jurisdiction with no parental notification requirement, the physician should:",
+                "options": [
+                        "Notify the parents immediately",
+                        "Deny the abortion due to the adolescent's age",
+                        "Counsel the adolescent regarding all options, assess her decision-making capacity, and proceed per her wishes (if legally competent) while offering resources to involve parents",
+                        "Require a judge's order before any action"
+                ],
+                "correct": 2,
+                "explanation": "Adolescents have evolving autonomy. In jurisdictions without parental notification laws, mature minors capable of understanding the decision can make reproductive choices. The physician should support informed decision-making and encourage family involvement while respecting the adolescent's wishes and confidentiality."
+        },
+        {
+                "question": "An HIV+ patient refuses antiretroviral therapy (ART) and continues high-risk sexual behavior without disclosing status. The physician believes the patient will transmit HIV to partners. The appropriate ethical action is:",
+                "options": [
+                        "Immediately breach confidentiality and notify sexual partners",
+                        "Refuse to continue treating the patient",
+                        "Counsel the patient on transmission risk and duty to disclose; explore barriers to ART; clarify state laws on disclosure obligations; document discussions",
+                        "Prescribe the highest-dose ART without patient consent"
+                ],
+                "correct": 2,
+                "explanation": "Physicians balance confidentiality with duty to warn. With HIV, the key is patient counseling on the ethical and legal duty to disclose status to partners. Some states recognize duties to warn; others emphasize patient autonomy. The physician should know the legal framework and work within it ethically."
+        },
+        {
+                "question": "A hospital's ethics committee is reviewing resource allocation policies during a pandemic shortage of ventilators. Which framework would give priority to healthcare workers and the youngest patients?",
+                "options": [
+                        "Utilitarian: maximize lives saved",
+                        "Egalitarian: equal access for all",
+                        "Vulnerability-based: prioritize those unable to advocate",
+                        "Maximizing expected life-years (youngest plus essential workers)"
+                ],
+                "correct": 3,
+                "explanation": "This mixed approach balances utilitarianism (saving most lives via treating those most likely to survive) with role-based duties (healthcare workers enable treatment of others) and prospective-years (younger patients have more years to gain). Most crisis standards of care endorse such hybrid approaches."
+        },
+        {
+                "question": "A genomics company offers direct-to-consumer (DTC) genetic testing for disease risk without physician interpretation. A key ethical concern is:",
+                "options": [
+                        "The test cannot detect mutations",
+                        "Inability to ensure informed consent regarding test limitations, incidental findings, and psychological impact; lack of pre-test and post-test counseling",
+                        "DTC testing is always illegal",
+                        "The company will share data with law enforcement"
+                ],
+                "correct": 1,
+                "explanation": "DTC genetic testing raises ethical concerns about adequate disclosure of test accuracy, incomplete penetrance, variable expressivity, and the psychological impact of genetic risk information without professional guidance. Counseling is essential to prevent misinterpretation and unnecessary anxiety."
+        },
+        {
+                "question": "An oncologist offers a patient with metastatic cancer a clinical trial of an experimental immunotherapy with early safety signals of severe colitis. The patient is desperate and states, 'I'll try anything.' The physician should:",
+                "options": [
+                        "Enroll the patient immediately",
+                        "Refuse to discuss the trial due to the severe safety risk",
+                        "Ensure the patient understands the known risks, uncertainties, reasonable alternatives (palliative care), and that desperation does not obligate enrollment; support autonomous informed choice",
+                        "Recommend the trial only if the patient undergoes genetic testing first"
+                ],
+                "correct": 2,
+                "explanation": "Desperate patients may be vulnerable to therapeutic misconception. The physician must clearly separate the slim possibility of benefit from expectations. Robust informed consent addresses uncertainty and alternatives, ensuring the choice is authentic autonomy rather than vulnerability-driven desperation."
+        },
+        {
+                "question": "A surgeon is treating a Jehovah's Witness who refuses blood transfusion even with life-threatening anemia. The surgeon believes transfusion is necessary. What is the most ethically sound approach?",
+                "options": [
+                        "Transfuse without consent based on emergency doctrine",
+                        "Refuse surgery and discharge the patient",
+                        "Document the refusal; explore acceptable alternatives (cell salvage, volume expanders, EPO); clarify if the refusal applies to blood products like FFP; respect the documented wishes if competent",
+                        "Obtain a court order immediately"
+                ],
+                "correct": 2,
+                "explanation": "Competent adults have the right to refuse treatment based on religious or personal beliefs. The physician should explore alternatives (intraoperative cell salvage, albumin, FFP, EPO) that respect the patient's values while minimizing risk. Courts are a last resort when it's unclear if the patient is truly competent."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

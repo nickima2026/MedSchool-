@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A patient presents with acute chest pain. Using the mnemonic OPQRST, what does the 'P' stand for?",
+                "options": [
+                        "Position",
+                        "Provocation/Palliation",
+                        "Pulse",
+                        "Pressure"
+                ],
+                "correct": 1,
+                "explanation": "OPQRST: Onset, Provocation/Palliation (what makes it worse/better), Quality (sharp, dull, burning), Region/Radiation, Severity (1-10 scale), Timing (constant, intermittent, duration). This structured approach ensures thorough symptom characterization."
+        },
+        {
+                "question": "When presenting a patient to an attending, which format is most appropriate for an organized oral presentation?",
+                "options": [
+                        "Start with the assessment and plan",
+                        "Present in SOAP format: chief complaint, HPI, PMH, exam, labs, assessment, plan",
+                        "Only present abnormal findings",
+                        "Read directly from the chart"
+                ],
+                "correct": 1,
+                "explanation": "A structured oral presentation follows the SOAP framework: identify the patient and chief complaint, present HPI with pertinent positives and negatives, relevant PMH/medications/allergies, focused physical exam, labs/imaging, then your assessment and plan. This demonstrates clinical reasoning."
+        },
+        {
+                "question": "A 68-year-old patient is scheduled for an elective surgery. Which preoperative assessment is most important for determining surgical risk?",
+                "options": [
+                        "Pulmonary function tests for all patients",
+                        "Functional capacity assessment (METs)",
+                        "Routine chest X-ray",
+                        "Carotid Doppler ultrasound"
+                ],
+                "correct": 1,
+                "explanation": "Functional capacity measured in metabolic equivalents (METs) is central to preoperative cardiac risk assessment. Patients who can perform \u22654 METs (climb a flight of stairs, walk 2 blocks) without symptoms generally have acceptable surgical risk. Routine testing is not recommended without clinical indication."
+        },
+        {
+                "question": "During a clinical encounter, a patient becomes tearful. Which response demonstrates the best use of empathy?",
+                "options": [
+                        "Change the subject to help the patient feel better",
+                        "Say 'I can see this is really difficult for you' and pause",
+                        "Immediately offer a tissue and continue with questions",
+                        "Tell the patient about a similar experience you had"
+                ],
+                "correct": 1,
+                "explanation": "Naming the emotion and pausing (NURSE framework: Name, Understand, Respect, Support, Explore) validates the patient's experience and creates space for them to share more. Avoiding or minimizing emotions breaks rapport and misses important clinical information."
+        },
+        {
+                "question": "Which finding on fundoscopic examination is most concerning for increased intracranial pressure?",
+                "options": [
+                        "Arteriovenous nicking",
+                        "Cotton-wool spots",
+                        "Papilledema",
+                        "Drusen"
+                ],
+                "correct": 2,
+                "explanation": "Papilledema (swelling of the optic disc due to increased intracranial pressure) is a critical finding requiring urgent evaluation for causes such as brain tumor, idiopathic intracranial hypertension, or hydrocephalus. AV nicking suggests chronic hypertension."
+        },
+        {
+                "question": "A patient with diabetes has a hemoglobin A1c of 9.2%. This reflects average glucose control over approximately what time period?",
+                "options": [
+                        "2 weeks",
+                        "1 month",
+                        "2-3 months",
+                        "6 months"
+                ],
+                "correct": 2,
+                "explanation": "HbA1c reflects average blood glucose over the preceding 2-3 months (the lifespan of red blood cells ~120 days). An A1c of 9.2% corresponds to an estimated average glucose of approximately 218 mg/dL, indicating poor glycemic control."
+        },
+        {
+                "question": "During a neurological exam, a patient cannot perform rapid alternating movements smoothly. This finding is termed:",
+                "options": [
+                        "Asterixis",
+                        "Dysdiadochokinesia",
+                        "Athetosis",
+                        "Myoclonus"
+                ],
+                "correct": 1,
+                "explanation": "Dysdiadochokinesia is the inability to perform rapid alternating movements and is a sign of cerebellar dysfunction. Other cerebellar signs include intention tremor, gait ataxia, nystagmus, and dysmetria (past-pointing on finger-to-nose test)."
+        },
+        {
+                "question": "A 55-year-old patient asks about cancer screening. Which screening test is recommended starting at age 45-50 for average-risk individuals?",
+                "options": [
+                        "Lung CT screening for all adults",
+                        "Colonoscopy or equivalent colorectal cancer screening",
+                        "Prostate-specific antigen (PSA) annually",
+                        "Whole-body MRI"
+                ],
+                "correct": 1,
+                "explanation": "Colorectal cancer screening is recommended starting at age 45 (ACS) or 50 (some guidelines) for average-risk individuals. Options include colonoscopy every 10 years, FIT annually, or stool DNA test every 3 years. Lung CT is only for high-risk smokers."
+        },
+        {
+                "question": "A patient with COPD has an oxygen saturation of 88% on room air. What is the target SpO2 range for supplemental oxygen in COPD patients?",
+                "options": [
+                        "98-100%",
+                        "95-98%",
+                        "88-92%",
+                        "80-85%"
+                ],
+                "correct": 2,
+                "explanation": "In COPD patients, the target SpO2 is 88-92%. Over-oxygenation can suppress hypoxic respiratory drive (though this is debated, the Haldane effect and V/Q mismatch changes are more significant). High-flow oxygen can worsen hypercapnia in some COPD patients."
+        },
+        {
+                "question": "When documenting a physical exam finding, which of the following is the most objective and appropriate way to describe a skin lesion?",
+                "options": [
+                        "A bad-looking rash",
+                        "A 2 cm \u00d7 3 cm erythematous, raised, well-circumscribed plaque on the right forearm",
+                        "A lesion that looks like psoriasis",
+                        "A red spot"
+                ],
+                "correct": 1,
+                "explanation": "Objective documentation should include size (measured), color, morphology (macule, papule, plaque, etc.), borders, and anatomical location. Avoid subjective terms or premature diagnoses in the objective section. The assessment section is where you include your diagnostic impression."
+        }
+];
+        let RESOURCES = [
+            { title: "Harrison's Principles of Internal Medicine (21st ed.)", type: "textbook", url: "https://accessmedicine.mhmedical.com/book.aspx?bookid=3095" },
+            { title: "Symptom to Diagnosis (Stern et al.)", type: "textbook", url: "https://accessmedicine.mhmedical.com/book.aspx?bookid=2715" },
+            { title: "Evidence-Based Medicine Toolkit (BMJ)", type: "free", url: "https://bestpractice.bmj.com" },
+            { title: "AMBOSS — Differential Diagnosis", type: "subscription", url: "https://www.amboss.com/us/knowledge/Differential_diagnosis" },
+            { title: "UpToDate — Clinical Decision Support", type: "subscription", url: "https://www.uptodate.com" },
+            { title: "DynaMed — Evidence-Based Reference", type: "subscription", url: "https://www.dynamed.com" },
+            { title: "Osmosis — Clinical Reasoning", type: "subscription", url: "https://www.osmosis.org/learn/Clinical_reasoning" },
+            { title: "Aquifer — Integrated Cases", type: "subscription", url: "https://aquifer.org" },
+            { title: "OnlineMedEd — Clinical Medicine", type: "free", url: "https://onlinemeded.org" },
+            { title: "JAMA Evidence — Users' Guide to Medical Literature", type: "subscription", url: "https://jamaevidence.mhmedical.com" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

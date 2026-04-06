@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A patient with familial hypercholesterolemia has a mutation in the LDL receptor gene causing loss of function. At the molecular level, this mutation most directly results in:",
+                "options": [
+                        "Decreased synthesis of apolipoprotein B",
+                        "Impaired clearance of LDL particles from blood; accumulation of LDL-C",
+                        "Increased HDL cholesterol",
+                        "Liver failure"
+                ],
+                "correct": 1,
+                "explanation": "The LDL receptor is essential for hepatic LDL uptake and clearance. Loss-of-function mutations impair receptor-mediated endocytosis of LDL particles, causing severe hypercholesterolemia. This is a monogenic disorder with clear molecular mechanism."
+        },
+        {
+                "question": "A oncologist explains that a tumor carries a TP53 mutation, affecting both copies of the gene. This tumor is more aggressive because TP53 normally functions as:",
+                "options": [
+                        "An oncogene that promotes cell division",
+                        "A tumor suppressor that controls cell cycle and apoptosis; loss allows uncontrolled proliferation",
+                        "A DNA polymerase",
+                        "A hormone receptor"
+                ],
+                "correct": 1,
+                "explanation": "TP53 (p53) is a critical tumor suppressor. It pauses the cell cycle for DNA repair (via p21), triggers apoptosis if repair fails, and controls other tumor suppressors (RB pathway). Biallelic loss removes this 'guardian of the genome,' enabling cancer development."
+        },
+        {
+                "question": "A patient with chronic myeloid leukemia (CML) carries the BCR-ABL fusion gene (Philadelphia chromosome). The BCR-ABL protein is oncogenic because it:",
+                "options": [
+                        "Prevents apoptosis only",
+                        "Constitutively activates tyrosine kinase signaling, driving proliferation and suppressing apoptosis",
+                        "Reduces red blood cell production",
+                        "Causes immunosuppression"
+                ],
+                "correct": 1,
+                "explanation": "BCR-ABL is a constitutively active tyrosine kinase that hyperactivates downstream pathways (PI3K/AKT, MAPK/ERK). This drives proliferation and blocks apoptosis. Tyrosine kinase inhibitors (imatinib) target this specific oncogenic mechanism."
+        },
+        {
+                "question": "Epigenetic silencing of the VHL (von Hippel-Lindau) gene via DNA methylation occurs in renal cell carcinoma. This silencing is functionally equivalent to a genetic mutation in VHL because:",
+                "options": [
+                        "Methylation is reversible while mutations are not",
+                        "Both epigenetic and genetic changes reduce VHL protein expression; loss of VHL function (a tumor suppressor) enables HIF1-alpha stabilization and angiogenesis",
+                        "Methylation only affects RNA",
+                        "VHL has no role in cancer"
+                ],
+                "correct": 1,
+                "explanation": "VHL is a tumor suppressor that promotes HIF1-alpha degradation. Loss of VHL (by mutation or epigenetic silencing) causes HIF1-alpha accumulation, driving angiogenesis and renal cancer. Both genetic and epigenetic mechanisms achieve the same functional outcome."
+        },
+        {
+                "question": "A patient with hereditary breast cancer carries a BRCA1 mutation. Somatic mutations affecting BRCA1 function in tumors are rare. Why is this paradoxical finding actually expected?",
+                "options": [
+                        "BRCA1 mutations are not really cancer-causing",
+                        "Homozygous BRCA1 loss occurs in germline; tumors arise from cells that lost the remaining wild-type allele (loss of heterozygosity), achieving homozygous deficiency",
+                        "BRCA1 is not a tumor suppressor",
+                        "Breast cancers do not arise from germline mutations"
+                ],
+                "correct": 1,
+                "explanation": "In hereditary breast cancer, the germline mutation provides one non-functional copy. Tumors develop when somatic loss of heterozygosity eliminates the remaining wild-type allele, creating homozygous BRCA1 deficiency. Additional somatic BRCA1 mutations are unnecessary."
+        },
+        {
+                "question": "A researcher discovers that a tumor's genomic instability is driven by defective mismatch repair (MMR) genes. Which molecular consequence explains the high mutation burden?",
+                "options": [
+                        "Increased DNA replication rate",
+                        "Failure to recognize and correct base-pairing errors during DNA replication, leading to mutation accumulation",
+                        "Increased radiation exposure",
+                        "Defective transcription"
+                ],
+                "correct": 1,
+                "explanation": "Mismatch repair proteins (MLH1, MSH2) scan DNA post-replication and correct errors. Loss of MMR function allows mismatches to persist, causing microsatellite instability and high mutation burden. Lynch syndrome (germline MMR mutation) confers predisposition to multiple cancers."
+        },
+        {
+                "question": "A patient with metastatic melanoma has tumors expressing high levels of PD-L1. Why does PD-L1 expression enable immune evasion?",
+                "options": [
+                        "PD-L1 activates T cells",
+                        "PD-L1 binds PD-1 on T cells, suppressing T cell activation and cytotoxic function, allowing tumors to evade immune destruction",
+                        "PD-L1 increases antibody production",
+                        "PD-L1 only affects B cells"
+                ],
+                "correct": 1,
+                "explanation": "PD-L1 is a checkpoint protein that suppresses T cell immunity. Tumors upregulate PD-L1 to evade immune destruction. PD-1/PD-L1 inhibitors (checkpoint inhibitors) remove this brake, restoring anti-tumor immunity."
+        },
+        {
+                "question": "A mutation in the NOTCH1 signaling pathway increases signaling intensity in T-cell acute lymphoblastic leukemia (T-ALL). Why is hyperactivated NOTCH1 oncogenic?",
+                "options": [
+                        "It inhibits T cell development",
+                        "NOTCH1 normally promotes T cell differentiation and proliferation; hyperactivation drives uncontrolled T cell expansion and survival",
+                        "It activates p53",
+                        "It causes DNA fragmentation"
+                ],
+                "correct": 1,
+                "explanation": "NOTCH1 is normally a developmental switch in T cell lineage. Gain-of-function mutations (deletions of the PEST domain reducing degradation) lead to sustained NOTCH signaling, driving proliferation and blocking differentiation\u2014key features of leukemia."
+        },
+        {
+                "question": "A patient has a mutation causing constitutive activation of the RAS proto-oncogene. This mutation drives cancer via which mechanism?",
+                "options": [
+                        "Loss of cell adhesion",
+                        "Continuous activation of downstream mitogenic pathways (RAF/MEK/ERK, PI3K/AKT) without growth factor signals",
+                        "Impaired DNA synthesis",
+                        "Activation of apoptosis"
+                ],
+                "correct": 1,
+                "explanation": "RAS normally cycles between active (GTP-bound) and inactive (GDP-bound) states based on growth signals. Activating mutations (in codons 12, 13, 61) lock RAS in the active state, constitutively driving proliferation\u2014one of the most common oncogenic mutations across cancers."
+        },
+        {
+                "question": "Gene therapy using CRISPR-Cas9 is being developed for sickle cell disease, targeting the BCL11A gene to induce fetal hemoglobin (HbF) re-expression. Why would increasing HbF levels benefit sickle cell patients?",
+                "options": [
+                        "HbF is more resistant to polymerization under hypoxia; increased HbF reduces sickling and hemolysis",
+                        "HbF will replace sickle hemoglobin completely",
+                        "HbF prevents infections",
+                        "HbF is toxic to sickle cells"
+                ],
+                "correct": 0,
+                "explanation": "Sickle hemoglobin (HbS) polymerizes under low oxygen, causing hemolysis and pain crises. Fetal hemoglobin (HbF) does not polymerize with HbS. Increasing HbF expression (normally silenced post-natally) ameliorates sickling, providing therapeutic benefit."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

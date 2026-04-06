@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A couple has a child with cystic fibrosis (autosomal recessive). Neither parent is affected. What is the probability that their next child will be a carrier?",
+                "options": [
+                        "1/4",
+                        "1/2",
+                        "2/3",
+                        "3/4"
+                ],
+                "correct": 1,
+                "explanation": "Both parents must be carriers (Aa \u00d7 Aa). The Punnett square yields: 1/4 AA, 2/4 Aa, 1/4 aa. The probability of the next child being a carrier (Aa) is 1/2 (50%)."
+        },
+        {
+                "question": "A boy presents with intellectual disability, macroorchidism, and a long face with prominent ears. Genetic testing reveals a CGG trinucleotide repeat expansion. What is the most likely diagnosis?",
+                "options": [
+                        "Down syndrome",
+                        "Fragile X syndrome",
+                        "Klinefelter syndrome",
+                        "Prader-Willi syndrome"
+                ],
+                "correct": 1,
+                "explanation": "Fragile X syndrome is caused by CGG trinucleotide repeat expansion (>200 repeats) in the FMR1 gene on the X chromosome. It is the most common inherited cause of intellectual disability, characterized by macroorchidism, long face, and prominent ears."
+        },
+        {
+                "question": "A woman with blood type A and a man with blood type B have a child with blood type O. What are the parents' genotypes?",
+                "options": [
+                        "I^A I^A \u00d7 I^B I^B",
+                        "I^A i \u00d7 I^B i",
+                        "I^A I^B \u00d7 ii",
+                        "I^A i \u00d7 I^B I^B"
+                ],
+                "correct": 1,
+                "explanation": "For a child to have type O (ii), each parent must contribute an 'i' allele. Therefore, the type A parent must be I^A i (heterozygous) and the type B parent must be I^B i (heterozygous)."
+        },
+        {
+                "question": "Loss of heterozygosity at the Rb locus is associated with which cancer?",
+                "options": [
+                        "Chronic myelogenous leukemia",
+                        "Retinoblastoma",
+                        "Burkitt lymphoma",
+                        "Wilms tumor"
+                ],
+                "correct": 1,
+                "explanation": "Retinoblastoma results from loss of both functional copies of the RB1 tumor suppressor gene (Knudson's two-hit hypothesis). In hereditary retinoblastoma, one hit is inherited and the second is somatic; in sporadic cases, both hits are somatic."
+        },
+        {
+                "question": "Genomic imprinting explains the different phenotypes seen in Prader-Willi and Angelman syndromes. Both involve deletions of chromosome 15q11-13. Angelman syndrome results from:",
+                "options": [
+                        "Deletion of the paternal allele",
+                        "Deletion of the maternal allele",
+                        "Uniparental disomy of the maternal chromosome",
+                        "Trisomy of chromosome 15"
+                ],
+                "correct": 1,
+                "explanation": "Angelman syndrome results from loss of the maternal UBE3A allele on 15q11-13 (the paternal allele is normally silenced by imprinting). Prader-Willi results from loss of the paternal allele. Same deletion region, different parent of origin, different syndrome."
+        },
+        {
+                "question": "A patient with sickle cell disease has a point mutation in the beta-globin gene. What type of mutation converts glutamic acid (GAG) to valine (GTG)?",
+                "options": [
+                        "Frameshift mutation",
+                        "Nonsense mutation",
+                        "Missense mutation",
+                        "Silent mutation"
+                ],
+                "correct": 2,
+                "explanation": "A missense mutation changes one amino acid to another. In sickle cell disease, a single nucleotide change (A\u2192T) in codon 6 of the beta-globin gene changes glutamic acid (hydrophilic) to valine (hydrophobic), causing hemoglobin polymerization."
+        },
+        {
+                "question": "Hardy-Weinberg equilibrium requires several conditions. Which factor would cause allele frequencies to change over generations?",
+                "options": [
+                        "Large population size",
+                        "Random mating",
+                        "Natural selection",
+                        "No migration"
+                ],
+                "correct": 2,
+                "explanation": "Hardy-Weinberg equilibrium (p\u00b2 + 2pq + q\u00b2 = 1) requires: no selection, no mutation, random mating, large population, and no migration. Natural selection causes differential survival/reproduction, altering allele frequencies across generations."
+        },
+        {
+                "question": "A child presents with coarse facial features, hepatosplenomegaly, and skeletal abnormalities. Enzyme assay shows deficiency of iduronate sulfatase. What is the inheritance pattern of this condition?",
+                "options": [
+                        "Autosomal dominant",
+                        "Autosomal recessive",
+                        "X-linked recessive",
+                        "Mitochondrial"
+                ],
+                "correct": 2,
+                "explanation": "Iduronate sulfatase deficiency causes Hunter syndrome (MPS II), the only X-linked recessive mucopolysaccharidosis. All other MPS types are autosomal recessive. It primarily affects males, with carrier females rarely showing symptoms."
+        },
+        {
+                "question": "Which cytogenetic finding is characteristic of chronic myelogenous leukemia (CML)?",
+                "options": [
+                        "t(8;14)",
+                        "t(9;22) \u2014 Philadelphia chromosome",
+                        "t(14;18)",
+                        "Trisomy 21"
+                ],
+                "correct": 1,
+                "explanation": "The Philadelphia chromosome results from a reciprocal translocation t(9;22) creating the BCR-ABL fusion gene. This constitutively active tyrosine kinase drives CML and is the target of imatinib (Gleevec), a tyrosine kinase inhibitor."
+        },
+        {
+                "question": "A mitochondrial DNA mutation would show which inheritance pattern?",
+                "options": [
+                        "Affected father transmits to all children",
+                        "Only transmitted through the maternal line",
+                        "50% chance of transmission from either parent",
+                        "X-linked pattern"
+                ],
+                "correct": 1,
+                "explanation": "Mitochondrial DNA is maternally inherited because mitochondria in the sperm are eliminated after fertilization. An affected mother transmits the mutation to all her children, but an affected father transmits to none. Examples include Leber hereditary optic neuropathy and MELAS."
+        }
+];
+        let RESOURCES = [
+            { title: "Thompson & Thompson Genetics in Medicine (8th ed.)", type: "textbook", url: "https://www.elsevier.com/books/thompson-thompson-genetics-in-medicine/nussbaum/978-0-323-54902-8" },
+            { title: "Molecular Biology of the Gene (Watson et al.)", type: "textbook", url: "https://www.pearson.com/en-us/subject-catalog/p/molecular-biology-of-the-gene/P200000006950" },
+            { title: "Khan Academy — Genetics & Genomics", type: "free", url: "https://www.khanacademy.org/science/biology/classical-genetics" },
+            { title: "OMIM — Online Mendelian Inheritance in Man", type: "free", url: "https://www.omim.org" },
+            { title: "AMBOSS — Medical Genetics", type: "subscription", url: "https://www.amboss.com/us/knowledge/Genetics" },
+            { title: "Boards and Beyond — Genetics", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Ninja Nerd — Genetics Lectures", type: "free", url: "https://www.youtube.com/c/NinjaNerdScience" },
+            { title: "Osmosis — Genetics & Genomics", type: "subscription", url: "https://www.osmosis.org/learn/Genetics" },
+            { title: "NCBI Genetics Review — GeneReviews", type: "free", url: "https://www.ncbi.nlm.nih.gov/books/NBK1116/" },
+            { title: "DNA Learning Center — CSHL Animations", type: "free", url: "https://dnalc.cshl.edu" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 67-year-old male with a Mallampati score of 4 is scheduled for elective laparoscopic cholecystectomy. Which airway management strategy is most appropriate?",
+                "options": [
+                        "Proceed with rapid sequence induction and standard intubation",
+                        "Perform awake fiberoptic intubation",
+                        "Induce with propofol and maintain spontaneous ventilation",
+                        "Schedule regional anesthesia instead"
+                ],
+                "correct": 1,
+                "explanation": "Mallampati IV (soft palate not visible) is a predictor of difficult intubation. Awake fiberoptic intubation maintains spontaneous ventilation, allowing rescue breathing if airway is lost, and preserves airway reflexes. It is the safest approach for predicted difficult airways."
+        },
+        {
+                "question": "A 45-year-old patient is induced with propofol. Which of the following best describes propofol's mechanism of action?",
+                "options": [
+                        "NMDA receptor antagonism",
+                        "GABA-A receptor agonism",
+                        "Dopamine antagonism",
+                        "Muscarinic cholinergic antagonism"
+                ],
+                "correct": 1,
+                "explanation": "Propofol is a GABA-A receptor agonist, enhancing inhibitory neurotransmission. This mechanism produces sedation, amnesia, and unconsciousness. Rapid onset (40-50 seconds) makes it ideal for induction. It also causes vasodilation and myocardial depression."
+        },
+        {
+                "question": "During general anesthesia, a patient receives succinylcholine for rapid sequence intubation. A few minutes later, prolonged apnea develops. Which genetic condition is most likely responsible?",
+                "options": [
+                        "Pseudocholinesterase deficiency",
+                        "Malignant hyperthermia susceptibility",
+                        "Duchenne muscular dystrophy",
+                        "Myasthenia gravis"
+                ],
+                "correct": 0,
+                "explanation": "Pseudocholinesterase (butyrylcholinesterase) deficiency impairs metabolism of succinylcholine and mivacurium, causing prolonged paralysis and apnea. Patients require prolonged mechanical ventilation until the drug is metabolized. MH causes muscle rigidity and hyperthermia, not apnea alone."
+        },
+        {
+                "question": "An 8-year-old child undergoing general anesthesia suddenly develops masseter muscle rigidity after succinylcholine administration, followed by rhabdomyolysis and hyperthermia. Which diagnosis is most likely?",
+                "options": [
+                        "Pseudocholinesterase deficiency",
+                        "Malignant hyperthermia",
+                        "Neuroleptic malignant syndrome",
+                        "Tetanus"
+                ],
+                "correct": 1,
+                "explanation": "Malignant hyperthermia (MH) is a pharmacogenetic disorder triggered by succinylcholine and volatile anesthetics. Early signs include muscle rigidity (especially masseter), tachycardia, hypercarbia, and rhabdomyolysis. Treatment: stop triggering agents, hyperventilate with 100% O2, administer dantrolene sodium (2.5 mg/kg)."
+        },
+        {
+                "question": "A 72-year-old patient undergoing abdominal surgery is maintained on isoflurane. Which physiologic effect is most likely to occur?",
+                "options": [
+                        "Increased intracranial pressure",
+                        "Coronary vasoconstriction",
+                        "Dose-dependent myocardial depression",
+                        "Increased cerebral metabolic rate"
+                ],
+                "correct": 2,
+                "explanation": "Volatile anesthetics (isoflurane, sevoflurane) cause dose-dependent myocardial depression through decreased contractility and vascular dilation. They reduce intracranial pressure, preserve or increase cerebral blood flow, and decrease cerebral metabolic rate. They may cause coronary steal in susceptible patients."
+        },
+        {
+                "question": "An epidural catheter is placed at the L3-L4 level for a cesarean section. At what level is the spinal cord (conus medullaris) in adults, making this site safe?",
+                "options": [
+                        "T10 level",
+                        "L1-L2 level",
+                        "L3-L4 level",
+                        "L5-S1 level"
+                ],
+                "correct": 1,
+                "explanation": "The conus medullaris ends at the L1-L2 interspace in adults. Lumbar puncture and epidural catheter placement at L3-L4 or L4-L5 is below this level, avoiding spinal cord injury. In infants, the conus extends to L3-L4, making the site choice more critical."
+        },
+        {
+                "question": "A patient develops ventricular tachycardia during general anesthesia. According to Advanced Cardiac Life Support (ACLS) protocols, which medication should be administered first after defibrillation attempt?",
+                "options": [
+                        "Amiodarone 300mg IV",
+                        "Epinephrine 1mg IV",
+                        "Calcium chloride 1g IV",
+                        "Lidocaine 1.5 mg/kg IV"
+                ],
+                "correct": 1,
+                "explanation": "ACLS guidelines recommend epinephrine 1mg IV q3-5 minutes for cardiac arrest (VT, VF, PEA, asystole). Amiodarone (300mg first, 150mg second) is given after epinephrine, not before. Epinephrine increases coronary perfusion pressure and improves outcomes."
+        },
+        {
+                "question": "During spinal anesthesia for hip replacement, a patient develops hypotension (BP 85/45) and bradycardia (HR 42). Which complication is occurring?",
+                "options": [
+                        "Anaphylaxis",
+                        "Spinal cord injury",
+                        "High spinal block (total spinal)",
+                        "Vasovagal response"
+                ],
+                "correct": 3,
+                "explanation": "Hypotension and bradycardia during spinal anesthesia suggest a vasovagal response (Bezold-Jarisch reflex) from sympathetic blockade and unopposed vagal tone. Treatment: position supine, elevate legs, administer fluids, and atropine if bradycardia persists. High spinal presents with respiratory paralysis, not just hypotension."
+        },
+        {
+                "question": "A 56-year-old patient with severe COPD is scheduled for elective hip surgery. Which volatile anesthetic maintains the most stable hemodynamics and respiratory drive?",
+                "options": [
+                        "Desflurane",
+                        "Nitrous oxide",
+                        "Isoflurane",
+                        "Sevoflurane"
+                ],
+                "correct": 3,
+                "explanation": "Sevoflurane provides stable hemodynamics, slower rise in anesthetic depth, rapid emergence, and minimal airway irritation compared to desflurane. It does not increase airway resistance (unlike isoflurane) and is preferred in patients with reactive airways. Desflurane is airway irritating and contraindicated in COPD."
+        },
+        {
+                "question": "Following general anesthesia, a patient develops postoperative nausea and vomiting (PONV). Which antiemetic has the strongest evidence for prevention of postoperative nausea in high-risk patients?",
+                "options": [
+                        "Diphenhydramine",
+                        "Ondansetron (5-HT3 antagonist)",
+                        "Dexamethasone",
+                        "All are equally effective"
+                ],
+                "correct": 1,
+                "explanation": "Ondansetron (a 5-HT3 receptor antagonist) is highly effective for PONV prevention and treatment. Dexamethasone and combinations of agents improve efficacy. Prophylactic dosing of ondansetron 4mg IV at induction reduces PONV by 30-40% in high-risk patients."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

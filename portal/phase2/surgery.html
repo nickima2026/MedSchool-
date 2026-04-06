@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 32-year-old male with acute right lower quadrant pain, fever, and elevated WBC presents with clinical appendicitis. Imaging confirms the diagnosis. Which is the most appropriate treatment?",
+                "options": [
+                        "Initiate broad-spectrum antibiotics; observe for response",
+                        "Perform immediate appendectomy",
+                        "Place nasogastric tube and supportive care",
+                        "Drain fluid collection first, then consider interval appendectomy"
+                ],
+                "correct": 1,
+                "explanation": "Acute appendicitis requires prompt appendectomy after resuscitation and antibiotics. Early surgery reduces perforation risk. Laparoscopic appendectomy is standard. Antibiotics alone may work in select uncomplicated cases in young patients without perforation, but this requires close follow-up and patient reliability. Traditional teaching favors early surgery."
+        },
+        {
+                "question": "A 65-year-old with cirrhosis and esophageal varices presents with hematemesis and hypotension. Blood pressure is 80/50 after 2L crystalloid. Which is the most appropriate next step?",
+                "options": [
+                        "Continue crystalloid infusion and order packed RBCs",
+                        "Initiate norepinephrine infusion and arrange urgent endoscopy with octreotide and vasopressin",
+                        "Perform immediate transjugular intrahepatic portosystemic shunt (TIPS)",
+                        "Place central line and assess filling pressures"
+                ],
+                "correct": 1,
+                "explanation": "Variceal hemorrhage in cirrhosis requires vasoconstrictors (octreotide, terlipressin), antibiotics, fresh frozen plasma/platelets if coagulopathy, and urgent endoscopy for hemostasis (banding preferred over sclerotherapy). TIPS is rescue therapy for refractory bleeding. Goal hemoglobin is 7-9; avoid over-resuscitation, which increases portal pressure."
+        },
+        {
+                "question": "A 42-year-old with acute pancreatitis has amylase 3000 U/L and lipase 4000 U/L. CT shows extensive pancreatic necrosis (>50%) with fluid collections. Which management is most appropriate?",
+                "options": [
+                        "Emergency debridement of necrotic tissue",
+                        "Percutaneous drainage of fluid collections immediately",
+                        "Supportive care (NPO, fluids, analgesia); delay intervention until demarcation occurs (weeks 4+) if clinically stable",
+                        "Total parenteral nutrition (TPN) and strict bed rest"
+                ],
+                "correct": 2,
+                "explanation": "Acute pancreatitis management is supportive: fluids, electrolytes, pain control. Early aggressive intervention (surgery, drainage) increases morbidity/mortality. Intervention (drainage, necrosectomy) is reserved for infected necrosis (fever, positive cultures, clinical deterioration) or persistent organ failure after 48-72 hours. Delayed intervention (4+ weeks) allows tissue demarcation."
+        },
+        {
+                "question": "A 58-year-old male with a 3-month history of progressive dysphagia presents with weight loss and abdominal pain. Endoscopy reveals an apple-core lesion in the distal esophagus. Which histology is most likely?",
+                "options": [
+                        "Squamous cell carcinoma",
+                        "Adenocarcinoma",
+                        "Small cell carcinoma",
+                        "Lymphoma"
+                ],
+                "correct": 1,
+                "explanation": "Adenocarcinoma of the distal esophagus typically arises in Barrett's metaplasia from chronic GERD. Apple-core appearance is classic for malignancy. Squamous cell carcinoma is more common in the proximal/mid esophagus. Staging with CT/EUS and endoscopic ultrasound determines candidacy for surgery vs. chemoradiation vs. palliative care."
+        },
+        {
+                "question": "A 68-year-old with abdominal distension and absent bowel sounds presents with history of multiple abdominal surgeries. Imaging shows dilated small bowel loops. What is the most appropriate initial management?",
+                "options": [
+                        "Immediate laparotomy",
+                        "Aggressive oral feeding to stimulate bowel function",
+                        "NPO, IV hydration, nasogastric tube decompression; surgical intervention if no improvement in 48-72 hours",
+                        "Prokinetic agents (metoclopramide) only"
+                ],
+                "correct": 2,
+                "explanation": "Adhesions cause most mechanical small bowel obstructions. Initial management is conservative: NPO, IV fluids, NG tube decompression. Most resolve without surgery. Surgical intervention is indicated if clinical deterioration (peritoneal signs, shock), persistent obstruction >72 hours, or imaging findings suggesting strangulation (bowel wall thickening, mesenteric edema, fat stranding)."
+        },
+        {
+                "question": "A 52-year-old male with acute right-sided chest pain and dyspnea undergoes imaging. A rib fracture with underlying pulmonary contusion is found. Which is the most important management principle?",
+                "options": [
+                        "Strapping the ribs tightly to restrict motion",
+                        "Epidural analgesia and aggressive pulmonary toileting (deep breathing, coughing, ambulation)",
+                        "Mechanical ventilation support",
+                        "Bed rest for 4 weeks"
+                ],
+                "correct": 1,
+                "explanation": "Rib fractures cause severe pain, restricting breathing and leading to atelectasis/pneumonia. Effective pain control (epidural, multimodal) allows mobilization, coughing, and deep breathing. Tight strapping restricts ventilation and increases complications. Early ambulation is essential. Pulmonary contusion worsens with excessive fluids; judicious resuscitation is needed."
+        },
+        {
+                "question": "A 35-year-old female presents with acute right lower quadrant pain and a palpable mass. Imaging shows a 4cm ovarian mass with cystic and solid components. Which diagnosis requires urgent surgery?",
+                "options": [
+                        "Ovarian cyst (simple)",
+                        "Ovarian torsion",
+                        "Ovarian cancer",
+                        "Polycystic ovary syndrome (PCOS)"
+                ],
+                "correct": 1,
+                "explanation": "Ovarian torsion is a gynecologic emergency requiring urgent laparoscopic detorsion to preserve ovarian function. Imaging shows enlarged ovary with minimal blood flow on Doppler. Symptoms are acute onset severe pain. Delayed treatment risks ovarian necrosis. Imaging characteristics (complex mass) support diagnosis but clinical presentation guides urgency."
+        },
+        {
+                "question": "A 47-year-old with acute peritonitis and imaging evidence of perforation presents to the OR. During exploration, purulent fluid and fecal contamination are found. Which is the most appropriate management?",
+                "options": [
+                        "Close the perforation only; no resection",
+                        "Identify the source (perforation site), perform resection if indicated, irrigate extensively, and manage contamination",
+                        "Perform total abdominal colectomy for any colon perforation",
+                        "Place drains only; avoid resection"
+                ],
+                "correct": 1,
+                "explanation": "Perforated viscus requires source control: identify perforation, assess viability, perform resection if ischemic/necrotic (particularly colon), irrigate with saline, manage contamination. Primary repair is acceptable for clean perforations (stomach, duodenum) without gross fecal contamination. Colonic resection is indicated if perforation involves non-viable segment or fecal peritonitis."
+        },
+        {
+                "question": "A 56-year-old with GERD refractory to PPI therapy is evaluated for antireflux surgery. Which procedure is considered the gold standard?",
+                "options": [
+                        "Vagotomy",
+                        "Laparoscopic Nissen fundoplication",
+                        "Roux-en-Y gastric bypass",
+                        "Endoscopic radiofrequency ablation"
+                ],
+                "correct": 1,
+                "explanation": "Laparoscopic Nissen fundoplication (360-degree wrap of gastric fundus around lower esophagus) is the gold standard surgical treatment for refractory GERD. Success rates 80-90%. Complications include postoperative dysphagia, gas-bloat syndrome. Candidate selection is critical: confirmed GERD (pH monitoring), normal esophageal motility, competent cardiac sphincter by manometry."
+        },
+        {
+                "question": "A 32-year-old female presents with a breast mass. Fine-needle aspiration (FNA) is performed. Which finding requires core needle biopsy or excisional biopsy for definitive diagnosis?",
+                "options": [
+                        "Benign lipoma",
+                        "Atypical squamous cells",
+                        "Abundant fat and benign cells",
+                        "Atypia on FNA (requires further evaluation)"
+                ],
+                "correct": 3,
+                "explanation": "FNA with atypia (atypical cells, suspicious for malignancy) requires core needle biopsy or excisional biopsy for definitive histology and grading. Non-diagnostic or suspicious FNA results necessitate follow-up imaging or biopsy. Benign findings on FNA (lipoma, simple cyst) may be managed expectantly if imaging is concordant."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

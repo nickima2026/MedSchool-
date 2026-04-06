@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 4-year-old presents with fever, barky cough, and inspiratory stridor. He is alert and drooling slightly. Which treatment is most appropriate?",
+                "options": [
+                        "Observation only",
+                        "Dexamethasone 0.6 mg/kg and nebulized epinephrine 1:1000",
+                        "Antibiotics and hospitalization",
+                        "Intubation and mechanical ventilation"
+                ],
+                "correct": 1,
+                "explanation": "Croup with moderate-to-severe symptoms (stridor, cough) is managed with dexamethasone (single dose) and nebulized epinephrine. Severity is reduced by 50%, and return visits decrease. Intubation is rarely needed unless airway threatened. Most cases are viral and self-limited."
+        },
+        {
+                "question": "A 6-month-old with diarrhea for 2 days presents with lethargy, sunken fontanelle, and poor skin turgor. Which degree of dehydration is this, and what is appropriate management?",
+                "options": [
+                        "Mild dehydration; oral rehydration therapy",
+                        "Moderate dehydration; IV fluid bolus 20 mL/kg normal saline",
+                        "Severe dehydration; IV fluid 20 mL/kg over 30 minutes, then reassess",
+                        "Shock; CPR and rapid IV infusion"
+                ],
+                "correct": 2,
+                "explanation": "Severe dehydration (>10% fluid loss) presents with lethargy, sunken fontanelle, poor skin turgor, and weak perfusion. IV rehydration is required: 20 mL/kg normal saline over 30 minutes, reassess, then slower rehydration. Enteral feeding resumes early. Electrolytes are checked to guide replacement."
+        },
+        {
+                "question": "A 3-week-old presents with projectile vomiting after feeding, abdominal distension, and a palpable 'olive' in the right epigastrium. Which diagnosis is most likely?",
+                "options": [
+                        "Gastroesophageal reflux",
+                        "Pyloric stenosis",
+                        "Intestinal atresia",
+                        "Meconium ileus"
+                ],
+                "correct": 1,
+                "explanation": "Pyloric stenosis (infantile hypertrophic pyloric stenosis) presents with projectile vomiting, dehydration, visible peristaltic waves, and palpable pyloric 'olive' in a 3-6 week old male. Metabolic alkalosis (hypochloremic, hypokalemic) from loss of gastric acid is expected. Diagnosis confirmed by ultrasound; treatment is surgical pyloromyotomy."
+        },
+        {
+                "question": "A 2-year-old with fever, cough, and wheezing is brought to the ED. Oxygen saturation is 88%. Which viral agent is most commonly associated with bronchiolitis?",
+                "options": [
+                        "Respiratory syncytial virus (RSV)",
+                        "Influenza virus",
+                        "Parainfluenza virus",
+                        "Human metapneumovirus"
+                ],
+                "correct": 0,
+                "explanation": "RSV is the leading cause of bronchiolitis in infants and young children. It causes inflammation of small airways (bronchioles) with mucus plugging and air trapping, leading to wheezing, hypoxia, and respiratory distress. Most cases are self-limited; supportive care (oxygen, hydration) is mainstay. Ribavirin is reserved for immunocompromised."
+        },
+        {
+                "question": "A 7-year-old with sickle cell disease presents with severe bone pain in the femur, fever, and elevated WBC. Which diagnosis should be suspected first?",
+                "options": [
+                        "Avascular necrosis",
+                        "Acute bone infarct (vaso-occlusive crisis)",
+                        "Osteomyelitis",
+                        "Acute leukemia"
+                ],
+                "correct": 2,
+                "explanation": "Sickle cell patients have functional asplenia and are prone to osteomyelitis from Salmonella (unusual organism), Staphylococcus aureus, and others. Fever + bone pain + elevated WBC should raise suspicion for infection before assuming vaso-occlusive crisis. Blood cultures, imaging, and antibiotics are needed. Salmonella is a classic organism in sicklers."
+        },
+        {
+                "question": "An 18-month-old presents with a harsh, scratchy cough; stridor; and respiratory distress. His father just recovered from similar illness. Which diagnosis is most likely?",
+                "options": [
+                        "Epiglottitis",
+                        "Croup (laryngotracheobronchitis)",
+                        "Foreign body aspiration",
+                        "Acute asthma"
+                ],
+                "correct": 1,
+                "explanation": "Croup (viral laryngotracheobronchitis) presents with barky, seal-like cough and inspiratory stridor in 6 months to 3 years. It is typically viral (parainfluenza) and spreads within families. Management: supportive care, dexamethasone, nebulized epinephrine for moderate-severe cases."
+        },
+        {
+                "question": "A 5-year-old with no prior cardiac history presents with acute onset chest pain, dyspnea, and syncope. Troponin is elevated, and EKG shows ST elevation. Which diagnosis must be considered?",
+                "options": [
+                        "Acute myocarditis",
+                        "Anomalous origin of coronary artery",
+                        "Marfan syndrome with aortic root dilation",
+                        "Hypertrophic cardiomyopathy"
+                ],
+                "correct": 0,
+                "explanation": "Acute myocarditis in children presents with chest pain, dyspnea, and signs of heart failure. Troponin elevation and ST changes are common. Viral prodrome often precedes. Echocardiography shows reduced ejection fraction. Most cases are self-limited, but fulminant forms may require ICU care or VAD support."
+        },
+        {
+                "question": "A 9-month-old presents with progressive developmental delay, poor head control, and seizures starting at 6 months. MRI shows basal ganglia involvement. Which diagnosis is most likely?",
+                "options": [
+                        "Cerebral palsy",
+                        "Tay-Sachs disease",
+                        "Duchenne muscular dystrophy",
+                        "Periventricular leukomalacia"
+                ],
+                "correct": 1,
+                "explanation": "Tay-Sachs disease (GM2 gangliosidosis) presents at 6 months with developmental regression, hypotonia, seizures, and cherry-red spot on retinal exam. Basal ganglia involvement on imaging is characteristic. No cure; supportive care and genetic counseling are offered. Ashkenazi Jewish ancestry is a risk factor."
+        },
+        {
+                "question": "A 3-year-old presents with a petechial rash on the buttocks and lower extremities, abdominal pain, and joint swelling. Which diagnosis is suspected?",
+                "options": [
+                        "Acute leukemia",
+                        "Meningococcal sepsis",
+                        "Henoch-Sch\u00f6nlein purpura (IgA vasculitis)",
+                        "Idiopathic thrombocytopenic purpura (ITP)"
+                ],
+                "correct": 2,
+                "explanation": "Henoch-Sch\u00f6nlein purpura (HSP/IgA vasculitis) presents with palpable purpura (lower extremities, buttocks), arthralgia/arthritis, abdominal pain, and hematuria. IgA-mediated vasculitis. Most cases are self-limited; monitor renal function and urine. Steroids are used for severe abdominal/renal involvement."
+        },
+        {
+                "question": "A 10-month-old with no prior hospitalizations presents with fever, cough, and respiratory distress. Chest X-ray shows diffuse bilateral infiltrates. Respiratory syncytial virus (RSV) is detected. Which supportive measure is most critical?",
+                "options": [
+                        "High-dose antibiotics to prevent bacterial superinfection",
+                        "Mechanical ventilation for any O2 requirement",
+                        "Humidified oxygen and hydration support; intubation if SaO2 <90%",
+                        "Ribavirin therapy"
+                ],
+                "correct": 2,
+                "explanation": "Bronchiolitis is self-limited; management is supportive: oxygen to maintain SpO2 >90%, IV hydration (nil per os if severe), and consideration of intubation if respiratory failure (CO2 retention, severe work of breathing). Ribavirin is reserved for immunocompromised patients. Antibiotics are not indicated unless bacterial coinfection is proven."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

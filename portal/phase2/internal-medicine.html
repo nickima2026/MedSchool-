@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 58-year-old with type 2 diabetes (HbA1c 8.2%) is on metformin and lisinopril. Which agent addition provides cardiovascular and renal protection?",
+                "options": [
+                        "Insulin glargine",
+                        "SGLT2 inhibitor (empagliflozin)",
+                        "DPP-4 inhibitor (sitagliptin)",
+                        "Sulfonylurea (glipizide)"
+                ],
+                "correct": 1,
+                "explanation": "SGLT2 inhibitors reduce cardiovascular events, heart failure hospitalizations, and slow CKD progression independent of glucose lowering. They are preferred in diabetes with CKD, heart failure, or high CVD risk. DPP-4 inhibitors are neutral on CV outcomes; sulfonylureas increase hypoglycemia risk."
+        },
+        {
+                "question": "A 72-year-old with atrial fibrillation and heart failure (EF 28%) presents with acute decompensation (crackles, edema). Troponin is elevated, BNP >1000. Which is most appropriate?",
+                "options": [
+                        "Start digoxin for rate control and inotropy",
+                        "IV furosemide, ACE inhibitor, beta-blocker optimization; consider inotrope if hypotensive",
+                        "Restrict all medications until EF improves",
+                        "Initiate amiodarone for rate and rhythm control"
+                ],
+                "correct": 1,
+                "explanation": "Acute decompensated HFrEF requires IV diuretics for decongestion, ACE inhibitors for cardiac remodeling, and beta-blockers (continue if tolerated). Inotropes (dobutamine, milrinone) are reserved for hypotensive shock. Digoxin has limited role; amiodarone is reserved for VT/arrhythmias unresponsive to beta-blockers."
+        },
+        {
+                "question": "A 64-year-old presents with dyspnea, chest pain, and elevated troponin. EKG shows diffuse ST elevation and PR depression. Which diagnosis is most likely?",
+                "options": [
+                        "ST-elevation MI (STEMI)",
+                        "Acute myopericarditis/pericarditis",
+                        "Pulmonary embolism",
+                        "Pneumonia with sepsis"
+                ],
+                "correct": 1,
+                "explanation": "Diffuse ST elevation (not in coronary distribution) with PR depression is typical of acute myopericarditis or pericarditis. Elevated troponin indicates myocardial inflammation. STEMI causes regional ST elevation in a specific coronary distribution. Manage with NSAIDs, colchicine, and identify underlying cause (viral, autoimmune)."
+        },
+        {
+                "question": "A 55-year-old with chronic kidney disease stage 3 (eGFR 45) and hypertension is on lisinopril. His potassium rises to 5.8 mEq/L. Which is the most appropriate next step?",
+                "options": [
+                        "Discontinue lisinopril immediately",
+                        "Reduce lisinopril dose and check K+ again in 1 week",
+                        "Add potassium binder (patiromer) and recheck K+ in 1-2 weeks",
+                        "Add potassium-wasting diuretic"
+                ],
+                "correct": 2,
+                "explanation": "ACE inhibitors cause hyperkalemia in CKD by reducing aldosterone. Rather than discontinue (which loses renoprotection), use potassium binders (patiromer, sodium zirconium cyclosilicate) to allow ACE inhibitor continuation. Reassess in 1-2 weeks. Adding thiazides risks hypokalemia and worsening glucose control."
+        },
+        {
+                "question": "A 48-year-old woman presents with weight gain, fatigue, and elevated LDL despite atorvastatin 80mg. TSH is found to be elevated. Which diagnosis should be considered?",
+                "options": [
+                        "Familial hypercholesterolemia",
+                        "Primary hypothyroidism",
+                        "Secondary hypothyroidism from pituitary disease",
+                        "Medication non-adherence"
+                ],
+                "correct": 1,
+                "explanation": "Hypothyroidism causes weight gain, fatigue, and hyperlipidemia by reducing metabolism and LDL clearance. Elevated TSH confirms primary thyroid dysfunction. Treating hypothyroidism with levothyroxine often improves lipid profile and reduces statin requirement. Screen TSH in all patients with unexplained dyslipidemia."
+        },
+        {
+                "question": "A 67-year-old with COPD presents with acute dyspnea, elevated D-dimer, and normal troponin. CXR shows no acute infiltrate. Which diagnosis is most likely?",
+                "options": [
+                        "Acute MI",
+                        "Pulmonary embolism",
+                        "COPD exacerbation",
+                        "Pneumonia"
+                ],
+                "correct": 2,
+                "explanation": "While D-dimer is elevated (sensitivity for PE is high), in a patient with COPD exacerbation, elevated D-dimer can result from inflammation and tissue damage, not only PE. Clinical probability assessment and CTPA would clarify, but acute COPD is more common. D-dimer is nonspecific; troponin normal argues against ACS."
+        },
+        {
+                "question": "A 52-year-old on methotrexate for rheumatoid arthritis presents with cough and dyspnea. CXR shows bilateral interstitial infiltrates. Which toxicity is most likely?",
+                "options": [
+                        "Methotrexate-induced pulmonary fibrosis",
+                        "Opportunistic infection (PCP)",
+                        "Drug-induced lupus",
+                        "Cardiac failure"
+                ],
+                "correct": 0,
+                "explanation": "Methotrexate causes dose-dependent pneumonitis/pulmonary fibrosis in 1-5% of patients. Presents with nonproductive cough, dyspnea, and interstitial infiltrates. Risk increases with cumulative dose, age, and preexisting lung disease. Requires cessation and often corticosteroids. Monitor with PFTs and CXR."
+        },
+        {
+                "question": "A 71-year-old with long-standing diabetes presents with nephrotic syndrome (proteinuria 4g/24hr, albumin 2.8). Renal biopsy shows nodular glomerulosclerosis. Which is the expected finding?",
+                "options": [
+                        "Minimal change disease",
+                        "IgA nephropathy",
+                        "Kimmelstiel-Wilson nodules",
+                        "MPGN"
+                ],
+                "correct": 2,
+                "explanation": "Kimmelstiel-Wilson nodules (nodular glomerulosclerosis) are pathognomonic for diabetic nephropathy. They represent areas of mesangial expansion and are seen in 20-40% of diabetic kidney disease. Nephrotic range proteinuria in diabetes indicates advanced disease; ACE inhibitors/ARBs slow progression, but SGLT2 inhibitors also reduce albuminuria."
+        },
+        {
+                "question": "A 58-year-old with cirrhosis and ascites develops acute kidney injury (Cr 2.1, up from 0.9). Urine sodium is <10 mEq/L. Which diagnosis best fits this clinical picture?",
+                "options": [
+                        "Acute tubular necrosis",
+                        "Hepatorenal syndrome",
+                        "Acute glomerulonephritis",
+                        "Prerenal azotemia from volume depletion"
+                ],
+                "correct": 1,
+                "explanation": "Hepatorenal syndrome (HRS) occurs in cirrhosis with refractory ascites, characterized by vasoconstriction and AKI despite normal tubular histology. Low urine sodium (<10) reflects severe vasoconstriction and intense sodium reabsorption. Oliguria is common. Treat with albumin infusion and vasoconstrictors (terlipressin, midodrine)."
+        },
+        {
+                "question": "A 45-year-old with a new diagnosis of hypertension (BP 168/108) and headache undergoes workup. What is the most cost-effective initial screening for secondary hypertension?",
+                "options": [
+                        "Plasma renin and aldosterone levels",
+                        "Plasma metanephrines and 24-hour urine catecholamines",
+                        "Renal artery duplex ultrasound",
+                        "Electrolytes, creatinine, and urinalysis"
+                ],
+                "correct": 3,
+                "explanation": "Initial screening for secondary causes includes serum electrolytes (hypokalemia suggests hyperaldosteronism), creatinine (renal disease), and urinalysis (renal parenchymal disease). Specific screening (renin-aldosterone ratio for primary aldosteronism, plasma metanephrines for pheochromocytoma) follows if clinical suspicion is high."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

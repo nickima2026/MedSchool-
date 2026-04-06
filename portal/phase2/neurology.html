@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 68-year-old with hypertension presents with sudden onset weakness on the left side of the body and face, slurred speech, and difficulty understanding spoken words. Which artery is most likely occluded?",
+                "options": [
+                        "Right middle cerebral artery (MCA)",
+                        "Left anterior cerebral artery (ACA)",
+                        "Left middle cerebral artery (MCA)",
+                        "Right posterior cerebral artery (PCA)"
+                ],
+                "correct": 2,
+                "explanation": "Left MCA occlusion causes contralateral motor deficits (right weakness) and expressive/receptive aphasia (Wernicke's area, left hemisphere). The combination of facial weakness and speech difficulties localizes to the left hemisphere, dominant for language in most people."
+        },
+        {
+                "question": "A 45-year-old female with no prior seizure history presents with sudden loss of consciousness, tonic-clonic movements lasting 90 seconds, followed by postictal confusion. Which seizure type is this?",
+                "options": [
+                        "Absence seizure",
+                        "Focal seizure with impaired awareness",
+                        "Generalized tonic-clonic seizure",
+                        "Myoclonic seizure"
+                ],
+                "correct": 2,
+                "explanation": "Generalized tonic-clonic seizures involve bilateral motor activity (tonic phase: muscle stiffening; clonic phase: rhythmic jerking), LOC, and postictal confusion lasting minutes. Absence seizures are brief (5-20 sec), without postictal confusion. This presentation requires EEG and imaging to determine cause (idiopathic vs. symptomatic)."
+        },
+        {
+                "question": "A 56-year-old with diabetes presents with painless visual loss in one eye and optic nerve ischemia on fundoscopy. Which vascular territory is affected?",
+                "options": [
+                        "Central retinal artery",
+                        "Ophthalmic artery",
+                        "Posterior ciliary arteries",
+                        "Anterior ciliary arteries"
+                ],
+                "correct": 2,
+                "explanation": "Anterior ischemic optic neuropathy (AION) from posterior ciliary artery occlusion causes painless vision loss and optic nerve swelling/ischemia. Risk factors include age, hypertension, diabetes, and nocturnal hypotension. Temporal artery biopsy is warranted in >55 years to rule out giant cell arteritis."
+        },
+        {
+                "question": "A 34-year-old female with no prior history presents with transient monocular vision loss (amaurosis fugax) that resolves completely in 20 minutes. Which finding is most important to establish?",
+                "options": [
+                        "Check blood pressure immediately",
+                        "Perform urgent MRI brain with contrast",
+                        "Assess for carotid artery stenosis and cardiac sources of emboli",
+                        "Start aspirin and observe; risk of stroke is low"
+                ],
+                "correct": 2,
+                "explanation": "Amaurosis fugax (transient monocular vision loss) is a harbinger of stroke, indicating carotid stenosis or cardioemboli. Workup includes carotid imaging (ultrasound or CTA) and cardiac assessment (echo, EKG, Holter). Risk of stroke is 24-50% over 5 years without intervention."
+        },
+        {
+                "question": "A 72-year-old with Parkinson disease on levodopa presents with confusion, fever, muscle rigidity, and elevated CK. Which complication is most likely?",
+                "options": [
+                        "Neuroleptic malignant syndrome (NMS)",
+                        "Serotonin syndrome",
+                        "Levodopa toxicity",
+                        "Parkinson's disease progression"
+                ],
+                "correct": 0,
+                "explanation": "Neuroleptic malignant syndrome occurs with dopamine antagonists or sudden levodopa withdrawal. Classic triad: fever, rigidity, altered mental status; elevated CK from rhabdomyolysis. Treatment: stop offending agent, supportive care, cooling, dantrolene, dopamine agonists. Mortality 5-10% even with treatment."
+        },
+        {
+                "question": "A 28-year-old with multiple sclerosis is treated with interferon-beta. Which MRI finding would indicate disease progression despite therapy?",
+                "options": [
+                        "Gadolinium enhancement of existing lesions",
+                        "New T2 lesions on brain MRI",
+                        "Black holes (T1 hypointense lesions)",
+                        "Cortical atrophy"
+                ],
+                "correct": 1,
+                "explanation": "New T2 lesions or new gadolinium-enhancing lesions on MRI indicate ongoing inflammatory activity and MS progression. This warrants change to more aggressive therapy (natalizumab, fingolimod). Black holes and atrophy are markers of chronic disease but less sensitive for acute progression."
+        },
+        {
+                "question": "A 52-year-old presents with acute severe headache, nuchal rigidity, and fever. CSF analysis shows elevated protein (150 mg/dL), low glucose (20 mg/dL), and 800 WBC (90% PMN). Which is the most likely diagnosis?",
+                "options": [
+                        "Viral meningitis",
+                        "Bacterial meningitis",
+                        "Tuberculous meningitis",
+                        "Fungal meningitis"
+                ],
+                "correct": 1,
+                "explanation": "Bacterial meningitis presents with CSF pleocytosis (predominantly PMN), elevated protein, and LOW glucose (CSF-to-serum glucose ratio <0.4). Viral meningitis has lymphocytic predominance, normal glucose, and mildly elevated protein. Empiric antibiotics must be started before lumbar puncture if bacterial meningitis is suspected."
+        },
+        {
+                "question": "A 64-year-old with hypertension and hyperlipidemia presents with acute onset vertigo, nystagmus, and gait ataxia. MRI shows acute ischemia in the cerebellum. Which artery is occluded?",
+                "options": [
+                        "Anterior inferior cerebellar artery (AICA)",
+                        "Posterior inferior cerebellar artery (PICA)",
+                        "Superior cerebellar artery (SCA)",
+                        "Basilar artery"
+                ],
+                "correct": 1,
+                "explanation": "PICA supplies the lateral medulla and inferior cerebellum. Occlusion causes vertigo, nystagmus, ataxia, ipsilateral face pain/temperature loss (spinothalamic tract), and contralateral limb anesthesia (Wallenberg syndrome). AICA affects the anterior cerebellum; SCA affects superior cerebellum."
+        },
+        {
+                "question": "A 35-year-old presents with subacute progressive weakness in the legs (ascending paralysis), autonomic dysfunction, and arreflexia. CSF shows elevated protein with normal glucose. Which diagnosis is most likely?",
+                "options": [
+                        "Multiple sclerosis",
+                        "Guillain-Barr\u00e9 syndrome",
+                        "Transverse myelitis",
+                        "Spinal cord compression"
+                ],
+                "correct": 1,
+                "explanation": "Guillain-Barr\u00e9 syndrome (GBS) presents with ascending paralysis, areflexia, dysautonomia (tachycardia, labile BP), and CSF albuminocytologic dissociation (high protein, normal cells). Often follows infection (Campylobacter jejuni, Zika). Treatment: IVIG or plasma exchange. Respiratory support may be needed."
+        },
+        {
+                "question": "A 58-year-old with chronic migraines presents complaining of a change in headache character (now daily, worse with exertion). Brain MRI is needed to exclude which serious diagnosis?",
+                "options": [
+                        "Status migrainosus",
+                        "Medication overuse headache",
+                        "Intracranial mass or idiopathic intracranial hypertension",
+                        "Tension-type headache"
+                ],
+                "correct": 2,
+                "explanation": "Change in long-standing headache pattern warrants imaging to exclude mass, hemorrhage, or increased ICP (idiopathic intracranial hypertension). Red flags: progressive worsening, change in character, awakening from sleep, vision changes, ataxia. MRI brain (\u00b1 MRV) and LP may be needed."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

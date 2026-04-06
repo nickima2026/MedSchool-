@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A medical school implementing competency-based medical education (CBME) allows students to progress upon demonstrating specific competencies rather than completing a set time in each clinical rotation. What is an advantage of CBME over time-based progression?",
+                "options": [
+                        "Students always graduate faster",
+                        "Competency-based progression ensures all students achieve defined standards; fast learners can advance more quickly",
+                        "Clinical rotations are eliminated",
+                        "Exams are no longer needed"
+                ],
+                "correct": 1,
+                "explanation": "CBME focuses on demonstrated competence (milestones, entrustable professional activities) rather than time served. This individualized approach ensures mastery while allowing flexible progression. Struggling students get additional support; advanced students aren't held back."
+        },
+        {
+                "question": "A medical educator designs a curriculum to teach clinical reasoning using deliberate practice and frequent low-stakes quizzes. This approach is based on which learning theory?",
+                "options": [
+                        "Lecture-based passive learning",
+                        "Spaced repetition and retrieval practice improve long-term retention and skill development",
+                        "Rote memorization",
+                        "Intuitive, experience-only learning"
+                ],
+                "correct": 1,
+                "explanation": "Cognitive science shows that spaced repetition, retrieval practice, and deliberate practice strengthen memory and skill. Low-stakes quizzes (formative assessment) enhance learning without high-stakes anxiety, promoting mastery."
+        },
+        {
+                "question": "A clinical supervisor notices a resident struggling with patient communication skills despite excellent knowledge. The supervisor uses simulation-based education with immediate feedback to target this skill gap. This represents which assessment type?",
+                "options": [
+                        "Summative assessment only",
+                        "Formative assessment with targeted feedback to improve performance",
+                        "Norm-referenced assessment",
+                        "High-stakes licensing exam"
+                ],
+                "correct": 1,
+                "explanation": "Formative assessment provides feedback for improvement during learning (simulations, practice). Summative assessment evaluates final mastery (licensing exams). Simulation with feedback is formative, allowing low-risk skill development and correction."
+        },
+        {
+                "question": "A medical school discovers that some students graduate without demonstrating competence in conducting physical exams, despite satisfactory grades. This suggests a gap in which aspect of assessment?",
+                "options": [
+                        "Cognitive knowledge assessment",
+                        "Authentic, workplace-based assessment; reliance solely on written exams misses clinical skill gaps",
+                        "Ethical reasoning",
+                        "Professional development"
+                ],
+                "correct": 1,
+                "explanation": "Written exams assess knowledge but not procedural or communication skills. Workplace-based assessment (direct observation of exams, OSCEs, simulations) is needed to ensure clinical competence. Multiple assessment methods provide comprehensive evaluation."
+        },
+        {
+                "question": "A resident in internal medicine struggles with complex patient management but excels at procedure-based tasks. To develop competency in complex clinical reasoning, the most effective educational intervention would be:",
+                "options": [
+                        "More lectures on internal medicine topics",
+                        "Case-based learning with complex, realistic clinical scenarios; supervised deliberation; feedback on reasoning",
+                        "More procedural practice",
+                        "Tutoring on anatomy"
+                ],
+                "correct": 1,
+                "explanation": "Clinical reasoning develops through authentic practice on complex cases with feedback on the thinking process. Deliberate practice on realistic problems, supervised by experienced clinicians, builds expertise more effectively than didactic sessions."
+        },
+        {
+                "question": "A medical school curriculum includes peer teaching sessions where senior students teach junior students. What is the PRIMARY educational benefit for the senior students?",
+                "options": [
+                        "Reduced workload",
+                        "Teaching forces active review and reorganization of knowledge; explaining concepts deepens understanding ('prot\u00e9g\u00e9 effect')",
+                        "No benefit; only juniors learn",
+                        "Reduced need for faculty instruction"
+                ],
+                "correct": 1,
+                "explanation": "Teaching requires clear explanation and addressing questions, which consolidates knowledge. The 'prot\u00e9g\u00e9 effect' shows that tutors' understanding deepens through the teaching process. Peer teaching benefits both parties."
+        },
+        {
+                "question": "An attending physician gives a resident critical feedback in front of patients and students, stating the resident 'made a diagnostic error' without discussing what was learned. The resident becomes defensive and avoids asking questions. This illustrates a failure of which teaching principle?",
+                "options": [
+                        "Knowledge transfer",
+                        "Psychological safety: learners require a safe environment to acknowledge mistakes and learn without shame or fear of humiliation",
+                        "Content mastery",
+                        "Assessment reliability"
+                ],
+                "correct": 1,
+                "explanation": "Effective feedback requires psychological safety\u2014a trusting environment where learners can acknowledge errors and learn. Public criticism without supportive framing creates defensiveness and inhibits learning. Feedback should be private, specific, and growth-oriented."
+        },
+        {
+                "question": "A medical school implements early clinical exposure (seeing patients in year 1) rather than delaying until year 3. Research suggests this benefits learning by:",
+                "options": [
+                        "Eliminating basic science instruction",
+                        "Providing authentic context for learning; contextual learning improves understanding and retention",
+                        "Reducing tuition costs",
+                        "Allowing early graduation"
+                ],
+                "correct": 1,
+                "explanation": "Contextual learning (learning in real-world settings) improves understanding and motivation. Early patient exposure grounds basic science in clinical relevance. Combined with systematic basic science instruction, early clinical exposure enhances learning."
+        },
+        {
+                "question": "A medical education program uses a 'just-in-time' teaching model, where learners receive instruction moments before or immediately after encountering a clinical problem. This approach leverages:",
+                "options": [
+                        "Passive learning",
+                        "Spaced repetition over months",
+                        "Peak motivation and readiness to learn when the problem is immediately relevant",
+                        "Avoidance of structured curriculum"
+                ],
+                "correct": 2,
+                "explanation": "Just-in-time teaching capitalizes on intrinsic motivation and readiness to learn. When students encounter a patient problem and receive immediate relevant instruction, learning is maximally efficient and memorable."
+        },
+        {
+                "question": "A residency program tracks the entrustable professional activity (EPA) 'obtain informed consent for procedure' across trainees. Some residents achieve entrustment (supervision reduced) after 10 procedures; others need 30. This variation reflects:",
+                "options": [
+                        "Inadequate faculty assessment",
+                        "Learner variability: individual differences in learning pace and prior experience; competency-based progression honors this variability",
+                        "The EPA is not a valid skill",
+                        "Need to standardize all residents to 20 procedures"
+                ],
+                "correct": 1,
+                "explanation": "Competency development varies among learners based on prior experience, learning style, and deliberate practice. Rigid time-based requirements ignore this variation. Competency-based progression (determining readiness via entrustment) is more equitable and educationally sound."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

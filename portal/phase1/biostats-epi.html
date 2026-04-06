@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A screening test for a disease has a sensitivity of 95% and a specificity of 90%. In a population with a disease prevalence of 1%, what is the approximate positive predictive value?",
+                "options": [
+                        "8.8%",
+                        "50%",
+                        "90%",
+                        "95%"
+                ],
+                "correct": 0,
+                "explanation": "PPV = (Sensitivity \u00d7 Prevalence) / [(Sensitivity \u00d7 Prevalence) + (1-Specificity)(1-Prevalence)] = (0.95 \u00d7 0.01) / [(0.95 \u00d7 0.01) + (0.10 \u00d7 0.99)] = 0.0095 / 0.1085 \u2248 8.8%. Low prevalence dramatically reduces PPV even with good sensitivity and specificity."
+        },
+        {
+                "question": "A cohort study follows 1,000 smokers and 1,000 non-smokers for 10 years. 50 smokers and 10 non-smokers develop lung cancer. What is the relative risk?",
+                "options": [
+                        "0.2",
+                        "2.0",
+                        "5.0",
+                        "40"
+                ],
+                "correct": 2,
+                "explanation": "Relative Risk = Incidence in exposed / Incidence in unexposed = (50/1000) / (10/1000) = 0.05 / 0.01 = 5.0. Smokers have 5 times the risk of developing lung cancer compared to non-smokers."
+        },
+        {
+                "question": "Which of the following study designs is best suited to investigate a rare disease?",
+                "options": [
+                        "Randomized controlled trial",
+                        "Cohort study",
+                        "Case-control study",
+                        "Cross-sectional study"
+                ],
+                "correct": 2,
+                "explanation": "Case-control studies start with known cases of the disease and compare exposures to controls. This design is efficient for rare diseases because you don't need to follow a huge cohort to accumulate enough cases."
+        },
+        {
+                "question": "A researcher finds a p-value of 0.03 in a clinical trial comparing drug A to placebo. Which statement is most accurate?",
+                "options": [
+                        "There is a 3% chance the drug doesn't work",
+                        "There is a 97% chance the drug works",
+                        "If the null hypothesis were true, there would be a 3% probability of observing results this extreme or more extreme",
+                        "The clinical significance of the finding is high"
+                ],
+                "correct": 2,
+                "explanation": "The p-value represents the probability of observing data as extreme as (or more extreme than) the results, assuming the null hypothesis is true. It does NOT represent the probability that the hypothesis is true or false, nor does it indicate clinical significance."
+        },
+        {
+                "question": "In a meta-analysis, significant heterogeneity is detected among included studies (I\u00b2 = 85%). What is the most appropriate statistical model to use?",
+                "options": [
+                        "Fixed-effects model",
+                        "Random-effects model",
+                        "Chi-squared test only",
+                        "No pooling is appropriate"
+                ],
+                "correct": 1,
+                "explanation": "When significant heterogeneity exists (I\u00b2 > 50%), a random-effects model is preferred because it accounts for both within-study and between-study variability. Fixed-effects models assume all studies estimate the same true effect, which is inappropriate with high heterogeneity."
+        },
+        {
+                "question": "A new drug reduces mortality from 4% to 3%. What is the number needed to treat (NNT)?",
+                "options": [
+                        "1",
+                        "25",
+                        "100",
+                        "33"
+                ],
+                "correct": 2,
+                "explanation": "NNT = 1 / Absolute Risk Reduction = 1 / (0.04 - 0.03) = 1 / 0.01 = 100. You need to treat 100 patients to prevent one additional death."
+        },
+        {
+                "question": "Which type of bias occurs when patients who drop out of a study differ systematically from those who remain?",
+                "options": [
+                        "Selection bias",
+                        "Attrition bias",
+                        "Recall bias",
+                        "Observer bias"
+                ],
+                "correct": 1,
+                "explanation": "Attrition bias (a form of selection bias) occurs when participants who withdraw or are lost to follow-up differ from those who complete the study, potentially distorting results. This is why intention-to-treat analysis is preferred."
+        },
+        {
+                "question": "A 95% confidence interval for an odds ratio is reported as (0.85, 1.32). What can you conclude?",
+                "options": [
+                        "The result is statistically significant",
+                        "The result is not statistically significant at \u03b1 = 0.05",
+                        "The exposure is protective",
+                        "The exposure is harmful"
+                ],
+                "correct": 1,
+                "explanation": "Since the 95% CI includes 1.0 (the null value for odds ratios), we cannot reject the null hypothesis at the 0.05 significance level. The result is not statistically significant \u2014 the true odds ratio could be less than, equal to, or greater than 1."
+        },
+        {
+                "question": "Lead-time bias is a concern in screening studies. What does it describe?",
+                "options": [
+                        "Earlier detection appears to increase survival time without actually prolonging life",
+                        "Screening preferentially detects slow-growing tumors",
+                        "Patients who volunteer for screening are inherently healthier",
+                        "The diagnostic test has poor specificity"
+                ],
+                "correct": 0,
+                "explanation": "Lead-time bias occurs when screening detects disease earlier in its natural history. Survival time appears longer simply because the starting point of measurement is moved earlier, even if the patient dies at the same time they would have without screening."
+        },
+        {
+                "question": "An investigator wants to determine if there is an association between coffee consumption and heart disease using existing data collected at a single time point. Which study design is this?",
+                "options": [
+                        "Prospective cohort",
+                        "Randomized controlled trial",
+                        "Cross-sectional study",
+                        "Case series"
+                ],
+                "correct": 2,
+                "explanation": "A cross-sectional study measures both exposure and outcome at a single point in time. It can identify associations (prevalence) but cannot establish temporal sequence or causation."
+        }
+];
+        let RESOURCES = [
+            { title: "Jekel's Epidemiology, Biostatistics & Preventive Medicine (4th ed.)", type: "textbook", url: "https://www.elsevier.com/books/jekels-epidemiology-biostatistics-preventive-medicine-and-public-health/katz/978-0-323-64201-6" },
+            { title: "High-Yield Biostatistics, Epidemiology & Public Health (5th ed.)", type: "textbook", url: "https://www.lww.com" },
+            { title: "Khan Academy — Statistics & Probability", type: "free", url: "https://www.khanacademy.org/math/statistics-probability" },
+            { title: "AMBOSS — Biostatistics & Epidemiology", type: "subscription", url: "https://www.amboss.com/us/knowledge/Biostatistics" },
+            { title: "Boards and Beyond — Biostatistics", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Randy Neil — Biostatistics YouTube Series", type: "free", url: "https://www.youtube.com/@RandyNeil" },
+            { title: "Osmosis — Epidemiology & Biostatistics", type: "subscription", url: "https://www.osmosis.org/learn/Epidemiology" },
+            { title: "OpenIntro Statistics (Free Textbook)", type: "free", url: "https://www.openintro.org/book/os/" },
+            { title: "CDC — Principles of Epidemiology (Self-Study)", type: "free", url: "https://www.cdc.gov/training/publichealth101/epidemiology.html" },
+            { title: "UWorld — Biostatistics Question Bank", type: "subscription", url: "https://www.uworld.com" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

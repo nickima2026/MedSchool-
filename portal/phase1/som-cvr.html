@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A 65-year-old man presents with crushing substernal chest pain, diaphoresis, and ST elevation in leads II, III, and aVF. Which coronary artery is most likely occluded?",
+                "options": [
+                        "Left anterior descending (LAD)",
+                        "Left circumflex (LCx)",
+                        "Right coronary artery (RCA)",
+                        "Left main coronary artery"
+                ],
+                "correct": 2,
+                "explanation": "ST elevation in leads II, III, and aVF indicates an inferior STEMI, most commonly caused by RCA occlusion (85% of cases). The RCA supplies the inferior wall of the left ventricle, the SA node (in 60%), and the AV node (in 90%)."
+        },
+        {
+                "question": "A patient with heart failure has a reduced ejection fraction of 25%. Which class of medication has been shown to reduce mortality in HFrEF?",
+                "options": [
+                        "Calcium channel blockers",
+                        "ACE inhibitors",
+                        "Digoxin",
+                        "Hydralazine alone"
+                ],
+                "correct": 1,
+                "explanation": "ACE inhibitors (and ARBs/ARNI) reduce mortality in HFrEF by blocking RAAS activation, reducing afterload and ventricular remodeling. The four pillars of HFrEF therapy (shown to reduce mortality) are: ACEi/ARB/ARNI, beta-blockers, mineralocorticoid antagonists, and SGLT2 inhibitors."
+        },
+        {
+                "question": "A 70-year-old woman presents with syncope. Examination reveals a late-peaking crescendo-decrescendo systolic murmur at the right upper sternal border with radiation to the carotids and a delayed carotid upstroke. What is the most likely diagnosis?",
+                "options": [
+                        "Mitral regurgitation",
+                        "Aortic stenosis",
+                        "Hypertrophic cardiomyopathy",
+                        "Aortic regurgitation"
+                ],
+                "correct": 1,
+                "explanation": "Aortic stenosis classically presents with the triad of syncope, angina, and heart failure. The crescendo-decrescendo murmur at the right upper sternal border radiating to the carotids, with pulsus parvus et tardus (delayed, diminished carotid pulse), is pathognomonic."
+        },
+        {
+                "question": "Which ECG finding is characteristic of atrial fibrillation?",
+                "options": [
+                        "Sawtooth pattern of flutter waves",
+                        "Irregularly irregular rhythm with absent P waves",
+                        "Prolonged PR interval >200 ms",
+                        "Wide QRS complexes >120 ms"
+                ],
+                "correct": 1,
+                "explanation": "Atrial fibrillation is characterized by an irregularly irregular rhythm with no discernible P waves (replaced by fibrillatory waves). The ventricular rate is variable. It is the most common sustained arrhythmia and increases stroke risk 5-fold."
+        },
+        {
+                "question": "A patient with nephrotic syndrome develops renal vein thrombosis. The edema in nephrotic syndrome is primarily due to:",
+                "options": [
+                        "Increased hydrostatic pressure",
+                        "Decreased plasma oncotic pressure from hypoalbuminemia",
+                        "Increased capillary permeability",
+                        "Lymphatic obstruction"
+                ],
+                "correct": 1,
+                "explanation": "Nephrotic syndrome causes massive proteinuria (>3.5 g/day), leading to hypoalbuminemia and decreased plasma oncotic pressure. This shifts the Starling forces, causing fluid to move from the intravascular space into the interstitium, producing edema."
+        },
+        {
+                "question": "The Frank-Starling mechanism describes the relationship between:",
+                "options": [
+                        "Heart rate and stroke volume",
+                        "End-diastolic volume (preload) and stroke volume",
+                        "Afterload and cardiac output",
+                        "Contractility and heart rate"
+                ],
+                "correct": 1,
+                "explanation": "The Frank-Starling mechanism states that increased ventricular end-diastolic volume (preload) causes increased stretch of cardiac myocytes, which increases the force of contraction and thus stroke volume. This intrinsic mechanism matches cardiac output to venous return."
+        },
+        {
+                "question": "A 55-year-old man with a history of hypertension presents with a sudden 'tearing' chest pain radiating to the back. CT angiography shows a dissection flap in the ascending aorta. What is the most appropriate management?",
+                "options": [
+                        "Anticoagulation with heparin",
+                        "Emergency surgical repair",
+                        "Percutaneous coronary intervention",
+                        "Observation with blood pressure control only"
+                ],
+                "correct": 1,
+                "explanation": "Stanford Type A aortic dissection (involving the ascending aorta) requires emergency surgical repair due to high mortality risk from rupture, tamponade, or coronary/cerebral malperfusion. Type B dissections (descending aorta only) are typically managed medically with blood pressure and heart rate control."
+        },
+        {
+                "question": "A patient presents with bilateral lower extremity pitting edema, elevated JVP, and hepatomegaly. Which type of heart failure is most consistent with these findings?",
+                "options": [
+                        "Left-sided systolic heart failure",
+                        "Right-sided heart failure",
+                        "Diastolic heart failure only",
+                        "High-output heart failure"
+                ],
+                "correct": 1,
+                "explanation": "Right-sided heart failure causes systemic venous congestion: JVD, peripheral edema, hepatic congestion (nutmeg liver), and ascites. Left-sided failure primarily causes pulmonary congestion (dyspnea, orthopnea, crackles). However, left-sided failure commonly leads to right-sided failure."
+        },
+        {
+                "question": "Renin is released from the juxtaglomerular cells in response to which of the following stimuli?",
+                "options": [
+                        "Increased renal perfusion pressure",
+                        "Decreased renal perfusion pressure",
+                        "Increased sodium delivery to the macula densa",
+                        "Parasympathetic stimulation"
+                ],
+                "correct": 1,
+                "explanation": "Renin release is stimulated by: (1) decreased renal perfusion pressure sensed by baroreceptors in the afferent arteriole, (2) decreased NaCl delivery to the macula densa, and (3) sympathetic stimulation (beta-1 receptors). Renin converts angiotensinogen to angiotensin I."
+        },
+        {
+                "question": "A patient with chronic kidney disease has a GFR of 22 mL/min. This corresponds to which CKD stage?",
+                "options": [
+                        "Stage 2",
+                        "Stage 3b",
+                        "Stage 4",
+                        "Stage 5"
+                ],
+                "correct": 2,
+                "explanation": "CKD staging by GFR: Stage 1 (\u226590), Stage 2 (60-89), Stage 3a (45-59), Stage 3b (30-44), Stage 4 (15-29), Stage 5 (<15). A GFR of 22 mL/min is Stage 4, indicating severe reduction in kidney function. Preparation for renal replacement therapy should begin."
+        }
+];
+        let RESOURCES = [
+            { title: "Guyton & Hall Textbook of Medical Physiology (14th ed.)", type: "textbook", url: "https://www.elsevier.com/books/guyton-and-hall-textbook-of-medical-physiology/hall/978-0-323-59712-8" },
+            { title: "Costanzo Physiology (7th ed.)", type: "textbook", url: "https://www.elsevier.com/books/physiology/costanzo/978-0-323-79333-3" },
+            { title: "Pathoma — Cardiovascular & Respiratory Pathology", type: "subscription", url: "https://www.pathoma.com" },
+            { title: "Boards and Beyond — Cardiology & Pulmonology", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Ninja Nerd — Cardiovascular Physiology", type: "free", url: "https://www.youtube.com/c/NinjaNerdScience" },
+            { title: "AMBOSS — Cardiovascular System", type: "subscription", url: "https://www.amboss.com/us/knowledge/Cardiovascular_system" },
+            { title: "Osmosis — Heart & Lung Physiology", type: "subscription", url: "https://www.osmosis.org/learn/Cardiovascular_system" },
+            { title: "ECG Library — Life in the Fast Lane", type: "free", url: "https://litfl.com/ecg-library/" },
+            { title: "Khan Academy — Circulatory & Respiratory", type: "free", url: "https://www.khanacademy.org/science/health-and-medicine/circulatory-system" },
+            { title: "Sketchy Medical — Cardiovascular Pharmacology", type: "subscription", url: "https://www.sketchy.com" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 28-year-old at 12 weeks gestation presents with vaginal bleeding and pelvic pain. Ultrasound shows a gestational sac with no fetal pole. Which diagnosis is most likely?",
+                "options": [
+                        "Threatened abortion",
+                        "Inevitable abortion",
+                        "Incomplete abortion",
+                        "Blighted ovum (anembryonic pregnancy)"
+                ],
+                "correct": 3,
+                "explanation": "Blighted ovum is an anembryonic pregnancy where the gestational sac develops without a fetal pole. It accounts for 50% of first-trimester losses. Management: expectant, medical (misoprostol), or surgical evacuation. Beta-hCG is checked to confirm decreasing hormone levels."
+        },
+        {
+                "question": "A 32-year-old at 34 weeks gestation presents with severe headache, epigastric pain, and BP 162/108. Reflexes are brisk with clonus. Urine protein is 3+. Which diagnosis requires urgent delivery?",
+                "options": [
+                        "Gestational hypertension",
+                        "Preeclampsia without severe features",
+                        "Preeclampsia with severe features/eclampsia",
+                        "Chronic hypertension"
+                ],
+                "correct": 2,
+                "explanation": "Preeclampsia with severe features includes hypertension (\u2265160/110), proteinuria (\u22653.5g/24hr or 3+ on dipstick), severe symptoms (headache, epigastric pain), and hyperreflexia/clonus. Eclampsia adds seizures. Management: magnesium sulfate for seizure prophylaxis, antihypertensives, and urgent delivery at viable gestational age."
+        },
+        {
+                "question": "A 24-year-old G1P0 at 40 weeks gestation is in active labor. After 4 hours of pushing with no progress, the fetal head remains at -2 station. Which is the most appropriate next step?",
+                "options": [
+                        "Continue pushing for another hour",
+                        "Administer IV oxytocin to augment labor",
+                        "Proceed to cesarean delivery for arrest of descent",
+                        "Perform vacuum-assisted delivery"
+                ],
+                "correct": 2,
+                "explanation": "Arrest of descent is defined as >1 hour of pushing without descent in a nullipara with adequate contractions and epidural. Continuing labor risks maternal exhaustion and fetal compromise. Cesarean delivery is indicated. Vacuum is contraindicated in high/mid-pelvis (-2 station)."
+        },
+        {
+                "question": "A 35-year-old at 10 weeks gestation has an hCG of 150,000 mIU/mL and uterus size consistent with 14 weeks. Ultrasound shows bilateral theca lutein cysts. Which diagnosis is suspected?",
+                "options": [
+                        "Twin pregnancy",
+                        "Molar pregnancy (hydatidiform mole)",
+                        "Ovarian cancer",
+                        "PCOS"
+                ],
+                "correct": 1,
+                "explanation": "Molar pregnancy (complete mole) presents with excessive hCG, uterus larger than expected, theca lutein cysts, and 'snow-storm' ultrasound appearance. Risk: persistent gestational trophoblastic disease (GTD). Management: suction evacuation, hCG monitoring, and contraception during follow-up."
+        },
+        {
+                "question": "A 22-year-old presents at 24 hours postpartum with fever (39.2\u00b0C), foul-smelling lochia, and lower abdominal pain. WBC is 16,000. Which diagnosis is most likely?",
+                "options": [
+                        "Endometritis",
+                        "Wound infection",
+                        "Mastitis",
+                        "Urinary tract infection"
+                ],
+                "correct": 0,
+                "explanation": "Endometritis (postpartum infection of the uterus) presents with fever >38\u00b0C, foul-smelling lochia, uterine tenderness, and leukocytosis. Risk factors: cesarean delivery, prolonged labor, ROM. Treatment: broad-spectrum antibiotics (ampicillin + gentamicin + clindamycin, or cephalosporin)."
+        },
+        {
+                "question": "A 31-year-old G3P2 at 32 weeks gestation presents with sudden vaginal bleeding and abdominal pain. Fetal heart tones are absent. Ultrasound shows complete placental detachment. Which diagnosis is made?",
+                "options": [
+                        "Placenta previa",
+                        "Placental abruption (abruptio placentae)",
+                        "Vasa previa",
+                        "Subchorionic hemorrhage"
+                ],
+                "correct": 1,
+                "explanation": "Placental abruption is premature separation of placenta from uterus, presenting with vaginal bleeding, abdominal pain, and fetal distress/demise. Risk factors: hypertension, trauma, substance abuse. Management: IV access, cross-match, DIC labs, fetal monitoring, and urgent delivery if viable."
+        },
+        {
+                "question": "A 28-year-old presents with amenorrhea for 2 months and positive urine pregnancy test. Beta-hCG is 8,000 mIU/mL, but ultrasound shows no intrauterine gestational sac. Which diagnosis must be excluded?",
+                "options": [
+                        "Very early intrauterine pregnancy (<5 weeks)",
+                        "Ectopic pregnancy",
+                        "Blighted ovum",
+                        "Miscarriage"
+                ],
+                "correct": 1,
+                "explanation": "Beta-hCG >6,500 should show a gestational sac on transvaginal ultrasound (discriminatory threshold). Absence of IUP with positive hCG raises concern for ectopic pregnancy. Repeat hCG in 48 hours: slower rise (>50% increase) suggests ectopic; normal rise suggests early IUP or blighted ovum requiring follow-up ultrasound."
+        },
+        {
+                "question": "A 19-year-old primigravida at 36 weeks gestation has a positive group B Streptococcal (GBS) culture. Which management is appropriate?",
+                "options": [
+                        "No treatment; GBS colonization is normal",
+                        "Intrapartum penicillin G prophylaxis at labor/ROM",
+                        "Oral penicillin therapy now",
+                        "Cesarean delivery to prevent transmission"
+                ],
+                "correct": 1,
+                "explanation": "GBS-positive women receive intrapartum antibiotics (penicillin G or ampicillin) starting at labor onset or ROM to prevent neonatal sepsis. Prophylaxis reduces neonatal GBS disease by 80%. Cesarean delivery is not indicated for GBS alone unless other obstetric indication."
+        },
+        {
+                "question": "A 35-year-old at 18 weeks gestation undergoes amniocentesis for advanced maternal age. The procedure results in rupture of membranes. Which complication is most likely if infection is not addressed?",
+                "options": [
+                        "Chromosomal abnormality",
+                        "Intrauterine infection (chorioamnionitis)",
+                        "Preterm labor",
+                        "Placental insufficiency"
+                ],
+                "correct": 2,
+                "explanation": "ROM before viability (18 weeks) carries risk of intrauterine infection (chorioamnionitis) and preterm labor. Counsel on signs (fever, foul discharge, contractions) and plan close monitoring. Some offer antibiotics and progesterone. Individualize discussion regarding continuation of pregnancy."
+        },
+        {
+                "question": "A 42-year-old G5P4 presents at 39 weeks with severe hypertension (170/110), headache, and visual changes. Which is the most appropriate immediate intervention?",
+                "options": [
+                        "Outpatient follow-up in 1 week",
+                        "Hospitalization, antihypertensives, and urgent delivery",
+                        "Magnesium sulfate and expectant management to 40 weeks",
+                        "Antihypertensives with expectant management"
+                ],
+                "correct": 1,
+                "explanation": "Preeclampsia with severe features (hypertension + symptoms like headache/visual changes) at \u226534 weeks requires urgent delivery. Hospitalization, IV antihypertensives (labetalol, hydralazine), magnesium sulfate, and fetal monitoring are needed. Delivery is definitive treatment. Advanced maternal age increases preeclampsia risk."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 68-year-old patient with sepsis presents with a lactate of 4.2 mmol/L (normal <2) and hypotension despite 2L IV crystalloid. Which is the most appropriate next intervention according to Surviving Sepsis guidelines?",
+                "options": [
+                        "Add stress-dose steroids",
+                        "Initiate norepinephrine infusion targeting MAP \u226565 mmHg",
+                        "Place central line for CVP monitoring",
+                        "Begin antibiotics (already done) and continue aggressive fluids"
+                ],
+                "correct": 1,
+                "explanation": "Surviving Sepsis guidelines (2021) recommend vasopressors (norepinephrine first-line) for hypotensive patients not responding to initial fluid resuscitation. Target MAP \u226565 mmHg. Early antibiotics and source control are also critical. Steroids are reserved for refractory shock."
+        },
+        {
+                "question": "A mechanically ventilated patient has ARDS (PaO2/FiO2 ratio = 150). According to current lung-protective ventilation strategies, which parameter should be strictly limited to minimize ventilator-induced lung injury?",
+                "options": [
+                        "Tidal volume (target 6-8 mL/kg ideal body weight)",
+                        "PEEP (maintain <5 cmH2O)",
+                        "Respiratory rate (maintain <10 breaths/min)",
+                        "Inspiratory time (keep <1 second)"
+                ],
+                "correct": 0,
+                "explanation": "Lung-protective ventilation for ARDS uses low tidal volumes (6-8 mL/kg ideal body weight, not actual weight), aiming for plateau pressure <30 cmH2O. The ARDSNet trial showed this approach reduces mortality. PEEP is individualized; higher PEEP may be used in moderate-to-severe ARDS."
+        },
+        {
+                "question": "A critically ill patient on mechanical ventilation develops acute kidney injury (Cr increase from 1.0 to 2.4 mg/dL in 48 hours). Which renal replacement therapy modality is most appropriate for this hemodynamically unstable patient?",
+                "options": [
+                        "Hemodialysis",
+                        "Peritoneal dialysis",
+                        "Continuous veno-venous hemofiltration (CVVH)",
+                        "Intermittent hemofiltration"
+                ],
+                "correct": 2,
+                "explanation": "Continuous renal replacement therapies (CVVH, CVVHD) are preferred in hemodynamically unstable patients because they avoid the rapid fluid and electrolyte shifts associated with intermittent hemodialysis. Gradual solute removal is better tolerated in shock states."
+        },
+        {
+                "question": "A 55-year-old patient in the ICU develops fever (39.2\u00b0C), leukocytosis (WBC 18,000), and diarrhea on hospital day 5 after abdominal surgery. Culture and toxin testing for Clostridioides difficile are ordered. Which intervention should be initiated first?",
+                "options": [
+                        "Vancomycin 125mg PO QID",
+                        "Metronidazole 500mg PO/IV TID",
+                        "Discontinue implicated antibiotics (if possible)",
+                        "Probiotics and dietary modifications only"
+                ],
+                "correct": 2,
+                "explanation": "Discontinuing inciting antibiotics is the first step in C. difficile management. For nonsevere CDI, metronidazole is acceptable. For severe CDI (WBC >15, Cr >1.5x baseline), fidaxomicin or vancomycin is preferred. Probiotics lack evidence in CDI."
+        },
+        {
+                "question": "A 72-year-old with COPD presents with acute exacerbation, respiratory acidosis (pH 7.25, PaCO2 65), and altered mental status. Which intervention is most immediately necessary?",
+                "options": [
+                        "Intubation and mechanical ventilation",
+                        "Non-invasive positive pressure ventilation (NIPPV)",
+                        "IV corticosteroids and antibiotics",
+                        "Oxygen therapy to SpO2 \u226590%"
+                ],
+                "correct": 1,
+                "explanation": "NIPPV (BiPAP preferred) is first-line for COPD exacerbation with CO2 retention and acidosis. It improves ventilation, reduces PaCO2, and avoids intubation risks if tolerated. Intubation is reserved for NIPPV failure, severe acidosis, or altered mental status not reversible by other means."
+        },
+        {
+                "question": "A patient with septic shock on norepinephrine develops an acute decrease in urine output (0.2 mL/kg/hr). CVP is 8 mmHg and ScvO2 is 60%. Which is the most appropriate next step?",
+                "options": [
+                        "Increase norepinephrine to higher MAP target",
+                        "Administer crystalloid bolus (250-500mL) and reassess",
+                        "Start dopamine as an additional agent",
+                        "Initiate ultrafiltration"
+                ],
+                "correct": 1,
+                "explanation": "Low ScvO2 (normal 70-75%) indicates inadequate oxygen delivery. This suggests hypovolemia or inadequate perfusion, not vasodilation. A crystalloid bolus is appropriate to optimize preload before escalating vasopressors. CVP 8 is still relatively low in sepsis."
+        },
+        {
+                "question": "A mechanically ventilated patient develops tension pneumothorax (hypotension, JVD, unilateral absent breath sounds, tracheal deviation). Which is the most appropriate immediate intervention?",
+                "options": [
+                        "Stat portable chest X-ray",
+                        "Immediate needle decompression followed by chest tube",
+                        "Conservative observation with supplemental oxygen",
+                        "Intubation with increased ventilatory pressures"
+                ],
+                "correct": 1,
+                "explanation": "Tension pneumothorax is a clinical diagnosis requiring immediate needle decompression (14-16G needle at 2nd ICS, midclavicular line) to relieve hemodynamic compromise, followed by chest tube placement. Waiting for imaging is life-threatening; radiography is not needed for diagnosis."
+        },
+        {
+                "question": "A 65-year-old patient with acute decompensated heart failure (EF 28%) presents with bibasilar crackles and BNP 800. Which diuretic regimen is most appropriate for acute management?",
+                "options": [
+                        "Oral furosemide 40mg daily",
+                        "IV furosemide bolus (1-1.5x home dose) with goal to achieve negative fluid balance",
+                        "Hydrochlorothiazide 25mg daily",
+                        "Spironolactone monotherapy"
+                ],
+                "correct": 1,
+                "explanation": "Acute decompensated HF requires IV loop diuretics at 1-1.5x the home dose (or 40-80mg if opioid-naive) to achieve rapid decongestion. Goal is negative 500-1000mL/day fluid balance. Oral diuretics are inadequate; spironolactone is for chronic management; thiazides are weak in acute settings."
+        },
+        {
+                "question": "A patient on mechanical ventilation is being considered for extubation. Which criterion is the MOST important indicator of readiness?",
+                "options": [
+                        "Respiratory rate <25 breaths/min",
+                        "Ability to protect airway and follow commands",
+                        "FiO2 requirement <0.50",
+                        "Minute ventilation <10 L/min"
+                ],
+                "correct": 1,
+                "explanation": "Airway protection ability (cough, gag reflex) and level of consciousness (follow commands) are the most critical extubation criteria. They prevent aspiration and self-extubation. Respiratory parameters guide weaning; adequate respiratory muscle strength is necessary but not sufficient without airway protection."
+        },
+        {
+                "question": "A 58-year-old with acute MI complicated by cardiogenic shock develops acute mitral regurgitation (new holosystolic murmur, prominent v wave on PAC). Which acute mechanical complication is occurring?",
+                "options": [
+                        "Acute VSD",
+                        "Papillary muscle rupture",
+                        "Left ventricular free wall rupture",
+                        "Right ventricular infarction"
+                ],
+                "correct": 1,
+                "explanation": "Papillary muscle rupture (usually posteromedial from RCA occlusion) causes acute severe mitral regurgitation with prominent v waves, pulmonary edema, and cardiogenic shock. Diagnosis is by echo; management is emergency mitral valve repair/replacement and revascularization."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A patient develops watery diarrhea after a course of clindamycin. Stool toxin assay is positive. What is the most likely causative organism?",
+                "options": [
+                        "Staphylococcus aureus",
+                        "Clostridioides difficile",
+                        "Escherichia coli O157:H7",
+                        "Salmonella enteritidis"
+                ],
+                "correct": 1,
+                "explanation": "C. difficile is the classic cause of antibiotic-associated pseudomembranous colitis. Clindamycin, fluoroquinolones, and broad-spectrum cephalosporins are common triggers. Diagnosis is by stool toxin assay (toxins A and B). Treatment is oral vancomycin or fidaxomicin."
+        },
+        {
+                "question": "A 25-year-old IV drug user presents with fever, a new heart murmur, and splinter hemorrhages. Blood cultures grow gram-positive cocci in clusters. What is the most likely organism?",
+                "options": [
+                        "Streptococcus viridans",
+                        "Staphylococcus aureus",
+                        "Enterococcus faecalis",
+                        "Streptococcus bovis"
+                ],
+                "correct": 1,
+                "explanation": "S. aureus is the most common cause of acute bacterial endocarditis, especially in IV drug users (typically affecting the tricuspid valve). It appears as gram-positive cocci in clusters, is coagulase-positive, and can cause rapid valve destruction."
+        },
+        {
+                "question": "Which organism is most commonly associated with urinary tract infections in young sexually active women?",
+                "options": [
+                        "Klebsiella pneumoniae",
+                        "Proteus mirabilis",
+                        "Escherichia coli",
+                        "Staphylococcus saprophyticus"
+                ],
+                "correct": 2,
+                "explanation": "E. coli causes approximately 80% of uncomplicated UTIs. Staphylococcus saprophyticus is the second most common cause in young sexually active women. E. coli virulence factors include P-fimbriae for uroepithelial adherence."
+        },
+        {
+                "question": "A child develops a sandpaper-like rash, strawberry tongue, and pharyngitis. The organism produces an erythrogenic exotoxin. What is the causative agent?",
+                "options": [
+                        "Staphylococcus aureus",
+                        "Group A Streptococcus (S. pyogenes)",
+                        "Measles virus",
+                        "Corynebacterium diphtheriae"
+                ],
+                "correct": 1,
+                "explanation": "Scarlet fever is caused by Group A Strep (S. pyogenes) strains producing erythrogenic (pyrogenic) exotoxins (SpeA, SpeB, SpeC). The characteristic sandpaper rash, strawberry tongue, and pharyngitis distinguish it from other exanthems."
+        },
+        {
+                "question": "An immunocompromised patient develops ring-enhancing brain lesions on CT. What is the most likely causative organism?",
+                "options": [
+                        "Toxoplasma gondii",
+                        "Cryptococcus neoformans",
+                        "Mycobacterium tuberculosis",
+                        "JC virus"
+                ],
+                "correct": 0,
+                "explanation": "Toxoplasma gondii causes ring-enhancing lesions in immunocompromised patients (especially HIV/AIDS with CD4 <100). CNS lymphoma can appear similar but is typically a single lesion. Toxoplasmosis is treated empirically with pyrimethamine + sulfadiazine."
+        },
+        {
+                "question": "Which hepatitis virus is transmitted via the fecal-oral route and does NOT cause chronic infection?",
+                "options": [
+                        "Hepatitis B",
+                        "Hepatitis C",
+                        "Hepatitis A",
+                        "Hepatitis D"
+                ],
+                "correct": 2,
+                "explanation": "Hepatitis A (and E) are transmitted fecal-orally and cause only acute infection \u2014 they do NOT become chronic. Hepatitis B, C, and D can cause chronic hepatitis. HAV is prevented by vaccination and good hygiene."
+        },
+        {
+                "question": "A patient on a ventilator develops pneumonia on hospital day 5. Gram stain of sputum shows gram-negative rods. Which organism is most likely responsible for this nosocomial pneumonia?",
+                "options": [
+                        "Streptococcus pneumoniae",
+                        "Pseudomonas aeruginosa",
+                        "Mycoplasma pneumoniae",
+                        "Legionella pneumophila"
+                ],
+                "correct": 1,
+                "explanation": "Pseudomonas aeruginosa is a leading cause of ventilator-associated pneumonia (VAP) and late-onset hospital-acquired pneumonia. It is an aerobic gram-negative rod that thrives in moist environments. Treatment requires anti-pseudomonal agents (piperacillin-tazobactam, cefepime, or meropenem)."
+        },
+        {
+                "question": "A patient with AIDS (CD4 count 50) presents with dysphagia. Endoscopy reveals white plaques. What is the most likely organism?",
+                "options": [
+                        "Herpes simplex virus",
+                        "Cytomegalovirus",
+                        "Candida albicans",
+                        "Aspergillus fumigatus"
+                ],
+                "correct": 2,
+                "explanation": "Candida albicans is the most common cause of esophagitis in AIDS patients, presenting with white plaques (similar to oral thrush extending to the esophagus). HSV causes punched-out ulcers, and CMV causes large, shallow, linear ulcers."
+        },
+        {
+                "question": "Which mechanism of antibiotic resistance involves enzymatic inactivation of beta-lactam antibiotics?",
+                "options": [
+                        "Altered penicillin-binding proteins",
+                        "Beta-lactamase production",
+                        "Efflux pumps",
+                        "Altered 30S ribosomal subunit"
+                ],
+                "correct": 1,
+                "explanation": "Beta-lactamases hydrolyze the beta-lactam ring, inactivating penicillins and cephalosporins. This is the most common mechanism of resistance to beta-lactams. Beta-lactamase inhibitors (clavulanate, sulbactam, tazobactam) can be combined with beta-lactams to overcome this."
+        },
+        {
+                "question": "A patient returns from Southeast Asia with cyclic fevers every 48 hours, chills, and splenomegaly. Peripheral blood smear shows ring forms within red blood cells. What is the most likely diagnosis?",
+                "options": [
+                        "Babesiosis",
+                        "Malaria (Plasmodium vivax)",
+                        "Visceral leishmaniasis",
+                        "Dengue fever"
+                ],
+                "correct": 1,
+                "explanation": "The classic presentation of cyclic 48-hour fevers (tertian malaria) with ring-form trophozoites in RBCs after travel to an endemic area is characteristic of Plasmodium vivax (or P. ovale). P. falciparum causes the most severe disease. Diagnosis is by thick and thin blood smear."
+        }
+];
+        let RESOURCES = [
+            { title: "Sherris Medical Microbiology (7th ed.)", type: "textbook", url: "https://accessmedicine.mhmedical.com/book.aspx?bookid=2268" },
+            { title: "Clinical Microbiology Made Ridiculously Simple", type: "textbook", url: "https://www.medmaster.net/clinical-microbiology-made-ridiculously-simple.html" },
+            { title: "Sketchy Micro — Visual Mnemonics", type: "subscription", url: "https://www.sketchy.com" },
+            { title: "Ninja Nerd — Microbiology Lectures", type: "free", url: "https://www.youtube.com/c/NinjaNerdScience" },
+            { title: "AMBOSS — Medical Microbiology", type: "subscription", url: "https://www.amboss.com/us/knowledge/Microbiology" },
+            { title: "Osmosis — Microbiology", type: "subscription", url: "https://www.osmosis.org/learn/Microbiology" },
+            { title: "Boards and Beyond — Microbiology", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Pixorize — Antimicrobials Visual Mnemonics", type: "subscription", url: "https://pixorize.com" },
+            { title: "CDC — Antibiotic Resistance Threats Report", type: "free", url: "https://www.cdc.gov/antimicrobial-resistance/" },
+            { title: "Microbe Online — Review Notes & Mnemonics", type: "free", url: "https://microbeonline.com" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

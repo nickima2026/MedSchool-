@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A physician discovers that a competent adult patient's family has been making medical decisions without the patient's knowledge. Which ethical principle is most directly violated?",
+                "options": [
+                        "Beneficence",
+                        "Autonomy",
+                        "Justice",
+                        "Non-maleficence"
+                ],
+                "correct": 1,
+                "explanation": "Autonomy is the patient's right to make informed decisions about their own care. When family members make decisions without the competent patient's knowledge or consent, they directly violate this principle."
+        },
+        {
+                "question": "A 45-year-old man presents for a routine physical. During the visit, the physician notices signs consistent with domestic violence. The patient denies abuse when asked. What is the most appropriate next step?",
+                "options": [
+                        "Report to law enforcement immediately",
+                        "Document findings and provide resources for domestic violence support",
+                        "Confront the patient's spouse",
+                        "Discharge the patient without further action"
+                ],
+                "correct": 1,
+                "explanation": "For competent adults, mandatory reporting of domestic violence varies by state. The physician should document findings, express concern, and provide resources. Unlike child abuse, adult domestic violence generally does not require mandatory reporting unless the patient consents or specific state laws mandate it."
+        },
+        {
+                "question": "A researcher wants to use de-identified patient data from medical records for a retrospective study. Which of the following is true regarding IRB approval?",
+                "options": [
+                        "Full IRB review is always required",
+                        "The study may qualify for IRB exemption",
+                        "IRB approval is never needed for retrospective studies",
+                        "Only prospective studies require IRB review"
+                ],
+                "correct": 1,
+                "explanation": "Research using de-identified data or existing records may qualify for exempt status under the Common Rule (45 CFR 46). The IRB still reviews the application but may grant exemption if criteria are met."
+        },
+        {
+                "question": "A patient with decision-making capacity refuses a blood transfusion on religious grounds despite life-threatening anemia. What should the physician do?",
+                "options": [
+                        "Obtain a court order to transfuse",
+                        "Respect the patient's wishes and document the refusal",
+                        "Transfuse under implied consent",
+                        "Wait until the patient loses consciousness then transfuse"
+                ],
+                "correct": 1,
+                "explanation": "A competent adult has the right to refuse any treatment, even life-saving treatment. The physician must respect the patient's autonomous decision, ensure the patient understands the consequences, and document the informed refusal."
+        },
+        {
+                "question": "Which of the following best describes the concept of 'therapeutic privilege'?",
+                "options": [
+                        "The right of physicians to refuse treating certain patients",
+                        "Withholding information from a patient when disclosure would cause serious harm",
+                        "A physician's right to prescribe off-label medications",
+                        "The duty to maintain patient confidentiality"
+                ],
+                "correct": 1,
+                "explanation": "Therapeutic privilege is a narrow exception to informed consent where a physician withholds information if disclosure would severely harm the patient (e.g., cause suicidal ideation). It is rarely invoked and should not be used simply because information might upset the patient."
+        },
+        {
+                "question": "A 16-year-old presents alone to a clinic requesting treatment for a sexually transmitted infection. In most US jurisdictions, what is the appropriate course of action?",
+                "options": [
+                        "Refuse treatment until a parent or guardian consents",
+                        "Treat the minor under the mature minor doctrine for STIs",
+                        "Contact the parents before initiating treatment",
+                        "Refer to the emergency department"
+                ],
+                "correct": 1,
+                "explanation": "Most US states allow minors to consent to STI testing and treatment without parental consent. This is part of the mature minor doctrine and public health exceptions designed to encourage adolescents to seek care for sensitive conditions."
+        },
+        {
+                "question": "A pharmaceutical company offers a physician an all-expenses-paid trip to a conference where the company's new drug will be featured. Accepting this gift most directly raises concerns about which ethical issue?",
+                "options": [
+                        "Veracity",
+                        "Conflict of interest",
+                        "Distributive justice",
+                        "Paternalism"
+                ],
+                "correct": 1,
+                "explanation": "Accepting gifts from pharmaceutical companies creates a conflict of interest because the physician may feel obligated to prescribe the company's products, potentially compromising objective clinical judgment."
+        },
+        {
+                "question": "Which ethical framework evaluates the morality of an action based solely on its outcomes or consequences?",
+                "options": [
+                        "Deontology",
+                        "Consequentialism/Utilitarianism",
+                        "Virtue ethics",
+                        "Care ethics"
+                ],
+                "correct": 1,
+                "explanation": "Consequentialism (including utilitarianism) judges the morality of actions by their outcomes. An action is right if it produces the greatest good for the greatest number. This contrasts with deontology, which focuses on duties and rules regardless of outcomes."
+        },
+        {
+                "question": "A physician is treating two patients who both need an organ transplant, but only one organ is available. Which ethical principle is most relevant to the allocation decision?",
+                "options": [
+                        "Autonomy",
+                        "Beneficence",
+                        "Justice",
+                        "Fidelity"
+                ],
+                "correct": 2,
+                "explanation": "Justice concerns the fair distribution of limited resources. Organ allocation decisions involve distributive justice \u2014 determining who receives scarce resources based on criteria such as medical urgency, likelihood of success, and time on the waiting list."
+        },
+        {
+                "question": "During a research study, a participant experiences an unexpected serious adverse event. What is the researcher's primary obligation?",
+                "options": [
+                        "Continue the study to maintain data integrity",
+                        "Immediately notify the IRB and ensure participant safety",
+                        "Only report the event at the next scheduled review",
+                        "Withdraw the participant without notification"
+                ],
+                "correct": 1,
+                "explanation": "Researchers must immediately ensure participant safety and promptly report serious adverse events to the IRB. Federal regulations require timely reporting of unanticipated problems involving risks to subjects, typically within 24-48 hours for serious events."
+        }
+];
+        let RESOURCES = [
+            { title: "BRS Behavioral Science (8th ed.)", type: "textbook", url: "https://www.lww.com" },
+            { title: "Principles of Biomedical Ethics (Beauchamp & Childress)", type: "textbook", url: "https://global.oup.com/ushe/product/principles-of-biomedical-ethics-9780190640873" },
+            { title: "Khan Academy — Health & Medicine: Behavior", type: "free", url: "https://www.khanacademy.org/science/health-and-medicine/mental-health" },
+            { title: "AMBOSS — Behavioral Science & Ethics", type: "subscription", url: "https://www.amboss.com/us/knowledge/Behavioral_science" },
+            { title: "Boards and Beyond — Behavioral Science", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Osmosis — Behavioral Science", type: "subscription", url: "https://www.osmosis.org/learn/Behavioral_science" },
+            { title: "Dirty Medicine — Behavioral Science Videos", type: "free", url: "https://www.youtube.com/@DirtyMedicine" },
+            { title: "AMA Code of Medical Ethics", type: "free", url: "https://www.ama-assn.org/delivering-care/ethics/code-medical-ethics-overview" },
+            { title: "Medscape — Medical Ethics & Professionalism", type: "free", url: "https://www.medscape.com/resource/medical-ethics" },
+            { title: "The Patient History (Smith et al.)", type: "textbook", url: "https://accessmedicine.mhmedical.com/book.aspx?bookid=500" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

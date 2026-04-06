@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A community health initiative in a low-income neighborhood addresses food insecurity by establishing a community garden and farmers market. This approach primarily targets which social determinant of health?",
+                "options": [
+                        "Healthcare access",
+                        "Education level",
+                        "Food security and economic stability",
+                        "Transportation"
+                ],
+                "correct": 2,
+                "explanation": "Food insecurity directly impacts nutrition, chronic disease risk, and economic stability. Community-based solutions that increase food access address the social determinants more effectively than clinical interventions alone."
+        },
+        {
+                "question": "A public health department notices that hypertension prevalence differs significantly by race/ethnicity in their jurisdiction, even after adjusting for BMI and socioeconomic status. What is a likely explanation for this persistent disparity?",
+                "options": [
+                        "Race is a biological risk factor for hypertension",
+                        "Structural racism, chronic stress, discrimination, and differential healthcare access create biological and social pathways to hypertension",
+                        "Some racial groups have genetic predisposition to resist antihypertensives",
+                        "Differences in dietary salt intake explain all variance"
+                ],
+                "correct": 1,
+                "explanation": "Race is a social construct, not a biological category. Racial health disparities reflect structural inequities: neighborhood segregation, toxic stress, healthcare discrimination, and unequal access to resources. These create measurable biological pathways (inflammation, hypertension)."
+        },
+        {
+                "question": "A school-based vaccination program achieves 85% coverage for measles in a district where herd immunity threshold is 95%. What is the primary consequence?",
+                "options": [
+                        "All vaccinated children are still protected",
+                        "Clusters of unvaccinated children remain vulnerable to outbreaks, with outbreak risk remaining high",
+                        "The vaccine is ineffective",
+                        "No further outbreaks are possible"
+                ],
+                "correct": 1,
+                "explanation": "Herd immunity protects unvaccinated individuals when coverage exceeds the threshold. At 85%, below the 95% threshold for measles, susceptible clusters can sustain outbreaks. Improving coverage to >95% protects the entire community."
+        },
+        {
+                "question": "A community health worker (CHW) program in rural Appalachia addresses higher rates of chronic disease and opioid addiction. The CHW model is effective primarily because CHWs:",
+                "options": [
+                        "Are cheaper than physicians and require no training",
+                        "Come from and understand the community; build trust; provide culturally tailored interventions; improve healthcare access",
+                        "Replace the need for physicians",
+                        "Are not bound by healthcare regulations"
+                ],
+                "correct": 1,
+                "explanation": "CHWs' community trust, cultural competence, and ability to address social barriers (transportation, language, beliefs) are keys to effectiveness. They complement\u2014not replace\u2014clinical care. Evidence shows CHW-led interventions reduce health disparities."
+        },
+        {
+                "question": "A screening program for colorectal cancer in a low-resource setting has high sensitivity (95%) but low specificity (65%). What is a major consequence of this test performance in practice?",
+                "options": [
+                        "Most people with cancer will be missed",
+                        "High false positive rate leading to unnecessary colonoscopies, overtreatment, and resource strain",
+                        "The test should not be used",
+                        "No follow-up testing is needed"
+                ],
+                "correct": 1,
+                "explanation": "Low specificity means many healthy people test positive (false positives). In a low-prevalence population, most positive tests will be false. This leads to unnecessary invasive follow-up (colonoscopy), anxiety, and inefficient use of limited healthcare resources."
+        },
+        {
+                "question": "An epidemiological study finds that living near a major highway is associated with increased childhood asthma prevalence. What is the PRIMARY mechanism?",
+                "options": [
+                        "Highway noise causes asthma",
+                        "Air pollution (NO2, PM2.5, ozone) from vehicle emissions triggers airway inflammation and asthma exacerbations",
+                        "Highways cause climate change",
+                        "Asthmatic families prefer to live near highways"
+                ],
+                "correct": 1,
+                "explanation": "Traffic-related air pollution (TRAP) is a well-established environmental risk factor for childhood asthma. Proximity to highways increases exposure to ultrafine particles and gases that trigger airway inflammation and asthma."
+        },
+        {
+                "question": "A community seeks to reduce maternal mortality in a low-income region. Based on evidence, which intervention would have the HIGHEST impact?",
+                "options": [
+                        "Distributing prenatal vitamins",
+                        "Increasing skilled birth attendance and emergency obstetric care access",
+                        "Teaching relaxation techniques",
+                        "Improving pregnancy self-awareness"
+                ],
+                "correct": 1,
+                "explanation": "Most maternal deaths are preventable with access to skilled attendants and emergency obstetric services for complications like hemorrhage, infection, and eclampsia. Expanding this access has the strongest evidence base for reducing maternal mortality in low-resource settings."
+        },
+        {
+                "question": "A public health campaign promotes 'personal responsibility' for obesity, focusing on individual diet and exercise. Critics argue this approach ignores which community-level factors?",
+                "options": [
+                        "Individual genetics",
+                        "Food environment, neighborhood walkability, food pricing, built environment, and structural factors that enable or prevent healthy behaviors",
+                        "Individual motivation",
+                        "Television advertising"
+                ],
+                "correct": 1,
+                "explanation": "Individualistic health messaging ignores the social-ecological model. Obesity rates correlate with neighborhood characteristics (food deserts, lack of safe parks, transit), economic factors (cheap ultra-processed food), and systemic inequities. Population-level interventions address these structural barriers."
+        },
+        {
+                "question": "A sexually transmitted infection (STI) prevention program in a college community includes routine screening, partner notification, and prompt treatment. Which level of prevention is emphasized?",
+                "options": [
+                        "Primary (preventing disease onset)",
+                        "Secondary (early detection and treatment to prevent complications and transmission)",
+                        "Tertiary (managing chronic complications)",
+                        "Quaternary (avoiding overtreatment)"
+                ],
+                "correct": 1,
+                "explanation": "Screening and treatment are secondary prevention (detecting and treating disease to prevent complications). Partner notification prevents ongoing transmission. Primary prevention would be condom distribution and sexual education programs."
+        },
+        {
+                "question": "A community health assessment reveals that a neighborhood has high rates of communicable diseases but also addresses these through informal networks and mutual aid. This is an example of:",
+                "options": [
+                        "Government failure",
+                        "Community resilience and social capital: the ability of communities to protect health through collective action",
+                        "Lack of need for public health intervention",
+                        "Inadequate surveillance systems"
+                ],
+                "correct": 1,
+                "explanation": "Social capital and community resilience are protective factors. Communities with strong networks and mutual aid can share health information, resources, and support, reducing disease burden. Public health strengthens these assets rather than replacing them."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 45-year-old woman with hypertension and type 2 diabetes presents for routine follow-up. Her BP is 138/86 mmHg despite lisinopril 10mg daily. Which of the following is the most appropriate next step?",
+                "options": [
+                        "Add a beta-blocker",
+                        "Increase lisinopril to 20mg daily",
+                        "Add a thiazide diuretic",
+                        "Refer for kidney ultrasound"
+                ],
+                "correct": 2,
+                "explanation": "Current hypertension guidelines recommend combination therapy for most patients. Adding a thiazide diuretic (chlorthalidone or hydrochlorothiazide) is a standard second-line agent that works synergistically with ACE inhibitors and has proven cardiovascular benefit. Beta-blockers are not first-line for hypertension without other indications."
+        },
+        {
+                "question": "A 52-year-old man with GERD presents complaining of persistent dyspepsia despite PPI therapy for 6 weeks. What is the most appropriate next management step?",
+                "options": [
+                        "Double the PPI dose",
+                        "Test for H. pylori infection",
+                        "Refer for endoscopy",
+                        "Switch to a different PPI"
+                ],
+                "correct": 1,
+                "explanation": "Persistent symptoms despite PPI therapy warrant H. pylori testing and endoscopy to rule out complications (ulcers, Barrett's esophagus, malignancy). H. pylori eradication improves outcomes. Testing should precede further escalation of therapy."
+        },
+        {
+                "question": "A 38-year-old woman presents with a 3-month history of fatigue and a hemoglobin of 9.8 g/dL. She has regular menses. Which is the most cost-effective initial diagnostic approach?",
+                "options": [
+                        "Serum ferritin level",
+                        "Complete metabolic panel",
+                        "Peripheral blood smear",
+                        "Bone marrow biopsy"
+                ],
+                "correct": 0,
+                "explanation": "Ferritin is the most sensitive and cost-effective initial screening test for iron deficiency anemia, the most common cause of anemia in menstruating women. In the absence of risk factors for other anemias, ferritin level guides further workup."
+        },
+        {
+                "question": "A 62-year-old patient with no prior history of cardiovascular disease presents for preventive care. Which statin is most appropriate for primary prevention given current ACC/AHA guidelines?",
+                "options": [
+                        "High-intensity statin (e.g., atorvastatin 40mg)",
+                        "Moderate-intensity statin (e.g., atorvastatin 10-20mg)",
+                        "No statin; lifestyle modification only",
+                        "Gemfibrozil monotherapy"
+                ],
+                "correct": 1,
+                "explanation": "ACC/AHA 2013 guidelines recommend moderate-intensity statins for primary prevention in patients aged 40-75 with diabetes or 10-year ASCVD risk 7.5-10%. High-intensity statins are reserved for secondary prevention or very high-risk patients."
+        },
+        {
+                "question": "A 28-year-old woman on oral contraceptives presents with a new complaint of unilateral leg swelling and pain. What is the most appropriate initial diagnostic test?",
+                "options": [
+                        "D-dimer",
+                        "Compression ultrasonography",
+                        "CT angiography",
+                        "MRI of the leg"
+                ],
+                "correct": 1,
+                "explanation": "Compression ultrasonography (duplex ultrasound) is the gold standard first-line test for suspected DVT. It is non-invasive, readily available, and has high sensitivity/specificity. D-dimer is sensitive but not specific in ambulatory settings. OCPs increase VTE risk 3-4 fold."
+        },
+        {
+                "question": "A 55-year-old man with stable angina reports his symptoms now occur with less exertion than before. Which term best describes this clinical change?",
+                "options": [
+                        "Decubitus angina",
+                        "Crescendo angina",
+                        "Vasospastic angina",
+                        "Atypical angina"
+                ],
+                "correct": 1,
+                "explanation": "Crescendo or unstable angina describes angina that is increasing in frequency, duration, or severity, or occurring with less exertion. This indicates plaque instability and increased risk of MI, requiring hospitalization for evaluation and risk stratification."
+        },
+        {
+                "question": "A 67-year-old woman with atrial fibrillation (CHA2DS2-VASc = 4) is seen for follow-up. She reports occasional headaches and denies any bleeding. Which is the most appropriate anticoagulation strategy?",
+                "options": [
+                        "Discontinue anticoagulation; use aspirin 325mg daily",
+                        "Continue warfarin with INR goal 2-3",
+                        "Switch to apixaban 5mg twice daily",
+                        "Use aspirin 81mg daily; recheck CHA2DS2-VASc in 6 months"
+                ],
+                "correct": 2,
+                "explanation": "Patients with CHA2DS2-VASc \u22652 require anticoagulation. DOACs (apixaban, dabigatran, edoxaban, rivaroxaban) are preferred over warfarin due to convenience and lower intracranial hemorrhage risk. A score of 4 represents high stroke risk (2-4% annually)."
+        },
+        {
+                "question": "A 72-year-old with diabetes and hypertension presents with new-onset dyspnea and lower extremity edema. His BNP is 450 pg/mL. Which is the next most appropriate test?",
+                "options": [
+                        "Chest X-ray",
+                        "Echocardiography",
+                        "Renal ultrasound",
+                        "Sleep study"
+                ],
+                "correct": 1,
+                "explanation": "Elevated BNP combined with dyspnea and edema suggests heart failure. Echocardiography assesses systolic and diastolic function, which determines treatment (ACEi vs. diastolic HF management). CXR supports diagnosis but echo guides therapy."
+        },
+        {
+                "question": "A 44-year-old woman reports hot flushes, irregular periods, and night sweats. She is likely in perimenopause. Which symptom is most bothersome and treatable with hormone therapy?",
+                "options": [
+                        "Irregular bleeding patterns",
+                        "Vasomotor symptoms (hot flushes, night sweats)",
+                        "Decreased bone density",
+                        "Mood changes"
+                ],
+                "correct": 1,
+                "explanation": "Vasomotor symptoms (hot flushes, night sweats) are the most bothersome symptoms of menopause and respond well to hormone therapy (MHT). HT is FDA-approved for this indication. Irregular bleeding requires evaluation for other causes. Bone loss is long-term; bisphosphonates are preferred."
+        },
+        {
+                "question": "A 51-year-old man with stage 2 hypertension (160/100 mmHg) and no cardiovascular disease is started on monotherapy. Which drug class has the strongest evidence for cardiovascular benefit in uncomplicated hypertension?",
+                "options": [
+                        "Calcium channel blockers",
+                        "ACE inhibitors or ARBs",
+                        "Alpha-blockers",
+                        "All have equivalent benefit"
+                ],
+                "correct": 3,
+                "explanation": "For uncomplicated hypertension, ACE inhibitors, ARBs, calcium channel blockers, and thiazides all reduce cardiovascular events. Choice depends on comorbidities (ACE/ARB preferred in diabetes/CKD; CCBs in angina; thiazides in hypokalemia)."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

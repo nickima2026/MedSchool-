@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A patient with type 1 diabetes presents with polyuria, polydipsia, abdominal pain, and Kussmaul respirations. Lab results show glucose 450 mg/dL, pH 7.15, and positive serum ketones. What is the most appropriate initial treatment?",
+                "options": [
+                        "Subcutaneous insulin and oral fluids",
+                        "IV normal saline followed by IV insulin infusion",
+                        "IV dextrose and bicarbonate",
+                        "Oral hypoglycemics"
+                ],
+                "correct": 1,
+                "explanation": "DKA treatment priorities: (1) aggressive IV fluid resuscitation with normal saline to correct dehydration, (2) IV insulin infusion to halt ketogenesis, (3) potassium replacement (check K+ before insulin \u2014 hypokalemia can be fatal), (4) monitor closely. Bicarbonate is only given if pH <6.9."
+        },
+        {
+                "question": "A 35-year-old woman presents with weight gain, moon facies, abdominal striae, and proximal muscle weakness. Her 24-hour urine cortisol is elevated. A low-dose dexamethasone suppression test fails to suppress cortisol. What is the next step?",
+                "options": [
+                        "CT of the adrenal glands",
+                        "Measure ACTH levels",
+                        "Start ketoconazole immediately",
+                        "Perform bilateral adrenalectomy"
+                ],
+                "correct": 1,
+                "explanation": "After confirming Cushing syndrome (elevated cortisol not suppressed by low-dose dexamethasone), the next step is measuring ACTH to differentiate ACTH-dependent (pituitary adenoma, ectopic ACTH) from ACTH-independent (adrenal tumor) causes. This guides subsequent imaging and treatment."
+        },
+        {
+                "question": "A patient with Graves disease presents with exophthalmos, diffuse goiter, and tachycardia. Which antibody is pathognomonic for this condition?",
+                "options": [
+                        "Anti-thyroglobulin",
+                        "Anti-TPO",
+                        "Thyroid-stimulating immunoglobulin (TSI)",
+                        "Anti-TSH receptor blocking antibody"
+                ],
+                "correct": 2,
+                "explanation": "Thyroid-stimulating immunoglobulin (TSI) activates the TSH receptor, causing hyperthyroidism. TSI is specific to Graves disease and differentiates it from other causes of hyperthyroidism. Anti-TPO is found in both Graves and Hashimoto but is not specific."
+        },
+        {
+                "question": "A 28-year-old woman presents with amenorrhea, galactorrhea, and bitemporal hemianopia. Serum prolactin is markedly elevated. What is the most likely diagnosis?",
+                "options": [
+                        "Sheehan syndrome",
+                        "Prolactinoma",
+                        "Craniopharyngioma",
+                        "Hypothyroidism"
+                ],
+                "correct": 1,
+                "explanation": "A prolactinoma (pituitary lactotroph adenoma) causes hyperprolactinemia leading to galactorrhea and hypogonadism (amenorrhea). Bitemporal hemianopia occurs from optic chiasm compression. First-line treatment is dopamine agonists (cabergoline), not surgery, even for macroadenomas."
+        },
+        {
+                "question": "Which hormone is released from the posterior pituitary?",
+                "options": [
+                        "Growth hormone",
+                        "ACTH",
+                        "ADH (vasopressin)",
+                        "TSH"
+                ],
+                "correct": 2,
+                "explanation": "The posterior pituitary releases ADH (antidiuretic hormone/vasopressin) and oxytocin. These are synthesized in the hypothalamus (supraoptic and paraventricular nuclei) and transported down axons to the posterior pituitary. The anterior pituitary releases GH, ACTH, TSH, LH, FSH, and prolactin."
+        },
+        {
+                "question": "A patient with type 2 diabetes is started on metformin. Which is the most serious potential adverse effect of metformin?",
+                "options": [
+                        "Hypoglycemia",
+                        "Weight gain",
+                        "Lactic acidosis",
+                        "Pancreatitis"
+                ],
+                "correct": 2,
+                "explanation": "Lactic acidosis is the most serious (though rare) adverse effect of metformin. It is more likely in patients with renal insufficiency (contraindicated if eGFR <30), liver disease, or conditions causing tissue hypoxia. Metformin itself rarely causes hypoglycemia and is weight-neutral."
+        },
+        {
+                "question": "A 50-year-old woman presents with fatigue, weight gain, constipation, and cold intolerance. Lab results show elevated TSH and low free T4. What is the most likely diagnosis?",
+                "options": [
+                        "Graves disease",
+                        "Subacute thyroiditis",
+                        "Primary hypothyroidism (Hashimoto thyroiditis)",
+                        "Secondary hypothyroidism"
+                ],
+                "correct": 2,
+                "explanation": "Elevated TSH with low free T4 indicates primary hypothyroidism. Hashimoto thyroiditis (chronic lymphocytic thyroiditis) is the most common cause in iodine-sufficient areas, characterized by anti-TPO antibodies. Treatment is levothyroxine replacement."
+        },
+        {
+                "question": "A patient with suspected pheochromocytoma should have which initial biochemical test?",
+                "options": [
+                        "24-hour urine VMA only",
+                        "Plasma or 24-hour urine fractionated metanephrines",
+                        "Serum catecholamines",
+                        "Clonidine suppression test"
+                ],
+                "correct": 1,
+                "explanation": "Plasma free metanephrines or 24-hour urine fractionated metanephrines are the initial screening tests for pheochromocytoma (sensitivity >95%). They are preferred over catecholamines because metanephrines are continuously produced by tumor cells regardless of catecholamine secretion patterns."
+        },
+        {
+                "question": "A newborn boy is found to have ambiguous genitalia. Serum 17-hydroxyprogesterone is markedly elevated. What is the most likely diagnosis?",
+                "options": [
+                        "Turner syndrome",
+                        "Congenital adrenal hyperplasia (21-hydroxylase deficiency)",
+                        "Androgen insensitivity syndrome",
+                        "5-alpha reductase deficiency"
+                ],
+                "correct": 1,
+                "explanation": "21-hydroxylase deficiency (most common form of CAH, ~95%) causes decreased cortisol and aldosterone production with shunting toward androgens. Elevated 17-hydroxyprogesterone is diagnostic. In genetic females (46,XX), excess androgens cause virilization and ambiguous genitalia."
+        },
+        {
+                "question": "Calcium homeostasis involves PTH, vitamin D, and calcitonin. PTH increases serum calcium by all of the following mechanisms EXCEPT:",
+                "options": [
+                        "Increasing osteoclast activity (bone resorption)",
+                        "Increasing renal calcium reabsorption in the distal tubule",
+                        "Stimulating 1-alpha hydroxylase in the kidney",
+                        "Directly increasing intestinal calcium absorption"
+                ],
+                "correct": 3,
+                "explanation": "PTH does NOT directly increase intestinal calcium absorption. It acts indirectly by stimulating renal 1-alpha hydroxylase, which converts 25-OH vitamin D to active 1,25-(OH)2 vitamin D (calcitriol). Calcitriol then increases intestinal calcium absorption. PTH directly acts on bone and kidney."
+        }
+];
+        let RESOURCES = [
+            { title: "Williams Textbook of Endocrinology (14th ed.)", type: "textbook", url: "https://www.elsevier.com/books/williams-textbook-of-endocrinology/melmed/978-0-323-71132-0" },
+            { title: "Costanzo Physiology — Endocrine Chapter", type: "textbook", url: "https://www.elsevier.com/books/physiology/costanzo/978-0-323-79333-3" },
+            { title: "Pathoma — Endocrine, MSK & Reproductive Pathology", type: "subscription", url: "https://www.pathoma.com" },
+            { title: "Boards and Beyond — Endocrine & Reproductive", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Ninja Nerd — Endocrinology Lectures", type: "free", url: "https://www.youtube.com/c/NinjaNerdScience" },
+            { title: "AMBOSS — Endocrine & MSK Systems", type: "subscription", url: "https://www.amboss.com/us/knowledge/Endocrine_system" },
+            { title: "Osmosis — Endocrine & Reproductive", type: "subscription", url: "https://www.osmosis.org/learn/Endocrine_system" },
+            { title: "Khan Academy — Endocrine System", type: "free", url: "https://www.khanacademy.org/science/health-and-medicine/endocrine-system" },
+            { title: "Wheeless' Textbook of Orthopaedics (Online)", type: "free", url: "https://www.wheelessonline.com" },
+            { title: "Sketchy Medical — Endocrine Pharmacology", type: "subscription", url: "https://www.sketchy.com" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

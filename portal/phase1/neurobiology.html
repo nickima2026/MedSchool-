@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A patient presents with resting tremor, bradykinesia, and rigidity. These symptoms are due to loss of dopaminergic neurons in which brain region?",
+                "options": [
+                        "Caudate nucleus",
+                        "Substantia nigra pars compacta",
+                        "Subthalamic nucleus",
+                        "Globus pallidus"
+                ],
+                "correct": 1,
+                "explanation": "Parkinson disease results from loss of dopaminergic neurons in the substantia nigra pars compacta, which project to the striatum (caudate + putamen). Reduced dopamine in the nigrostriatal pathway leads to increased inhibitory output from the basal ganglia."
+        },
+        {
+                "question": "Which neurotransmitter is primarily responsible for fast excitatory synaptic transmission in the CNS?",
+                "options": [
+                        "GABA",
+                        "Glycine",
+                        "Glutamate",
+                        "Acetylcholine"
+                ],
+                "correct": 2,
+                "explanation": "Glutamate is the main excitatory neurotransmitter in the CNS, acting on AMPA, NMDA, and kainate receptors. Excessive glutamate release (excitotoxicity) can cause neuronal death and is implicated in stroke, epilepsy, and neurodegenerative diseases."
+        },
+        {
+                "question": "A patient has a lesion of the left optic tract. What visual field defect would you expect?",
+                "options": [
+                        "Left homonymous hemianopia",
+                        "Right homonymous hemianopia",
+                        "Bitemporal hemianopia",
+                        "Left monocular blindness"
+                ],
+                "correct": 1,
+                "explanation": "A left optic tract lesion causes right homonymous hemianopia (loss of the right visual field in both eyes). This is because the left optic tract carries fibers from the left temporal retina (right nasal field) and right nasal retina (right temporal field) after the chiasm."
+        },
+        {
+                "question": "The blood-brain barrier is primarily formed by which cells?",
+                "options": [
+                        "Astrocyte end-feet alone",
+                        "Endothelial cells with tight junctions",
+                        "Oligodendrocytes",
+                        "Microglia"
+                ],
+                "correct": 1,
+                "explanation": "The BBB is formed by brain capillary endothelial cells connected by tight junctions (zonulae occludentes). Astrocyte end-feet and pericytes support and maintain the BBB but do not form the physical barrier themselves."
+        },
+        {
+                "question": "A patient cannot feel pain or temperature on the right side of the body below the waist but has intact proprioception. Where is the lesion most likely located?",
+                "options": [
+                        "Right dorsal columns",
+                        "Left anterolateral system (spinothalamic tract)",
+                        "Right anterolateral system",
+                        "Left dorsal columns"
+                ],
+                "correct": 1,
+                "explanation": "The spinothalamic tract (anterolateral system) carries pain and temperature sensation and crosses in the anterior white commissure near the level of entry. A left-sided lesion affects right-sided pain/temperature below the lesion level. Proprioception (dorsal columns) is spared."
+        },
+        {
+                "question": "Long-term potentiation (LTP) at hippocampal synapses is primarily dependent on activation of which receptor?",
+                "options": [
+                        "AMPA receptor",
+                        "NMDA receptor",
+                        "GABA-A receptor",
+                        "Nicotinic acetylcholine receptor"
+                ],
+                "correct": 1,
+                "explanation": "LTP induction requires NMDA receptor activation. The NMDA receptor is both ligand-gated (requires glutamate) and voltage-dependent (Mg\u00b2\u207a block removed by depolarization). Ca\u00b2\u207a influx through NMDA receptors triggers intracellular cascades that strengthen synaptic transmission."
+        },
+        {
+                "question": "A stroke affecting the posterior inferior cerebellar artery (PICA) would most likely produce which syndrome?",
+                "options": [
+                        "Weber syndrome",
+                        "Lateral medullary (Wallenberg) syndrome",
+                        "Medial medullary syndrome",
+                        "Locked-in syndrome"
+                ],
+                "correct": 1,
+                "explanation": "PICA occlusion causes lateral medullary (Wallenberg) syndrome: ipsilateral facial pain/temperature loss, Horner syndrome, ataxia, dysphagia, hoarseness; contralateral body pain/temperature loss. The nucleus ambiguus, vestibular nuclei, and inferior cerebellar peduncle are affected."
+        },
+        {
+                "question": "Which cells produce myelin in the central nervous system?",
+                "options": [
+                        "Schwann cells",
+                        "Oligodendrocytes",
+                        "Astrocytes",
+                        "Ependymal cells"
+                ],
+                "correct": 1,
+                "explanation": "Oligodendrocytes myelinate CNS axons (one oligodendrocyte can myelinate multiple axons). Schwann cells myelinate PNS axons (one Schwann cell per internode). Demyelination of CNS oligodendrocytes occurs in multiple sclerosis."
+        },
+        {
+                "question": "A patient presents with contralateral hemiplegia, ipsilateral tongue deviation, and contralateral loss of proprioception. Where is the lesion?",
+                "options": [
+                        "Lateral medulla",
+                        "Medial medulla",
+                        "Lateral pons",
+                        "Midbrain"
+                ],
+                "correct": 1,
+                "explanation": "Medial medullary syndrome affects the pyramid (contralateral hemiplegia), medial lemniscus (contralateral proprioception/vibration loss), and hypoglossal nerve (CN XII, ipsilateral tongue deviation toward the lesion). It results from occlusion of the anterior spinal artery."
+        },
+        {
+                "question": "Benzodiazepines exert their anxiolytic and sedative effects by enhancing the action of which neurotransmitter?",
+                "options": [
+                        "Serotonin",
+                        "Dopamine",
+                        "GABA",
+                        "Norepinephrine"
+                ],
+                "correct": 2,
+                "explanation": "Benzodiazepines are positive allosteric modulators of GABA-A receptors. They increase the frequency of chloride channel opening (not the duration \u2014 that's barbiturates), enhancing inhibitory neurotransmission. They require GABA to be present to work."
+        }
+];
+        let RESOURCES = [
+            { title: "Neuroscience (Purves et al., 6th ed.)", type: "textbook", url: "https://global.oup.com/ushe/product/neuroscience-9781605353807" },
+            { title: "From Neuron to Brain (Nicholls et al.)", type: "textbook", url: "https://global.oup.com/ushe/product/from-neuron-to-brain-9781605353906" },
+            { title: "Khan Academy — Neuroscience & Behavior", type: "free", url: "https://www.khanacademy.org/science/health-and-medicine/nervous-system-and-sensory-infor" },
+            { title: "Ninja Nerd — Neuroscience & Neuropharmacology", type: "free", url: "https://www.youtube.com/c/NinjaNerdScience" },
+            { title: "AMBOSS — Neurobiology", type: "subscription", url: "https://www.amboss.com/us/knowledge/Neurobiology" },
+            { title: "Osmosis — Nervous System", type: "subscription", url: "https://www.osmosis.org/learn/Nervous_system" },
+            { title: "Boards and Beyond — Neuroscience", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Noba Project — Psychology & Neuroscience Modules", type: "free", url: "https://nobaproject.com" },
+            { title: "BrainFacts.org — Society for Neuroscience", type: "free", url: "https://www.brainfacts.org" },
+            { title: "MIT OpenCourseWare — Introduction to Neuroscience", type: "free", url: "https://ocw.mit.edu/courses/9-01-introduction-to-neuroscience-fall-2007/" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

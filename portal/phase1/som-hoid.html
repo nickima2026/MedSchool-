@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A 22-year-old African American man presents with severe bone pain after a flight. His peripheral blood smear shows sickled red blood cells. What is the underlying molecular defect?",
+                "options": [
+                        "Alpha-globin gene deletion",
+                        "Point mutation in beta-globin gene (Glu\u2192Val at position 6)",
+                        "Spectrin deficiency",
+                        "G6PD deficiency"
+                ],
+                "correct": 1,
+                "explanation": "Sickle cell disease results from a point mutation in the beta-globin gene substituting valine for glutamic acid at position 6. This produces HbS, which polymerizes under low O2 conditions, causing RBC sickling, vaso-occlusive crises, and hemolytic anemia."
+        },
+        {
+                "question": "A patient with newly diagnosed acute promyelocytic leukemia (APL) is found to have the t(15;17) translocation. Which targeted therapy is uniquely effective for this subtype?",
+                "options": [
+                        "Imatinib",
+                        "All-trans retinoic acid (ATRA)",
+                        "Rituximab",
+                        "Bortezomib"
+                ],
+                "correct": 1,
+                "explanation": "The t(15;17) translocation creates the PML-RAR\u03b1 fusion protein in APL. ATRA (all-trans retinoic acid) induces differentiation of promyelocytes into mature granulocytes, transforming APL from the most lethal to the most curable acute leukemia. Combined with arsenic trioxide, cure rates exceed 90%."
+        },
+        {
+                "question": "A patient on warfarin has an INR of 8.5 with no active bleeding. What is the most appropriate management?",
+                "options": [
+                        "Administer fresh frozen plasma immediately",
+                        "Hold warfarin and give oral vitamin K",
+                        "Continue warfarin at the same dose",
+                        "Administer protamine sulfate"
+                ],
+                "correct": 1,
+                "explanation": "For supratherapeutic INR >4.5 without bleeding: hold warfarin and give oral vitamin K (2.5-5 mg). FFP is reserved for serious/life-threatening bleeding. IV vitamin K works faster but carries anaphylaxis risk. Protamine reverses heparin, not warfarin."
+        },
+        {
+                "question": "A 60-year-old patient presents with fatigue and splenomegaly. CBC shows WBC 85,000 with a left shift and basophilia. The Philadelphia chromosome is detected. What is the diagnosis?",
+                "options": [
+                        "Acute myeloid leukemia",
+                        "Chronic myelogenous leukemia",
+                        "Chronic lymphocytic leukemia",
+                        "Essential thrombocythemia"
+                ],
+                "correct": 1,
+                "explanation": "CML is characterized by the Philadelphia chromosome t(9;22) creating BCR-ABL, marked leukocytosis with left shift (all stages of myeloid maturation), basophilia, and splenomegaly. Treatment with imatinib (tyrosine kinase inhibitor) has dramatically improved outcomes."
+        },
+        {
+                "question": "A patient with HIV has a CD4 count of 180 cells/mm\u00b3. Which opportunistic infection prophylaxis should be initiated?",
+                "options": [
+                        "Azithromycin for MAC",
+                        "TMP-SMX for Pneumocystis jirovecii pneumonia (PCP)",
+                        "Fluconazole for cryptococcus",
+                        "Ganciclovir for CMV"
+                ],
+                "correct": 1,
+                "explanation": "PCP prophylaxis with TMP-SMX is indicated when CD4 <200 cells/mm\u00b3. MAC prophylaxis (azithromycin) starts at CD4 <50. TMP-SMX also provides protection against Toxoplasma. Starting ART is the most important intervention to restore immune function."
+        },
+        {
+                "question": "A patient presents with painless cervical lymphadenopathy. Biopsy shows Reed-Sternberg cells in a background of reactive lymphocytes. What is the diagnosis?",
+                "options": [
+                        "Non-Hodgkin lymphoma",
+                        "Hodgkin lymphoma",
+                        "Reactive lymphadenopathy",
+                        "Castleman disease"
+                ],
+                "correct": 1,
+                "explanation": "Reed-Sternberg cells (large, binucleated 'owl-eye' cells, CD15+/CD30+) are pathognomonic for Hodgkin lymphoma. It typically presents with painless cervical/supraclavicular lymphadenopathy and may cause B symptoms (fever, night sweats, >10% weight loss). It has a bimodal age distribution."
+        },
+        {
+                "question": "Disseminated intravascular coagulation (DIC) is characterized by which set of laboratory findings?",
+                "options": [
+                        "Elevated fibrinogen, normal platelets, normal PT",
+                        "Decreased fibrinogen, thrombocytopenia, elevated D-dimer, prolonged PT/PTT",
+                        "Isolated prolonged PTT with normal PT",
+                        "Elevated platelets with decreased D-dimer"
+                ],
+                "correct": 1,
+                "explanation": "DIC involves simultaneous widespread activation of coagulation and fibrinolysis. Consumption of clotting factors and platelets leads to: decreased fibrinogen, thrombocytopenia, prolonged PT/PTT, elevated D-dimer (fibrin degradation), and schistocytes on smear from microangiopathic hemolysis."
+        },
+        {
+                "question": "A 70-year-old man presents with bone pain, anemia, and renal insufficiency. Serum protein electrophoresis shows an M-spike. Urine shows Bence Jones proteins. What is the most likely diagnosis?",
+                "options": [
+                        "Waldenstr\u00f6m macroglobulinemia",
+                        "Multiple myeloma",
+                        "MGUS",
+                        "Amyloidosis"
+                ],
+                "correct": 1,
+                "explanation": "Multiple myeloma presents with CRAB criteria: Calcium elevation, Renal insufficiency, Anemia, and Bone lesions (lytic). The M-spike on SPEP represents monoclonal immunoglobulin, and Bence Jones proteins are free light chains in urine. Bone marrow shows >10% clonal plasma cells."
+        },
+        {
+                "question": "A patient with a deep vein thrombosis is started on heparin. Three days later, the platelet count drops from 250,000 to 60,000. What is the most likely diagnosis?",
+                "options": [
+                        "ITP",
+                        "Heparin-induced thrombocytopenia (HIT)",
+                        "TTP",
+                        "DIC"
+                ],
+                "correct": 1,
+                "explanation": "HIT (type II) is an immune-mediated reaction where antibodies against PF4-heparin complexes activate platelets, causing both thrombocytopenia and a paradoxical prothrombotic state. Onset is typically 5-10 days after heparin initiation. Management: stop all heparin, start a direct thrombin inhibitor (argatroban)."
+        },
+        {
+                "question": "Which vitamin deficiency causes megaloblastic anemia with neurological symptoms (subacute combined degeneration)?",
+                "options": [
+                        "Iron",
+                        "Folate",
+                        "Vitamin B12 (cobalamin)",
+                        "Vitamin B6"
+                ],
+                "correct": 2,
+                "explanation": "B12 deficiency causes megaloblastic anemia AND neurological damage (demyelination of dorsal columns and lateral corticospinal tracts = subacute combined degeneration). Folate deficiency causes megaloblastic anemia without neurological symptoms. B12 is a cofactor for methionine synthase and methylmalonyl-CoA mutase."
+        }
+];
+        let RESOURCES = [
+            { title: "Robbins & Cotran Pathologic Basis of Disease (10th ed.)", type: "textbook", url: "https://www.elsevier.com/books/robbins-cotran-pathologic-basis-of-disease/kumar/978-0-323-53113-9" },
+            { title: "Hematology: Basic Principles & Practice (Hoffman)", type: "textbook", url: "https://www.elsevier.com/books/hematology/hoffman/978-0-323-35762-3" },
+            { title: "Pathoma — Heme/Onc & Infectious Disease", type: "subscription", url: "https://www.pathoma.com" },
+            { title: "Boards and Beyond — Hematology & Infectious Disease", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Ninja Nerd — Hematology & Oncology Lectures", type: "free", url: "https://www.youtube.com/c/NinjaNerdScience" },
+            { title: "AMBOSS — Hematology & Infectious Disease", type: "subscription", url: "https://www.amboss.com/us/knowledge/Hematology" },
+            { title: "Osmosis — Blood Disorders & Infections", type: "subscription", url: "https://www.osmosis.org/learn/Hematology" },
+            { title: "Sketchy Micro — Microbiology Visual Mnemonics", type: "subscription", url: "https://www.sketchy.com" },
+            { title: "ASH Image Bank — Hematology Atlas", type: "free", url: "https://imagebank.hematology.org" },
+            { title: "CDC — Infectious Disease Information", type: "free", url: "https://www.cdc.gov/diseasesconditions/" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

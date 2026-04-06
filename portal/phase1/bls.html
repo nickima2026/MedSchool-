@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,128 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "You find an unresponsive adult who is not breathing normally. After activating EMS and retrieving an AED, what is the correct compression-to-ventilation ratio for single-rescuer CPR?",
+                "options": [
+                        "15:2",
+                        "30:2",
+                        "15:1",
+                        "30:1"
+                ],
+                "correct": 1,
+                "explanation": "For single-rescuer adult CPR, the AHA recommends a 30:2 compression-to-ventilation ratio. This applies whether using mouth-to-mouth or bag-valve-mask ventilation."
+        },
+        {
+                "question": "During high-quality CPR on an adult, what is the recommended chest compression depth?",
+                "options": [
+                        "At least 1 inch (2.5 cm)",
+                        "At least 2 inches (5 cm) but no more than 2.4 inches (6 cm)",
+                        "At least 3 inches (7.5 cm)",
+                        "1.5 inches (4 cm)"
+                ],
+                "correct": 1,
+                "explanation": "AHA guidelines recommend adult chest compressions of at least 2 inches (5 cm) but no more than 2.4 inches (6 cm). Inadequate depth reduces coronary perfusion, while excessive depth increases injury risk."
+        },
+        {
+                "question": "An AED analyzes a patient's rhythm and advises 'No shock indicated.' The patient remains unresponsive with no pulse. What should you do?",
+                "options": [
+                        "Check for a pulse every 30 seconds",
+                        "Immediately resume CPR for 2 minutes",
+                        "Administer epinephrine",
+                        "Turn off the AED and continue rescue breathing only"
+                ],
+                "correct": 1,
+                "explanation": "If the AED advises no shock (PEA or asystole), immediately resume high-quality CPR for 2 minutes before the AED re-analyzes. These are non-shockable rhythms that require CPR to maintain circulation."
+        },
+        {
+                "question": "What is the recommended compression rate for adult CPR?",
+                "options": [
+                        "60-80 compressions per minute",
+                        "80-100 compressions per minute",
+                        "100-120 compressions per minute",
+                        "At least 150 compressions per minute"
+                ],
+                "correct": 2,
+                "explanation": "AHA guidelines recommend a compression rate of 100-120 per minute for adult CPR. Rates below 100 are insufficient, while rates above 120 tend to reduce compression depth and quality."
+        },
+        {
+                "question": "You are performing CPR on a child (age 6). Which of the following is correct?",
+                "options": [
+                        "Use adult AED pads and energy doses",
+                        "Compress to a depth of at least one-third the AP diameter of the chest (about 2 inches)",
+                        "The compression-to-ventilation ratio is 15:2 for two rescuers",
+                        "Chest compressions are not recommended for children"
+                ],
+                "correct": 2,
+                "explanation": "For two-rescuer child CPR, the ratio is 15:2 (compared to 30:2 for single rescuer). Pediatric pads are preferred if available. Compression depth should be at least one-third AP diameter (~2 inches for children)."
+        },
+        {
+                "question": "A choking adult becomes unresponsive during abdominal thrusts. What is the next step?",
+                "options": [
+                        "Continue abdominal thrusts on the ground",
+                        "Lower the patient to the ground and begin CPR",
+                        "Perform blind finger sweeps",
+                        "Administer back blows only"
+                ],
+                "correct": 1,
+                "explanation": "When a choking victim becomes unresponsive, lower them to the ground and begin CPR (starting with compressions). Each time you open the airway to give breaths, look for the object and remove it if visible. Do NOT perform blind finger sweeps."
+        },
+        {
+                "question": "Which of the following rhythms is shockable by an AED?",
+                "options": [
+                        "Asystole",
+                        "Pulseless electrical activity (PEA)",
+                        "Ventricular fibrillation (VF)",
+                        "Sinus bradycardia"
+                ],
+                "correct": 2,
+                "explanation": "Ventricular fibrillation (VF) and pulseless ventricular tachycardia (pVT) are the two shockable rhythms. Asystole and PEA are non-shockable and require CPR and medications."
+        },
+        {
+                "question": "During two-rescuer CPR, how often should rescuers switch roles to maintain compression quality?",
+                "options": [
+                        "Every 1 minute",
+                        "Every 2 minutes (or 5 cycles of 30:2)",
+                        "Every 5 minutes",
+                        "Only when the compressor is fatigued"
+                ],
+                "correct": 1,
+                "explanation": "Rescuers should switch every 2 minutes (approximately 5 cycles of 30:2) to prevent fatigue-related decreases in compression quality. The switch should take less than 5 seconds."
+        },
+        {
+                "question": "An infant (8 months old) is found unresponsive. After confirming no breathing and no pulse, how should a single rescuer deliver chest compressions?",
+                "options": [
+                        "Two-thumb encircling technique",
+                        "Two-finger technique on the lower half of the sternum",
+                        "Heel of one hand on the center of the chest",
+                        "Full two-hand technique as in adults"
+                ],
+                "correct": 1,
+                "explanation": "A single rescuer should use the two-finger technique for infant compressions, placed just below the nipple line on the lower half of the sternum. The two-thumb encircling technique is preferred for two-rescuer infant CPR."
+        },
+        {
+                "question": "What is the primary purpose of allowing full chest recoil between compressions during CPR?",
+                "options": [
+                        "To prevent rib fractures",
+                        "To allow venous return to the heart",
+                        "To give the rescuer time to rest",
+                        "To allow time for defibrillation"
+                ],
+                "correct": 1,
+                "explanation": "Full chest recoil allows the thorax to return to its normal position, creating negative intrathoracic pressure that promotes venous return and cardiac filling. Leaning on the chest between compressions reduces coronary and cerebral perfusion."
+        }
+];
+        let RESOURCES = [
+            { title: "AHA BLS Provider Manual (2025 ed.)", type: "textbook", url: "https://shopcpr.heart.org/bls-provider-manual" },
+            { title: "AHA BLS Online Course", type: "subscription", url: "https://cpr.heart.org/en/cpr-courses-and-kits/healthcare-professional/bls" },
+            { title: "AHA Guidelines for CPR & ECC", type: "free", url: "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines" },
+            { title: "Ninja Nerd — BLS & ACLS Review", type: "free", url: "https://www.youtube.com/c/NinjaNerdScience" },
+            { title: "Osmosis — Basic Life Support", type: "subscription", url: "https://www.osmosis.org/learn/Basic_life_support" },
+            { title: "Red Cross — BLS/CPR Certification", type: "subscription", url: "https://www.redcross.org/take-a-class/cpr/cpr-training/cpr-online" },
+            { title: "ACLS Medical Training — Free BLS Practice Exam", type: "free", url: "https://www.aclsmedicaltraining.com/free-bls-practice-test/" },
+            { title: "Zoll — AED Training Resources", type: "free", url: "https://www.zoll.com/resources" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1440,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

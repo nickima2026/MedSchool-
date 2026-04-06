@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A healthcare system transitions from fee-for-service (FFS) to value-based care with bundled payments for joint replacement surgeries. Which outcome is a healthcare system MOST likely to optimize under value-based payment?",
+                "options": [
+                        "Number of procedures performed",
+                        "Total revenue per patient",
+                        "Quality and efficiency (reducing complications, length of stay, readmissions)",
+                        "Spending on imaging and diagnostics"
+                ],
+                "correct": 2,
+                "explanation": "Bundled payments create financial incentives to deliver high-quality care efficiently. Unlike FFS (paid per service), bundled payments reward providers for good outcomes and lower costs. This aligns financial incentives with quality and population health."
+        },
+        {
+                "question": "A state Medicaid program covers a new expensive cancer drug with proven efficacy in Phase III trials. To contain costs while ensuring access, the program implements 'prior authorization.' What is a potential consequence?",
+                "options": [
+                        "Reduced healthcare spending",
+                        "Faster patient access to the drug",
+                        "Delays in treatment while authorization is obtained; potential harm to patients with aggressive cancers",
+                        "Improved physician decision-making"
+                ],
+                "correct": 2,
+                "explanation": "Prior authorization (requiring approval before covering a service) can delay access to needed care. In time-sensitive conditions like cancer, delays compromise outcomes. Trade-off: cost control vs. timely access. Rapid-track authorization systems may balance both."
+        },
+        {
+                "question": "A hospital's quality metrics show low rates of readmission (4%) compared to the national average (6%), suggesting high-quality discharge planning. Which methodological issue might explain this finding?",
+                "options": [
+                        "The hospital has excellent doctors",
+                        "Selection bias: healthier, less complex patients may be preferentially discharged early, reducing readmission risk regardless of discharge quality",
+                        "Better nursing documentation",
+                        "Stricter admission criteria inflate severity"
+                ],
+                "correct": 1,
+                "explanation": "Readmission metrics are subject to case-mix bias. Hospitals serving sicker populations or uninsured patients (who may avoid readmission) face higher readmission rates regardless of quality. Adjustment for severity and socioeconomic factors is essential for fair comparison."
+        },
+        {
+                "question": "An insurance company implements a policy denying coverage for 'off-label' medication use, even when recommended by specialists based on clinical evidence. The primary ethical concern is:",
+                "options": [
+                        "The insurance company lacks authority to deny claims",
+                        "Restricting access to potentially beneficial treatments based on FDA approval status rather than clinical evidence may harm patients and violate principles of beneficence and justice",
+                        "Off-label use is always inappropriate",
+                        "Specialists lack authority to recommend off-label medications"
+                ],
+                "correct": 1,
+                "explanation": "Off-label use is common and often evidence-based. Blanket denials ignore clinical context and may force patients to choose between financial hardship and foregone treatment. Policies should distinguish high-evidence off-label uses from unproven ones."
+        },
+        {
+                "question": "A health policy analysis examines the impact of universal health insurance on health disparities. What outcome would indicate the policy was successful in reducing disparities?",
+                "options": [
+                        "Increased healthcare spending overall",
+                        "Reduced differences in access, quality of care, and health outcomes across racial/socioeconomic groups",
+                        "All patients receive the same treatment regardless of condition",
+                        "Lower premiums for everyone"
+                ],
+                "correct": 1,
+                "explanation": "Reducing health disparities requires narrowing gaps in access, quality, and outcomes. Universal insurance can remove financial barriers but does not automatically eliminate structural disparities; additional anti-racism and quality improvement efforts are needed."
+        },
+        {
+                "question": "A rural hospital closes due to financial pressure. The nearest hospital is now 60 miles away. What is the likely impact on community health outcomes?",
+                "options": [
+                        "No impact; rural patients will simply drive farther",
+                        "Delayed access to emergency and preventive care; higher mortality from myocardial infarction, stroke, and trauma",
+                        "Improved outcomes due to centralization",
+                        "Increased preventive care utilization"
+                ],
+                "correct": 1,
+                "explanation": "Rural hospital closures increase travel time to emergency care, worsening outcomes for time-sensitive conditions (MI, stroke, trauma, obstetric emergencies). Distance barriers also deter preventive care. Rural health outcomes decline after hospital closures."
+        },
+        {
+                "question": "A healthcare system implements an electronic health record (EHR) system with mandatory structured data entry (drop-down menus, check boxes). Clinicians report increased time spent documenting and decreased time with patients. This is an example of:",
+                "options": [
+                        "EHR efficiency benefits",
+                        "Alert fatigue",
+                        "Unintended consequences of health IT implementation; reduced care time and clinician burnout despite better data quality",
+                        "Improved data interoperability"
+                ],
+                "correct": 2,
+                "explanation": "EHRs can improve data quality but often increase administrative burden ('documentation burden'). Poorly designed EHRs fragment the patient-clinician interaction. Balancing data quality with clinical workflow requires user-centered design."
+        },
+        {
+                "question": "A state enacts a surprise billing law requiring hospitals to disclose out-of-network charges and obtain patient consent before incurring surprise costs. The PRIMARY goal of this policy is:",
+                "options": [
+                        "Increase hospital revenue",
+                        "Reduce healthcare costs overall",
+                        "Protect patients from unexpected out-of-pocket costs and inform healthcare choices",
+                        "Encourage patients to use more healthcare services"
+                ],
+                "correct": 2,
+                "explanation": "Surprise billing occurs when patients unknowingly receive out-of-network care (e.g., emergency care at out-of-network facilities). Transparency and consent protections reduce financial harm and allow patients to make informed choices."
+        },
+        {
+                "question": "A health policy includes a 'Medicaid expansion' provision that extends coverage to adults earning <138% of federal poverty level. In states that adopt this expansion, what is the expected outcome?",
+                "options": [
+                        "Increased emergency department visits (no change in access)",
+                        "Increased preventive care and decreased uninsured rates; potential long-term savings from early disease detection",
+                        "No change in health outcomes",
+                        "Decreased healthcare spending due to fewer people seeking care"
+                ],
+                "correct": 1,
+                "explanation": "Medicaid expansion increases insurance coverage, improves access to preventive and primary care, and decreases uninsured rates. While immediate costs increase, long-term benefits include better health outcomes and potential reductions in costly emergency care."
+        },
+        {
+                "question": "A state healthcare policy prioritizes 'health in all policies' by requiring health impact assessments for new housing, transportation, and food policy proposals. This approach reflects which public health strategy?",
+                "options": [
+                        "Clinical medicine focus",
+                        "Social-ecological and upstream prevention: recognizing that policies across sectors impact population health",
+                        "Individual-level risk factor modification",
+                        "Emergency preparedness only"
+                ],
+                "correct": 1,
+                "explanation": "'Health in all policies' recognizes that health is determined by intersectoral factors (housing, food, transportation, environment). Assessing health impacts of non-health policies promotes equity and prevents diseases at the source."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

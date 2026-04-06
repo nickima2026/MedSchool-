@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A newborn presents with a tuft of hair and a dimple over the lower lumbar spine. MRI reveals an incomplete fusion of the vertebral arches. This condition is most likely:",
+                "options": [
+                        "Anencephaly",
+                        "Spina bifida occulta",
+                        "Meningocele",
+                        "Craniorachischisis"
+                ],
+                "correct": 1,
+                "explanation": "Spina bifida occulta is the mildest neural tube defect, involving failure of vertebral arch fusion without herniation of meninges or neural tissue. It is often asymptomatic and discovered incidentally, marked by overlying skin changes (tuft of hair, dimple)."
+        },
+        {
+                "question": "During which week of embryonic development does the heart begin to beat?",
+                "options": [
+                        "Week 2",
+                        "Week 4",
+                        "Week 8",
+                        "Week 12"
+                ],
+                "correct": 1,
+                "explanation": "The heart begins contracting around day 22 (week 4) of development. The primitive heart tube forms from splanchnic mesoderm and begins rhythmic contractions before the circulatory pattern is fully established."
+        },
+        {
+                "question": "A child is born with a patent ductus arteriosus (PDA). This structure is a remnant of which embryonic vessel?",
+                "options": [
+                        "First aortic arch",
+                        "Third aortic arch",
+                        "Fourth aortic arch",
+                        "Sixth aortic arch"
+                ],
+                "correct": 3,
+                "explanation": "The ductus arteriosus derives from the left sixth aortic arch. It shunts blood from the pulmonary artery to the aorta in fetal life, bypassing the non-functional lungs. It normally closes within 24-48 hours after birth."
+        },
+        {
+                "question": "Failure of the septum primum and septum secundum to fuse results in which congenital cardiac defect?",
+                "options": [
+                        "Ventricular septal defect",
+                        "Atrial septal defect",
+                        "Tetralogy of Fallot",
+                        "Transposition of great vessels"
+                ],
+                "correct": 1,
+                "explanation": "The interatrial septum forms from the septum primum and septum secundum. Incomplete fusion or excessive resorption leads to an atrial septal defect (ASD), allowing left-to-right shunting of blood between the atria."
+        },
+        {
+                "question": "The notochord is an important signaling structure in early development. In the adult, it persists as which structure?",
+                "options": [
+                        "Spinal cord",
+                        "Vertebral body",
+                        "Nucleus pulposus of intervertebral discs",
+                        "Annulus fibrosus"
+                ],
+                "correct": 2,
+                "explanation": "The notochord largely degenerates during development as vertebral bodies form around it. Its remnant persists as the nucleus pulposus of the intervertebral discs. Abnormal notochordal remnants can give rise to chordomas."
+        },
+        {
+                "question": "A newborn is diagnosed with a Meckel diverticulum. This is a remnant of which embryonic structure?",
+                "options": [
+                        "Allantois",
+                        "Vitelline (omphalomesenteric) duct",
+                        "Urachus",
+                        "Cloaca"
+                ],
+                "correct": 1,
+                "explanation": "Meckel diverticulum results from incomplete obliteration of the vitelline (omphalomesenteric) duct, which connects the yolk sac to the midgut. It follows the 'rule of 2s': 2% of population, 2 feet from ileocecal valve, 2 inches long, presents by age 2."
+        },
+        {
+                "question": "Which germ layer gives rise to the lining of the gastrointestinal tract?",
+                "options": [
+                        "Ectoderm",
+                        "Mesoderm",
+                        "Endoderm",
+                        "Neural crest"
+                ],
+                "correct": 2,
+                "explanation": "Endoderm gives rise to the epithelial lining of the GI tract, respiratory tract, liver, pancreas, thyroid, and bladder. The muscular and connective tissue layers of the GI tract are derived from mesoderm."
+        },
+        {
+                "question": "A male infant is born with hypospadias. This condition results from failure of fusion of which embryonic structures?",
+                "options": [
+                        "Genital tubercle",
+                        "Urethral folds",
+                        "Labioscrotal swellings",
+                        "M\u00fcllerian ducts"
+                ],
+                "correct": 1,
+                "explanation": "Hypospadias results from incomplete fusion of the urethral folds along the ventral surface of the developing penis. This leads to a urethral opening on the ventral side rather than at the tip. It is one of the most common congenital anomalies in males."
+        },
+        {
+                "question": "Sonic hedgehog (SHH) signaling from the zone of polarizing activity (ZPA) is critical for which aspect of limb development?",
+                "options": [
+                        "Proximal-distal patterning",
+                        "Anterior-posterior (digit) patterning",
+                        "Dorsal-ventral patterning",
+                        "Limb bud initiation"
+                ],
+                "correct": 1,
+                "explanation": "SHH from the ZPA (located on the posterior margin of the limb bud) establishes anterior-posterior polarity, determining digit identity. Ectopic SHH expression can cause mirror-image digit duplication (polydactyly)."
+        },
+        {
+                "question": "The thyroid gland descends from the foramen cecum at the base of the tongue. A remnant of this descent pathway may present as:",
+                "options": [
+                        "Branchial cleft cyst",
+                        "Thyroglossal duct cyst",
+                        "Cystic hygroma",
+                        "Dermoid cyst"
+                ],
+                "correct": 1,
+                "explanation": "A thyroglossal duct cyst is a midline neck mass resulting from persistence of the thyroglossal duct. It typically moves with swallowing and tongue protrusion. It is the most common congenital midline neck mass in children."
+        }
+];
+        let RESOURCES = [
+            { title: "Langman's Medical Embryology (15th ed.)", type: "textbook", url: "https://www.lww.com/product/langmans-medical-embryology-9781975179786" },
+            { title: "The Developing Human (Moore & Persaud)", type: "textbook", url: "https://www.elsevier.com/books/the-developing-human/moore/978-0-323-61154-8" },
+            { title: "Osmosis — Embryology Videos", type: "subscription", url: "https://www.osmosis.org/learn/Embryology" },
+            { title: "Ninja Nerd — Embryology Playlist", type: "free", url: "https://www.youtube.com/playlist?list=PLTF9h-T1TcJi-5ZVBj1xNkCGMovGnG6Q6" },
+            { title: "UNSW Embryology (Open Educational Resource)", type: "free", url: "https://embryology.med.unsw.edu.au" },
+            { title: "Khan Academy — Human Development", type: "free", url: "https://www.khanacademy.org/science/health-and-medicine/human-anatomy-and-physiology" },
+            { title: "AMBOSS — Embryology", type: "subscription", url: "https://www.amboss.com/us/knowledge/Embryology" },
+            { title: "Boards and Beyond — Embryology", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Embryology.ch (Swiss Virtual Campus)", type: "free", url: "http://www.embryology.ch/anglais/iperiodembry/carnegie01.html" },
+            { title: "Sketchy Medical — Embryology", type: "subscription", url: "https://www.sketchy.com" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

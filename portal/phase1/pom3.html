@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A medical student is preparing for their first overnight call. Which handoff communication tool uses the format: Situation, Background, Assessment, Recommendation?",
+                "options": [
+                        "SOAP",
+                        "SBAR",
+                        "OPQRST",
+                        "CAGE"
+                ],
+                "correct": 1,
+                "explanation": "SBAR (Situation, Background, Assessment, Recommendation) is a structured communication framework used in healthcare handoffs and urgent communications. It ensures critical information is conveyed concisely and reduces miscommunication during transitions of care."
+        },
+        {
+                "question": "A patient with a chronic illness expresses frustration about their condition. Using motivational interviewing, which response best demonstrates the 'rolling with resistance' principle?",
+                "options": [
+                        "Tell them they need to follow their treatment plan more carefully",
+                        "Acknowledge their frustration and explore their perspective on treatment",
+                        "Provide statistics about their disease outcomes",
+                        "Refer them to a psychiatrist"
+                ],
+                "correct": 1,
+                "explanation": "Rolling with resistance in motivational interviewing means avoiding direct confrontation, acknowledging the patient's viewpoint, and exploring ambivalence without arguing. This approach respects patient autonomy and is more effective at facilitating behavior change."
+        },
+        {
+                "question": "During an end-of-life discussion, the patient's family asks you not to tell the patient about their terminal diagnosis. What is the most appropriate response?",
+                "options": [
+                        "Agree to withhold the information as the family requests",
+                        "Tell the patient immediately regardless of family wishes",
+                        "Explore the family's concerns while emphasizing the patient's right to know",
+                        "Defer the conversation to the social worker"
+                ],
+                "correct": 2,
+                "explanation": "While respecting cultural values, the patient's autonomy takes precedence for competent adults. The best approach is to explore the family's concerns empathetically (they may fear emotional harm), discuss the benefits of honest communication, and ask the patient how much they want to know."
+        },
+        {
+                "question": "A patient is being discharged after a heart failure exacerbation. Which element of the discharge plan is MOST important for reducing readmission risk?",
+                "options": [
+                        "Providing printed discharge instructions only",
+                        "Teach-back method to confirm patient understanding of medications and warning signs",
+                        "Scheduling a follow-up appointment in 6 months",
+                        "Prescribing all new medications without review"
+                ],
+                "correct": 1,
+                "explanation": "The teach-back method (asking patients to explain instructions in their own words) is one of the most effective strategies for ensuring comprehension and reducing readmissions. Follow-up should be within 7-14 days for heart failure, and medication reconciliation is essential."
+        },
+        {
+                "question": "When writing a patient progress note, which section contains your differential diagnosis and clinical reasoning?",
+                "options": [
+                        "Subjective",
+                        "Objective",
+                        "Assessment",
+                        "Plan"
+                ],
+                "correct": 2,
+                "explanation": "The Assessment section contains your synthesis of subjective and objective data into a differential diagnosis, clinical reasoning, and working diagnosis. It demonstrates your thought process and how the data supports or rules out diagnoses."
+        },
+        {
+                "question": "A patient with limited English proficiency presents for a medical visit. What is the most appropriate way to ensure informed consent?",
+                "options": [
+                        "Ask a family member to interpret",
+                        "Use a certified medical interpreter",
+                        "Speak slowly and use hand gestures",
+                        "Proceed without full consent due to language barrier"
+                ],
+                "correct": 1,
+                "explanation": "Certified medical interpreters are required for informed consent and critical communications with patients who have limited English proficiency. Family members may omit, add, or alter information. This is both an ethical requirement and a federal mandate under Title VI of the Civil Rights Act."
+        },
+        {
+                "question": "A patient asks about advance directives. Which document specifically designates a person to make healthcare decisions if the patient becomes incapacitated?",
+                "options": [
+                        "Living will",
+                        "Durable power of attorney for healthcare",
+                        "Do Not Resuscitate (DNR) order",
+                        "POLST form"
+                ],
+                "correct": 1,
+                "explanation": "A durable power of attorney for healthcare (healthcare proxy) designates a specific person (surrogate) to make medical decisions when the patient cannot. A living will states treatment preferences but doesn't designate a decision-maker. A POLST translates wishes into specific medical orders."
+        },
+        {
+                "question": "During a team-based care discussion, the concept of 'scope of practice' refers to:",
+                "options": [
+                        "The physical area where a provider can practice",
+                        "The procedures and activities a licensed professional is authorized to perform",
+                        "The number of patients a provider can see per day",
+                        "Insurance coverage limitations"
+                ],
+                "correct": 1,
+                "explanation": "Scope of practice defines the procedures, actions, and processes that a healthcare professional is legally and professionally authorized to perform based on their license, training, and certification. Understanding scope of practice is essential for effective interprofessional collaboration."
+        },
+        {
+                "question": "A patient's medication list includes 12 different medications. When performing medication reconciliation, which is the most important step?",
+                "options": [
+                        "Eliminating medications to simplify the regimen",
+                        "Comparing the current list against what the patient is actually taking and identifying discrepancies",
+                        "Adding over-the-counter medications to the prescription list",
+                        "Switching all brand-name drugs to generics"
+                ],
+                "correct": 1,
+                "explanation": "Medication reconciliation is the process of comparing all medication sources (hospital list, pharmacy records, patient report) to identify and resolve discrepancies. This prevents errors at transitions of care and is a Joint Commission National Patient Safety Goal."
+        },
+        {
+                "question": "Quality improvement projects in healthcare commonly use the Plan-Do-Study-Act (PDSA) cycle. What occurs during the 'Study' phase?",
+                "options": [
+                        "Implement the change",
+                        "Analyze the results and compare to predictions",
+                        "Develop the plan for change",
+                        "Standardize the successful change"
+                ],
+                "correct": 1,
+                "explanation": "The Study phase involves analyzing the data collected during the Do phase, comparing results to predictions, and identifying what was learned. Plan develops the change, Do implements it on a small scale, Study analyzes results, and Act determines whether to adopt, adapt, or abandon the change."
+        }
+];
+        let RESOURCES = [
+            { title: "Blueprints for Clinical Medicine", type: "textbook", url: "https://www.lww.com" },
+            { title: "Case Files — Internal Medicine (6th ed.)", type: "textbook", url: "https://accessmedicine.mhmedical.com/book.aspx?bookid=2801" },
+            { title: "OnlineMedEd — Clerkship Prep", type: "free", url: "https://onlinemeded.org" },
+            { title: "AMBOSS — Clerkship Essentials", type: "subscription", url: "https://www.amboss.com/us/knowledge/Clerkship" },
+            { title: "Aquifer — Transition to Clerkship", type: "subscription", url: "https://aquifer.org" },
+            { title: "UpToDate — Clinical Reference", type: "subscription", url: "https://www.uptodate.com" },
+            { title: "Osmosis — Organ Systems Review", type: "subscription", url: "https://www.osmosis.org" },
+            { title: "Step 2 CK Anki Deck (AnKing)", type: "free", url: "https://www.ankihub.net" },
+            { title: "Geeky Medics — OSCE Prep", type: "free", url: "https://geekymedics.com/category/osce/" },
+            { title: "Medscape — Clinical Procedures", type: "free", url: "https://emedicine.medscape.com" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

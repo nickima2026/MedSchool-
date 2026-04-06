@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 52-year-old man with diabetes, hypertension, and hyperlipidemia presents for preventive care. Which screening is most appropriate per USPSTF recommendations?",
+                "options": [
+                        "Carotid ultrasound screening",
+                        "Abdominal aortic aneurysm (AAA) ultrasound (one-time, age 65-75)",
+                        "AAA ultrasound now (age 50+ with cardiovascular risk factors)",
+                        "Coronary artery calcium (CAC) scoring"
+                ],
+                "correct": 2,
+                "explanation": "USPSTF recommends one-time AAA ultrasound in men age 65-75 who have ever smoked. However, in men age 50-64 with cardiovascular risk factors (diabetes, hypertension), AAA screening may be reasonable. CAC scoring is not USPSTF-recommended but may be useful for risk assessment in selected patients."
+        },
+        {
+                "question": "A 34-year-old primigravida presents at 8 weeks gestation for prenatal care. Which counseling is most important regarding folic acid supplementation?",
+                "options": [
+                        "Start folic acid 1mg daily to prevent neural tube defects",
+                        "Start folic acid 400mcg daily; ideally should have started before conception",
+                        "Folic acid is only needed in third trimester",
+                        "Folic acid increases risk of birth defects at high doses"
+                ],
+                "correct": 1,
+                "explanation": "Folic acid 400-800mcg daily (higher in prior NTD) is recommended periconceptionally and throughout pregnancy to prevent neural tube defects. Most effective when started before conception; critical window is weeks 3-4. 1mg (1000mcg) is excessive and not recommended for routine use."
+        },
+        {
+                "question": "A 68-year-old woman presents for preventive care. Which cancer screening should be discontinued at this age?",
+                "options": [
+                        "Colorectal cancer screening",
+                        "Cervical cancer screening",
+                        "Breast cancer mammography",
+                        "Lung cancer screening (in heavy smokers)"
+                ],
+                "correct": 1,
+                "explanation": "USPSTF recommends discontinuing cervical cancer screening at age 65 in women with adequate prior screening and no history of CIN2+. Colorectal, breast, and lung cancer screening may continue based on individual risk and life expectancy. Screening should be individualized in older adults."
+        },
+        {
+                "question": "A 45-year-old female presents with depressed mood, anhedonia, and insomnia for 3 weeks. Which is the most appropriate initial management?",
+                "options": [
+                        "Refer to psychiatry immediately",
+                        "Start SSRI and offer counseling/psychotherapy",
+                        "Screen for bipolar disorder before starting antidepressants",
+                        "Recommend exercise and dietary changes only"
+                ],
+                "correct": 2,
+                "explanation": "Before starting antidepressants, screen for bipolar disorder (family history, prior manic/hypomanic episodes) to avoid triggering mania. In unipolar major depression, SSRIs are first-line with psychotherapy. Referral to psychiatry is reserved for treatment-resistant or complex cases."
+        },
+        {
+                "question": "A 56-year-old man with hypertension is found to have an elevated PSA (5.2 ng/mL). Which step is most appropriate?",
+                "options": [
+                        "Immediate prostate biopsy",
+                        "Repeat PSA in 4 weeks; if elevated, refer for urology evaluation",
+                        "Discuss screening benefits and harms; shared decision-making before further testing",
+                        "No further screening; accept risk"
+                ],
+                "correct": 2,
+                "explanation": "USPSTF recommends shared decision-making regarding PSA screening given conflicting evidence on benefit vs. overdiagnosis/overtreatment. A single elevated PSA warrants discussion and possible repeat testing, not immediate biopsy. PSA trajectory and digital rectal exam inform decisions."
+        },
+        {
+                "question": "A 3-year-old presents with fever (39.5\u00b0C), barky cough, and inspiratory stridor. Which clinical diagnosis is most likely?",
+                "options": [
+                        "Acute epiglottitis",
+                        "Croup (laryngotracheobronchitis)",
+                        "Foreign body aspiration",
+                        "Bacterial tracheitis"
+                ],
+                "correct": 1,
+                "explanation": "Croup (viral) presents with barky/seal-like cough and inspiratory stridor in young children. Epiglottitis presents with drooling, tripod posture, and toxic appearance. Croup is self-limited; supportive care and dexamethasone/epinephrine for moderate-severe cases."
+        },
+        {
+                "question": "A 28-year-old woman with no prior history presents with acute angle-closure glaucoma (eye pain, blurred vision, mid-dilated pupil, elevated IOP). Which is the most appropriate first intervention?",
+                "options": [
+                        "Immediate topical pilocarpine and timolol",
+                        "IV mannitol followed by pilocarpine and referral to ophthalmology",
+                        "Topical atropine",
+                        "Observation for 24 hours"
+                ],
+                "correct": 1,
+                "explanation": "Acute angle-closure glaucoma is an ophthalmologic emergency. IV mannitol reduces aqueous humor production, topical pilocarpine causes pupil constriction to pull iris away from angle, and timolol reduces IOP. Urgent ophthalmology referral for definitive laser peripheral iridotomy is essential to prevent blindness."
+        },
+        {
+                "question": "A 71-year-old man with COPD and multiple comorbidities is hospitalized for pneumonia. He expresses that he does not want life-sustaining interventions (intubation) if his condition worsens. What is the most appropriate documentation?",
+                "options": [
+                        "Order 'do not resuscitate' (DNR) without further discussion",
+                        "Elicit his specific wishes via shared decision-making and document advance directives",
+                        "Inform family only; patient does not need to sign anything",
+                        "Defer decisions until acute illness resolves"
+                ],
+                "correct": 1,
+                "explanation": "Advance care planning should be a collaborative process involving the patient's values, goals, and specific wishes regarding interventions. Shared decision-making ensures understanding and alignment. Written documentation (POLST, living will) provides clarity for providers. This is best done during stable health but important when acutely ill."
+        },
+        {
+                "question": "A 15-year-old female requests oral contraceptives for acne management without parental involvement. Which is the most appropriate approach in most US jurisdictions?",
+                "options": [
+                        "Refuse; must obtain parental consent",
+                        "Prescribe after consent from parents only",
+                        "Provide contraceptive counseling and prescribe if medically appropriate and adolescent assents",
+                        "Report to state child protective services"
+                ],
+                "correct": 2,
+                "explanation": "Adolescents can often consent to contraceptive care without parental involvement (varies by state). The physician should counsel regarding risks, benefits, and alternatives. Parental consent is not legally required in most states for contraception. Confidentiality is important to encourage healthcare engagement."
+        },
+        {
+                "question": "A 62-year-old woman with controlled hypertension and high cholesterol undergoes routine physical exam. Which preventive intervention is most likely to be underutilized in family medicine?",
+                "options": [
+                        "Influenza vaccine annually",
+                        "Shared decision-making regarding PSA screening",
+                        "Screening mammography",
+                        "Colorectal cancer screening initiation"
+                ],
+                "correct": 1,
+                "explanation": "Shared decision-making regarding cancer screening, especially PSA, is often rushed or omitted due to time constraints. Vaccines and standard screening are more systematically implemented. Proactive shared decision-making about benefits and harms requires dedicated time and is an opportunity for family medicine to improve preventive care."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

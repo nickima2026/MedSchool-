@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "In a town of 100,000 people, 500 new cases of tuberculosis occurred over one year. Which epidemiologic measure is this, and what is its value?",
+                "options": [
+                        "Incidence rate; 5 per 1,000 per year",
+                        "Prevalence; 0.5%",
+                        "Attack rate; 5%",
+                        "Incidence density; 500 per 100,000"
+                ],
+                "correct": 0,
+                "explanation": "Incidence rate = (new cases / population at risk) \u00d7 1,000 (or per 100,000) = (500 / 100,000) \u00d7 1,000 = 5 per 1,000 (or 50 per 100,000 per year). It measures risk of developing disease over a specific time period."
+        },
+        {
+                "question": "A cohort study follows 2,000 smokers and 2,000 non-smokers for 5 years. 40 smokers and 5 non-smokers develop COPD. What is the attributable risk of smoking?",
+                "options": [
+                        "8%",
+                        "1.75%",
+                        "1.5%",
+                        "6.25%"
+                ],
+                "correct": 3,
+                "explanation": "Attributable risk (risk difference) = Incidence in exposed - Incidence in unexposed = (40/2000) - (5/2000) = 0.02 - 0.0025 = 0.0175 = 1.75%. This represents the excess risk due to exposure (smoking)."
+        },
+        {
+                "question": "During an outbreak of salmonellosis, 60 of 100 people who ate at Restaurant A became ill, while 2 of 100 people who did not eat there became ill. Which is the attack rate in exposed vs. unexposed groups?",
+                "options": [
+                        "60% exposed, 2% unexposed",
+                        "30% exposed, 1% unexposed",
+                        "60% exposed, 98% unexposed",
+                        "2% exposed, 100% unexposed"
+                ],
+                "correct": 0,
+                "explanation": "Attack rate = (number of cases / number exposed) \u00d7 100. Exposed: (60/100) \u00d7 100 = 60%. Unexposed: (2/100) \u00d7 100 = 2%. The high attack rate in those exposed points to Restaurant A as the source."
+        },
+        {
+                "question": "A randomized controlled trial comparing two antihypertensive drugs shows no difference in blood pressure reduction between groups (p=0.08). Which type of error may have occurred?",
+                "options": [
+                        "Type I error",
+                        "Type II error",
+                        "Confounding bias",
+                        "Information bias"
+                ],
+                "correct": 1,
+                "explanation": "Type II error (beta error) occurs when we fail to reject a false null hypothesis. A p-value of 0.08 does not reach statistical significance (\u03b1=0.05), but a true difference may exist if sample size was inadequate. Type I error is rejecting a true null hypothesis."
+        },
+        {
+                "question": "An observational study finds that patients on hormone replacement therapy (HRT) have lower rates of cardiovascular disease than those not on HRT. Which bias most likely explains this association?",
+                "options": [
+                        "Selection bias",
+                        "Healthy user bias",
+                        "Recall bias",
+                        "Attrition bias"
+                ],
+                "correct": 1,
+                "explanation": "Healthy user bias occurs when people who use preventive interventions (HRT) differ in unmeasured health behaviors (exercise, diet, smoking cessation). They may have lower CVD risk due to these factors, not the therapy itself. Randomized trials later showed HRT does not prevent CVD."
+        },
+        {
+                "question": "A screening test has a sensitivity of 90% and specificity of 85% in a population with disease prevalence of 10%. How many people will be false positives per 1,000 people screened?",
+                "options": [
+                        "135",
+                        "90",
+                        "150",
+                        "15"
+                ],
+                "correct": 0,
+                "explanation": "In 1,000 people: 100 have disease (prevalence 10%), 900 do not. False positives = (1-specificity) \u00d7 disease-free population = 0.15 \u00d7 900 = 135. Sensitivity and specificity are test properties independent of disease prevalence."
+        },
+        {
+                "question": "An investigator suspects coffee consumption is associated with pancreatic cancer. Which study design is most appropriate to test this hypothesis efficiently?",
+                "options": [
+                        "Randomized controlled trial",
+                        "Prospective cohort study",
+                        "Case-control study",
+                        "Cross-sectional survey"
+                ],
+                "correct": 2,
+                "explanation": "Pancreatic cancer is rare. A case-control study (cases with cancer vs. matched controls) is efficient for rare diseases, requiring fewer participants than a cohort study. Coffee exposure is assessed retrospectively via interview or records."
+        },
+        {
+                "question": "In a clinical trial, the intention-to-treat (ITT) analysis shows treatment benefit, but per-protocol (PP) analysis shows no benefit. Which statement is most accurate?",
+                "options": [
+                        "The per-protocol analysis is more reliable",
+                        "The ITT analysis is more conservative and preserves randomization",
+                        "Both analyses are equally valid and should be reported",
+                        "Neither analysis should be trusted"
+                ],
+                "correct": 1,
+                "explanation": "ITT analysis preserves randomization and avoids bias from non-adherence or withdrawal, even though it may be conservative (reduces apparent effect size). PP analysis may overestimate treatment effect by excluding non-compliant patients who often differ systematically. ITT is preferred for primary analysis."
+        },
+        {
+                "question": "Which of the following best defines 'statistical power' in a clinical study?",
+                "options": [
+                        "The probability of rejecting the null hypothesis when it is true",
+                        "The probability of correctly rejecting a false null hypothesis (1-beta)",
+                        "The p-value obtained from the statistical test",
+                        "The effect size of the intervention"
+                ],
+                "correct": 1,
+                "explanation": "Statistical power = 1 - beta (Type II error rate). It is the probability of detecting a true effect if one exists. Typical power is 80-90%. Sample size calculations ensure adequate power to detect the clinically important effect size."
+        },
+        {
+                "question": "A disease has an incidence of 5 per 100,000 per year and an average disease duration of 4 years. Assuming steady state, what is the approximate prevalence?",
+                "options": [
+                        "5 per 100,000",
+                        "20 per 100,000",
+                        "1.25 per 100,000",
+                        "0.2 per 100,000"
+                ],
+                "correct": 1,
+                "explanation": "Prevalence \u2248 Incidence \u00d7 Disease duration = 5 \u00d7 4 = 20 per 100,000. This approximation holds at steady state with relatively low prevalence. It shows why chronic diseases have higher prevalence despite similar incidence rates to acute diseases."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

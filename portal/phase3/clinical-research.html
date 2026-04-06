@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A researcher designs a randomized controlled trial comparing a new antihypertensive with standard therapy. The trial uses 1:1 randomization and is powered for 80% power at alpha=0.05 to detect a 10 mmHg difference in systolic BP. If the true difference is only 5 mmHg, what is the likely outcome?",
+                "options": [
+                        "Type I error (false positive)",
+                        "Type II error (false negative); failure to detect a real difference",
+                        "Loss of blinding",
+                        "Selection bias"
+                ],
+                "correct": 1,
+                "explanation": "The trial is powered for a 10 mmHg difference. If the true effect is only 5 mmHg, the study is underpowered to detect this smaller effect. With 80% power for the larger difference, the probability of detecting a 5 mmHg difference is much lower, increasing the risk of Type II error."
+        },
+        {
+                "question": "In a Phase III clinical trial, a computer-generated randomization list is created and secured by the trial sponsor. Site coordinators enroll patients sequentially and open sealed envelopes to learn treatment assignment. This method is MOST vulnerable to which type of bias?",
+                "options": [
+                        "Detection bias",
+                        "Allocation bias (e.g., envelopes could be held up to light or the coordinator could subtly influence assignment)",
+                        "Attrition bias",
+                        "Information bias"
+                ],
+                "correct": 1,
+                "explanation": "Sealed envelope methods are prone to allocation bias if envelopes are not opaque or if coordinators can predict assignments. Modern RCTs use centralized randomization via computer/phone to eliminate this risk. Sealed envelopes should use security measures (opaque, sequential, tamper-evident)."
+        },
+        {
+                "question": "A clinical trial for a new immunotherapy excludes patients with active infections, autoimmune disease, or prior cancer. These exclusions reduce generalizability (external validity). How might this affect the trial results?",
+                "options": [
+                        "The efficacy estimate will definitely overestimate real-world effectiveness",
+                        "The efficacy estimate in the trial population may not apply to the broader population with comorbidities",
+                        "Blinding will be compromised",
+                        "Sample size calculations will be invalid"
+                ],
+                "correct": 1,
+                "explanation": "Restrictive inclusion/exclusion criteria improve internal validity but reduce external validity. Patients with comorbidities or prior conditions may respond differently (toxicity or efficacy). The trial estimate may not represent real-world populations that include such patients."
+        },
+        {
+                "question": "A researcher conducts a Phase IIb dose-escalation study of a new chemotherapy. The primary endpoint is the maximum tolerated dose (MTD). The secondary endpoints include response rate and survival. When the trial meets its primary endpoint (MTD identified at 100 mg), should Phase III use 100 mg?",
+                "options": [
+                        "Yes, because the Phase II endpoint was met",
+                        "Not necessarily; the MTD is the highest safe dose, but the optimal therapeutic dose (best balance of efficacy and toxicity) may be lower",
+                        "Only if the response rate exceeds 50%",
+                        "Phase III trials are never conducted after Phase IIb"
+                ],
+                "correct": 1,
+                "explanation": "MTD is defined as the highest dose tolerated by patients, often with expected Grade 3 toxicity. The recommended Phase II dose (RP2D) for Phase III is typically lower, balancing efficacy and tolerability. Using MTD in Phase III may result in unacceptable toxicity without commensurate benefit."
+        },
+        {
+                "question": "A multi-center trial enrolls 500 patients across 20 sites. One site enrolls 200 patients (40% of total) much faster than others. Post-hoc analysis reveals outcomes at this site significantly differ from other sites. What is this an example of?",
+                "options": [
+                        "Sampling bias",
+                        "Selection bias at the enrollment site level; potential confounding if site characteristics (patient population, staff training, protocol adherence) differ",
+                        "Attrition bias",
+                        "Publication bias"
+                ],
+                "correct": 1,
+                "explanation": "Imbalanced enrollment across sites can introduce bias if sites differ in patient populations, investigator experience, or protocol adherence. This is site-level selection bias. Stratified randomization by site helps prevent this. Post-hoc site heterogeneity suggests inadequate baseline site comparability."
+        },
+        {
+                "question": "A cardiovascular outcomes trial is halted early for efficacy based on interim analysis. The trial used a pre-specified stopping rule with alpha-spending. What is the advantage of alpha-spending over simple repeated significance testing?",
+                "options": [
+                        "It eliminates the need for randomization",
+                        "It allocates a portion of the overall Type I error rate across interim and final analyses, maintaining the overall alpha at 0.05",
+                        "It guarantees the drug is effective",
+                        "It eliminates selection bias"
+                ],
+                "correct": 1,
+                "explanation": "Without correction, multiple interim looks inflate Type I error. Alpha-spending methods (Lan-DeMets, O'Brien-Fleming) partition the overall alpha (e.g., 0.05) across interim and final analyses. This maintains the family-wise error rate and allows pre-planned early stopping without inflating false positive risk."
+        },
+        {
+                "question": "A Phase IV post-marketing surveillance study finds that a widely used medication is associated with a rare adverse event. The association was not detected in Phase III trials. What explains this?",
+                "options": [
+                        "Phase III trials are always perfect",
+                        "Phase III trials have smaller sample sizes and shorter duration; rare events require larger populations to detect",
+                        "Phase IV studies use different patients",
+                        "Regulatory agencies intentionally hide Phase III adverse events"
+                ],
+                "correct": 1,
+                "explanation": "Phase III trials, even with hundreds or thousands of patients, may not capture rare adverse events (incidence 1 in 10,000). Phase IV uses millions of patients in practice, enabling detection of rare but serious events. This is why long-term pharmacovigilance is essential."
+        },
+        {
+                "question": "A non-inferiority trial compares a new drug to a standard therapy. The non-inferiority margin is set at 10%. The 95% CI for the difference is [\u22122%, +8%]. Based on this result:",
+                "options": [
+                        "The new drug is non-inferior",
+                        "The trial has proven equivalence",
+                        "The result is inconclusive; the CI crosses the non-inferiority margin boundary",
+                        "The new drug is superior"
+                ],
+                "correct": 2,
+                "explanation": "The non-inferiority margin is\u221210% (the upper limit of acceptable inferiority). The CI upper bound is +8%, which is within the margin. However, the CI lower bound (\u22122%) exceeds the margin slightly. The result is inconclusive because the CI is not entirely below the non-inferiority margin."
+        },
+        {
+                "question": "A researcher notices that patients who adhere to the study protocol have better outcomes than non-adherent patients in an observational study. The researcher concludes the intervention is effective. What bias is most likely?",
+                "options": [
+                        "Lead-time bias",
+                        "Compliance selection bias: adherent patients are often healthier, more motivated, or have better prognostic factors independent of the treatment",
+                        "Detection bias",
+                        "Allocation bias"
+                ],
+                "correct": 1,
+                "explanation": "Adherence is often a marker of overall health-consciousness, health literacy, and better baseline prognosis. Comparing adherent vs. non-adherent patients conflates treatment effect with patient-level factors. RCTs avoid this by comparing treatment groups regardless of adherence (intention-to-treat)."
+        },
+        {
+                "question": "The FDA is evaluating a Breakthrough Therapy designation request for an oncology drug. Which characteristic would BEST support this designation?",
+                "options": [
+                        "The drug has a novel chemical structure",
+                        "Preliminary evidence suggests the drug provides substantial improvement over existing therapies for a serious condition",
+                        "The drug is less expensive than competitors",
+                        "The drug was developed using AI and machine learning"
+                ],
+                "correct": 1,
+                "explanation": "FDA Breakthrough Therapy designation is reserved for drugs with preliminary clinical evidence showing they may provide substantial clinical improvement over existing therapies for serious or life-threatening conditions. It accelerates development and review to bring important innovations to patients faster."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

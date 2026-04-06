@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 34-year-old male with schizophrenia is stable on antipsychotic therapy but complains of erectile dysfunction and gynecomastia. Which antipsychotic side effect best explains these findings?",
+                "options": [
+                        "Alpha-adrenergic blockade",
+                        "Prolactin elevation from dopamine D2 blockade",
+                        "Acetylcholine antagonism",
+                        "Norepinephrine depletion"
+                ],
+                "correct": 1,
+                "explanation": "Typical antipsychotics and some atypicals (risperidone, paliperidone) cause hyperprolactinemia by blocking dopamine's tonic inhibition of prolactin release. Elevated prolactin causes galactorrhea, amenorrhea, sexual dysfunction, and gynecomastia. Switching to lower-prolactin agents (aripiprazole, quetiapine) or adding aripiprazole may reverse effects."
+        },
+        {
+                "question": "A 28-year-old female presents with depressed mood, anhedonia, fatigue, and insomnia for 3 weeks. She denies suicidal ideation. Which is the most appropriate initial treatment?",
+                "options": [
+                        "Admit to psychiatric unit for observation",
+                        "Start SSRI (e.g., sertraline 50mg daily) and schedule follow-up in 2 weeks",
+                        "Prescribe benzodiazepine monotherapy",
+                        "Recommend exercise and psychotherapy without pharmacotherapy"
+                ],
+                "correct": 1,
+                "explanation": "Major depressive disorder with moderate severity is treated with SSRI monotherapy plus psychotherapy. Response occurs in 4-6 weeks; follow-up at 2 weeks assesses tolerability. Hospitalization is reserved for suicidality, psychosis, or severe functional impairment. Exercise and CBT are adjunctive."
+        },
+        {
+                "question": "A 45-year-old with bipolar disorder is on lithium for mood stabilization. His lithium level is therapeutic at 1.0 mEq/L, but he develops tremor, diarrhea, and polyuria. Which intervention is most appropriate?",
+                "options": [
+                        "Discontinue lithium immediately",
+                        "Reduce lithium dose and monitor levels; assess adherence and fluid intake",
+                        "Add propranolol for tremor",
+                        "Increase lithium dose to achieve better mood stabilization"
+                ],
+                "correct": 1,
+                "explanation": "Lithium side effects (tremor, diarrhea, polyuria/polydipsia) at therapeutic levels may improve with dose reduction, better fluid/sodium intake, or slow-release formulation. Discontinuation risks mood relapse. Propranolol helps tremor but does not address GI or urinary symptoms. Assess compliance and renal/thyroid function."
+        },
+        {
+                "question": "A 52-year-old with anxiety disorder and history of alcohol dependence (abstinent 5 years) requires anxiolytic treatment. Which is most appropriate?",
+                "options": [
+                        "Lorazepam 1mg TID for anxiety",
+                        "Buspirone 15-30mg daily or SSRI with psychotherapy",
+                        "Diazepam 5mg daily",
+                        "Pregabalin 75mg daily"
+                ],
+                "correct": 1,
+                "explanation": "Benzodiazepines are contraindicated in recovering alcoholics due to cross-addiction risk. SSRIs, buspiron (azapirone), and pregabalin are preferred. CBT and relaxation techniques are first-line. Buspiron has minimal abuse potential and no CNS depression. If benzodiazepine is absolutely necessary, use lowest dose for shortest duration with careful monitoring."
+        },
+        {
+                "question": "A 38-year-old female presents with recurrent episodes of disproportionate rage, followed by remorse and guilt. She reports impulsivity, unstable relationships, and fear of abandonment. Which personality disorder is most consistent with this presentation?",
+                "options": [
+                        "Narcissistic personality disorder",
+                        "Antisocial personality disorder",
+                        "Borderline personality disorder",
+                        "Obsessive-compulsive personality disorder"
+                ],
+                "correct": 2,
+                "explanation": "Borderline personality disorder (BPD) features instability in relationships, intense fear of abandonment, impulsivity, affective instability (rage episodes followed by remorse), and identity disturbance. Dialectical behavior therapy (DBT) and SSRIs for mood instability are evidence-based treatments. Avoid labeling as purely 'manipulative'."
+        },
+        {
+                "question": "A 72-year-old with dementia is admitted to a nursing home. On day 3, he becomes acutely confused, agitated, and hallucinating. Vital signs are abnormal, and urinalysis shows pyuria. Which diagnosis is most likely?",
+                "options": [
+                        "Behavioral variant frontotemporal dementia",
+                        "Acute delirium secondary to urinary tract infection",
+                        "Sundowning syndrome",
+                        "Sleep deprivation"
+                ],
+                "correct": 1,
+                "explanation": "Delirium (acute confusion, hallucinations, psychomotor agitation) superimposed on dementia is commonly caused by infection (UTI, pneumonia, sepsis), medications, metabolic derangement, or hypoxia. Urinalysis findings support UTI as cause. Treatment: address infection, optimize environment, avoid antipsychotics unless necessary."
+        },
+        {
+                "question": "A 19-year-old with no prior psychiatric history presents with acute onset paranoid ideation, disorganized speech, and auditory hallucinations lasting 2 weeks. Which diagnosis is most likely?",
+                "options": [
+                        "Brief psychotic disorder",
+                        "First-episode schizophrenia",
+                        "Substance-induced psychosis",
+                        "Delusional disorder"
+                ],
+                "correct": 1,
+                "explanation": "First-episode schizophrenia presents with acute or insidious onset of positive symptoms (delusions, hallucinations, disorganized speech) lasting >1 month. Negative symptoms (avolition, flat affect, poverty of speech) often accompany. Rule out medical causes (CNS infection, metabolic) and substance use. Early intervention improves outcomes."
+        },
+        {
+                "question": "A 35-year-old male with diagnosed ADHD is prescribed methylphenidate 20mg BID. He reports feeling jittery, has insomnia, and his resting BP is elevated (145/92). Which action is most appropriate?",
+                "options": [
+                        "Continue methylphenidate; side effects are benign",
+                        "Reduce dose, switch to evening dosing, monitor BP; consider non-stimulant if problems persist",
+                        "Discontinue methylphenidate and prescribe benzodiazepine",
+                        "Increase methylphenidate dose to improve focus"
+                ],
+                "correct": 1,
+                "explanation": "Stimulant side effects (tachycardia, hypertension, insomnia, anxiety) warrant dose reduction, dosing time adjustment, or switch to non-stimulant (atomoxetine, guanfacine). Monitor cardiovascular status. Stimulants are contraindicated in untreated hypertension or cardiac arrhythmias. Baseline ECG and BP monitoring are recommended."
+        },
+        {
+                "question": "A 41-year-old female with major depressive disorder on sertraline presents with sudden onset headache, palpitations, and sweating while eating aged cheese and cured meats. What is the likely complication?",
+                "options": [
+                        "Serotonin syndrome",
+                        "Hypertensive crisis (serotonin syndrome variant from MAOI-like effect)",
+                        "Allergic reaction to food",
+                        "Anxiety attack"
+                ],
+                "correct": 0,
+                "explanation": "SSRIs have minimal MAOI-like activity and rarely cause hypertensive crisis from dietary tyramine. True hypertensive crisis occurs with traditional MAOIs (phenelzine, tranylcypromine) eaten with tyramine-rich foods. Serotonin syndrome presents with autonomic instability, neuromuscular abnormalities, and altered mental status from excessive serotonergic activity. Sertraline at standard dose is unlikely cause."
+        },
+        {
+                "question": "A 29-year-old female with bipolar I disorder has been stable on lithium for 2 years but now wishes to become pregnant. Which management is most appropriate?",
+                "options": [
+                        "Discontinue lithium immediately; risk of Ebstein's anomaly is high",
+                        "Continue lithium; risk to fetus is minimal",
+                        "Consult obstetrics and psychiatry; discuss risks/benefits; consider alternative mood stabilizers if possible",
+                        "Switch to benzodiazepines for mood stabilization"
+                ],
+                "correct": 2,
+                "explanation": "Lithium in the first trimester increases risk of cardiac malformations (Ebstein's anomaly), though absolute risk is <1%. Shared decision-making with OB and psychiatry is essential. Some women continue lithium during pregnancy with closer monitoring; others switch to alternatives (lamotrigine for depression, valproate for mania, though valproate is teratogenic). Postpartum relapse risk is 50-80%."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,8 +992,130 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
-        let RESOURCES = [];
+        let QUIZZES = [
+        {
+                "question": "A patient with gout is treated with allopurinol. This drug inhibits which enzyme in purine metabolism?",
+                "options": [
+                        "Adenosine deaminase",
+                        "Xanthine oxidase",
+                        "HGPRT",
+                        "Dihydrofolate reductase"
+                ],
+                "correct": 1,
+                "explanation": "Allopurinol inhibits xanthine oxidase, which converts hypoxanthine to xanthine and xanthine to uric acid. By blocking this enzyme, allopurinol reduces uric acid production, preventing crystal deposition in joints."
+        },
+        {
+                "question": "In the electron transport chain, which complex directly transfers electrons to molecular oxygen?",
+                "options": [
+                        "Complex I (NADH dehydrogenase)",
+                        "Complex II (Succinate dehydrogenase)",
+                        "Complex III (Cytochrome bc1)",
+                        "Complex IV (Cytochrome c oxidase)"
+                ],
+                "correct": 3,
+                "explanation": "Complex IV (cytochrome c oxidase) is the final electron carrier in the ETC, transferring electrons to O2 to form H2O. Cyanide and carbon monoxide inhibit Complex IV, which is why they are rapidly lethal \u2014 they halt the entire ETC."
+        },
+        {
+                "question": "A patient with a deficiency of glucose-6-phosphate dehydrogenase (G6PD) is at risk for hemolytic anemia when exposed to oxidant stress. Which pathway is impaired?",
+                "options": [
+                        "Glycolysis",
+                        "Gluconeogenesis",
+                        "Pentose phosphate pathway (HMP shunt)",
+                        "Beta-oxidation"
+                ],
+                "correct": 2,
+                "explanation": "G6PD is the rate-limiting enzyme of the pentose phosphate pathway (HMP shunt), which generates NADPH. NADPH is essential for maintaining reduced glutathione, which protects RBCs from oxidative damage. Without it, oxidant stressors (fava beans, sulfonamides) cause hemolysis."
+        },
+        {
+                "question": "Which amino acid is both glucogenic and ketogenic?",
+                "options": [
+                        "Leucine",
+                        "Lysine",
+                        "Isoleucine",
+                        "Alanine"
+                ],
+                "correct": 2,
+                "explanation": "Isoleucine, phenylalanine, tryptophan, tyrosine, and threonine are both glucogenic and ketogenic. Leucine and lysine are exclusively ketogenic. Alanine is exclusively glucogenic."
+        },
+        {
+                "question": "An infant presents with vomiting, jaundice, and hepatomegaly after starting milk-based formula. Reducing substances are present in urine. What enzyme is most likely deficient?",
+                "options": [
+                        "Galactokinase",
+                        "Galactose-1-phosphate uridylyltransferase",
+                        "Aldolase B",
+                        "Fructokinase"
+                ],
+                "correct": 1,
+                "explanation": "Classic galactosemia is caused by deficiency of galactose-1-phosphate uridylyltransferase. Galactose-1-phosphate accumulates, causing liver damage, cataracts, and intellectual disability. Treatment is dietary galactose restriction. Galactokinase deficiency causes only cataracts."
+        },
+        {
+                "question": "During fasting, which enzyme converts oxaloacetate to phosphoenolpyruvate in gluconeogenesis?",
+                "options": [
+                        "Pyruvate kinase",
+                        "Phosphofructokinase-1",
+                        "Phosphoenolpyruvate carboxykinase (PEPCK)",
+                        "Hexokinase"
+                ],
+                "correct": 2,
+                "explanation": "PEPCK converts oxaloacetate to PEP, bypassing the irreversible pyruvate kinase reaction. This is one of four bypass reactions in gluconeogenesis (the others involve pyruvate carboxylase, fructose-1,6-bisphosphatase, and glucose-6-phosphatase)."
+        },
+        {
+                "question": "Which vitamin serves as a cofactor for pyruvate dehydrogenase, alpha-ketoglutarate dehydrogenase, and branched-chain ketoacid dehydrogenase?",
+                "options": [
+                        "Thiamine (B1)",
+                        "Riboflavin (B2)",
+                        "Niacin (B3)",
+                        "Pyridoxine (B6)"
+                ],
+                "correct": 0,
+                "explanation": "Thiamine pyrophosphate (TPP, from vitamin B1) is a cofactor for all three alpha-keto acid dehydrogenase complexes plus transketolase. Thiamine deficiency causes beriberi (wet or dry) and Wernicke-Korsakoff syndrome."
+        },
+        {
+                "question": "Colchicine, used to treat acute gout, works by inhibiting which cellular process?",
+                "options": [
+                        "DNA replication",
+                        "Microtubule polymerization",
+                        "Prostaglandin synthesis",
+                        "Leukotriene synthesis"
+                ],
+                "correct": 1,
+                "explanation": "Colchicine binds tubulin and inhibits microtubule polymerization, preventing neutrophil migration and phagocytosis of urate crystals. This reduces the inflammatory response in acute gout. It also inhibits mitotic spindle formation."
+        },
+        {
+                "question": "A mutation in the p53 tumor suppressor gene is the most common genetic alteration in human cancers. What is the normal function of p53?",
+                "options": [
+                        "Stimulate cell cycle progression",
+                        "Induce apoptosis and cell cycle arrest in response to DNA damage",
+                        "Promote angiogenesis",
+                        "Activate telomerase"
+                ],
+                "correct": 1,
+                "explanation": "p53 ('guardian of the genome') responds to DNA damage by activating cell cycle arrest (via p21) at the G1/S checkpoint, DNA repair, or apoptosis. Loss of p53 function allows damaged cells to proliferate, accumulating mutations that drive cancer (Li-Fraumeni syndrome)."
+        },
+        {
+                "question": "In DNA replication, which enzyme removes RNA primers and fills the gaps with DNA?",
+                "options": [
+                        "DNA polymerase I",
+                        "DNA polymerase III",
+                        "Primase",
+                        "Helicase"
+                ],
+                "correct": 0,
+                "explanation": "DNA polymerase I has 5'\u21923' exonuclease activity that removes RNA primers and replaces them with DNA. DNA polymerase III is the main replicative enzyme in prokaryotes. DNA ligase then seals the remaining nicks between Okazaki fragments."
+        }
+];
+        let RESOURCES = [
+            { title: "Lehninger Principles of Biochemistry (8th ed.)", type: "textbook", url: "https://www.macmillanlearning.com/college/us/product/Lehninger-Principles-of-Biochemistry/p/1319228003" },
+            { title: "Molecular Biology of the Cell (Alberts et al.)", type: "textbook", url: "https://www.ncbi.nlm.nih.gov/books/NBK21054/" },
+            { title: "Khan Academy — Biochemistry", type: "free", url: "https://www.khanacademy.org/science/biology/chemistry--of-biology" },
+            { title: "Ninja Nerd — Biochemistry Lectures", type: "free", url: "https://www.youtube.com/playlist?list=PLTF9h-T1TcJjmTAAFxKllfGdRAnVXwIoG" },
+            { title: "Osmosis — Molecular Biology", type: "subscription", url: "https://www.osmosis.org/learn/Molecular_biology" },
+            { title: "AMBOSS — Biochemistry", type: "subscription", url: "https://www.amboss.com/us/knowledge/Biochemistry" },
+            { title: "Boards and Beyond — Biochemistry", type: "subscription", url: "https://www.boardsandbeyond.com" },
+            { title: "Pixorize — Biochemistry Visual Mnemonics", type: "subscription", url: "https://pixorize.com" },
+            { title: "AnkiHub — Biochemistry Deck (AnKing)", type: "free", url: "https://www.ankihub.net" },
+            { title: "Biochemistry Free For All (Open Textbook)", type: "free", url: "https://open.oregonstate.education/biochemfreeforall/" }
+        ];
 
         // Application State
         const state = {
@@ -1322,5 +1442,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

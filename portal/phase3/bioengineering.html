@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A tissue engineer develops a scaffold made from polylactic acid (PLA) for cartilage regeneration. Which of the following is a significant limitation of this material?",
+                "options": [
+                        "Lack of biodegradability",
+                        "Inadequate mechanical strength",
+                        "Acidic degradation products that may create an inflammatory microenvironment",
+                        "Inability to support cell attachment"
+                ],
+                "correct": 2,
+                "explanation": "PLA is a popular biodegradable polymer, but its degradation produces lactic acid, which lowers local pH and triggers inflammation. This can limit its use for long-term tissue engineering applications. Co-polymers like PLGA are used to buffer pH."
+        },
+        {
+                "question": "A nanoparticle-based drug delivery system is designed to target tumors by passive accumulation through the enhanced permeability and retention (EPR) effect. What is a major limitation of relying solely on EPR for tumor targeting?",
+                "options": [
+                        "Nanoparticles cannot cross the blood-brain barrier",
+                        "EPR is heterogeneous across tumor types and patients; many solid tumors have poor EPR",
+                        "Nanoparticles are too large to fit through tumor vasculature",
+                        "EPR only works for hormone-receptor positive tumors"
+                ],
+                "correct": 1,
+                "explanation": "The EPR effect is inconsistent. Some tumors (especially poorly vascularized or necrotic ones) have minimal EPR. Additionally, patient-to-patient and tumor-to-tumor heterogeneity means passive accumulation alone is unreliable for consistent drug delivery. Active targeting is often necessary."
+        },
+        {
+                "question": "A medical device engineer uses 3D printing to create patient-specific titanium implants for orthopedic reconstruction. Compared to traditional milled implants, a key advantage of 3D-printed designs is:",
+                "options": [
+                        "Lower material cost per implant",
+                        "Ability to incorporate patient anatomy and optimize pore size for osseointegration",
+                        "Faster surgical insertion",
+                        "Reduced need for post-operative antibiotics"
+                ],
+                "correct": 1,
+                "explanation": "3D printing enables customization and incorporation of controlled porosity (30-50% typical for bone ingrowth), which enhances osseointegration and bone formation around implants. Traditional methods cannot achieve this patient-specific, porous architecture."
+        },
+        {
+                "question": "A biosensor uses a DNA aptamer immobilized on a gold electrode to detect a specific biomarker in blood. This type of sensor is MOST advantageous for detecting:",
+                "options": [
+                        "Pathogens with high antigenicity",
+                        "Small molecules and protein biomarkers with high specificity",
+                        "Red blood cells in blood samples",
+                        "Bacterial load in culture media"
+                ],
+                "correct": 1,
+                "explanation": "Aptamer-based biosensors offer high specificity and can be engineered to bind small molecules or proteins with Kd in the picomolar range. They're label-free and can provide real-time signals, making them ideal for point-of-care biomarker detection."
+        },
+        {
+                "question": "Researchers develop a hydrogel scaffold seeded with mesenchymal stem cells (MSCs) for myocardial infarction repair. A critical challenge with this approach is:",
+                "options": [
+                        "Hydrogels cannot be sterilized",
+                        "MSCs in the heart become cardiomyocytes at very low efficiency; major benefit may be via paracrine anti-inflammatory effects",
+                        "The infarcted region has adequate blood supply to support cell survival",
+                        "Hydrogels are too stiff to be injected percutaneously"
+                ],
+                "correct": 1,
+                "explanation": "Cell transplantation to infarcted myocardium faces poor survival (>90% die within days) due to ischemia and inflammation. While direct transdifferentiation is rare, MSCs provide therapeutic benefit through secreted factors (cytokines, exosomes) that reduce inflammation and fibrosis."
+        },
+        {
+                "question": "A biomedical engineer designs a microfluidic device to perform automated cell sorting based on surface markers. Which of the following is a key advantage over traditional fluorescence-activated cell sorting (FACS)?",
+                "options": [
+                        "Microfluidic devices do not require electricity",
+                        "Higher cell viability due to gentler handling and label-free sorting options",
+                        "Ability to sort bacteria and viruses",
+                        "No need for specialized personnel"
+                ],
+                "correct": 1,
+                "explanation": "Microfluidic systems can use label-free methods (dielectrophoresis, acoustic forces) that are gentler on cells. Even label-based microfluidic sorting avoids the high shear forces and potential photodamage of FACS, improving post-sort viability."
+        },
+        {
+                "question": "A pharmaceutical company develops liposomal doxorubicin (Doxil) where doxorubicin is encapsulated in pegylated liposomes. What is the primary advantage of this formulation over free doxorubicin?",
+                "options": [
+                        "Reduced cardiac toxicity due to decreased free drug bioavailability to cardiomyocytes",
+                        "Increased doxorubicin solubility in water",
+                        "Faster action against cancer cells",
+                        "No need for pre-medication"
+                ],
+                "correct": 0,
+                "explanation": "Pegylated liposomes extend circulation time and achieve preferential accumulation in tumors (via EPR effect). The liposomal formulation reduces exposure of free doxorubicin to cardiac tissue, substantially lowering the cumulative dose-related cardiotoxicity."
+        },
+        {
+                "question": "An implantable glucose sensor uses an enzyme-based electrochemical transducer. To reduce biofouling and improve long-term stability, engineers incorporate an anti-inflammatory coating. This addresses which major limitation of in vivo biosensors?",
+                "options": [
+                        "Protein deposition and fibrous capsule formation that impairs sensor-tissue contact",
+                        "Glucose diffusion barriers",
+                        "Enzyme denaturation by stomach acid",
+                        "Electrical interference from other implants"
+                ],
+                "correct": 0,
+                "explanation": "Implanted sensors trigger a foreign body response with protein adsorption, platelet adhesion, and ultimately fibrous encapsulation. This barrier impairs analyte diffusion and sensor response. Anti-inflammatory coatings (e.g., PEG, hyaluronic acid) minimize fibrosis and maintain function."
+        },
+        {
+                "question": "A tissue engineer uses decellularized extracellular matrix (dECM) from porcine small intestine submucosa (SIS) as a scaffold for abdominal wall reconstruction. A significant clinical concern with this xenograft is:",
+                "options": [
+                        "Inability to remodel and integrate with host tissue",
+                        "Residual cellular antigens and risk of immunogenicity or infection transmission",
+                        "Cannot be sutured during surgery",
+                        "Induces immediate necrosis at the implant site"
+                ],
+                "correct": 1,
+                "explanation": "Despite decellularization, dECM may retain immunogenic epitopes. Additionally, xenograft materials carry theoretical infection risk (prion disease, viral transmission). Thorough antigen removal and pathogen testing are critical for clinical safety."
+        },
+        {
+                "question": "A cardiac patch made from engineered myocardium is designed to replace scarred tissue post-MI. For optimal integration and functional contribution, the patch must have which key property?",
+                "options": [
+                        "Electrical conductivity matched to native myocardium for coordinated contraction",
+                        "Independently contract without neural input",
+                        "Resistant to all immune responses",
+                        "Permanent non-degradability"
+                ],
+                "correct": 0,
+                "explanation": "Cardiac tissue requires electrical coupling to the host myocardium for synchronous contraction. Patches must have similar conduction velocity and gap junction-mediated coupling. Without electrical integration, the patch will contract asynchronously and fail to improve cardiac function."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

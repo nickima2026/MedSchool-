@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 67-year-old with sudden dyspnea and hypoxia undergoes chest X-ray, which shows a wedge-shaped, pleural-based opacification. CT angiography confirms pulmonary embolism. Which finding explains the radiographic appearance?",
+                "options": [
+                        "Direct visualization of thrombus in pulmonary artery",
+                        "Pulmonary infarction (wedge-shaped area of hemorrhage)",
+                        "Atelectasis from airway obstruction",
+                        "Pneumonia with aspiration"
+                ],
+                "correct": 1,
+                "explanation": "Wedge-shaped, pleural-based opacities (Hampton's hump) represent pulmonary infarction from tissue necrosis due to compromised dual blood supply from pulmonary artery occlusion. This is seen in ~10% of PEs. CXR often appears normal in PE; CT angiography is the gold standard for diagnosis."
+        },
+        {
+                "question": "A 54-year-old with chest pain and dyspnea undergoes CT angiography (CTA) for PE evaluation. The scan shows a hypodense filling defect in the right main pulmonary artery. Which diagnosis is confirmed?",
+                "options": [
+                        "Normal CTA",
+                        "Acute pulmonary embolism",
+                        "Chronic pulmonary hypertension",
+                        "Pulmonary artery dissection"
+                ],
+                "correct": 1,
+                "explanation": "Hypodense filling defects in pulmonary arteries on CTA (contrast-enhanced) represent acute thrombus. The right main pulmonary artery occlusion is a proximal/massive PE. CTA is the imaging standard for PE with >95% sensitivity. Anticoagulation and consideration for thrombolysis or embolectomy are indicated."
+        },
+        {
+                "question": "An 8-month-old with fever and cough undergoes chest X-ray. A 'steeple sign' is noted on anteroposterior (AP) view. Which diagnosis is most likely?",
+                "options": [
+                        "Pneumonia",
+                        "Croup (laryngotracheobronchitis)",
+                        "Foreign body aspiration",
+                        "Epiglottitis"
+                ],
+                "correct": 1,
+                "explanation": "Steeple sign (narrowing of subglottic trachea) on AP CXR is characteristic of croup. Epiglottitis shows 'thumb sign' (enlarged epiglottis on lateral view) with thumbprint-like widening of epiglottic space. Steeple sign is not specific (also seen in tracheomalacia, stenosis) but classic for viral croup in children."
+        },
+        {
+                "question": "A 45-year-old with right upper quadrant pain undergoes ultrasound. The common bile duct measures 9mm in diameter. Which additional finding is most important to assess?",
+                "options": [
+                        "Pancreatic tail size",
+                        "Spleen echotexture",
+                        "Liver echotexture and intrahepatic duct dilation",
+                        "Right renal artery flow"
+                ],
+                "correct": 2,
+                "explanation": "A dilated CBD (>6-7mm) suggests obstruction (gallstone, pancreatitis, malignancy). Assess for intrahepatic duct dilation (confirms obstruction), liver texture (cirrhosis), and pancreas (pancreatitis, mass). The combination of CBD dilation + intrahepatic dilation indicates extrahepatic obstruction. Further imaging (ERCP, MRCP, CT) is indicated."
+        },
+        {
+                "question": "A 72-year-old with fever and flank pain undergoes CT with IV contrast. Asymmetric enhancement of the kidneys with wedge-shaped areas of decreased perfusion is noted. Which diagnosis is most likely?",
+                "options": [
+                        "Renal artery stenosis",
+                        "Acute pyelonephritis",
+                        "Renal infarction",
+                        "Nephrotic syndrome"
+                ],
+                "correct": 2,
+                "explanation": "Renal infarction presents with wedge-shaped areas of reduced enhancement (non-perfused renal parenchyma) on CT angiography. Risk factors include atrial fibrillation, endocarditis, thrombophilia. Elevated LDH disproportionate to transaminitis supports diagnosis. Anticoagulation may prevent progression."
+        },
+        {
+                "question": "A 58-year-old with persistent abdominal pain undergoes CT abdomen/pelvis with IV and oral contrast. There is a transition zone with proximal bowel dilation and distal decompression. Which diagnosis is suggested?",
+                "options": [
+                        "Diffuse peritonitis",
+                        "Mechanical small bowel obstruction",
+                        "Ileus",
+                        "Appendicitis"
+                ],
+                "correct": 1,
+                "explanation": "Mechanical obstruction on CT shows a transition zone where dilated proximal bowel abruptly narrows to decompressed distal bowel. This localizes the site of obstruction and may reveal cause (adhesions, hernia, malignancy, stricture). Bowel wall enhancement and peritoneal signs suggest ischemia; surgery is indicated."
+        },
+        {
+                "question": "A 64-year-old with hemoptysis undergoes chest X-ray followed by CT chest. A peripheral, cavitary lung lesion is found in the upper lobe. What is the most likely diagnosis?",
+                "options": [
+                        "Pneumonia",
+                        "Pulmonary embolism with infarction",
+                        "Tuberculosis",
+                        "Lung cancer"
+                ],
+                "correct": 2,
+                "explanation": "Cavitary lung lesions in the upper lobes are classic for TB. Cavities reflect necrotic lung tissue. Hemoptysis is from granulation tissue or bronchial vessel erosion. Acid-fast bacilli sputum smear and culture confirm diagnosis. CXR may show the cavitation; CT provides better detail of extent and complications."
+        },
+        {
+                "question": "An infant with vomiting and abdominal pain undergoes ultrasound. A target sign (doughnut sign) is seen in the right upper quadrant with free fluid. Which diagnosis is most likely?",
+                "options": [
+                        "Appendicitis",
+                        "Intussusception",
+                        "Pyloric stenosis",
+                        "Malrotation with volvulus"
+                ],
+                "correct": 1,
+                "explanation": "Target sign (concentric rings of alternating echogenicity on transverse view) and doughnut sign (on longitudinal view) are pathognomonic for intussusception. Most common in 6-36 months old males. Free fluid is common. Treatment: air or contrast enema reduction if no signs of perforation (pneumoperitoneum, echogenic fat suggesting necrosis)."
+        },
+        {
+                "question": "A 78-year-old with sudden severe back pain and hypotension undergoes CT angiography. The aorta is enlarged to 6.5cm at the infrarenal level with heterogeneous attenuation suggesting thrombus. Which diagnosis is made?",
+                "options": [
+                        "Aortic dissection",
+                        "Aortic rupture",
+                        "Abdominal aortic aneurysm (AAA)",
+                        "Aortitis"
+                ],
+                "correct": 2,
+                "explanation": "AAA >5.5cm is at high risk for rupture. Heterogeneous attenuation suggests intramural thrombus. Hypotension and flank pain indicate rupture or impending rupture. CT staging: infrarenal (most common), juxtarenal, suprarenal. Urgent vascular surgery consultation for repair is necessary. Mortality of rupture is 80-90%."
+        },
+        {
+                "question": "A 45-year-old with progressive dyspnea undergoes chest X-ray, which shows bilateral, symmetric, hilar lymphadenopathy and small nodular opacities in the lungs. Which diagnosis is most likely?",
+                "options": [
+                        "Tuberculosis",
+                        "Sarcoidosis",
+                        "Lymphoma",
+                        "Silicosis"
+                ],
+                "correct": 1,
+                "explanation": "Sarcoidosis classically presents with bilateral symmetric hilar lymphadenopathy and small nodular opacities (0.5-4mm nodules) in mid to upper lung zones. Mediastinal and right paratracheal lymph nodes are involved. Diagnosis is supported by elevated ACE, hypercalcemia, and granulomatous inflammation on biopsy. Outcome ranges from resolution to progressive fibrosis."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

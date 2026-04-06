@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A deep learning algorithm trained on chest X-rays from a large academic medical center achieves 95% sensitivity and specificity for detecting pneumonia. However, when deployed at a rural hospital with different equipment and patient demographics, performance drops to 78% sensitivity. What is the most likely explanation?",
+                "options": [
+                        "The model is overfitting to the training data",
+                        "The rural hospital's radiographers lack proper training",
+                        "Distribution shift: the model was not exposed to the different imaging characteristics and case mix at the rural hospital",
+                        "The model architecture is too simple for real-world deployment"
+                ],
+                "correct": 2,
+                "explanation": "This describes distribution shift or external validation failure. Models trained on specific populations and equipment may not generalize well to different settings with different imaging protocols, patient demographics, and disease prevalence. This is a fundamental limitation of machine learning in healthcare."
+        },
+        {
+                "question": "A machine learning model for predicting ICU mortality is found to have lower positive predictive value in Black patients compared to White patients, despite similar calibration metrics. This disparity is most concerning for which type of bias?",
+                "options": [
+                        "Selection bias",
+                        "Measurement bias",
+                        "Algorithmic bias reflecting historical training data disparities",
+                        "Recall bias"
+                ],
+                "correct": 2,
+                "explanation": "Algorithms trained on historical data can perpetuate or amplify existing health disparities. If the training cohort had different mortality outcomes or treatment patterns by race due to structural racism, the model learns these disparities. Similar calibration metrics can mask disparate positive predictive values across populations."
+        },
+        {
+                "question": "A natural language processing (NLP) system trained on 100 million clinical notes is used to extract medication information automatically. To assess its performance, clinicians manually review 500 randomly selected notes. The system identifies 450 medications correctly but misses 50 documented medications. What is the sensitivity of this NLP system?",
+                "options": [
+                        "90%",
+                        "95%",
+                        "89%",
+                        "100%"
+                ],
+                "correct": 0,
+                "explanation": "Sensitivity = TP / (TP + FN) = 450 / (450 + 50) = 450 / 500 = 90%. The system correctly identifies 450 of the 500 true medications present in the notes."
+        },
+        {
+                "question": "The FDA is reviewing a machine learning algorithm for coronary artery disease risk prediction. The algorithm has been trained and tested on data from 2015-2019. Which of the following is the FDA MOST likely to require before approval?",
+                "options": [
+                        "Clinical trial in patients over age 75 only",
+                        "External validation on contemporary data from a different institution",
+                        "Proof that the algorithm outperforms all existing risk calculators",
+                        "A phase IV study following 100,000 patients for 10 years"
+                ],
+                "correct": 1,
+                "explanation": "FDA guidance for AI/ML-based Software as a Medical Device emphasizes external validation in real-world settings. Contemporary data is critical because disease epidemiology and treatment patterns change over time, affecting model generalizability."
+        },
+        {
+                "question": "A radiologist uses a convolutional neural network (CNN) to assist in detecting lung nodules on CT scans. The CNN has 94% sensitivity and 87% specificity. In a clinical setting, which outcome is the radiologist MOST concerned about?",
+                "options": [
+                        "High false positive rate leading to unnecessary follow-up imaging",
+                        "High false negative rate leading to missed cancers",
+                        "Inability to differentiate benign from malignant nodules",
+                        "Slow processing speed"
+                ],
+                "correct": 1,
+                "explanation": "In cancer screening, sensitivity is clinically critical because missing cancers (false negatives) has serious consequences. While the 87% specificity will lead to some unnecessary workups, the 94% sensitivity minimizes missed diagnoses, which is the primary patient safety concern."
+        },
+        {
+                "question": "An automated ECG interpretation system uses machine learning to classify arrhythmias. Clinicians notice that it fails to detect atrial fibrillation in elderly patients with multiple comorbidities, even though it performs well in younger, healthier populations. This is an example of:",
+                "options": [
+                        "Positive predictive value variation",
+                        "Algorithmic fairness failure across age subgroups",
+                        "Overfitting to training data",
+                        "Insufficient model regularization"
+                ],
+                "correct": 1,
+                "explanation": "The model performs differently across demographic subgroups (age/comorbidity profiles). This represents algorithmic fairness failure where performance varies significantly by patient characteristics, a critical concern in medical AI. The model may have seen fewer elderly patients with comorbidities in training."
+        },
+        {
+                "question": "Comparing diagnostic performance of two AI algorithms, Algorithm A has an AUC (Area Under the ROC Curve) of 0.92 and Algorithm B has an AUC of 0.88. What does this ROC comparison primarily tell us?",
+                "options": [
+                        "Algorithm A is clinically superior at all decision thresholds",
+                        "Algorithm A has better overall diagnostic discrimination across all possible sensitivity-specificity thresholds",
+                        "Algorithm A has fewer false positives",
+                        "Algorithm A requires lower computational resources"
+                ],
+                "correct": 1,
+                "explanation": "AUC represents the probability that the algorithm ranks a random positive example higher than a random negative example. A higher AUC indicates better overall discrimination. However, the optimal threshold for clinical use still depends on the relative costs of false positives vs. false negatives."
+        },
+        {
+                "question": "A hospital implements a machine learning model to predict sepsis risk and alert clinicians to high-risk patients. After 3 months, clinicians report 'alert fatigue' because the model triggers alerts for 40% of all ICU patients daily. Which metric explains why high sensitivity alone is problematic?",
+                "options": [
+                        "The model has high specificity",
+                        "The model has low positive predictive value (PPV)",
+                        "The model lacks external validation",
+                        "The model's AUC is greater than 0.8"
+                ],
+                "correct": 1,
+                "explanation": "When a model has high sensitivity but low specificity in a low-prevalence setting, many alerts are false positives. Low PPV means most alerts don't correspond to actual sepsis. This causes alert fatigue, reducing clinician adherence to even true alerts. Balancing sensitivity and PPV is essential."
+        },
+        {
+                "question": "FDA regulations now require that AI/ML algorithms used in medical devices must have 'real-world performance monitoring.' Why is this especially important for healthcare AI?",
+                "options": [
+                        "To prevent hospitals from using the device",
+                        "Model performance can degrade over time due to population drift, treatment changes, and new disease variants",
+                        "To ensure the device is never used in clinical practice",
+                        "To reduce manufacturing costs"
+                ],
+                "correct": 1,
+                "explanation": "Healthcare environments are dynamic. Population characteristics, disease epidemiology, treatment protocols, and imaging/lab equipment change over time. Continuous monitoring detects 'model drift' where performance degrades, triggering retraining or clinical alerts."
+        },
+        {
+                "question": "A genetic risk score uses 1,000 SNPs to predict breast cancer risk. The model shows excellent discrimination in the European ancestry population it was trained on (AUC 0.85) but AUC drops to 0.62 in African ancestry women. What is the PRIMARY reason for this performance gap?",
+                "options": [
+                        "African ancestry women have lower breast cancer incidence",
+                        "The genetic variants and their effect sizes differ between populations due to different linkage disequilibrium patterns and allele frequencies",
+                        "African ancestry women are less likely to be screened",
+                        "The model is inherently discriminatory"
+                ],
+                "correct": 1,
+                "explanation": "Polygenic risk scores trained on one ancestry group often fail in others because genetic architecture differs between populations. Allele frequencies, linkage disequilibrium patterns, and effect sizes vary, requiring population-specific models for equitable risk assessment."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>

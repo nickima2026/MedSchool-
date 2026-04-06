@@ -846,10 +846,8 @@
             }
         }
     </style>
-  <script src="/js/msib-auth-guard.js"></script>
 </head>
 <body>
-  <script src="/js/msib-user.js"></script>
     <!-- Top Navigation -->
     <nav class="topnav">
         <div class="topnav-left">
@@ -994,7 +992,118 @@
 
         // Data Collections
         let LECTURES = [];
-        let QUIZZES = [];
+        let QUIZZES = [
+        {
+                "question": "A 34-year-old male presents with acute chest pain, tachycardia (HR 112), and hypotension (BP 88/56). Breath sounds are absent on the left. Which diagnosis is most likely and what is the immediate treatment?",
+                "options": [
+                        "Pulmonary embolism; start heparin",
+                        "Acute MI; administer aspirin and nitroglycerin",
+                        "Tension pneumothorax; needle decompression then chest tube",
+                        "Aortic dissection; start beta-blocker and vasodilator"
+                ],
+                "correct": 2,
+                "explanation": "Absent unilateral breath sounds with hypotension and tachycardia indicate pneumothorax. Tension physiology (hypotension) requires immediate needle decompression at 2nd ICS midclavicular line with 14-16G catheter, followed by chest tube placement. This is a clinical diagnosis."
+        },
+        {
+                "question": "A 67-year-old with sudden-onset worst headache of life and neck stiffness arrives via EMS. Which is the most appropriate first diagnostic step?",
+                "options": [
+                        "Lumbar puncture",
+                        "Stat non-contrast head CT",
+                        "MRI brain",
+                        "Empiric antibiotics (without imaging or LP)"
+                ],
+                "correct": 1,
+                "explanation": "Worst headache of life raises suspicion for subarachnoid hemorrhage (SAH). Non-contrast head CT is the first-line imaging (sensitivity 95-100% in first 6-12 hours). If CT is negative but clinical suspicion remains, LP with CSF analysis is next. Empiric antibiotics for meningitis should not delay imaging in SAH workup."
+        },
+        {
+                "question": "A 28-year-old presents with acute dyspnea, unilateral pleuritic chest pain, and tachycardia. D-dimer is elevated. Which test is most appropriate to diagnose or exclude pulmonary embolism?",
+                "options": [
+                        "Chest X-ray",
+                        "Ventilation-perfusion scan",
+                        "CT pulmonary angiography (CTPA)",
+                        "Compression ultrasound of legs"
+                ],
+                "correct": 2,
+                "explanation": "CTPA is the gold standard for PE diagnosis in hemodynamically stable patients. It has high sensitivity and specificity, is widely available, and provides alternative diagnoses. V/Q scan is used when CT is contraindicated. Compression ultrasound evaluates DVT source but doesn't diagnose PE."
+        },
+        {
+                "question": "A 45-year-old woman presents with acute severe abdominal pain, vaginal bleeding, and hypotension. Free fluid is noted on bedside ultrasound. Urine pregnancy test is positive. Which diagnosis is most likely?",
+                "options": [
+                        "Ectopic pregnancy with rupture",
+                        "Spontaneous abortion",
+                        "Ovarian torsion",
+                        "Appendicitis"
+                ],
+                "correct": 0,
+                "explanation": "Ruptured ectopic pregnancy presents with severe pain, hemodynamic instability, vaginal bleeding, and free intra-abdominal fluid. Positive pregnancy test, unilateral adnexal mass on ultrasound, and shock are classic findings. This is a surgical emergency requiring immediate OR for hemostasis."
+        },
+        {
+                "question": "A 56-year-old with acute onset severe epigastric pain, elevated troponin, and ST elevation in leads V3-V5 is brought to the ED. After EKG and troponin, what is the most time-critical next intervention?",
+                "options": [
+                        "Administer aspirin, clopidogrel, heparin",
+                        "Arrange cardiac catheterization (PCI) or fibrinolysis",
+                        "Start IV nitroglycerin",
+                        "Obtain echocardiography"
+                ],
+                "correct": 1,
+                "explanation": "STEMI requires urgent reperfusion via PCI (preferred, <90 min) or fibrinolysis (<30 min). Time is myocardium. Door-to-balloon time <90 minutes is the goal. Antiplatelet drugs, heparin, and beta-blockers are given concurrently but should not delay reperfusion. The anterior STEMI suggests LAD occlusion."
+        },
+        {
+                "question": "A 72-year-old with altered mental status and hypoglycemia (glucose 45 mg/dL) is brought to the ED. Which is the most appropriate immediate treatment?",
+                "options": [
+                        "D50W 50mL IV or equivalent dextrose",
+                        "Oral glucose tablets",
+                        "Glucagon 1mg IM/IV",
+                        "IV insulin to improve glucose uptake"
+                ],
+                "correct": 0,
+                "explanation": "Severe hypoglycemia with altered mental status requires rapid IV dextrose (D50W or D10W titratable). IM/IV glucagon is second-line if IV access unavailable. Oral glucose is contraindicated in altered mental status due to aspiration risk. Dextrose rapidly restores consciousness and prevents seizures/brain damage."
+        },
+        {
+                "question": "A 19-year-old male presents with sudden dyspnea, unilateral pleuritic chest pain, and hypoxia after a basketball game. CXR shows mediastinal widening. Which diagnosis should be excluded immediately?",
+                "options": [
+                        "Tension pneumothorax",
+                        "Aortic dissection",
+                        "Acute MI",
+                        "Pulmonary embolism"
+                ],
+                "correct": 1,
+                "explanation": "Mediastinal widening in a young patient with acute dyspnea raises concern for acute aortic dissection, which is immediately life-threatening. Urgent CT angiography or TEE is required. While young patients rarely have aortic dissection, it must be excluded. The clinical context (activity) suggests pneumothorax or PE, but mediastinal findings favor dissection."
+        },
+        {
+                "question": "A 3-year-old with croup presents with barky cough and inspiratory stridor. Oxygen saturation is 94%. Which is the most appropriate treatment?",
+                "options": [
+                        "Observation only",
+                        "Dexamethasone 0.6 mg/kg PO/IM (max 10mg) and nebulized epinephrine",
+                        "Intubation",
+                        "Oral penicillin"
+                ],
+                "correct": 1,
+                "explanation": "Croup (laryngotracheobronchitis) is managed with dexamethasone (single dose, reduces symptoms and return visits) and nebulized epinephrine in moderate-to-severe cases. Intubation is rarely needed unless epiglottitis or foreign body is suspected. Most cases are viral and self-limited."
+        },
+        {
+                "question": "A 65-year-old with atrial fibrillation (not anticoagulated) presents with acute vision loss in one eye. He is noted to have a hollosystolic murmur. Which diagnosis is most likely the source of his vision loss?",
+                "options": [
+                        "Central retinal artery occlusion from septic embolus",
+                        "Amaurosis fugax from carotid disease",
+                        "Acute angle-closure glaucoma",
+                        "Central retinal artery occlusion from cardiac embolism"
+                ],
+                "correct": 3,
+                "explanation": "Atrial fibrillation is a major source of cardioemboli. A new murmur suggests valvular disease (endocarditis or structural pathology), which increases embolic risk. Acute unilateral vision loss (monocular) is characteristic of central retinal artery occlusion from emboli. Urgent echo, carotid imaging, and anticoagulation are needed."
+        },
+        {
+                "question": "A 42-year-old female presents with acute onset weakness and numbness in the left arm and face. Speech is slurred. Time of onset is 90 minutes ago. Which intervention offers the most benefit?",
+                "options": [
+                        "Head CT and observation",
+                        "IV alteplase (tPA) 0.9 mg/kg after CT head rules out ICH",
+                        "Aspirin 325mg and neurology consult",
+                        "Endovascular thrombectomy only, no thrombolytics"
+                ],
+                "correct": 1,
+                "explanation": "Acute ischemic stroke presenting within 4.5 hours of symptom onset is eligible for IV thrombolysis if CT head excludes ICH. tPA improves outcomes, particularly in anterior circulation strokes. It should not be delayed. Thrombectomy is for large vessel occlusions but does not replace IV tPA; both may be used."
+        }
+];
         let RESOURCES = [];
 
         // Application State
@@ -1322,5 +1431,5 @@
         renderLecturesList();
         renderNotes();
     </script>
-<script src="../../js/msib-resources.js"></script><script src="../../js/msib-notes.js"></script><script src="../../js/msib-quiz.js"></script></body>
+</body>
 </html>
