@@ -341,6 +341,18 @@
 
             supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+            // Bridge: login.html stores tokens in localStorage manually.
+            // The Supabase SDK has its own session store, so we need to
+            // import those tokens into the SDK if they exist.
+            const storedAccess  = localStorage.getItem('msib-access-token');
+            const storedRefresh = localStorage.getItem('msib-refresh-token');
+            if (storedAccess && storedRefresh) {
+                await supabase.auth.setSession({
+                    access_token:  storedAccess,
+                    refresh_token: storedRefresh,
+                });
+            }
+
             // Check auth state
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
