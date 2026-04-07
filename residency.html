@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 4: Residency &amp; Fellowships — Medical School in a Box</title>
+    <meta name="description" content="Stanford Medicine residency and fellowship programs. Over 85 ACGME-accredited programs across major medical departments and subspecialty fellowships.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+    /* === Phase 4 Page Styles === */
+
+    .res-hero {
+        background: linear-gradient(135deg, #8C1515 0%, #B83A4B 50%, #2E4057 100%);
+        color: #fff;
+        padding: var(--space-3xl) 0 var(--space-2xl);
+        text-align: center;
+    }
+    .res-hero h1 {
+        color: #fff;
+        font-size: 2.25rem;
+        margin-bottom: var(--space-sm);
+    }
+    .res-hero p {
+        color: rgba(255,255,255,0.88);
+        font-size: 1.1rem;
+        max-width: 720px;
+        margin: 0 auto var(--space-lg);
+        line-height: 1.7;
+    }
+    .res-hero__badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.18);
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 20px;
+        padding: 6px 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: var(--space-md);
+        font-family: var(--font-body);
+    }
+    .res-hero__stats {
+        display: flex;
+        justify-content: center;
+        gap: var(--space-xl);
+        margin-top: var(--space-lg);
+    }
+    .res-hero__stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        font-family: var(--font-heading);
+    }
+    .res-hero__stat-label {
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.75);
+        font-family: var(--font-body);
+    }
+
+    /* Section Layout */
+    .res-section {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: var(--space-2xl) var(--space-lg);
+    }
+    .res-section__header {
+        text-align: center;
+        margin-bottom: var(--space-xl);
+    }
+    .res-section__header h2 {
+        margin-bottom: var(--space-xs);
+    }
+    .res-section__header p {
+        color: var(--color-text-muted);
+        font-size: 1rem;
+        max-width: 640px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+    .res-section__badge {
+        display: inline-block;
+        padding: 5px 16px;
+        border-radius: 16px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: var(--space-sm);
+        font-family: var(--font-body);
+    }
+    .badge--residency {
+        background: #8C1515;
+        color: #fff;
+    }
+    .badge--fellowship {
+        background: #007C92;
+        color: #fff;
+    }
+    .badge--link {
+        background: #2E4057;
+        color: #fff;
+    }
+
+    /* Program Grid */
+    .res-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: var(--space-lg);
+    }
+    .res-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: var(--space-lg);
+        border: 1px solid var(--color-border);
+        transition: box-shadow 0.2s, transform 0.15s;
+    }
+    .res-card:hover {
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        transform: translateY(-2px);
+    }
+    .res-card__icon {
+        font-size: 1.8rem;
+        margin-bottom: var(--space-sm);
+    }
+    .res-card h3 {
+        font-size: 1.05rem;
+        margin-bottom: var(--space-xs);
+        color: var(--color-text);
+    }
+    .res-card__detail {
+        font-size: 0.82rem;
+        color: var(--color-text-muted);
+        font-weight: 500;
+        margin-bottom: var(--space-sm);
+        font-family: var(--font-body);
+    }
+    .res-card p {
+        font-size: 0.9rem;
+        color: #585754;
+        line-height: 1.55;
+    }
+
+    /* Fellowship Department Cards */
+    .fellow-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: var(--space-lg);
+        border: 1px solid var(--color-border);
+        transition: box-shadow 0.2s, transform 0.15s;
+    }
+    .fellow-card:hover {
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        transform: translateY(-2px);
+    }
+    .fellow-card h3 {
+        font-size: 1.05rem;
+        margin-bottom: var(--space-xs);
+        color: #007C92;
+    }
+    .fellow-card__subs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: var(--space-sm);
+    }
+    .fellow-tag {
+        display: inline-block;
+        padding: 3px 10px;
+        background: #F0F7F9;
+        color: #007C92;
+        border-radius: 12px;
+        font-size: 0.78rem;
+        font-weight: 500;
+        font-family: var(--font-body);
+    }
+
+    /* Dividers */
+    .res-divider {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        border: none;
+        border-top: 1px solid var(--color-border);
+    }
+
+    /* CTA */
+    .res-cta {
+        text-align: center;
+        padding: var(--space-2xl) var(--space-lg);
+        background: var(--color-surface);
+    }
+    .res-cta h2 {
+        margin-bottom: var(--space-sm);
+    }
+    .res-cta p {
+        color: var(--color-text-muted);
+        max-width: 580px;
+        margin: 0 auto var(--space-lg);
+        line-height: 1.6;
+    }
+    .res-cta__btn {
+        display: inline-block;
+        padding: 0.7rem 1.6rem;
+        background: #8C1515;
+        color: #fff;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        font-family: var(--font-body);
+        transition: background 0.2s;
+    }
+    .res-cta__btn:hover { background: #6B0F0F; }
+    .res-cta__btn + .res-cta__btn {
+        margin-left: var(--space-sm);
+        background: #007C92;
+    }
+    .res-cta__btn + .res-cta__btn:hover { background: #005F70; }
+
+    @media (max-width: 600px) {
+        .res-hero h1 { font-size: 1.65rem; }
+        .res-hero__stats { flex-direction: column; gap: var(--space-md); }
+        .res-grid { grid-template-columns: 1fr; }
+    }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="topnav">
+        <div class="container">
+            <div class="topnav__brand">
+                <svg viewBox="0 0 40 40" width="32" height="32" class="logo-icon">
+                    <rect x="16" y="8" width="8" height="24" fill="currentColor"/>
+                    <rect x="8" y="16" width="24" height="8" fill="currentColor"/>
+                    <path d="M20 28 Q15 28 12 25 L12 12 Q15 9 20 9 Q25 9 28 12 L28 25 Q25 28 20 28" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+                <span class="logo-text">MSIB.io</span>
+            </div>
+            <ul class="topnav__links">
+                <li><a href="index.html#phase1">Phase 1</a></li>
+                <li><a href="index.html#phase2">Phase 2</a></li>
+                <li><a href="index.html#phase3">Phase 3</a></li>
+                <li><a href="residency.html" style="color:#B83A4B;font-weight:700;">Phase 4</a></li>
+                <li><a href="index.html#tools">Tools</a></li>
+                <li><a href="bookstore.html">Public Bookstore</a></li>
+                <li><a href="board-prep.html">Board Prep</a></li>
+                <li><a href="wellness.html">Wellness</a></li>
+                <li><a href="lounge.html">Lounge</a></li>
+            </ul>
+            <button class="topnav__hamburger" aria-label="Toggle navigation">&#9776;</button>
+        </div>
+        <div class="msib-nav-auth" style="display:flex;align-items:center;gap:0.6rem;">
+            <a href="/login.html"
+               style="padding:0.45rem 1rem;border:1.5px solid #8C1515;border-radius:7px;
+                      color:#8C1515;font-weight:600;font-size:0.875rem;text-decoration:none;"
+               onmouseover="this.style.background='#8C1515';this.style.color='#fff'"
+               onmouseout="this.style.background='transparent';this.style.color='#8C1515'">
+              Sign in
+            </a>
+            <a href="/signup.html"
+               style="padding:0.45rem 1rem;background:#8C1515;border:1.5px solid #8C1515;
+                      border-radius:7px;color:#fff;font-weight:600;font-size:0.875rem;text-decoration:none;"
+               onmouseover="this.style.background='#6B0F0F'"
+               onmouseout="this.style.background='#8C1515'">
+              Sign up
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="res-hero">
+        <div class="res-hero__badge">Phase 4 &middot; Stanford Medicine</div>
+        <h1>Residency &amp; Fellowship Programs</h1>
+        <p>
+            Stanford Medicine sponsors over 85 ACGME-accredited residency and fellowship programs
+            across major medical departments, preparing graduates for careers in clinical practice,
+            academic medicine, and biomedical research.
+        </p>
+        <div class="res-hero__stats">
+            <div>
+                <div class="res-hero__stat-number">85+</div>
+                <div class="res-hero__stat-label">Accredited Programs</div>
+            </div>
+            <div>
+                <div class="res-hero__stat-number">22</div>
+                <div class="res-hero__stat-label">Residency Specialties</div>
+            </div>
+            <div>
+                <div class="res-hero__stat-number">7</div>
+                <div class="res-hero__stat-label">Fellowship Departments</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== RESIDENCY PROGRAMS ===================== -->
+    <section class="res-section">
+        <div class="res-section__header">
+            <span class="res-section__badge badge--residency">Residency Programs</span>
+            <h2>Core Graduate Medical Education</h2>
+            <p>Primary ACGME-accredited residency programs offered through Stanford Medicine's graduate medical education office.</p>
+        </div>
+
+        <div class="res-grid">
+            <div class="res-card">
+                <div class="res-card__icon">&#129505;</div>
+                <h3>Anesthesia</h3>
+                <p>Perioperative care, pain medicine, and critical care anesthesiology.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#128998;</div>
+                <h3>Dermatology</h3>
+                <p>Skin, hair, and nail disorders including surgical and cosmetic dermatology.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#128680;</div>
+                <h3>Emergency Medicine</h3>
+                <p>Acute care, resuscitation, trauma, and emergency medical systems.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#127968;</div>
+                <h3>Family Medicine</h3>
+                <p>Comprehensive primary care across the lifespan, prevention, and community health.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#129657;</div>
+                <h3>Internal Medicine</h3>
+                <p>Diagnosis and management of adult diseases, hospital medicine, and ambulatory care.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#129516;</div>
+                <h3>Medical Genetics</h3>
+                <div class="res-card__detail">Including Combined Pediatrics-Medical Genetics</div>
+                <p>Genetic disorders, genomic medicine, and precision diagnostics.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#129504;</div>
+                <h3>Neurology</h3>
+                <div class="res-card__detail">Adult and Child Neurology</div>
+                <p>Disorders of the brain, spinal cord, nerves, and neuromuscular system.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#129520;</div>
+                <h3>Neurological Surgery</h3>
+                <p>Surgical treatment of disorders of the central and peripheral nervous system.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#9762;&#65039;</div>
+                <h3>Nuclear Medicine</h3>
+                <p>Radioactive tracers for diagnosis and therapy of disease.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#129328;</div>
+                <h3>Obstetrics / Gynecology</h3>
+                <p>Women's reproductive health, pregnancy care, and gynecologic surgery.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#128065;&#65039;</div>
+                <h3>Ophthalmology</h3>
+                <p>Medical and surgical treatment of eye diseases and visual disorders.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#129471;</div>
+                <h3>Orthopedic Surgery</h3>
+                <p>Musculoskeletal system — bones, joints, ligaments, tendons, and muscles.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#128066;</div>
+                <h3>Otolaryngology</h3>
+                <p>Ear, nose, and throat disorders including head and neck surgery.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#128300;</div>
+                <h3>Pathology</h3>
+                <div class="res-card__detail">Anatomic and Clinical</div>
+                <p>Laboratory medicine, tissue diagnosis, and molecular pathology.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#128118;</div>
+                <h3>Pediatrics</h3>
+                <p>Medical care of infants, children, and adolescents.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#129455;</div>
+                <h3>Physical Medicine &amp; Rehabilitation</h3>
+                <p>Restoring function and quality of life for patients with physical impairments.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#129657;</div>
+                <h3>Plastic Surgery</h3>
+                <div class="res-card__detail">Integrated Program</div>
+                <p>Reconstructive and aesthetic surgery, microsurgery, and craniofacial surgery.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#128172;</div>
+                <h3>Psychiatry</h3>
+                <p>Mental health, behavioral disorders, psychopharmacology, and psychotherapy.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#9888;&#65039;</div>
+                <h3>Radiation Oncology</h3>
+                <p>Radiation therapy for cancer treatment, treatment planning, and radiobiology.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#128225;</div>
+                <h3>Radiology</h3>
+                <div class="res-card__detail">Diagnostic and Interventional Integrated</div>
+                <p>Medical imaging, image-guided procedures, and diagnostic interpretation.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#129657;</div>
+                <h3>Surgery</h3>
+                <div class="res-card__detail">General, Vascular Integrated, and Thoracic Integrated</div>
+                <p>Operative management of diseases across abdominal, vascular, and thoracic systems.</p>
+            </div>
+
+            <div class="res-card">
+                <div class="res-card__icon">&#129516;</div>
+                <h3>Urology</h3>
+                <p>Urinary tract and male reproductive system — medical and surgical management.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="res-divider">
+
+    <!-- ===================== FELLOWSHIP PROGRAMS ===================== -->
+    <section class="res-section">
+        <div class="res-section__header">
+            <span class="res-section__badge badge--fellowship">Fellowship Programs</span>
+            <h2>Subspecialty Training</h2>
+            <p>Clinical fellowships following core residency, offering deep expertise across Stanford Medicine's departments.</p>
+        </div>
+
+        <div class="res-grid">
+            <div class="fellow-card">
+                <div class="res-card__icon">&#129505;</div>
+                <h3>Internal Medicine Subspecialties</h3>
+                <div class="fellow-card__subs">
+                    <span class="fellow-tag">Cardiology</span>
+                    <span class="fellow-tag">Endocrinology</span>
+                    <span class="fellow-tag">Gastroenterology &amp; Hepatology</span>
+                    <span class="fellow-tag">Hematology</span>
+                    <span class="fellow-tag">Oncology</span>
+                    <span class="fellow-tag">Nephrology</span>
+                    <span class="fellow-tag">Infectious Diseases</span>
+                    <span class="fellow-tag">Pulmonary &amp; Critical Care</span>
+                </div>
+            </div>
+
+            <div class="fellow-card">
+                <div class="res-card__icon">&#128118;</div>
+                <h3>Pediatric Subspecialties</h3>
+                <div class="fellow-card__subs">
+                    <span class="fellow-tag">Neonatal-Perinatal Medicine</span>
+                    <span class="fellow-tag">Pediatric Cardiology</span>
+                    <span class="fellow-tag">Pediatric Critical Care</span>
+                    <span class="fellow-tag">Pediatric Hematology/Oncology</span>
+                </div>
+            </div>
+
+            <div class="fellow-card">
+                <div class="res-card__icon">&#128300;</div>
+                <h3>Pathology Subspecialties</h3>
+                <div class="fellow-card__subs">
+                    <span class="fellow-tag">Breast Pathology</span>
+                    <span class="fellow-tag">Cytopathology</span>
+                    <span class="fellow-tag">Dermatopathology</span>
+                    <span class="fellow-tag">Gastrointestinal Pathology</span>
+                    <span class="fellow-tag">Neuropathology</span>
+                </div>
+            </div>
+
+            <div class="fellow-card">
+                <div class="res-card__icon">&#128225;</div>
+                <h3>Radiology Subspecialties</h3>
+                <div class="fellow-card__subs">
+                    <span class="fellow-tag">Abdominal Imaging</span>
+                    <span class="fellow-tag">Breast Imaging</span>
+                    <span class="fellow-tag">Cardiovascular Imaging</span>
+                    <span class="fellow-tag">Neuroradiology</span>
+                </div>
+            </div>
+
+            <div class="fellow-card">
+                <div class="res-card__icon">&#128172;</div>
+                <h3>Psychiatry Subspecialties</h3>
+                <div class="fellow-card__subs">
+                    <span class="fellow-tag">Child &amp; Adolescent Psychiatry</span>
+                    <span class="fellow-tag">Addiction Medicine</span>
+                    <span class="fellow-tag">Forensic Psychiatry</span>
+                    <span class="fellow-tag">Geriatric Psychiatry</span>
+                </div>
+            </div>
+
+            <div class="fellow-card">
+                <div class="res-card__icon">&#128680;</div>
+                <h3>Emergency Medicine Subspecialties</h3>
+                <div class="fellow-card__subs">
+                    <span class="fellow-tag">Global Emergency Medicine</span>
+                    <span class="fellow-tag">Simulation</span>
+                    <span class="fellow-tag">Ultrasound</span>
+                    <span class="fellow-tag">Wilderness Medicine</span>
+                </div>
+            </div>
+
+            <div class="fellow-card">
+                <div class="res-card__icon">&#129657;</div>
+                <h3>Surgery Subspecialties</h3>
+                <div class="fellow-card__subs">
+                    <span class="fellow-tag">Surgical Oncology</span>
+                    <span class="fellow-tag">Pediatric Surgery</span>
+                    <span class="fellow-tag">Minimally Invasive Surgery</span>
+                    <span class="fellow-tag">Vascular Surgery</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="res-divider">
+
+    <!-- CTA -->
+    <section class="res-cta">
+        <h2>Plan Your Path Forward</h2>
+        <p>
+            From pre-clerkship foundations through residency match — MSIB supports every phase of your medical education journey.
+        </p>
+        <a href="https://med.stanford.edu/gme/prospective-trainees/programs.html" target="_blank" rel="noopener" class="res-cta__btn">
+            Stanford GME Programs List &#8594;
+        </a>
+        <a href="index.html" class="res-cta__btn">
+            Back to MSIB Home
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align:center; padding:var(--space-xl) var(--space-lg); border-top:1px solid var(--color-border); color:var(--color-text-muted); font-size:0.85rem;">
+        <p>Medical School in a Box &middot; Phase 4: Residency &amp; Fellowships</p>
+        <p style="margin-top:var(--space-xs);">Stanford Medicine GME &middot; ACGME Accredited</p>
+    </footer>
+
+    <script>
+    document.querySelector('.topnav__hamburger')?.addEventListener('click', function() {
+        document.querySelector('.topnav__links')?.classList.toggle('open');
+    });
+    </script>
+</body>
+</html>
