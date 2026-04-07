@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Wellness — Medical School in a Box</title>
+    <meta name="description" content="Mental health resources, crisis support, resilience tools, and professional wellness organizations for medical students. You are not alone.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+    /* === Wellness Page Styles === */
+
+    .well-hero {
+        background: linear-gradient(135deg, #2E4057 0%, #007C92 100%);
+        color: #fff;
+        padding: var(--space-3xl) 0 var(--space-2xl);
+        text-align: center;
+    }
+    .well-hero h1 {
+        color: #fff;
+        font-size: 2.25rem;
+        margin-bottom: var(--space-sm);
+    }
+    .well-hero p {
+        color: rgba(255,255,255,0.85);
+        font-size: 1.1rem;
+        max-width: 680px;
+        margin: 0 auto var(--space-lg);
+        line-height: 1.7;
+    }
+    .well-hero__crisis {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.3);
+        border-radius: 24px;
+        padding: 10px 24px;
+        font-size: 0.95rem;
+        color: #fff;
+        font-family: var(--font-body);
+        font-weight: 600;
+    }
+    .well-hero__crisis a {
+        color: #fff;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
+    /* Section Layout */
+    .well-section {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: var(--space-2xl) var(--space-lg);
+    }
+    .well-section__header {
+        text-align: center;
+        margin-bottom: var(--space-xl);
+    }
+    .well-section__header h2 {
+        margin-bottom: var(--space-xs);
+    }
+    .well-section__header p {
+        color: var(--color-text-secondary);
+        font-size: 1.05rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .well-section__badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 4px 12px;
+        border-radius: 12px;
+        margin-bottom: var(--space-sm);
+    }
+    .badge--crisis { background: #FDE8E8; color: #991B1B; }
+    .badge--resilience { background: #E0F5EE; color: #166534; }
+    .badge--professional { background: #E8EEF7; color: #1E3A5F; }
+
+    /* Resource Cards */
+    .well-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: var(--space-lg);
+    }
+    .well-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        padding: var(--space-lg);
+        box-shadow: var(--shadow-sm);
+        transition: box-shadow 0.2s, transform 0.2s;
+        display: flex;
+        flex-direction: column;
+    }
+    .well-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+    .well-card__icon {
+        font-size: 1.75rem;
+        margin-bottom: var(--space-sm);
+    }
+    .well-card h3 {
+        font-size: 1.125rem;
+        margin-bottom: var(--space-xs);
+        color: var(--color-secondary);
+    }
+    .well-card__detail {
+        font-size: 0.85rem;
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-sm);
+        font-family: var(--font-mono);
+    }
+    .well-card p {
+        font-size: 0.95rem;
+        color: var(--color-text-secondary);
+        flex: 1;
+    }
+    .well-card__link {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: var(--space-md);
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--color-accent);
+    }
+    .well-card__link:hover {
+        color: var(--color-accent-light);
+    }
+    .well-card__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: var(--space-sm);
+    }
+    .well-tag {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 2px 8px;
+        border-radius: 10px;
+        background: var(--color-surface-alt);
+        color: var(--color-text-muted);
+    }
+    .well-tag--free { background: #E0F5EE; color: #166534; }
+    .well-tag--anon { background: #FEF3C7; color: #92400E; }
+    .well-tag--app  { background: #E8EEF7; color: #1E3A5F; }
+
+    /* Quick-Access Banner */
+    .well-banner {
+        background: #FEF3C7;
+        border: 1px solid #FCD34D;
+        border-radius: var(--radius);
+        padding: var(--space-lg) var(--space-xl);
+        max-width: var(--max-width);
+        margin: var(--space-xl) auto 0;
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-md);
+    }
+    .well-banner__icon { font-size: 1.5rem; flex-shrink: 0; }
+    .well-banner h3 { margin-bottom: var(--space-xs); color: #92400E; }
+    .well-banner p { color: #78350F; margin: 0; font-size: 0.95rem; }
+    .well-banner a { color: #92400E; font-weight: 600; text-decoration: underline; }
+
+    /* Section Dividers */
+    .well-divider {
+        border: none;
+        border-top: 1px solid var(--color-border);
+        max-width: var(--max-width);
+        margin: 0 auto;
+    }
+
+    /* Footer CTA */
+    .well-cta {
+        text-align: center;
+        padding: var(--space-2xl) var(--space-lg);
+        max-width: var(--max-width);
+        margin: 0 auto;
+    }
+    .well-cta p {
+        font-size: 1.05rem;
+        color: var(--color-text-secondary);
+        max-width: 560px;
+        margin: 0 auto var(--space-lg);
+    }
+    .well-cta__btn {
+        display: inline-block;
+        background: var(--color-primary);
+        color: #fff;
+        padding: 12px 28px;
+        border-radius: var(--radius);
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: background 0.2s;
+        text-decoration: none;
+    }
+    .well-cta__btn:hover {
+        background: var(--color-primary-dark);
+        color: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+        .well-hero { padding: var(--space-2xl) var(--space-md); }
+        .well-hero h1 { font-size: 1.75rem; }
+        .well-grid { grid-template-columns: 1fr; }
+        .well-banner { flex-direction: column; }
+    }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="topnav">
+        <div class="container">
+            <div class="topnav__brand">
+                <svg viewBox="0 0 40 40" width="32" height="32" class="logo-icon">
+                    <rect x="16" y="8" width="8" height="24" fill="currentColor"/>
+                    <rect x="8" y="16" width="24" height="8" fill="currentColor"/>
+                    <path d="M20 28 Q15 28 12 25 L12 12 Q15 9 20 9 Q25 9 28 12 L28 25 Q25 28 20 28" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+                <span class="logo-text">MSIB.io</span>
+            </div>
+            <ul class="topnav__links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="bookstore.html">Public Bookstore</a></li>
+                <li><a href="board-prep.html">Board Prep</a></li>
+                <li><a href="wellness.html" style="color:var(--color-primary);font-weight:600;">Wellness</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="well-hero">
+        <div class="container">
+            <h1>Student Wellness</h1>
+            <p>
+                Medical school is one of the most demanding journeys you will ever take.
+                Your mental health matters just as much as your academic performance.
+                These resources are here whenever you need them — no judgment, no barriers.
+            </p>
+            <div class="well-hero__crisis">
+                Immediate support: <a href="tel:988">988 Suicide &amp; Crisis Lifeline</a> &middot; Text HOME to <a href="sms:741741">741741</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick-Access Banner -->
+    <div style="padding: 0 var(--space-lg);">
+        <div class="well-banner">
+            <div class="well-banner__icon">&#9888;&#65039;</div>
+            <div>
+                <h3>If You Need Help Right Now</h3>
+                <p>
+                    Call the <strong>Physician Support Line</strong> at <a href="tel:18884090141">1-888-409-0141</a> (Mon–Fri, 8 AM–12 AM ET).
+                    It's free, confidential, staffed by volunteer psychiatrists, and built specifically for medical students and physicians.
+                    You can also reach the <strong>Crisis Text Line</strong> by texting HOME to <a href="sms:741741">741741</a> any time, day or night.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== TIER 1: Crisis & Peer Support ===================== -->
+    <section class="well-section">
+        <div class="well-section__header">
+            <span class="well-section__badge badge--crisis">Crisis &amp; Peer Support</span>
+            <h2>Immediate Help When You Need It</h2>
+            <p>Confidential, often anonymous services designed for the unique pressures of medical training.</p>
+        </div>
+
+        <div class="well-grid">
+            <!-- Physician Support Line -->
+            <div class="well-card">
+                <div class="well-card__icon">&#128222;</div>
+                <h3>Physician Support Line</h3>
+                <div class="well-card__detail">1-888-409-0141 &middot; Mon–Fri 8 AM–12 AM ET</div>
+                <p>
+                    Free, confidential, and anonymous national support line staffed by volunteer psychiatrists.
+                    Built specifically for medical students and physicians navigating personal and professional stressors.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag well-tag--free">Free</span>
+                    <span class="well-tag well-tag--anon">Anonymous</span>
+                </div>
+                <a href="https://www.physiciansupportline.com/" target="_blank" rel="noopener" class="well-card__link">
+                    Visit Website &#8594;
+                </a>
+            </div>
+
+            <!-- Crisis Text Line -->
+            <div class="well-card">
+                <div class="well-card__icon">&#128172;</div>
+                <h3>Crisis Text Line</h3>
+                <div class="well-card__detail">Text HOME to 741741 &middot; 24/7</div>
+                <p>
+                    Reach a trained volunteer Crisis Counselor via text message for immediate emotional support,
+                    guided resources, and de-escalation — available around the clock from anywhere.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag well-tag--free">Free</span>
+                    <span class="well-tag well-tag--anon">Anonymous</span>
+                </div>
+                <a href="https://www.crisistextline.org/" target="_blank" rel="noopener" class="well-card__link">
+                    Visit Website &#8594;
+                </a>
+            </div>
+
+            <!-- Togetherall -->
+            <div class="well-card">
+                <div class="well-card__icon">&#127760;</div>
+                <h3>Togetherall</h3>
+                <div class="well-card__detail">Online community &middot; 24/7</div>
+                <p>
+                    Anonymous online peer community monitored by mental health professionals.
+                    Includes self-assessment tools, group support courses, and a safe space to share with others
+                    going through similar experiences.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag well-tag--free">Free via schools</span>
+                    <span class="well-tag well-tag--anon">Anonymous</span>
+                </div>
+                <a href="https://togetherall.com/" target="_blank" rel="noopener" class="well-card__link">
+                    Visit Website &#8594;
+                </a>
+            </div>
+
+            <!-- Medtal Health -->
+            <div class="well-card">
+                <div class="well-card__icon">&#128247;</div>
+                <h3>Medtal Health</h3>
+                <div class="well-card__detail">Weekly Zoom sessions &middot; Student-led</div>
+                <p>
+                    Free, anonymous peer support program with weekly one-hour Zoom sessions.
+                    Medical students connect with trained student volunteers in private breakout rooms
+                    for judgment-free conversation.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag well-tag--free">Free</span>
+                    <span class="well-tag well-tag--anon">Anonymous</span>
+                </div>
+                <a href="https://www.medtalhealth.com/" target="_blank" rel="noopener" class="well-card__link">
+                    Visit Website &#8594;
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <hr class="well-divider">
+
+    <!-- ===================== TIER 2: Resilience & Self-Guided Tools ===================== -->
+    <section class="well-section">
+        <div class="well-section__header">
+            <span class="well-section__badge badge--resilience">Resilience &amp; Self-Guided Tools</span>
+            <h2>Build Daily Resilience</h2>
+            <p>Proactive tools for stress management, mindfulness, and cognitive well-being — use them before you need crisis support.</p>
+        </div>
+
+        <div class="well-grid">
+            <!-- Headspace -->
+            <div class="well-card">
+                <div class="well-card__icon">&#129504;</div>
+                <h3>Headspace</h3>
+                <div class="well-card__detail">App &middot; Free for medical students (via AMA)</div>
+                <p>
+                    Guided meditations, sleep hygiene tools, focus exercises, and stress management activities.
+                    Some organizations including the AMA offer free subscriptions for medical students.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag well-tag--free">Free via AMA</span>
+                    <span class="well-tag well-tag--app">App</span>
+                </div>
+                <a href="https://www.headspace.com/" target="_blank" rel="noopener" class="well-card__link">
+                    Visit Website &#8594;
+                </a>
+            </div>
+
+            <!-- ART in Medicine -->
+            <div class="well-card">
+                <div class="well-card__icon">&#127919;</div>
+                <h3>Active Resilience Training (ART)</h3>
+                <div class="well-card__detail">Program &middot; Prevention-focused</div>
+                <p>
+                    Prevention-focused training that builds the psychological and physical pillars of resilience
+                    needed to balance a medical career. Addresses burnout before it starts through structured
+                    skill-building curricula.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag">Program</span>
+                </div>
+                <a href="https://www.artinmedicine.org/" target="_blank" rel="noopener" class="well-card__link">
+                    Learn More &#8594;
+                </a>
+            </div>
+
+            <!-- MindShift CBT -->
+            <div class="well-card">
+                <div class="well-card__icon">&#128161;</div>
+                <h3>MindShift CBT</h3>
+                <div class="well-card__detail">App &middot; Free</div>
+                <p>
+                    Uses Cognitive Behavioral Therapy techniques to help manage anxiety through thought journals,
+                    coping tools, and relief strategies. Evidence-based and designed for daily use alongside
+                    your coursework.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag well-tag--free">Free</span>
+                    <span class="well-tag well-tag--app">App</span>
+                </div>
+                <a href="https://www.anxietycanada.com/resources/mindshift-cbt/" target="_blank" rel="noopener" class="well-card__link">
+                    Visit Website &#8594;
+                </a>
+            </div>
+
+            <!-- Insight Timer -->
+            <div class="well-card">
+                <div class="well-card__icon">&#9201;</div>
+                <h3>Insight Timer</h3>
+                <div class="well-card__detail">App &middot; Free</div>
+                <p>
+                    Over 40,000 guided meditations covering focus, deep breathing, exam anxiety, sleep, and
+                    stress relief. A quick 5-minute session before a test or clinical rotation can make
+                    a real difference.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag well-tag--free">Free</span>
+                    <span class="well-tag well-tag--app">App</span>
+                </div>
+                <a href="https://insighttimer.com/" target="_blank" rel="noopener" class="well-card__link">
+                    Visit Website &#8594;
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <hr class="well-divider">
+
+    <!-- ===================== TIER 3: Professional & Institutional ===================== -->
+    <section class="well-section">
+        <div class="well-section__header">
+            <span class="well-section__badge badge--professional">Professional &amp; Institutional</span>
+            <h2>Long-Term Support &amp; Advocacy</h2>
+            <p>Organizations working to change the culture of medical education and support your well-being throughout your career.</p>
+        </div>
+
+        <div class="well-grid">
+            <!-- AMSA -->
+            <div class="well-card">
+                <div class="well-card__icon">&#127891;</div>
+                <h3>AMSA Wellness Resources</h3>
+                <div class="well-card__detail">American Medical Student Association</div>
+                <p>
+                    Provides wellness resources for medical students including 28 days of free professional
+                    online counseling through BetterHelp for AMSA members. Covers stress, anxiety, and
+                    work-life balance issues.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag well-tag--free">Free for members</span>
+                </div>
+                <a href="https://www.amsa.org/" target="_blank" rel="noopener" class="well-card__link">
+                    Visit AMSA &#8594;
+                </a>
+            </div>
+
+            <!-- AAMC -->
+            <div class="well-card">
+                <div class="well-card__icon">&#127963;</div>
+                <h3>AAMC Well-Being Resources</h3>
+                <div class="well-card__detail">Association of American Medical Colleges</div>
+                <p>
+                    Comprehensive collection of tools covering mental, physical, financial, and professional
+                    well-being. Designed for every stage from pre-med through residency, with institution-level
+                    resources and toolkits.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag well-tag--free">Free</span>
+                </div>
+                <a href="https://www.aamc.org/about-us/mission-areas/medical-education/wellness-resources" target="_blank" rel="noopener" class="well-card__link">
+                    Visit AAMC &#8594;
+                </a>
+            </div>
+
+            <!-- ACP Hub -->
+            <div class="well-card">
+                <div class="well-card__icon">&#129658;</div>
+                <h3>ACP I.M. Emotional Support Hub</h3>
+                <div class="well-card__detail">American College of Physicians</div>
+                <p>
+                    Peer support, confidential counseling, and tools tailored to the unique challenges of
+                    internal medicine and medical education. The hub provides a safe space for physicians
+                    and students at every career stage.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag well-tag--free">Free</span>
+                </div>
+                <a href="https://www.acponline.org/about-acp/well-being" target="_blank" rel="noopener" class="well-card__link">
+                    Visit ACP &#8594;
+                </a>
+            </div>
+
+            <!-- Dr. Lorna Breen -->
+            <div class="well-card">
+                <div class="well-card__icon">&#128150;</div>
+                <h3>Dr. Lorna Breen Heroes' Foundation</h3>
+                <div class="well-card__detail">Medical Student Coalition</div>
+                <p>
+                    Working to change medical curricula to reflect a culture of well-being and career satisfaction.
+                    Their Medical Student Coalition advocates for systemic change so that seeking help is
+                    normalized, not stigmatized.
+                </p>
+                <div class="well-card__tags">
+                    <span class="well-tag">Advocacy</span>
+                </div>
+                <a href="https://drlornabreen.org/" target="_blank" rel="noopener" class="well-card__link">
+                    Visit Foundation &#8594;
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <hr class="well-divider">
+
+    <!-- Call to Action -->
+    <section class="well-cta">
+        <h2>You're Not Alone in This</h2>
+        <p>
+            Nearly half of all medical students experience burnout, and seeking help is a sign of strength — not weakness.
+            Bookmark this page and come back whenever you need it.
+        </p>
+        <a href="index.html" class="well-cta__btn">Back to MSIB Home</a>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align:center; padding:var(--space-xl) var(--space-lg); border-top:1px solid var(--color-border); color:var(--color-text-muted); font-size:0.85rem;">
+        <p>Medical School in a Box &middot; Student Wellness Resources</p>
+        <p style="margin-top:var(--space-xs);">
+            If you or someone you know is in crisis, call <strong>988</strong> or text HOME to <strong>741741</strong>.
+        </p>
+    </footer>
+</body>
+</html>
