@@ -663,6 +663,49 @@
             font-size: 14px;
             line-height: 1.6;
         }
+        .option.tried-wrong {
+            background-color: #FFEBEE;
+            border-color: #EF9A9A;
+            color: #C62828;
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .option.correct-answer {
+            background-color: var(--color-success);
+            color: white;
+            border-color: var(--color-success);
+            pointer-events: none;
+        }
+        .option.correct-answer::after {
+            content: ' \2713';
+            font-weight: 700;
+        }
+        .quiz-feedback {
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .quiz-feedback.correct {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #A5D6A7;
+        }
+        .quiz-feedback.wrong {
+            background: #FFF3E0;
+            color: #E65100;
+            border: 1px solid #FFCC80;
+        }
+        .quiz-attempts {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            margin-top: 4px;
+        }
 
         .quiz-score {
             padding: var(--spacing-lg);
@@ -929,6 +972,7 @@
         <button class="tab" data-tab="course-quizzes">&#128221; Course Quizzes</button>
         <button class="tab" data-tab="quizzes">&#10067; USMLE Quizzes</button>
         <button class="tab" data-tab="flashcards">&#127183; Flashcards</button>
+                <button class="tab" data-tab="rounds-prep">&#129658; Rounds Prep</button>
         <button class="tab" data-tab="resources">&#128279; Resources</button>
     </div>
 
@@ -1018,6 +1062,48 @@
             </div>
 
             <!-- Resources Tab -->
+            <div class="tab-content" data-tab-content="rounds-prep">
+                <div class="rounds-prep-container">
+                    <div class="rounds-article-card">
+                        <div class="rounds-badge">Landmark Article</div>
+                        <div class="rounds-article-title">Hedgehog Signaling in Animal Development and Disease</div>
+                        <div class="rounds-article-meta">
+                            Ingham PW, McMahon AP<br>
+                            <em>Genes & Development</em>, 2001 | <a href="https://doi.org/10.1101/gad.938601" target="_blank">DOI</a> | <a href="https://pubmed.ncbi.nlm.nih.gov/11731473/" target="_blank">PubMed</a>
+                        </div>
+                        <div class="rounds-why">
+                            <div class="rounds-why-label">Why This Paper Matters</div>
+                            Sonic Hedgehog (Shh) signaling is one of the most critical pathways in embryonic development. This review established the framework for understanding how Shh patterns the neural tube, limbs, and gut—and how its disruption causes congenital malformations like holoprosencephaly.
+                        </div>
+                        <div class="rounds-points-header">Key Takeaways for Rounds</div>
+                        
+                            <div class="rounds-point">
+                                <div class="rounds-point-icon">1</div>
+                                <div>Sonic Hedgehog (Shh) acts as a morphogen: concentration gradients specify different cell fates in the developing neural tube.</div>
+                            </div>
+                            <div class="rounds-point">
+                                <div class="rounds-point-icon">2</div>
+                                <div>Ventral neural tube patterning: Shh from the notochord and floor plate specifies motor neurons and ventral interneurons.</div>
+                            </div>
+                            <div class="rounds-point">
+                                <div class="rounds-point-icon">3</div>
+                                <div>Limb development: Shh from the zone of polarizing activity (ZPA) establishes anterior-posterior axis of digits.</div>
+                            </div>
+                            <div class="rounds-point">
+                                <div class="rounds-point-icon">4</div>
+                                <div>Holoprosencephaly: The most common forebrain malformation; often linked to defects in Shh signaling.</div>
+                            </div>
+                            <div class="rounds-point">
+                                <div class="rounds-point-icon">&#9733;</div>
+                                <div>Pimp Pearl: ‘What structure secretes Sonic Hedgehog to pattern the neural tube?’ — The notochord.</div>
+                            </div>
+                        <div class="rounds-pubmed-note">
+                            Article metadata sourced from PubMed (National Library of Medicine). Always read the original paper for complete understanding.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="tab-content" data-tab-content="resources">
                 <button class="add-resource-button" id="addResourceButton">
                     <span>+</span> Add Resource
@@ -1334,52 +1420,81 @@
                 return;
             }
 
+            if (!state.quizAttempts) state.quizAttempts = {};
+
+            let correctCount = 0;
+            QUIZZES.forEach((q, i) => {
+                if (state.quizRevealed[i] && state.quizAttempts[i] === 1) correctCount++;
+            });
+            const revealedCount = Object.keys(state.quizRevealed).length;
+
             let html = '<div class="quiz-questions">';
-            const answered = Object.keys(state.quizAnswers).length;
-            const total = QUIZZES.length;
 
             QUIZZES.forEach((quiz, qIdx) => {
-                const isAnswered = state.quizAnswers[qIdx];
-                const isRevealed = state.quizRevealed[qIdx];
+                const attempts = state.quizAnswers[qIdx] || [];
+                const isCorrect = state.quizRevealed[qIdx];
+                const lastAttempt = attempts.length > 0 ? attempts[attempts.length - 1] : null;
+                const justGotWrong = lastAttempt !== null && !isCorrect && lastAttempt !== quiz.correct;
 
                 html += `
-                    <div class="question-card ${isAnswered ? 'answered' : ''}">
+                    <div class="question-card ${isCorrect ? 'answered' : ''}">
                         <div class="question-number">Question ${qIdx + 1} of ${QUIZZES.length}</div>
                         <div class="question-text">${quiz.question}</div>
-                        <div class="options">
                 `;
+
+                if (isCorrect) {
+                    const attemptCount = state.quizAttempts[qIdx] || 1;
+                    const msg = attemptCount === 1 ? 'Correct on the first try! \u2B50' : `Correct! (${attemptCount} attempts)`;
+                    html += `<div class="quiz-feedback correct">\u2713 ${msg}</div>`;
+                } else if (justGotWrong) {
+                    html += '<div class="quiz-feedback wrong">\u2717 Not quite \u2014 try again!</div>';
+                }
+
+                html += '<div class="options">';
 
                 quiz.options.forEach((option, oIdx) => {
                     let optionClass = '';
-                    if (isRevealed) {
-                        if (oIdx === quiz.correct) optionClass = 'correct';
-                        else if (oIdx === isAnswered) optionClass = 'incorrect';
-                    } else if (oIdx === isAnswered) {
-                        optionClass = 'selected';
+                    let dis = '';
+
+                    if (isCorrect) {
+                        if (oIdx === quiz.correct) {
+                            optionClass = 'correct-answer';
+                        } else if (attempts.includes(oIdx)) {
+                            optionClass = 'tried-wrong';
+                        }
+                        dis = 'disabled';
+                    } else {
+                        if (attempts.includes(oIdx)) {
+                            optionClass = 'tried-wrong';
+                            dis = 'disabled';
+                        }
                     }
 
                     html += `
-                        <button class="option ${optionClass}" data-quiz="${qIdx}" data-option="${oIdx}">
+                        <button class="option ${optionClass}" data-quiz="${qIdx}" data-option="${oIdx}" ${dis}>
                             ${option}
                         </button>
                     `;
                 });
 
-                html += `
-                        </div>
-                        ${isRevealed ? `<div class="explanation">${quiz.explanation}</div>` : ''}
-                        <button class="check-answer-button" data-quiz="${qIdx}" ${isAnswered ? 'disabled' : ''}>
-                            ${isRevealed ? 'Revealed' : 'Check Answer'}
-                        </button>
-                    </div>
-                `;
+                html += '</div>';
+
+                if (isCorrect) {
+                    html += `<div class="explanation">${quiz.explanation}</div>`;
+                }
+
+                if (attempts.length > 0 && !isCorrect) {
+                    html += `<div class="quiz-attempts">Attempts: ${attempts.length}</div>`;
+                }
+
+                html += '</div>';
             });
 
             html += `
                 </div>
                 <div class="quiz-score">
-                    <div class="quiz-score-value">${answered}/${total}</div>
-                    <div class="quiz-score-label">Questions answered</div>
+                    <div class="quiz-score-value">${revealedCount}/${QUIZZES.length}</div>
+                    <div class="quiz-score-label">Questions completed${revealedCount > 0 ? ' (' + correctCount + ' first-try correct)' : ''}</div>
                     <button class="quiz-reset-button" id="quizResetButton">Reset Quiz</button>
                 </div>
             `;
@@ -1390,21 +1505,21 @@
 
         // Utility: Attach Quiz Event Listeners
         function attachQuizListeners() {
-            document.querySelectorAll(".option").forEach(option => {
+            document.querySelectorAll(".option:not([disabled])").forEach(option => {
                 option.addEventListener("click", () => {
                     const qIdx = parseInt(option.dataset.quiz);
                     const oIdx = parseInt(option.dataset.option);
-                    if (!state.quizAnswers[qIdx]) {
-                        state.quizAnswers[qIdx] = oIdx;
-                        renderQuizzes();
-                    }
-                });
-            });
 
-            document.querySelectorAll(".check-answer-button").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const qIdx = parseInt(btn.dataset.quiz);
-                    state.quizRevealed[qIdx] = true;
+                    if (!Array.isArray(state.quizAnswers[qIdx])) state.quizAnswers[qIdx] = [];
+                    if (!state.quizAttempts) state.quizAttempts = {};
+
+                    state.quizAnswers[qIdx].push(oIdx);
+
+                    if (oIdx === QUIZZES[qIdx].correct) {
+                        state.quizAttempts[qIdx] = state.quizAnswers[qIdx].length;
+                        state.quizRevealed[qIdx] = true;
+                    }
+
                     renderQuizzes();
                 });
             });
@@ -1414,6 +1529,7 @@
                 resetBtn.addEventListener("click", () => {
                     state.quizAnswers = {};
                     state.quizRevealed = {};
+                    state.quizAttempts = {};
                     renderQuizzes();
                 });
             }
