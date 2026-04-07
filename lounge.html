@@ -985,15 +985,15 @@
             // Check auth status
             const { data: { session } } = await supabaseClient.auth.getSession();
 
+            setupEventListeners();
+            setupOnlineStatusDetection();
+
             if (!session) {
                 showAuthGate();
             } else {
                 currentUser = session.user;
                 await showLobby();
             }
-
-            setupEventListeners();
-            setupOnlineStatusDetection();
         }
 
         // ============================================
@@ -1090,7 +1090,7 @@
         function backToLobby() {
             currentLounge = null;
             if (messageSubscription) {
-                supabaseClient.removeSubscription(messageSubscription);
+                supabaseClient.removeChannel(messageSubscription);
                 messageSubscription = null;
             }
             if (countdownInterval) {
@@ -1171,10 +1171,11 @@
 
         function subscribeToLounges() {
             if (loungeSubscription) {
-                supabaseClient.removeSubscription(loungeSubscription);
+                supabaseClient.removeChannel(loungeSubscription);
             }
 
             loungeSubscription = supabaseClient
+                .channel('lounges-changes')
                 .on('postgres_changes', {
                     event: '*',
                     schema: 'public',
@@ -1357,10 +1358,11 @@
 
         function subscribeToMessages() {
             if (messageSubscription) {
-                supabaseClient.removeSubscription(messageSubscription);
+                supabaseClient.removeChannel(messageSubscription);
             }
 
             messageSubscription = supabaseClient
+                .channel(`messages-${currentLounge}`)
                 .on('postgres_changes', {
                     event: 'INSERT',
                     schema: 'public',
