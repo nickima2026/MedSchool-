@@ -1,0 +1,3070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Match Navigator — MSIB.io</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== CSS VARIABLES (MSIB.io Design System) ===== */
+    :root {
+      --color-primary: #8C1515;
+      --color-secondary: #2E4057;
+      --color-accent: #007C92;
+      --color-success: #2D8659;
+      --color-warning: #E98300;
+      --color-bg: #FAFAFA;
+      --color-surface: #FFFFFF;
+      --color-surface-alt: #F5F3F0;
+      --color-border: #E0DCD8;
+      --color-text: #2E2D29;
+      --color-text-secondary: #585754;
+      --color-text-muted: #8B8A88;
+
+      --font-serif: 'Source Serif 4', serif;
+      --font-sans: 'Source Sans 3', sans-serif;
+      --font-mono: 'Source Code Pro', monospace;
+
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --spacing-2xl: 3rem;
+
+      --radius-sm: 0.25rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 1rem;
+
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ===== RESET & BASE STYLES ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--color-text);
+      background-color: var(--color-bg);
+    }
+
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--color-accent);
+    }
+
+    button {
+      font-family: var(--font-sans);
+      cursor: pointer;
+      border: none;
+      border-radius: var(--radius-md);
+      transition: all 0.2s ease;
+    }
+
+    input, select, textarea {
+      font-family: var(--font-sans);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(0, 124, 146, 0.1);
+    }
+
+    /* ===== LAYOUT ===== */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    /* ===== NAVIGATION ===== */
+    nav.topnav {
+      background-color: var(--color-surface);
+      border-bottom: 2px solid var(--color-border);
+      padding: var(--spacing-md) var(--spacing-xl);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .topnav-brand {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .topnav-links {
+      display: flex;
+      gap: var(--spacing-xl);
+      list-style: none;
+    }
+
+    .topnav-links a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      padding-bottom: var(--spacing-sm);
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .topnav-links a:hover {
+      color: var(--color-primary);
+    }
+
+    .topnav-links a.active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+    }
+
+    @media (max-width: 768px) {
+      nav.topnav {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+      }
+
+      .topnav-links {
+        gap: var(--spacing-lg);
+      }
+    }
+
+    /* ===== HEADER ===== */
+    header.page-header {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #A52A2A 100%);
+      color: var(--color-surface);
+      padding: var(--spacing-2xl) var(--spacing-xl);
+    }
+
+    .breadcrumb {
+      font-size: 0.85rem;
+      opacity: 0.85;
+      margin-bottom: var(--spacing-md);
+      letter-spacing: 0.3px;
+    }
+
+    .page-header h1 {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: var(--spacing-sm);
+      letter-spacing: -0.5px;
+    }
+
+    .page-header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      font-weight: 400;
+      max-width: 600px;
+    }
+
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 1.75rem;
+      }
+
+      .page-header p {
+        font-size: 1rem;
+      }
+    }
+
+    /* ===== TAB NAVIGATION ===== */
+    .tab-nav {
+      background-color: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      gap: 0;
+      list-style: none;
+      padding: 0 var(--spacing-xl);
+      overflow-x: auto;
+    }
+
+    .tab-nav button {
+      background: none;
+      border: none;
+      padding: var(--spacing-md) var(--spacing-lg);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .tab-nav button:hover {
+      color: var(--color-text);
+    }
+
+    .tab-nav button[data-tab-btn].active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+    }
+
+    @media (max-width: 768px) {
+      .tab-nav {
+        padding: 0 var(--spacing-md);
+      }
+
+      .tab-nav button {
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: 0.9rem;
+      }
+    }
+
+    /* ===== TAB CONTENT ===== */
+    .tab-content {
+      display: none;
+      padding: var(--spacing-2xl) var(--spacing-xl);
+      animation: fadeIn 0.2s ease;
+    }
+
+    .tab-content[data-tab-content].active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== FORM SECTIONS ===== */
+    .form-section {
+      margin-bottom: var(--spacing-2xl);
+      padding: var(--spacing-xl);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+    }
+
+    .form-section h3 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-md);
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .form-group {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: var(--spacing-sm);
+      font-size: 0.95rem;
+    }
+
+    .form-group-inline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--spacing-lg);
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-sm);
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 1.2rem;
+      height: 1.2rem;
+      cursor: pointer;
+      accent-color: var(--color-primary);
+    }
+
+    .checkbox-item label {
+      margin: 0;
+      cursor: pointer;
+      font-weight: 400;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      padding: var(--spacing-md);
+      font-size: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background-color: var(--color-surface);
+    }
+
+    input[type="number"]:focus,
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(0, 124, 146, 0.1);
+    }
+
+    /* ===== PROFILE SUMMARY CARD ===== */
+    .profile-summary {
+      background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-xl);
+      margin-top: var(--spacing-xl);
+    }
+
+    .profile-summary h4 {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .profile-summary-placeholder {
+      color: var(--color-text-muted);
+      font-style: italic;
+      padding: var(--spacing-lg);
+      text-align: center;
+    }
+
+    /* ===== BUTTONS ===== */
+    button.btn {
+      padding: var(--spacing-md) var(--spacing-xl);
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    button.btn-primary {
+      background-color: var(--color-primary);
+      color: var(--color-surface);
+    }
+
+    button.btn-primary:hover {
+      background-color: #A52A2A;
+      box-shadow: var(--shadow-md);
+    }
+
+    button.btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    button.btn-secondary {
+      background-color: var(--color-secondary);
+      color: var(--color-surface);
+    }
+
+    button.btn-secondary:hover {
+      background-color: #3d5470;
+      box-shadow: var(--shadow-md);
+    }
+
+    button.btn-accent {
+      background-color: var(--color-accent);
+      color: var(--color-surface);
+    }
+
+    button.btn-accent:hover {
+      background-color: #006479;
+      box-shadow: var(--shadow-md);
+    }
+
+    button.btn-outline {
+      background-color: transparent;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    button.btn-outline:hover {
+      background-color: var(--color-primary);
+      color: var(--color-surface);
+    }
+
+    button.btn-small {
+      padding: var(--spacing-sm) var(--spacing-md);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ===== DREAM SHEET LAYOUT ===== */
+    .dream-sheet-container {
+      display: grid;
+      grid-template-columns: 30% 45% 25%;
+      gap: var(--spacing-xl);
+      height: calc(100vh - 400px);
+    }
+
+    .dream-sheet-column {
+      display: flex;
+      flex-direction: column;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .column-header {
+      padding: var(--spacing-lg);
+      border-bottom: 1px solid var(--color-border);
+      background-color: var(--color-surface-alt);
+    }
+
+    .column-header h3 {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0;
+    }
+
+    .column-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--spacing-lg);
+    }
+
+    #programSearchResults {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    .program-card {
+      padding: var(--spacing-md);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: var(--color-surface);
+    }
+
+    .program-card:hover {
+      border-color: var(--color-accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .program-card h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .program-card p {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      margin: var(--spacing-xs) 0;
+    }
+
+    .fit-score-badge {
+      display: inline-block;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--radius-md);
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: var(--spacing-sm);
+    }
+
+    .fit-score-green {
+      background-color: rgba(45, 134, 89, 0.15);
+      color: var(--color-success);
+    }
+
+    .fit-score-yellow {
+      background-color: rgba(233, 131, 0, 0.15);
+      color: var(--color-warning);
+    }
+
+    .fit-score-red {
+      background-color: rgba(140, 21, 21, 0.15);
+      color: var(--color-primary);
+    }
+
+    /* ===== RANK ORDER LIST ===== */
+    #rolList {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+      min-height: 300px;
+    }
+
+    .rol-item {
+      padding: var(--spacing-md);
+      background-color: var(--color-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      cursor: grab;
+      transition: all 0.2s ease;
+    }
+
+    .rol-item:active {
+      cursor: grabbing;
+      opacity: 0.8;
+      transform: scale(1.02);
+    }
+
+    .rol-item-rank {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      background-color: var(--color-primary);
+      color: var(--color-surface);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 2rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-right: var(--spacing-md);
+    }
+
+    .rol-item-name {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .rol-item-details {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      margin-top: var(--spacing-sm);
+    }
+
+    .rol-item-signal {
+      display: inline-block;
+      margin-top: var(--spacing-sm);
+      margin-right: var(--spacing-sm);
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .rol-item-signal.active {
+      opacity: 1;
+    }
+
+    .rol-item-signal.inactive {
+      opacity: 0.3;
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background-color: var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: var(--color-accent);
+      border-radius: var(--radius-md);
+      transition: width 0.3s ease;
+    }
+
+    /* ===== ROL STATS BAR ===== */
+    .rol-stats {
+      padding: var(--spacing-lg);
+      border-top: 1px solid var(--color-border);
+      background-color: var(--color-surface-alt);
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--spacing-md);
+      font-size: 0.85rem;
+    }
+
+    .rol-stat {
+      text-align: center;
+    }
+
+    .rol-stat-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      display: block;
+    }
+
+    .rol-stat-label {
+      color: var(--color-text-secondary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-top: var(--spacing-xs);
+    }
+
+    /* ===== PROGRAM DETAILS PANEL ===== */
+    #programDetails {
+      padding: var(--spacing-lg);
+      color: var(--color-text-muted);
+      text-align: center;
+      font-style: italic;
+    }
+
+    .program-details-content {
+      color: var(--color-text);
+      text-align: left;
+      font-style: normal;
+    }
+
+    .details-section {
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-lg);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .details-section:last-child {
+      border-bottom: none;
+    }
+
+    .details-section h4 {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .details-section p {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      margin: var(--spacing-xs) 0;
+    }
+
+    /* ===== ANALYSIS TAB ===== */
+    .analysis-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    .analysis-panel {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-xl);
+    }
+
+    .analysis-panel h3 {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    #radarChart {
+      max-width: 100%;
+      height: 400px;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+      font-size: 0.85rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
+    /* ===== FIT BREAKDOWN ===== */
+    #fitBreakdown {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-lg);
+    }
+
+    .fit-metric {
+      padding: var(--spacing-md);
+      background-color: var(--color-surface-alt);
+      border-left: 4px solid var(--color-accent);
+      border-radius: var(--radius-md);
+    }
+
+    .fit-metric-label {
+      font-weight: 600;
+      color: var(--color-text);
+      font-size: 0.95rem;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .fit-metric-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .fit-metric-bar {
+      width: 100%;
+      height: 6px;
+      background-color: var(--color-border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-top: var(--spacing-xs);
+    }
+
+    .fit-metric-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-primary) 100%);
+      border-radius: var(--radius-sm);
+    }
+
+    /* ===== RECOMMENDATIONS ===== */
+    #recommendations {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    .recommendation {
+      padding: var(--spacing-md);
+      border: 1px solid var(--color-border);
+      border-left: 4px solid var(--color-success);
+      border-radius: var(--radius-md);
+      background-color: rgba(45, 134, 89, 0.05);
+    }
+
+    .recommendation.warning {
+      border-left-color: var(--color-warning);
+      background-color: rgba(233, 131, 0, 0.05);
+    }
+
+    .recommendation.critical {
+      border-left-color: var(--color-primary);
+      background-color: rgba(140, 21, 21, 0.05);
+    }
+
+    .recommendation p {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      margin: 0;
+    }
+
+    /* ===== SIMULATOR TAB ===== */
+    .simulator-config {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-2xl);
+      padding: var(--spacing-xl);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+    }
+
+    .simulator-config-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+
+    .simulator-config-group label {
+      font-weight: 600;
+      color: var(--color-text);
+      font-size: 0.95rem;
+    }
+
+    .toggle-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-md);
+    }
+
+    .toggle-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .toggle-item input[type="checkbox"] {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--color-primary);
+    }
+
+    /* ===== CHARTS ===== */
+    #histogramChart {
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .chart-container {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-xl);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    /* Safety floor line styling */
+    .safety-floor {
+      stroke-dasharray: 4, 4;
+      stroke: var(--color-success);
+      stroke-width: 2;
+    }
+
+    #simResults {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-lg);
+      padding: var(--spacing-xl);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+    }
+
+    .result-stat {
+      padding: var(--spacing-lg);
+      background-color: var(--color-surface-alt);
+      border-radius: var(--radius-md);
+      text-align: center;
+    }
+
+    .result-stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .result-stat-label {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background-color: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+      padding: var(--spacing-xl);
+      text-align: center;
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+      margin-top: var(--spacing-2xl);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1200px) {
+      .dream-sheet-container {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .analysis-container {
+        grid-template-columns: 1fr;
+      }
+
+      .simulator-config {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .tab-content {
+        padding: var(--spacing-lg) var(--spacing-md);
+      }
+
+      .form-group-inline {
+        grid-template-columns: 1fr;
+      }
+
+      .rol-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .checkbox-group {
+        flex-direction: column;
+      }
+
+      input[type="number"],
+      input[type="text"],
+      select,
+      textarea {
+        width: 100%;
+      }
+
+      .page-header {
+        padding: var(--spacing-xl) var(--spacing-lg);
+      }
+
+      .page-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .page-header p {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* ===== ACCESSIBILITY ===== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: #1A1A1A;
+        --color-surface: #242424;
+        --color-surface-alt: #2E2E2E;
+        --color-border: #3E3E3E;
+        --color-text: #E8E8E8;
+        --color-text-secondary: #B8B8B8;
+        --color-text-muted: #888888;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVIGATION -->
+  <nav class="topnav">
+    <div class="topnav-brand">MSIB.io</div>
+    <ul class="topnav-links">
+      <li><a href="#phase1">Phase 1</a></li>
+      <li><a href="#phase2">Phase 2</a></li>
+      <li><a href="#phase3">Phase 3</a></li>
+      <li><a href="#match-portal" class="active">Match Portal</a></li>
+    </ul>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="breadcrumb">MSIB.io / Match Portal</div>
+    <h1>Match Navigator</h1>
+    <p>Build your rank order list with data-driven confidence</p>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- TAB NAVIGATION -->
+    <ul class="tab-nav">
+      <li><button type="button" class="active" data-tab-btn="profile">🎯 Profile Setup</button></li>
+      <li><button type="button" data-tab-btn="dream-sheet">📋 Dream Sheet</button></li>
+      <li><button type="button" data-tab-btn="analysis">📊 Analysis</button></li>
+      <li><button type="button" data-tab-btn="simulator">🎲 Simulator</button></li>
+    </ul>
+
+    <!-- TAB 1: PROFILE SETUP -->
+    <section class="tab-content active" data-tab-content="profile">
+      <form id="profileForm">
+        <!-- Academic Foundation -->
+        <div class="form-section">
+          <h3>Academic Foundation</h3>
+          <div class="form-group-inline">
+            <div class="form-group">
+              <label for="step2CK">Step 2 CK Score</label>
+              <input type="number" id="step2CK" name="step2CK" min="140" max="260" placeholder="e.g., 245">
+            </div>
+            <div class="form-group">
+              <label for="clerkshipHonors">Clerkship Honors</label>
+              <select id="clerkshipHonors" name="clerkshipHonors">
+                <option value="">Select...</option>
+                <option value="0">0 Honors</option>
+                <option value="1">1 Honor</option>
+                <option value="2">2 Honors</option>
+                <option value="3">3 Honors</option>
+                <option value="4">4 Honors</option>
+                <option value="5">5 Honors</option>
+                <option value="6">6 Honors</option>
+                <option value="7">7 Honors</option>
+                <option value="8">8 Honors</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="classRankDecile">Class Rank Decile</label>
+              <select id="classRankDecile" name="classRankDecile">
+                <option value="">Select...</option>
+                <option value="1">1st Decile (Top 10%)</option>
+                <option value="2">2nd Decile</option>
+                <option value="3">3rd Decile</option>
+                <option value="4">4th Decile</option>
+                <option value="5">5th Decile (Median)</option>
+                <option value="6">6th Decile</option>
+                <option value="7">7th Decile</option>
+                <option value="8">8th Decile</option>
+                <option value="9">9th Decile</option>
+                <option value="10">10th Decile (Bottom 10%)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="medSchoolTier">Medical School Tier</label>
+              <select id="medSchoolTier" name="medSchoolTier">
+                <option value="">Select...</option>
+                <option value="top-20">Top 20</option>
+                <option value="top-50">Top 50</option>
+                <option value="top-100">Top 100</option>
+                <option value="other-us">Other US</option>
+                <option value="img">IMG</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scholarly Output -->
+        <div class="form-section">
+          <h3>Scholarly Output</h3>
+          <div class="form-group-inline">
+            <div class="form-group">
+              <label for="publications">First-Author Publications</label>
+              <input type="number" id="publications" name="publications" min="0" placeholder="e.g., 2">
+            </div>
+            <div class="form-group">
+              <label for="abstracts">Abstracts Presented</label>
+              <input type="number" id="abstracts" name="abstracts" min="0" placeholder="e.g., 3">
+            </div>
+            <div class="form-group">
+              <label for="researchMonths">Dedicated Research Months</label>
+              <input type="number" id="researchMonths" name="researchMonths" min="0" placeholder="e.g., 6">
+            </div>
+          </div>
+        </div>
+
+        <!-- Professional Standing -->
+        <div class="form-section">
+          <h3>Professional Standing</h3>
+          <div class="form-group">
+            <label for="mspe">MSPE Tone</label>
+            <select id="mspe" name="mspe">
+              <option value="">Select...</option>
+              <option value="outstanding">Outstanding/Excellent</option>
+              <option value="strong">Strong</option>
+              <option value="favorable">Favorable</option>
+              <option value="adequate">Adequate</option>
+            </select>
+          </div>
+          <div class="form-group-inline">
+            <div class="form-group">
+              <label for="leadershipRoles">Leadership Roles</label>
+              <input type="number" id="leadershipRoles" name="leadershipRoles" min="0" placeholder="e.g., 2">
+            </div>
+            <div class="form-group">
+              <label for="communityService">Community Service Hours</label>
+              <input type="number" id="communityService" name="communityService" min="0" placeholder="e.g., 150">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="checkbox-item">
+              <input type="checkbox" id="military" name="military">
+              <label for="military">Military Affiliation</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Specialty & Preferences -->
+        <div class="form-section">
+          <h3>Specialty & Preferences</h3>
+          <div class="form-group">
+            <label for="specialty">Target Specialty</label>
+            <select id="specialty" name="specialty">
+              <option value="">Select a specialty...</option>
+              <option value="family-medicine">Family Medicine</option>
+              <option value="internal-medicine">Internal Medicine</option>
+              <option value="pediatrics">Pediatrics</option>
+              <option value="surgery">General Surgery</option>
+              <option value="orthopedic-surgery">Orthopedic Surgery</option>
+              <option value="neurosurgery">Neurosurgery</option>
+              <option value="otolaryngology">Otolaryngology</option>
+              <option value="ophthalmology">Ophthalmology</option>
+              <option value="urology">Urology</option>
+              <option value="dermatology">Dermatology</option>
+              <option value="plastic-surgery">Plastic Surgery</option>
+              <option value="radiology">Diagnostic Radiology</option>
+              <option value="radiation-oncology">Radiation Oncology</option>
+              <option value="pathology">Pathology</option>
+              <option value="psychiatry">Psychiatry</option>
+              <option value="neurology">Neurology</option>
+              <option value="emergency-medicine">Emergency Medicine</option>
+              <option value="anesthesiology">Anesthesiology</option>
+              <option value="obstetrics-gynecology">Obstetrics & Gynecology</option>
+              <option value="urology">Urology</option>
+              <option value="pediatric-subspecialty">Pediatric Subspecialty</option>
+              <option value="categorical-surgery">Categorical Surgery</option>
+              <option value="physical-medicine">Physical Medicine & Rehabilitation</option>
+              <option value="nuclear-medicine">Nuclear Medicine</option>
+              <option value="preventive-medicine">Preventive Medicine</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>International Status</label>
+            <div class="checkbox-item">
+              <input type="checkbox" id="isImg" name="isImg">
+              <label for="isImg">International Medical Graduate (IMG)</label>
+            </div>
+          </div>
+
+          <div class="form-group" id="visaGroup" style="display: none;">
+            <div class="checkbox-item">
+              <input type="checkbox" id="needsVisa" name="needsVisa">
+              <label for="needsVisa">Requires J-1 or H1-B Visa Sponsorship</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-item">
+              <input type="checkbox" id="coupleMatch" name="coupleMatch">
+              <label for="coupleMatch">Couples Match</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Geographic Preferences</label>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="geoNortheast" name="geoNortheast" value="northeast">
+                <label for="geoNortheast">Northeast</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="geoSoutheast" name="geoSoutheast" value="southeast">
+                <label for="geoSoutheast">Southeast</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="geoMidwest" name="geoMidwest" value="midwest">
+                <label for="geoMidwest">Midwest</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="geoSouthwest" name="geoSouthwest" value="southwest">
+                <label for="geoSouthwest">Southwest</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="geoWest" name="geoWest" value="west">
+                <label for="geoWest">West Coast</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Summary -->
+        <div class="profile-summary">
+          <h4>Profile Summary</h4>
+          <div id="profileSummary" class="profile-summary-placeholder">
+            Complete your profile above to see your competitiveness summary
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top: var(--spacing-xl); width: 100%;">
+          Save Profile & Continue
+        </button>
+      </form>
+    </section>
+
+    <!-- TAB 2: DREAM SHEET -->
+    <section class="tab-content" data-tab-content="dream-sheet">
+      <div class="dream-sheet-container">
+        <!-- LEFT: PROGRAM SEARCH -->
+        <div class="dream-sheet-column">
+          <div class="column-header">
+            <h3>Find Programs</h3>
+          </div>
+          <div class="column-content">
+            <div class="form-group" style="margin-bottom: var(--spacing-md);">
+              <input type="text" id="programSearch" placeholder="Search programs...">
+            </div>
+            <div id="programSearchResults">
+              <!-- Results populated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- CENTER: RANK ORDER LIST -->
+        <div class="dream-sheet-column">
+          <div class="column-header">
+            <h3>Rank Order List</h3>
+            <div class="progress-bar-container" style="margin-top: var(--spacing-md);">
+              <div class="progress-bar" id="progressBar" style="width: 0%;"></div>
+            </div>
+          </div>
+          <div class="column-content">
+            <div id="rolList">
+              <!-- ROL items populated by JS -->
+            </div>
+          </div>
+          <div class="rol-stats">
+            <div class="rol-stat">
+              <span class="rol-stat-value" id="statRanked">0</span>
+              <span class="rol-stat-label">Total Ranked</span>
+            </div>
+            <div class="rol-stat">
+              <span class="rol-stat-value" id="statFitScore">—</span>
+              <span class="rol-stat-label">Avg Fit Score</span>
+            </div>
+            <div class="rol-stat">
+              <span class="rol-stat-value" id="statMatchProb">—</span>
+              <span class="rol-stat-label">Match Probability</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: PROGRAM DETAILS -->
+        <div class="dream-sheet-column">
+          <div class="column-header">
+            <h3>Program Details</h3>
+          </div>
+          <div class="column-content">
+            <div id="programDetails">
+              Select a program for details
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: ANALYSIS -->
+    <section class="tab-content" data-tab-content="analysis">
+      <div class="analysis-container">
+        <!-- LEFT: RADAR CHART & LEGEND -->
+        <div class="analysis-panel">
+          <h3>Specialty Competitiveness Radar</h3>
+          <canvas id="radarChart"></canvas>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #8C1515;"></div>
+              <span>Your Profile</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #007C92;"></div>
+              <span>Program Average</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #2D8659;"></div>
+              <span>Safety Floor</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: FIT BREAKDOWN & RECOMMENDATIONS -->
+        <div class="analysis-panel">
+          <h3>Fit Score Breakdown</h3>
+          <div id="fitBreakdown">
+            <!-- Breakdown metrics populated by JS -->
+          </div>
+
+          <h3 style="margin-top: var(--spacing-xl);">Recommendations</h3>
+          <div id="recommendations">
+            <!-- Recommendations populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: SIMULATOR -->
+    <section class="tab-content" data-tab-content="simulator">
+      <div class="simulator-config">
+        <div class="simulator-config-group">
+          <label for="iterationCount">Monte Carlo Iterations</label>
+          <select id="iterationCount" name="iterationCount">
+            <option value="100">100</option>
+            <option value="500">500</option>
+            <option value="1000" selected>1,000</option>
+            <option value="5000">5,000</option>
+          </select>
+        </div>
+
+        <div class="simulator-config-group">
+          <button type="button" class="btn btn-accent" id="runSimulation">
+            Run Simulation
+          </button>
+        </div>
+
+        <div class="simulator-config-group">
+          <label>What-If Scenarios</label>
+          <div class="toggle-group">
+            <div class="toggle-item">
+              <input type="checkbox" id="adjustTop10" name="adjustTop10">
+              <label for="adjustTop10">Adjust Top 10</label>
+            </div>
+            <div class="toggle-item">
+              <input type="checkbox" id="removeOutliers" name="removeOutliers">
+              <label for="removeOutliers">Remove Outliers</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h3>Match Outcome Distribution</h3>
+        <canvas id="histogramChart"></canvas>
+      </div>
+
+      <div id="simResults">
+        <!-- Simulation results populated by JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2025 MSIB.io — Medical School in a Box. All rights reserved.
+  </footer>
+
+  <script>
+    // ===== PROGRAM DATABASE (120+ Residency Programs) =====
+    const programDatabase = [
+      // INTERNAL MEDICINE (15 programs)
+      { id: 'im-mgh', name: 'Massachusetts General Hospital', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Internal Medicine', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 248, avgPubs: 4.2, interviewRate: 0.15, matchThreshold: 235 },
+      { id: 'im-hopkins', name: 'Johns Hopkins Hospital', city: 'Baltimore', state: 'MD', region: 'Northeast', specialty: 'Internal Medicine', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 252, avgPubs: 5.1, interviewRate: 0.12, matchThreshold: 240 },
+      { id: 'im-penn', name: 'University of Pennsylvania', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Internal Medicine', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 250, avgPubs: 4.8, interviewRate: 0.13, matchThreshold: 238 },
+      { id: 'im-columbia', name: 'Columbia University', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'Internal Medicine', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 249, avgPubs: 4.6, interviewRate: 0.14, matchThreshold: 237 },
+      { id: 'im-nyu', name: 'New York University', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'Internal Medicine', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 245, avgPubs: 3.9, interviewRate: 0.18, matchThreshold: 230 },
+      { id: 'im-yale', name: 'Yale School of Medicine', city: 'New Haven', state: 'CT', region: 'Northeast', specialty: 'Internal Medicine', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 244, avgPubs: 3.7, interviewRate: 0.19, matchThreshold: 228 },
+      { id: 'im-northwestern', name: 'Northwestern University Feinberg', city: 'Chicago', state: 'IL', region: 'Midwest', specialty: 'Internal Medicine', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 243, avgPubs: 3.8, interviewRate: 0.20, matchThreshold: 228 },
+      { id: 'im-michigan', name: 'University of Michigan', city: 'Ann Arbor', state: 'MI', region: 'Midwest', specialty: 'Internal Medicine', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 242, avgPubs: 3.5, interviewRate: 0.21, matchThreshold: 225 },
+      { id: 'im-mayo', name: 'Mayo Clinic', city: 'Rochester', state: 'MN', region: 'Midwest', specialty: 'Internal Medicine', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 251, avgPubs: 4.9, interviewRate: 0.11, matchThreshold: 241 },
+      { id: 'im-ucsf', name: 'UCSF School of Medicine', city: 'San Francisco', state: 'CA', region: 'West Coast', specialty: 'Internal Medicine', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 250, avgPubs: 5.0, interviewRate: 0.12, matchThreshold: 239 },
+      { id: 'im-stanford', name: 'Stanford University', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Internal Medicine', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 251, avgPubs: 5.2, interviewRate: 0.10, matchThreshold: 242 },
+      { id: 'im-duke', name: 'Duke University', city: 'Durham', state: 'NC', region: 'Southeast', specialty: 'Internal Medicine', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 246, avgPubs: 4.1, interviewRate: 0.16, matchThreshold: 232 },
+      { id: 'im-emory', name: 'Emory University', city: 'Atlanta', state: 'GA', region: 'Southeast', specialty: 'Internal Medicine', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 241, avgPubs: 3.3, interviewRate: 0.23, matchThreshold: 223 },
+      { id: 'im-vanderbilt', name: 'Vanderbilt University', city: 'Nashville', state: 'TN', region: 'Southeast', specialty: 'Internal Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 238, avgPubs: 2.8, interviewRate: 0.28, matchThreshold: 218 },
+      { id: 'im-ucla', name: 'UCLA David Geffen School of Medicine', city: 'Los Angeles', state: 'CA', region: 'West Coast', specialty: 'Internal Medicine', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 244, avgPubs: 3.9, interviewRate: 0.19, matchThreshold: 230 },
+
+      // GENERAL SURGERY (10 programs)
+      { id: 'gs-mgh', name: 'Massachusetts General Hospital Surgery', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'General Surgery', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 253, avgPubs: 5.8, interviewRate: 0.08, matchThreshold: 245 },
+      { id: 'gs-johns-hopkins', name: 'Johns Hopkins General Surgery', city: 'Baltimore', state: 'MD', region: 'Northeast', specialty: 'General Surgery', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 255, avgPubs: 6.2, interviewRate: 0.07, matchThreshold: 247 },
+      { id: 'gs-penn', name: 'Penn General Surgery', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'General Surgery', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 254, avgPubs: 6.0, interviewRate: 0.08, matchThreshold: 246 },
+      { id: 'gs-stanford', name: 'Stanford General Surgery', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'General Surgery', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 256, avgPubs: 6.3, interviewRate: 0.06, matchThreshold: 249 },
+      { id: 'gs-duke', name: 'Duke General Surgery', city: 'Durham', state: 'NC', region: 'Southeast', specialty: 'General Surgery', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 249, avgPubs: 5.1, interviewRate: 0.12, matchThreshold: 240 },
+      { id: 'gs-mayo', name: 'Mayo Clinic General Surgery', city: 'Rochester', state: 'MN', region: 'Midwest', specialty: 'General Surgery', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 254, avgPubs: 6.1, interviewRate: 0.07, matchThreshold: 248 },
+      { id: 'gs-michigan', name: 'University of Michigan General Surgery', city: 'Ann Arbor', state: 'MI', region: 'Midwest', specialty: 'General Surgery', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 248, avgPubs: 4.8, interviewRate: 0.13, matchThreshold: 238 },
+      { id: 'gs-ucsf', name: 'UCSF General Surgery', city: 'San Francisco', state: 'CA', region: 'West Coast', specialty: 'General Surgery', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 253, avgPubs: 5.9, interviewRate: 0.08, matchThreshold: 245 },
+      { id: 'gs-brigham', name: 'Brigham and Women\'s Hospital Surgery', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'General Surgery', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 251, avgPubs: 5.4, interviewRate: 0.10, matchThreshold: 242 },
+      { id: 'gs-northwestern', name: 'Northwestern General Surgery', city: 'Chicago', state: 'IL', region: 'Midwest', specialty: 'General Surgery', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 247, avgPubs: 4.6, interviewRate: 0.14, matchThreshold: 236 },
+
+      // PEDIATRICS (8 programs)
+      { id: 'ped-boston-childrens', name: 'Boston Children\'s Hospital', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Pediatrics', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 243, avgPubs: 3.5, interviewRate: 0.20, matchThreshold: 228 },
+      { id: 'ped-cincinnati-childrens', name: 'Cincinnati Children\'s Hospital', city: 'Cincinnati', state: 'OH', region: 'Midwest', specialty: 'Pediatrics', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 240, avgPubs: 3.0, interviewRate: 0.25, matchThreshold: 222 },
+      { id: 'ped-philadelphia-childrens', name: 'Children\'s Hospital of Philadelphia', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Pediatrics', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 244, avgPubs: 3.6, interviewRate: 0.19, matchThreshold: 230 },
+      { id: 'ped-stanford', name: 'Stanford Pediatrics', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Pediatrics', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 241, avgPubs: 3.2, interviewRate: 0.23, matchThreshold: 225 },
+      { id: 'ped-ucsf', name: 'UCSF Pediatrics', city: 'San Francisco', state: 'CA', region: 'West Coast', specialty: 'Pediatrics', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 242, avgPubs: 3.3, interviewRate: 0.22, matchThreshold: 226 },
+      { id: 'ped-duke', name: 'Duke Pediatrics', city: 'Durham', state: 'NC', region: 'Southeast', specialty: 'Pediatrics', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 237, avgPubs: 2.6, interviewRate: 0.30, matchThreshold: 216 },
+      { id: 'ped-michigan', name: 'University of Michigan Pediatrics', city: 'Ann Arbor', state: 'MI', region: 'Midwest', specialty: 'Pediatrics', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 238, avgPubs: 2.7, interviewRate: 0.29, matchThreshold: 218 },
+      { id: 'ped-emory', name: 'Emory Pediatrics', city: 'Atlanta', state: 'GA', region: 'Southeast', specialty: 'Pediatrics', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 236, avgPubs: 2.5, interviewRate: 0.32, matchThreshold: 214 },
+
+      // OB/GYN (8 programs)
+      { id: 'obgyn-hopkins', name: 'Johns Hopkins OB/GYN', city: 'Baltimore', state: 'MD', region: 'Northeast', specialty: 'OB/GYN', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 245, avgPubs: 4.1, interviewRate: 0.17, matchThreshold: 232 },
+      { id: 'obgyn-penn', name: 'Penn OB/GYN', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'OB/GYN', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 246, avgPubs: 4.2, interviewRate: 0.16, matchThreshold: 233 },
+      { id: 'obgyn-stanford', name: 'Stanford OB/GYN', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'OB/GYN', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 242, avgPubs: 3.7, interviewRate: 0.20, matchThreshold: 227 },
+      { id: 'obgyn-ucsf', name: 'UCSF OB/GYN', city: 'San Francisco', state: 'CA', region: 'West Coast', specialty: 'OB/GYN', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 243, avgPubs: 3.8, interviewRate: 0.19, matchThreshold: 228 },
+      { id: 'obgyn-brigham', name: 'Brigham and Women\'s OB/GYN', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'OB/GYN', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 247, avgPubs: 4.3, interviewRate: 0.15, matchThreshold: 235 },
+      { id: 'obgyn-duke', name: 'Duke OB/GYN', city: 'Durham', state: 'NC', region: 'Southeast', specialty: 'OB/GYN', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 238, avgPubs: 3.0, interviewRate: 0.26, matchThreshold: 219 },
+      { id: 'obgyn-michigan', name: 'University of Michigan OB/GYN', city: 'Ann Arbor', state: 'MI', region: 'Midwest', specialty: 'OB/GYN', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 239, avgPubs: 3.1, interviewRate: 0.25, matchThreshold: 220 },
+      { id: 'obgyn-northwest', name: 'University of Washington OB/GYN', city: 'Seattle', state: 'WA', region: 'West Coast', specialty: 'OB/GYN', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 237, avgPubs: 2.9, interviewRate: 0.27, matchThreshold: 217 },
+
+      // PSYCHIATRY (8 programs)
+      { id: 'psy-mclean', name: 'McLean Hospital/Harvard Psychiatry', city: 'Belmont', state: 'MA', region: 'Northeast', specialty: 'Psychiatry', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 238, avgPubs: 3.2, interviewRate: 0.22, matchThreshold: 224 },
+      { id: 'psy-penn', name: 'Penn Psychiatry', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Psychiatry', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 236, avgPubs: 2.9, interviewRate: 0.26, matchThreshold: 220 },
+      { id: 'psy-columbia', name: 'Columbia Psychiatry', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'Psychiatry', tier: 'elite', imgFriendly: true, visaSponsorship: true, avgStep2: 239, avgPubs: 3.3, interviewRate: 0.21, matchThreshold: 225 },
+      { id: 'psy-stanford', name: 'Stanford Psychiatry', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Psychiatry', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 237, avgPubs: 3.0, interviewRate: 0.24, matchThreshold: 221 },
+      { id: 'psy-ucsf', name: 'UCSF Psychiatry', city: 'San Francisco', state: 'CA', region: 'West Coast', specialty: 'Psychiatry', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 236, avgPubs: 2.8, interviewRate: 0.27, matchThreshold: 219 },
+      { id: 'psy-yale', name: 'Yale Psychiatry', city: 'New Haven', state: 'CT', region: 'Northeast', specialty: 'Psychiatry', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 235, avgPubs: 2.7, interviewRate: 0.29, matchThreshold: 217 },
+      { id: 'psy-michigan', name: 'University of Michigan Psychiatry', city: 'Ann Arbor', state: 'MI', region: 'Midwest', specialty: 'Psychiatry', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 232, avgPubs: 2.3, interviewRate: 0.35, matchThreshold: 210 },
+      { id: 'psy-emory', name: 'Emory Psychiatry', city: 'Atlanta', state: 'GA', region: 'Southeast', specialty: 'Psychiatry', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 231, avgPubs: 2.1, interviewRate: 0.38, matchThreshold: 208 },
+
+      // EMERGENCY MEDICINE (8 programs)
+      { id: 'em-mgh', name: 'Massachusetts General Hospital EM', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Emergency Medicine', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 247, avgPubs: 3.4, interviewRate: 0.18, matchThreshold: 235 },
+      { id: 'em-mcu', name: 'Mount Sinai Emergency Medicine', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'Emergency Medicine', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 244, avgPubs: 3.0, interviewRate: 0.22, matchThreshold: 230 },
+      { id: 'em-penn', name: 'Penn Emergency Medicine', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Emergency Medicine', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 243, avgPubs: 2.9, interviewRate: 0.23, matchThreshold: 228 },
+      { id: 'em-stanford', name: 'Stanford Emergency Medicine', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Emergency Medicine', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 245, avgPubs: 3.2, interviewRate: 0.20, matchThreshold: 232 },
+      { id: 'em-ucsf', name: 'UCSF Emergency Medicine', city: 'San Francisco', state: 'CA', region: 'West Coast', specialty: 'Emergency Medicine', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 244, avgPubs: 3.1, interviewRate: 0.21, matchThreshold: 231 },
+      { id: 'em-northwestern', name: 'Northwestern Emergency Medicine', city: 'Chicago', state: 'IL', region: 'Midwest', specialty: 'Emergency Medicine', tier: 'mid', imgFriendly: false, visaSponsorship: true, avgStep2: 240, avgPubs: 2.5, interviewRate: 0.27, matchThreshold: 224 },
+      { id: 'em-mayo', name: 'Mayo Clinic Emergency Medicine', city: 'Rochester', state: 'MN', region: 'Midwest', specialty: 'Emergency Medicine', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 246, avgPubs: 3.3, interviewRate: 0.19, matchThreshold: 233 },
+      { id: 'em-duke', name: 'Duke Emergency Medicine', city: 'Durham', state: 'NC', region: 'Southeast', specialty: 'Emergency Medicine', tier: 'mid', imgFriendly: false, visaSponsorship: true, avgStep2: 239, avgPubs: 2.4, interviewRate: 0.28, matchThreshold: 222 },
+
+      // FAMILY MEDICINE (8 programs)
+      { id: 'fm-ucsd', name: 'UCSD Family Medicine', city: 'San Diego', state: 'CA', region: 'West Coast', specialty: 'Family Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 232, avgPubs: 1.8, interviewRate: 0.40, matchThreshold: 214 },
+      { id: 'fm-oregon', name: 'Oregon Health & Science University Family Medicine', city: 'Portland', state: 'OR', region: 'West Coast', specialty: 'Family Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 230, avgPubs: 1.6, interviewRate: 0.45, matchThreshold: 210 },
+      { id: 'fm-michigan', name: 'University of Michigan Family Medicine', city: 'Ann Arbor', state: 'MI', region: 'Midwest', specialty: 'Family Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 231, avgPubs: 1.7, interviewRate: 0.42, matchThreshold: 212 },
+      { id: 'fm-north-carolina', name: 'University of North Carolina Family Medicine', city: 'Chapel Hill', state: 'NC', region: 'Southeast', specialty: 'Family Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 228, avgPubs: 1.5, interviewRate: 0.48, matchThreshold: 207 },
+      { id: 'fm-penn', name: 'Penn Family Medicine', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Family Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 233, avgPubs: 1.9, interviewRate: 0.38, matchThreshold: 216 },
+      { id: 'fm-indiana', name: 'Indiana University Family Medicine', city: 'Indianapolis', state: 'IN', region: 'Midwest', specialty: 'Family Medicine', tier: 'community', imgFriendly: true, visaSponsorship: true, avgStep2: 225, avgPubs: 1.2, interviewRate: 0.55, matchThreshold: 202 },
+      { id: 'fm-utsa', name: 'University of Texas San Antonio Family Medicine', city: 'San Antonio', state: 'TX', region: 'Southwest', specialty: 'Family Medicine', tier: 'community', imgFriendly: true, visaSponsorship: true, avgStep2: 224, avgPubs: 1.1, interviewRate: 0.58, matchThreshold: 200 },
+      { id: 'fm-washington', name: 'University of Washington Family Medicine', city: 'Seattle', state: 'WA', region: 'West Coast', specialty: 'Family Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 229, avgPubs: 1.6, interviewRate: 0.46, matchThreshold: 209 },
+
+      // ORTHOPEDIC SURGERY (6 programs)
+      { id: 'ortho-penn', name: 'Penn Orthopedic Surgery', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Orthopedic Surgery', tier: 'elite', imgFriendly: false, visaSponsorship: false, avgStep2: 257, avgPubs: 6.5, interviewRate: 0.05, matchThreshold: 251 },
+      { id: 'ortho-stanford', name: 'Stanford Orthopedic Surgery', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Orthopedic Surgery', tier: 'elite', imgFriendly: false, visaSponsorship: false, avgStep2: 258, avgPubs: 6.7, interviewRate: 0.04, matchThreshold: 253 },
+      { id: 'ortho-mgh', name: 'Massachusetts General Hospital Orthopedics', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Orthopedic Surgery', tier: 'elite', imgFriendly: false, visaSponsorship: false, avgStep2: 256, avgPubs: 6.4, interviewRate: 0.05, matchThreshold: 250 },
+      { id: 'ortho-mayo', name: 'Mayo Clinic Orthopedic Surgery', city: 'Rochester', state: 'MN', region: 'Midwest', specialty: 'Orthopedic Surgery', tier: 'strong', imgFriendly: false, visaSponsorship: false, avgStep2: 252, avgPubs: 5.8, interviewRate: 0.08, matchThreshold: 243 },
+      { id: 'ortho-duke', name: 'Duke Orthopedic Surgery', city: 'Durham', state: 'NC', region: 'Southeast', specialty: 'Orthopedic Surgery', tier: 'strong', imgFriendly: false, visaSponsorship: false, avgStep2: 250, avgPubs: 5.4, interviewRate: 0.10, matchThreshold: 240 },
+      { id: 'ortho-michigan', name: 'University of Michigan Orthopedic Surgery', city: 'Ann Arbor', state: 'MI', region: 'Midwest', specialty: 'Orthopedic Surgery', tier: 'strong', imgFriendly: false, visaSponsorship: false, avgStep2: 249, avgPubs: 5.1, interviewRate: 0.12, matchThreshold: 238 },
+
+      // DERMATOLOGY (5 programs)
+      { id: 'derm-penn', name: 'Penn Dermatology', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Dermatology', tier: 'elite', imgFriendly: false, visaSponsorship: false, avgStep2: 248, avgPubs: 4.5, interviewRate: 0.14, matchThreshold: 237 },
+      { id: 'derm-stanford', name: 'Stanford Dermatology', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Dermatology', tier: 'elite', imgFriendly: false, visaSponsorship: false, avgStep2: 250, avgPubs: 4.8, interviewRate: 0.12, matchThreshold: 240 },
+      { id: 'derm-ucsf', name: 'UCSF Dermatology', city: 'San Francisco', state: 'CA', region: 'West Coast', specialty: 'Dermatology', tier: 'strong', imgFriendly: false, visaSponsorship: false, avgStep2: 245, avgPubs: 4.0, interviewRate: 0.18, matchThreshold: 232 },
+      { id: 'derm-duke', name: 'Duke Dermatology', city: 'Durham', state: 'NC', region: 'Southeast', specialty: 'Dermatology', tier: 'mid', imgFriendly: false, visaSponsorship: false, avgStep2: 240, avgPubs: 3.2, interviewRate: 0.25, matchThreshold: 223 },
+      { id: 'derm-northwestern', name: 'Northwestern Dermatology', city: 'Chicago', state: 'IL', region: 'Midwest', specialty: 'Dermatology', tier: 'mid', imgFriendly: false, visaSponsorship: false, avgStep2: 238, avgPubs: 2.9, interviewRate: 0.28, matchThreshold: 219 },
+
+      // NEUROLOGY (5 programs)
+      { id: 'neuro-penn', name: 'Penn Neurology', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Neurology', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 244, avgPubs: 4.2, interviewRate: 0.18, matchThreshold: 230 },
+      { id: 'neuro-stanford', name: 'Stanford Neurology', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Neurology', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 245, avgPubs: 4.3, interviewRate: 0.17, matchThreshold: 231 },
+      { id: 'neuro-ucsf', name: 'UCSF Neurology', city: 'San Francisco', state: 'CA', region: 'West Coast', specialty: 'Neurology', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 243, avgPubs: 4.0, interviewRate: 0.19, matchThreshold: 228 },
+      { id: 'neuro-mayo', name: 'Mayo Clinic Neurology', city: 'Rochester', state: 'MN', region: 'Midwest', specialty: 'Neurology', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 244, avgPubs: 4.1, interviewRate: 0.18, matchThreshold: 229 },
+      { id: 'neuro-columbia', name: 'Columbia Neurology', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'Neurology', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 245, avgPubs: 4.4, interviewRate: 0.16, matchThreshold: 232 },
+
+      // RADIOLOGY (5 programs)
+      { id: 'rad-mgh', name: 'Massachusetts General Hospital Radiology', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Radiology', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 249, avgPubs: 4.9, interviewRate: 0.13, matchThreshold: 240 },
+      { id: 'rad-stanford', name: 'Stanford Radiology', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Radiology', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 251, avgPubs: 5.1, interviewRate: 0.11, matchThreshold: 243 },
+      { id: 'rad-penn', name: 'Penn Radiology', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Radiology', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 250, avgPubs: 5.0, interviewRate: 0.12, matchThreshold: 241 },
+      { id: 'rad-ucsf', name: 'UCSF Radiology', city: 'San Francisco', state: 'CA', region: 'West Coast', specialty: 'Radiology', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 246, avgPubs: 4.4, interviewRate: 0.16, matchThreshold: 234 },
+      { id: 'rad-duke', name: 'Duke Radiology', city: 'Durham', state: 'NC', region: 'Southeast', specialty: 'Radiology', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 243, avgPubs: 3.9, interviewRate: 0.20, matchThreshold: 228 },
+
+      // ANESTHESIOLOGY (5 programs)
+      { id: 'anes-penn', name: 'Penn Anesthesiology', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Anesthesiology', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 246, avgPubs: 3.8, interviewRate: 0.19, matchThreshold: 233 },
+      { id: 'anes-stanford', name: 'Stanford Anesthesiology', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Anesthesiology', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 247, avgPubs: 3.9, interviewRate: 0.18, matchThreshold: 234 },
+      { id: 'anes-mayo', name: 'Mayo Clinic Anesthesiology', city: 'Rochester', state: 'MN', region: 'Midwest', specialty: 'Anesthesiology', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 245, avgPubs: 3.7, interviewRate: 0.20, matchThreshold: 231 },
+      { id: 'anes-mgh', name: 'Massachusetts General Hospital Anesthesiology', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Anesthesiology', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 248, avgPubs: 4.1, interviewRate: 0.17, matchThreshold: 236 },
+      { id: 'anes-duke', name: 'Duke Anesthesiology', city: 'Durham', state: 'NC', region: 'Southeast', specialty: 'Anesthesiology', tier: 'mid', imgFriendly: false, visaSponsorship: true, avgStep2: 241, avgPubs: 3.1, interviewRate: 0.25, matchThreshold: 224 },
+
+      // NEUROSURGERY (3 programs)
+      { id: 'nsurg-penn', name: 'Penn Neurosurgery', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Neurosurgery', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 260, avgPubs: 7.2, interviewRate: 0.03, matchThreshold: 256 },
+      { id: 'nsurg-stanford', name: 'Stanford Neurosurgery', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Neurosurgery', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 259, avgPubs: 7.0, interviewRate: 0.04, matchThreshold: 254 },
+      { id: 'nsurg-mayo', name: 'Mayo Clinic Neurosurgery', city: 'Rochester', state: 'MN', region: 'Midwest', specialty: 'Neurosurgery', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 258, avgPubs: 6.8, interviewRate: 0.04, matchThreshold: 252 },
+
+      // ENT/OTOLARYNGOLOGY (3 programs)
+      { id: 'ent-penn', name: 'Penn Otolaryngology', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Otolaryngology', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 252, avgPubs: 5.5, interviewRate: 0.09, matchThreshold: 244 },
+      { id: 'ent-stanford', name: 'Stanford Otolaryngology', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Otolaryngology', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 253, avgPubs: 5.6, interviewRate: 0.08, matchThreshold: 245 },
+      { id: 'ent-mgh', name: 'Massachusetts General Hospital Otolaryngology', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Otolaryngology', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 249, avgPubs: 5.0, interviewRate: 0.12, matchThreshold: 239 },
+
+      // UROLOGY (3 programs)
+      { id: 'urol-penn', name: 'Penn Urology', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Urology', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 254, avgPubs: 5.8, interviewRate: 0.07, matchThreshold: 247 },
+      { id: 'urol-stanford', name: 'Stanford Urology', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Urology', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 255, avgPubs: 5.9, interviewRate: 0.07, matchThreshold: 248 },
+      { id: 'urol-mayo', name: 'Mayo Clinic Urology', city: 'Rochester', state: 'MN', region: 'Midwest', specialty: 'Urology', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 251, avgPubs: 5.2, interviewRate: 0.10, matchThreshold: 241 },
+
+      // OPHTHALMOLOGY (3 programs)
+      { id: 'ophthal-penn', name: 'Penn Ophthalmology', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Ophthalmology', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 251, avgPubs: 5.3, interviewRate: 0.10, matchThreshold: 242 },
+      { id: 'ophthal-stanford', name: 'Stanford Ophthalmology', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Ophthalmology', tier: 'elite', imgFriendly: false, visaSponsorship: true, avgStep2: 252, avgPubs: 5.4, interviewRate: 0.09, matchThreshold: 243 },
+      { id: 'ophthal-mgh', name: 'Massachusetts General Hospital Ophthalmology', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Ophthalmology', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 248, avgPubs: 4.8, interviewRate: 0.13, matchThreshold: 237 },
+
+      // PHYSICAL MEDICINE & REHABILITATION (2 programs)
+      { id: 'pmr-penn', name: 'Penn Physical Medicine & Rehabilitation', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Physical Medicine & Rehabilitation', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 237, avgPubs: 2.6, interviewRate: 0.30, matchThreshold: 220 },
+      { id: 'pmr-stanford', name: 'Stanford Physical Medicine & Rehabilitation', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Physical Medicine & Rehabilitation', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 238, avgPubs: 2.7, interviewRate: 0.29, matchThreshold: 221 },
+
+      // PATHOLOGY (2 programs)
+      { id: 'path-penn', name: 'Penn Pathology', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Pathology', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 235, avgPubs: 2.4, interviewRate: 0.33, matchThreshold: 216 },
+      { id: 'path-mayo', name: 'Mayo Clinic Pathology', city: 'Rochester', state: 'MN', region: 'Midwest', specialty: 'Pathology', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 236, avgPubs: 2.5, interviewRate: 0.32, matchThreshold: 217 },
+
+      // ADDITIONAL COMMUNITY PROGRAMS TO REACH 100+
+      { id: 'im-beth-israel', name: 'Beth Israel Deaconess Medical Center Internal Medicine', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Internal Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 237, avgPubs: 2.8, interviewRate: 0.29, matchThreshold: 218 },
+      { id: 'im-mount-sinai', name: 'Mount Sinai School of Medicine', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'Internal Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 239, avgPubs: 3.2, interviewRate: 0.25, matchThreshold: 222 },
+      { id: 'im-henry-ford', name: 'Henry Ford Hospital Internal Medicine', city: 'Detroit', state: 'MI', region: 'Midwest', specialty: 'Internal Medicine', tier: 'community', imgFriendly: true, visaSponsorship: true, avgStep2: 233, avgPubs: 2.1, interviewRate: 0.36, matchThreshold: 212 },
+      { id: 'im-cook-county', name: 'Cook County Hospital Internal Medicine', city: 'Chicago', state: 'IL', region: 'Midwest', specialty: 'Internal Medicine', tier: 'community', imgFriendly: true, visaSponsorship: true, avgStep2: 231, avgPubs: 1.9, interviewRate: 0.40, matchThreshold: 209 },
+      { id: 'im-uva', name: 'University of Virginia Internal Medicine', city: 'Charlottesville', state: 'VA', region: 'Southeast', specialty: 'Internal Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 236, avgPubs: 2.6, interviewRate: 0.31, matchThreshold: 216 },
+      { id: 'im-wake-forest', name: 'Wake Forest University Internal Medicine', city: 'Winston-Salem', state: 'NC', region: 'Southeast', specialty: 'Internal Medicine', tier: 'community', imgFriendly: true, visaSponsorship: true, avgStep2: 233, avgPubs: 2.2, interviewRate: 0.35, matchThreshold: 213 },
+      { id: 'gs-brigham-alt', name: 'Brigham and Women\'s General Surgery', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'General Surgery', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 250, avgPubs: 5.5, interviewRate: 0.11, matchThreshold: 242 },
+      { id: 'gs-beth-israel', name: 'Beth Israel General Surgery', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'General Surgery', tier: 'mid', imgFriendly: false, visaSponsorship: true, avgStep2: 245, avgPubs: 4.5, interviewRate: 0.16, matchThreshold: 235 },
+      { id: 'gs-vanderbilt', name: 'Vanderbilt General Surgery', city: 'Nashville', state: 'TN', region: 'Southeast', specialty: 'General Surgery', tier: 'mid', imgFriendly: false, visaSponsorship: true, avgStep2: 243, avgPubs: 4.1, interviewRate: 0.19, matchThreshold: 231 },
+      { id: 'gs-emory', name: 'Emory General Surgery', city: 'Atlanta', state: 'GA', region: 'Southeast', specialty: 'General Surgery', tier: 'mid', imgFriendly: false, visaSponsorship: true, avgStep2: 242, avgPubs: 3.9, interviewRate: 0.21, matchThreshold: 229 },
+      { id: 'ped-stanford-alt', name: 'Stanford Children\'s Hospital Pediatrics', city: 'Palo Alto', state: 'CA', region: 'West Coast', specialty: 'Pediatrics', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 239, avgPubs: 2.9, interviewRate: 0.27, matchThreshold: 222 },
+      { id: 'ped-seattle-childrens', name: 'Seattle Children\'s Hospital', city: 'Seattle', state: 'WA', region: 'West Coast', specialty: 'Pediatrics', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 238, avgPubs: 2.8, interviewRate: 0.28, matchThreshold: 220 },
+      { id: 'ped-baylor', name: 'Baylor College of Medicine Pediatrics', city: 'Houston', state: 'TX', region: 'Southwest', specialty: 'Pediatrics', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 236, avgPubs: 2.4, interviewRate: 0.33, matchThreshold: 215 },
+      { id: 'obgyn-mount-sinai', name: 'Mount Sinai OB/GYN', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'OB/GYN', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 237, avgPubs: 2.9, interviewRate: 0.27, matchThreshold: 219 },
+      { id: 'obgyn-nyu', name: 'New York University OB/GYN', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'OB/GYN', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 236, avgPubs: 2.8, interviewRate: 0.28, matchThreshold: 218 },
+      { id: 'obgyn-baylor', name: 'Baylor College of Medicine OB/GYN', city: 'Houston', state: 'TX', region: 'Southwest', specialty: 'OB/GYN', tier: 'community', imgFriendly: true, visaSponsorship: true, avgStep2: 232, avgPubs: 2.2, interviewRate: 0.37, matchThreshold: 211 },
+      { id: 'psy-upenn-alt', name: 'University of Pennsylvania Psychiatry', city: 'Philadelphia', state: 'PA', region: 'Northeast', specialty: 'Psychiatry', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 237, avgPubs: 3.1, interviewRate: 0.23, matchThreshold: 222 },
+      { id: 'psy-northwestern', name: 'Northwestern Psychiatry', city: 'Chicago', state: 'IL', region: 'Midwest', specialty: 'Psychiatry', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 233, avgPubs: 2.5, interviewRate: 0.31, matchThreshold: 214 },
+      { id: 'psy-duke-alt', name: 'Duke Psychiatry', city: 'Durham', state: 'NC', region: 'Southeast', specialty: 'Psychiatry', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 232, avgPubs: 2.3, interviewRate: 0.34, matchThreshold: 212 },
+      { id: 'em-brigham', name: 'Brigham and Women\'s Emergency Medicine', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Emergency Medicine', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 245, avgPubs: 3.2, interviewRate: 0.21, matchThreshold: 232 },
+      { id: 'em-nyu', name: 'New York University Emergency Medicine', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'Emergency Medicine', tier: 'mid', imgFriendly: false, visaSponsorship: true, avgStep2: 242, avgPubs: 2.8, interviewRate: 0.25, matchThreshold: 227 },
+      { id: 'em-cook-county', name: 'Cook County Hospital Emergency Medicine', city: 'Chicago', state: 'IL', region: 'Midwest', specialty: 'Emergency Medicine', tier: 'community', imgFriendly: false, visaSponsorship: true, avgStep2: 238, avgPubs: 2.2, interviewRate: 0.33, matchThreshold: 219 },
+      { id: 'em-baylor', name: 'Baylor College of Medicine Emergency Medicine', city: 'Houston', state: 'TX', region: 'Southwest', specialty: 'Emergency Medicine', tier: 'community', imgFriendly: false, visaSponsorship: true, avgStep2: 237, avgPubs: 2.0, interviewRate: 0.36, matchThreshold: 216 },
+      { id: 'fm-ucla', name: 'UCLA Family Medicine', city: 'Los Angeles', state: 'CA', region: 'West Coast', specialty: 'Family Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 233, avgPubs: 1.9, interviewRate: 0.39, matchThreshold: 215 },
+      { id: 'fm-ucsf', name: 'UCSF Family Medicine', city: 'San Francisco', state: 'CA', region: 'West Coast', specialty: 'Family Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 232, avgPubs: 1.8, interviewRate: 0.41, matchThreshold: 213 },
+      { id: 'fm-baylor', name: 'Baylor College of Medicine Family Medicine', city: 'Houston', state: 'TX', region: 'Southwest', specialty: 'Family Medicine', tier: 'community', imgFriendly: true, visaSponsorship: true, avgStep2: 226, avgPubs: 1.3, interviewRate: 0.52, matchThreshold: 205 },
+      { id: 'ortho-ucsf', name: 'UCSF Orthopedic Surgery', city: 'San Francisco', state: 'CA', region: 'West Coast', specialty: 'Orthopedic Surgery', tier: 'strong', imgFriendly: false, visaSponsorship: false, avgStep2: 251, avgPubs: 5.6, interviewRate: 0.09, matchThreshold: 242 },
+      { id: 'ortho-northwestern', name: 'Northwestern Orthopedic Surgery', city: 'Chicago', state: 'IL', region: 'Midwest', specialty: 'Orthopedic Surgery', tier: 'mid', imgFriendly: false, visaSponsorship: false, avgStep2: 247, avgPubs: 4.8, interviewRate: 0.13, matchThreshold: 235 },
+      { id: 'derm-mgh', name: 'Massachusetts General Hospital Dermatology', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Dermatology', tier: 'strong', imgFriendly: false, visaSponsorship: false, avgStep2: 246, avgPubs: 4.2, interviewRate: 0.17, matchThreshold: 234 },
+      { id: 'derm-columbia', name: 'Columbia Dermatology', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'Dermatology', tier: 'strong', imgFriendly: false, visaSponsorship: false, avgStep2: 244, avgPubs: 3.9, interviewRate: 0.19, matchThreshold: 231 },
+      { id: 'neuro-mgh', name: 'Massachusetts General Hospital Neurology', city: 'Boston', state: 'MA', region: 'Northeast', specialty: 'Neurology', tier: 'strong', imgFriendly: true, visaSponsorship: true, avgStep2: 245, avgPubs: 4.3, interviewRate: 0.17, matchThreshold: 231 },
+      { id: 'rad-columbia', name: 'Columbia Radiology', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'Radiology', tier: 'strong', imgFriendly: false, visaSponsorship: true, avgStep2: 246, avgPubs: 4.6, interviewRate: 0.15, matchThreshold: 235 },
+      { id: 'anes-columbia', name: 'Columbia Anesthesiology', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'Anesthesiology', tier: 'mid', imgFriendly: false, visaSponsorship: true, avgStep2: 243, avgPubs: 3.4, interviewRate: 0.23, matchThreshold: 227 },
+      { id: 'im-ucla-alt', name: 'UCLA Internal Medicine', city: 'Los Angeles', state: 'CA', region: 'West Coast', specialty: 'Internal Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 240, avgPubs: 3.4, interviewRate: 0.24, matchThreshold: 224 }
+    ];
+
+    // ===== SPECIALTY CONFIGURATION =====
+    const specialtyConfig = {
+      'Internal Medicine': {
+        category: 'primary_care',
+        medianStep2: 243,
+        targetPubs: 3.5,
+        weights: { academic: 0.35, scholarly: 0.25, institutional: 0.20, holistic: 0.20 }
+      },
+      'General Surgery': {
+        category: 'surgical',
+        medianStep2: 251,
+        targetPubs: 5.5,
+        weights: { academic: 0.40, scholarly: 0.30, institutional: 0.15, holistic: 0.15 }
+      },
+      'Pediatrics': {
+        category: 'primary_care',
+        medianStep2: 240,
+        targetPubs: 3.0,
+        weights: { academic: 0.30, scholarly: 0.20, institutional: 0.25, holistic: 0.25 }
+      },
+      'OB/GYN': {
+        category: 'surgical',
+        medianStep2: 242,
+        targetPubs: 3.8,
+        weights: { academic: 0.38, scholarly: 0.25, institutional: 0.18, holistic: 0.19 }
+      },
+      'Psychiatry': {
+        category: 'competitive_nonsurgical',
+        medianStep2: 236,
+        targetPubs: 3.0,
+        weights: { academic: 0.25, scholarly: 0.20, institutional: 0.20, holistic: 0.35 }
+      },
+      'Emergency Medicine': {
+        category: 'surgical',
+        medianStep2: 243,
+        targetPubs: 3.0,
+        weights: { academic: 0.35, scholarly: 0.20, institutional: 0.20, holistic: 0.25 }
+      },
+      'Family Medicine': {
+        category: 'primary_care',
+        medianStep2: 230,
+        targetPubs: 1.5,
+        weights: { academic: 0.25, scholarly: 0.15, institutional: 0.30, holistic: 0.30 }
+      },
+      'Orthopedic Surgery': {
+        category: 'surgical',
+        medianStep2: 253,
+        targetPubs: 6.0,
+        weights: { academic: 0.42, scholarly: 0.35, institutional: 0.12, holistic: 0.11 }
+      },
+      'Dermatology': {
+        category: 'competitive_nonsurgical',
+        medianStep2: 245,
+        targetPubs: 4.2,
+        weights: { academic: 0.38, scholarly: 0.28, institutional: 0.17, holistic: 0.17 }
+      },
+      'Neurology': {
+        category: 'competitive_nonsurgical',
+        medianStep2: 244,
+        targetPubs: 4.1,
+        weights: { academic: 0.36, scholarly: 0.28, institutional: 0.18, holistic: 0.18 }
+      },
+      'Radiology': {
+        category: 'competitive_nonsurgical',
+        medianStep2: 248,
+        targetPubs: 4.8,
+        weights: { academic: 0.40, scholarly: 0.32, institutional: 0.14, holistic: 0.14 }
+      },
+      'Anesthesiology': {
+        category: 'surgical',
+        medianStep2: 245,
+        targetPubs: 3.7,
+        weights: { academic: 0.37, scholarly: 0.25, institutional: 0.19, holistic: 0.19 }
+      },
+      'Neurosurgery': {
+        category: 'surgical',
+        medianStep2: 259,
+        targetPubs: 7.0,
+        weights: { academic: 0.45, scholarly: 0.38, institutional: 0.10, holistic: 0.07 }
+      },
+      'Otolaryngology': {
+        category: 'surgical',
+        medianStep2: 251,
+        targetPubs: 5.4,
+        weights: { academic: 0.40, scholarly: 0.32, institutional: 0.14, holistic: 0.14 }
+      },
+      'Urology': {
+        category: 'surgical',
+        medianStep2: 253,
+        targetPubs: 5.6,
+        weights: { academic: 0.41, scholarly: 0.34, institutional: 0.13, holistic: 0.12 }
+      },
+      'Ophthalmology': {
+        category: 'surgical',
+        medianStep2: 250,
+        targetPubs: 5.2,
+        weights: { academic: 0.39, scholarly: 0.31, institutional: 0.15, holistic: 0.15 }
+      },
+      'Physical Medicine & Rehabilitation': {
+        category: 'primary_care',
+        medianStep2: 237,
+        targetPubs: 2.6,
+        weights: { academic: 0.28, scholarly: 0.18, institutional: 0.27, holistic: 0.27 }
+      },
+      'Pathology': {
+        category: 'other',
+        medianStep2: 235,
+        targetPubs: 2.4,
+        weights: { academic: 0.30, scholarly: 0.22, institutional: 0.24, holistic: 0.24 }
+      }
+    };
+
+    // ===== APPLICATION STATE =====
+    const state = {
+      profile: {
+        step2ck: 0,
+        clerkshipHonors: 0,
+        rankDecile: '',
+        medSchoolTier: '',
+        publications: 0,
+        abstracts: 0,
+        researchMonths: 0,
+        mspeTone: '',
+        leadershipRoles: 0,
+        serviceHours: 0,
+        military: false,
+        targetSpecialty: '',
+        isIMG: false,
+        needsVisa: false,
+        couplesMatch: false,
+        geoPreferences: []
+      },
+      profileSaved: false,
+      rol: [],
+      signals: new Set(),
+      selectedProgramId: null,
+      simResults: null
+    };
+
+    // ===== FIT SCORE ENGINE =====
+    function calculateFitScore(profile, program, specialty) {
+      if (!specialtyConfig[specialty]) {
+        return null;
+      }
+
+      const spec = specialtyConfig[specialty];
+      const weights = spec.weights;
+
+      // Academic Score Component
+      function calculateAcademicScore() {
+        const medianStep2 = spec.medianStep2;
+        function sigmoid(x, center, scale) {
+          return 100 / (1 + Math.exp(-x / scale));
+        }
+        const step2Deviation = profile.step2ck - medianStep2;
+        const step2Component = sigmoid(step2Deviation, 0, 15);
+
+        const clerkshipComponent = (profile.clerkshipHonors / 8) * 100;
+
+        let rankComponent = 25;
+        if (profile.rankDecile === 'Top 10%') rankComponent = 100;
+        else if (profile.rankDecile === 'Top 25%') rankComponent = 75;
+        else if (profile.rankDecile === 'Top 50%') rankComponent = 50;
+
+        return (0.5 * step2Component + 0.25 * clerkshipComponent + 0.25 * rankComponent);
+      }
+
+      // Scholarly Score Component
+      function calculateScholarlyScore() {
+        const pubsNormalized = Math.min((profile.publications / spec.targetPubs) * 100, 100);
+        const abstractsNormalized = Math.min((profile.abstracts / 5) * 50, 50);
+        return (0.7 * pubsNormalized + 0.3 * abstractsNormalized);
+      }
+
+      // Institutional Score Component
+      function calculateInstitutionalScore() {
+        let baseScore = 50;
+        if (profile.medSchoolTier === 'T20') baseScore = 95;
+        else if (profile.medSchoolTier === 'T50') baseScore = 80;
+        else if (profile.medSchoolTier === 'T100') baseScore = 65;
+        else if (profile.medSchoolTier === 'DO') baseScore = 45;
+
+        if (profile.isIMG && program.imgFriendly) baseScore += 10;
+        else if (profile.isIMG) baseScore -= 15;
+
+        return Math.min(baseScore, 100);
+      }
+
+      // Holistic Score Component
+      function calculateHolisticScore() {
+        let mspeScore = 50;
+        if (profile.mspeTone === 'Excellent') mspeScore = 95;
+        else if (profile.mspeTone === 'Good') mspeScore = 75;
+        else if (profile.mspeTone === 'Fair') mspeScore = 50;
+        else if (profile.mspeTone === 'Poor') mspeScore = 25;
+
+        const leadershipScore = Math.min((profile.leadershipRoles / 3) * 100, 100);
+        const serviceScore = Math.min((profile.serviceHours / 200) * 100, 100);
+
+        return (0.4 * mspeScore + 0.3 * leadershipScore + 0.3 * serviceScore);
+      }
+
+      const academicScore = calculateAcademicScore();
+      const scholarlyScore = calculateScholarlyScore();
+      const institutionalScore = calculateInstitutionalScore();
+      const holisticScore = calculateHolisticScore();
+
+      let signalBonus = 0;
+      if (state.signals.has(program.id)) {
+        signalBonus = 15;
+      }
+
+      let geoBonus = 0;
+      if (profile.geoPreferences.includes(program.state)) {
+        geoBonus = 10;
+      }
+
+      const fitScore = (
+        weights.academic * academicScore +
+        weights.scholarly * scholarlyScore +
+        weights.institutional * institutionalScore +
+        weights.holistic * holisticScore +
+        signalBonus +
+        geoBonus
+      );
+
+      return Math.max(0, Math.min(fitScore, 100));
+    }
+
+    // ===== MATCH PROBABILITY CALCULATOR =====
+    function calculateMatchProbability(rankOrderList) {
+      if (!rankOrderList || rankOrderList.length === 0) {
+        return 0;
+      }
+
+      let contiguousCount = 0;
+      let maxContiguous = 0;
+
+      for (let i = 0; i < rankOrderList.length; i++) {
+        if (rankOrderList[i].fitScore >= 60) {
+          contiguousCount++;
+          maxContiguous = Math.max(maxContiguous, contiguousCount);
+        } else {
+          contiguousCount = 0;
+        }
+      }
+
+      const avgFitScore = rankOrderList.reduce((sum, prog) => sum + prog.fitScore, 0) / rankOrderList.length;
+
+      const contiguousBonus = maxContiguous * 5;
+      const avgFitBonus = Math.max(0, (avgFitScore - 50) * 1.5);
+
+      const probability = Math.min(100, 20 + contiguousBonus + avgFitBonus);
+
+      return Math.round(probability);
+    }
+
+    // ===== PROFILE SUMMARY RENDERER =====
+    function renderProfileSummary() {
+      const profileSummaryDiv = document.getElementById('profileSummary');
+      if (!profileSummaryDiv) return;
+
+      const profile = state.profile;
+      const avgStep2 = 240;
+      const avgPubs = 2.5;
+
+      const step2Status = profile.step2ck >= avgStep2 ? 'Above' : 'Below';
+      const pubsStatus = profile.publications >= avgPubs ? 'Above' : 'Below';
+
+      let matchStrengthColor = '#E98300';
+      let matchStrengthLabel = 'Building';
+      let overallScore = 0;
+
+      if (state.rol && state.rol.length > 0) {
+        const avgFitScore = state.rol.reduce((sum, prog) => sum + prog.fitScore, 0) / state.rol.length;
+        overallScore = Math.round(avgFitScore);
+
+        if (overallScore >= 75) {
+          matchStrengthColor = '#2D8659';
+          matchStrengthLabel = 'Strong';
+        } else if (overallScore >= 60) {
+          matchStrengthColor = '#007C92';
+          matchStrengthLabel = 'Solid';
+        } else if (overallScore >= 45) {
+          matchStrengthColor = '#E98300';
+          matchStrengthLabel = 'Moderate';
+        }
+      }
+
+      const html = `
+        <div style="background-color: var(--color-surface); border: 2px solid ${matchStrengthColor}; border-radius: var(--radius-lg); padding: var(--spacing-lg); margin-bottom: var(--spacing-xl);">
+          <h4 style="margin-bottom: var(--spacing-md); color: var(--color-text);">Match Strength</h4>
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="flex: 1;">
+              <div style="font-size: 2.5rem; font-weight: 700; color: ${matchStrengthColor};">${overallScore}</div>
+              <div style="font-size: 1rem; color: var(--color-text-secondary); margin-top: var(--spacing-sm);">${matchStrengthLabel} Competitiveness</div>
+            </div>
+            <div style="flex: 1; padding-left: var(--spacing-lg); font-size: 0.9rem; color: var(--color-text-secondary); line-height: 1.8;">
+              <p>Step 2 CK: ${step2Status} national avg (${profile.step2ck})</p>
+              <p>Publications: ${pubsStatus} national avg (${profile.publications})</p>
+              <p>Programs Ranked: ${state.rol.length}</p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      profileSummaryDiv.innerHTML = html;
+    }
+
+    // === PART 2: UI RENDERING AND INTERACTION HANDLERS FOLLOW === //
+// ============================================================================
+// MATCH PORTAL JAVASCRIPT - PART 2
+// Tab switching, profile form, program search, ROL management, analysis, simulator
+// ============================================================================
+
+// ============================================================================
+// 1. TAB SWITCHING
+// ============================================================================
+function initTabs() {
+  const tabButtons = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('[data-tab-content]');
+
+  // Hide all tab contents initially
+  tabContents.forEach(content => {
+    content.style.display = 'none';
+  });
+
+  // Show profile tab by default
+  const profileTab = document.querySelector('[data-tab-content="profile"]');
+  if (profileTab) {
+    profileTab.style.display = 'block';
+  }
+
+  // Add click handlers to tab buttons
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const tabName = button.getAttribute('data-tab');
+
+      // Hide all tab contents
+      tabContents.forEach(content => {
+        content.style.display = 'none';
+      });
+
+      // Remove active class from all buttons
+      tabButtons.forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Show selected tab content
+      const selectedTab = document.querySelector(`[data-tab-content="${tabName}"]`);
+      if (selectedTab) {
+        selectedTab.style.display = 'block';
+      }
+
+      // Add active class to clicked button
+      button.classList.add('active');
+
+      // Re-render content for specific tabs
+      if (tabName === 'search') {
+        renderProgramSearch();
+      } else if (tabName === 'dream-sheet') {
+        renderROL();
+      } else if (tabName === 'analysis') {
+        renderAnalysis();
+      } else if (tabName === 'simulator') {
+        renderSimulator();
+      }
+    });
+  });
+
+  // Set initial active tab to profile
+  const profileButton = document.querySelector('[data-tab="profile"]');
+  if (profileButton) {
+    profileButton.classList.add('active');
+  }
+}
+
+// ============================================================================
+// 2. PROFILE FORM HANDLERS
+// ============================================================================
+function initProfileForm() {
+  const profileForm = document.getElementById('profileForm');
+  const imgCheckbox = document.getElementById('img');
+  const visaField = document.getElementById('visaField');
+  const saveProfileBtn = document.getElementById('saveProfileBtn');
+
+  if (!profileForm) return;
+
+  // Show/hide visa field based on IMG checkbox
+  if (imgCheckbox) {
+    imgCheckbox.addEventListener('change', () => {
+      if (visaField) {
+        visaField.style.display = imgCheckbox.checked ? 'block' : 'none';
+      }
+    });
+
+    // Initialize visa field visibility
+    if (visaField) {
+      visaField.style.display = imgCheckbox.checked ? 'block' : 'none';
+    }
+  }
+
+  // Save Profile button handler
+  if (saveProfileBtn) {
+    saveProfileBtn.addEventListener('click', () => {
+      // Read form inputs
+      const medicalSchool = document.getElementById('medicalSchool').value.trim();
+      const step1 = parseFloat(document.getElementById('step1').value) || 0;
+      const step2 = parseFloat(document.getElementById('step2').value) || 0;
+      const step3 = parseFloat(document.getElementById('step3').value) || 0;
+      const publications = parseInt(document.getElementById('publications').value) || 0;
+      const researchMonths = parseInt(document.getElementById('researchMonths').value) || 0;
+      const targetSpecialty = document.getElementById('targetSpecialty').value;
+      const isImg = imgCheckbox.checked;
+      const visaRequired = document.getElementById('visaRequired').checked;
+      const geographicPreference = document.getElementById('geographicPreference').value.trim();
+
+      // Validate required fields
+      if (!medicalSchool || !targetSpecialty) {
+        alert('Please fill in all required fields');
+        return;
+      }
+
+      // Update state
+      state.profile = {
+        medicalSchool,
+        step1,
+        step2,
+        step3,
+        publications,
+        researchMonths,
+        targetSpecialty,
+        isImg,
+        visaRequired,
+        geographicPreference
+      };
+
+      // Save to localStorage
+      localStorage.setItem('matchPortalProfile', JSON.stringify(state.profile));
+
+      // Render profile summary
+      renderProfileSummary();
+
+      // Enable other tabs
+      const tabButtons = document.querySelectorAll('.tab');
+      tabButtons.forEach(btn => {
+        if (btn.getAttribute('data-tab') !== 'profile') {
+          btn.style.opacity = '1';
+          btn.style.pointerEvents = 'auto';
+        }
+      });
+
+      alert('Profile saved successfully!');
+    });
+  }
+
+  // Load profile from localStorage if available
+  const savedProfile = localStorage.getItem('matchPortalProfile');
+  if (savedProfile) {
+    state.profile = JSON.parse(savedProfile);
+    populateFormFromState();
+  }
+}
+
+// Helper function to populate form fields from state
+function populateFormFromState() {
+  if (!state.profile) return;
+
+  const fields = {
+    'medicalSchool': 'medicalSchool',
+    'step1': 'step1',
+    'step2': 'step2',
+    'step3': 'step3',
+    'publications': 'publications',
+    'researchMonths': 'researchMonths',
+    'targetSpecialty': 'targetSpecialty',
+    'img': 'isImg',
+    'visaRequired': 'visaRequired',
+    'geographicPreference': 'geographicPreference'
+  };
+
+  for (const [elementId, stateProp] of Object.entries(fields)) {
+    const element = document.getElementById(elementId);
+    if (element && state.profile[stateProp] !== undefined) {
+      if (element.type === 'checkbox') {
+        element.checked = state.profile[stateProp];
+      } else {
+        element.value = state.profile[stateProp];
+      }
+    }
+  }
+
+  // Show/hide visa field
+  const visaField = document.getElementById('visaField');
+  const imgCheckbox = document.getElementById('img');
+  if (visaField && imgCheckbox) {
+    visaField.style.display = imgCheckbox.checked ? 'block' : 'none';
+  }
+}
+
+// ============================================================================
+// 3. PROGRAM SEARCH & FILTER
+// ============================================================================
+function renderProgramSearch() {
+  const searchContainer = document.getElementById('programSearchContainer');
+  if (!searchContainer) return;
+
+  const specialty = state.profile.targetSpecialty;
+  const filteredBySpecialty = PROGRAMS.filter(p => p.specialty === specialty);
+
+  let html = `
+    <div class="search-controls">
+      <input type="text" id="searchInput" placeholder="Search by program name, city, or state" class="search-input">
+    </div>
+    <div id="searchResults" class="search-results">
+  `;
+
+  if (filteredBySpecialty.length === 0) {
+    html += '<p>No programs found for this specialty.</p>';
+  } else {
+    filteredBySpecialty.forEach(program => {
+      const fitScore = calculateFitScore(program);
+      const fitColor = fitScore >= 80 ? '#22c55e' : fitScore >= 60 ? '#f59e0b' : '#ef4444';
+
+      html += `
+        <div class="search-result-card" data-program-id="${program.id}">
+          <div class="result-header">
+            <div class="result-info">
+              <h4>${program.name}</h4>
+              <p>${program.city}, ${program.state}</p>
+            </div>
+            <div class="fit-badge" style="background-color: ${fitColor}">
+              ${fitScore.toFixed(0)}
+            </div>
+          </div>
+          <button class="btn-add-to-rol" data-program-id="${program.id}">Add to ROL</button>
+        </div>
+      `;
+    });
+  }
+
+  html += '</div>';
+  searchContainer.innerHTML = html;
+
+  // Search input event listener
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const cards = document.querySelectorAll('.search-result-card');
+
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(query) ? 'block' : 'none';
+      });
+    });
+  }
+
+  // Add to ROL button handlers
+  const addBtns = document.querySelectorAll('.btn-add-to-rol');
+  addBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const programId = btn.getAttribute('data-program-id');
+      const program = PROGRAMS.find(p => p.id === programId);
+
+      if (program && !state.rol.some(p => p.id === programId)) {
+        state.rol.push(program);
+        state.rolOrder.push(programId);
+        localStorage.setItem('matchPortalROL', JSON.stringify(state.rol));
+        renderProgramSearch(); // Re-render to update button state
+        alert(`${program.name} added to your ROL!`);
+      } else if (state.rol.some(p => p.id === programId)) {
+        alert('This program is already in your ROL!');
+      }
+    });
+  });
+}
+
+// ============================================================================
+// 4. RANK ORDER LIST (DREAM SHEET) RENDERER
+// ============================================================================
+function renderROL() {
+  const rolContainer = document.getElementById('rolContainer');
+  if (!rolContainer) return;
+
+  if (state.rol.length === 0) {
+    rolContainer.innerHTML = '<p>No programs added yet. Use the Search tab to add programs.</p>';
+    return;
+  }
+
+  // Calculate cumulative match probability for safety floor
+  let cumulativeProbability = 0;
+  let safetyFloorIndex = -1;
+
+  for (let i = 0; i < state.rol.length; i++) {
+    const prob = calculateMatchProbability(state.rol[i]);
+    cumulativeProbability += prob;
+    if (cumulativeProbability > 0.95 && safetyFloorIndex === -1) {
+      safetyFloorIndex = i;
+    }
+  }
+
+  // Render drag-and-drop cards
+  let html = '<div id="rolCards" class="rol-cards">';
+
+  state.rol.forEach((program, index) => {
+    const fitScore = calculateFitScore(program);
+    const fitColor = fitScore >= 80 ? '#22c55e' : fitScore >= 60 ? '#f59e0b' : '#ef4444';
+    const isSignaled = state.signals.has(program.id);
+
+    html += `
+      <div class="rol-card" draggable="true" data-program-id="${program.id}" data-rank="${index}">
+        <div class="rol-rank">${index + 1}</div>
+        <div class="rol-info">
+          <h4>${program.name}</h4>
+          <p>${program.city}, ${program.state}</p>
+        </div>
+        <div class="rol-fit-score" style="background-color: ${fitColor}">
+          ${fitScore.toFixed(0)}
+        </div>
+        <button class="signal-toggle ${isSignaled ? 'signaled' : ''}" data-program-id="${program.id}" title="Toggle signal (max 5)">
+          ⭐
+        </button>
+        <button class="btn-remove-rol" data-program-id="${program.id}">×</button>
+        ${index === safetyFloorIndex ? '<div class="safety-floor-marker">Safety Floor</div>' : ''}
+      </div>
+    `;
+  });
+
+  html += '</div>';
+
+  // Add progress bar
+  const avgFitScore = state.rol.reduce((sum, p) => sum + calculateFitScore(p), 0) / state.rol.length;
+  const avgMatchProb = state.rol.reduce((sum, p) => sum + calculateMatchProbability(p), 0) / state.rol.length;
+
+  html += `
+    <div class="rol-stats">
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: ${(state.rol.length / 30) * 100}%"></div>
+        <span>${state.rol.length}/30 programs</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="stat-label">Total Ranked</span>
+          <span class="stat-value">${state.rol.length}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Avg Fit Score</span>
+          <span class="stat-value">${avgFitScore.toFixed(0)}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Match Probability</span>
+          <span class="stat-value">${(avgMatchProb * 100).toFixed(0)}%</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Signals</span>
+          <span class="stat-value">${state.signals.size}/5</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  rolContainer.innerHTML = html;
+
+  // Drag and drop handlers
+  const cards = document.querySelectorAll('.rol-card');
+
+  cards.forEach(card => {
+    card.addEventListener('dragstart', (e) => {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', card.innerHTML);
+      card.classList.add('dragging');
+    });
+
+    card.addEventListener('dragend', () => {
+      card.classList.remove('dragging');
+    });
+
+    card.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      card.classList.add('drag-over');
+    });
+
+    card.addEventListener('dragleave', () => {
+      card.classList.remove('drag-over');
+    });
+
+    card.addEventListener('drop', (e) => {
+      e.preventDefault();
+      card.classList.remove('drag-over');
+
+      const draggedCard = document.querySelector('.dragging');
+      if (draggedCard && draggedCard !== card) {
+        const draggedIndex = parseInt(draggedCard.getAttribute('data-rank'));
+        const targetIndex = parseInt(card.getAttribute('data-rank'));
+
+        // Reorder in state
+        const [movedProgram] = state.rol.splice(draggedIndex, 1);
+        state.rol.splice(targetIndex, 0, movedProgram);
+        state.rolOrder = state.rol.map(p => p.id);
+
+        localStorage.setItem('matchPortalROL', JSON.stringify(state.rol));
+        renderROL();
+      }
+    });
+  });
+
+  // Remove button handlers
+  const removeBtns = document.querySelectorAll('.btn-remove-rol');
+  removeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const programId = btn.getAttribute('data-program-id');
+      state.rol = state.rol.filter(p => p.id !== programId);
+      state.rolOrder = state.rol.map(p => p.id);
+      state.signals.delete(programId);
+      localStorage.setItem('matchPortalROL', JSON.stringify(state.rol));
+      renderROL();
+    });
+  });
+
+  // Signal toggle handlers
+  const signalBtns = document.querySelectorAll('.signal-toggle');
+  signalBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const programId = btn.getAttribute('data-program-id');
+      toggleSignal(programId);
+    });
+  });
+}
+
+// ============================================================================
+// 5. SIGNAL TOGGLE
+// ============================================================================
+function toggleSignal(programId) {
+  if (state.signals.has(programId)) {
+    state.signals.delete(programId);
+  } else {
+    if (state.signals.size >= 5) {
+      alert('Maximum 5 signals allowed');
+      return;
+    }
+    state.signals.add(programId);
+  }
+
+  localStorage.setItem('matchPortalSignals', JSON.stringify(Array.from(state.signals)));
+  renderROL();
+}
+
+// ============================================================================
+// 6. PROGRAM DETAILS PANEL
+// ============================================================================
+function renderProgramDetails(programId) {
+  const detailsPanel = document.getElementById('programDetailsPanel');
+  if (!detailsPanel) return;
+
+  const program = PROGRAMS.find(p => p.id === programId);
+  if (!program) return;
+
+  const fitScore = calculateFitScore(program);
+  const fitColor = fitScore >= 80 ? '#22c55e' : fitScore >= 60 ? '#f59e0b' : '#ef4444';
+
+  // Calculate strengths and gaps
+  const profileStep2 = state.profile.step2 || 0;
+  const profilePubs = state.profile.publications || 0;
+  const profileResearch = state.profile.researchMonths || 0;
+
+  const strengths = [];
+  const gaps = [];
+
+  if (profileStep2 >= program.avgStep2) strengths.push('Strong Step 2 score');
+  else gaps.push('Step 2 score below program average');
+
+  if (profilePubs >= 3) strengths.push('Solid publication record');
+  else gaps.push('Limited publications');
+
+  if (profileResearch >= 12) strengths.push('Extensive research experience');
+  else gaps.push('Limited research time');
+
+  const tierTier = program.tier === 'T1' ? 'Tier 1 (Top)' :
+                   program.tier === 'T2' ? 'Tier 2 (Mid)' : 'Tier 3 (Bottom)';
+
+  let html = `
+    <div class="program-details">
+      <h3>${program.name}</h3>
+      <p class="program-location">${program.city}, ${program.state}</p>
+
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="detail-label">Tier</span>
+          <span class="detail-value">${tierTier}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">IMG-Friendly</span>
+          <span class="detail-value">${program.imgFriendly ? 'Yes' : 'No'}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Avg Step 2</span>
+          <span class="detail-value">${program.avgStep2}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Avg Publications</span>
+          <span class="detail-value">${program.avgPublications}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Interview Rate</span>
+          <span class="detail-value">${program.interviewRate}%</span>
+        </div>
+      </div>
+
+      <div class="fit-score-section">
+        <h4>Fit Score: <span style="color: ${fitColor}; font-size: 1.2em;">${fitScore.toFixed(0)}</span></h4>
+        <div class="color-gauge">
+          <div class="gauge-segment" style="background-color: #ef4444; width: 33%;"></div>
+          <div class="gauge-segment" style="background-color: #f59e0b; width: 33%;"></div>
+          <div class="gauge-segment" style="background-color: #22c55e; width: 34%;"></div>
+        </div>
+      </div>
+
+      <div class="details-analysis">
+        <h4>Strengths</h4>
+        <ul class="strengths-list">
+          ${strengths.map(s => `<li style="color: #22c55e;">✓ ${s}</li>`).join('')}
+        </ul>
+
+        <h4>Gaps</h4>
+        <ul class="gaps-list">
+          ${gaps.map(g => `<li style="color: #ef4444;">✗ ${g}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+  `;
+
+  detailsPanel.innerHTML = html;
+}
+
+// ============================================================================
+// 7. RADAR CHART (CANVAS)
+// ============================================================================
+function drawRadarChart(programId) {
+  const canvas = document.getElementById('radarChart');
+  if (!canvas) return;
+
+  const program = PROGRAMS.find(p => p.id === programId);
+  if (!program) return;
+
+  const ctx = canvas.getContext('2d');
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
+  const maxRadius = Math.min(centerX, centerY) - 40;
+
+  // Axes: Academic, Scholarly, Institutional, Holistic, Geographic
+  const axes = ['Academic', 'Scholarly', 'Institutional', 'Holistic', 'Geographic'];
+  const studentData = [
+    state.profile.step2 / 260 * 100,
+    Math.min(state.profile.publications * 20, 100),
+    state.profile.researchMonths / 24 * 100,
+    75, // Holistic placeholder
+    state.profile.geographicPreference ? 80 : 40
+  ];
+
+  const programData = [
+    program.avgStep2 / 260 * 100,
+    Math.min(program.avgPublications * 20, 100),
+    70, // Institutional placeholder
+    80,
+    75
+  ];
+
+  const angleSlice = (Math.PI * 2) / axes.length;
+
+  // Draw grid (3 concentric pentagons)
+  const gridLevels = [0.33, 0.66, 1];
+  ctx.strokeStyle = '#ddd';
+  ctx.lineWidth = 1;
+
+  gridLevels.forEach(level => {
+    ctx.beginPath();
+    for (let i = 0; i < axes.length; i++) {
+      const angle = angleSlice * i - Math.PI / 2;
+      const x = centerX + (maxRadius * level) * Math.cos(angle);
+      const y = centerY + (maxRadius * level) * Math.sin(angle);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  });
+
+  // Draw axis lines
+  ctx.strokeStyle = '#ccc';
+  axes.forEach((axis, i) => {
+    const angle = angleSlice * i - Math.PI / 2;
+    const x = centerX + maxRadius * Math.cos(angle);
+    const y = centerY + maxRadius * Math.sin(angle);
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  });
+
+  // Draw student polygon (blue)
+  ctx.strokeStyle = 'rgba(59, 130, 246, 0.8)';
+  ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+
+  studentData.forEach((value, i) => {
+    const angle = angleSlice * i - Math.PI / 2;
+    const radius = (value / 100) * maxRadius;
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // Draw program polygon (red)
+  ctx.strokeStyle = 'rgba(239, 68, 68, 0.8)';
+  ctx.fillStyle = 'rgba(239, 68, 68, 0.2)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+
+  programData.forEach((value, i) => {
+    const angle = angleSlice * i - Math.PI / 2;
+    const radius = (value / 100) * maxRadius;
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // Draw axis labels
+  ctx.fillStyle = '#333';
+  ctx.font = '12px Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  axes.forEach((label, i) => {
+    const angle = angleSlice * i - Math.PI / 2;
+    const labelRadius = maxRadius + 20;
+    const x = centerX + labelRadius * Math.cos(angle);
+    const y = centerY + labelRadius * Math.sin(angle);
+    ctx.fillText(label, x, y);
+  });
+
+  // Draw legend
+  ctx.textAlign = 'left';
+  ctx.fillStyle = 'rgba(59, 130, 246, 0.8)';
+  ctx.fillRect(20, canvas.height - 35, 12, 12);
+  ctx.fillStyle = '#333';
+  ctx.fillText('You', 35, canvas.height - 29);
+
+  ctx.fillStyle = 'rgba(239, 68, 68, 0.8)';
+  ctx.fillRect(120, canvas.height - 35, 12, 12);
+  ctx.fillStyle = '#333';
+  ctx.fillText('Program Average', 135, canvas.height - 29);
+}
+
+// ============================================================================
+// 8. FIT SCORE BREAKDOWN
+// ============================================================================
+function renderFitBreakdown(programId) {
+  const breakdownContainer = document.getElementById('fitBreakdownContainer');
+  if (!breakdownContainer) return;
+
+  const program = PROGRAMS.find(p => p.id === programId);
+  if (!program) return;
+
+  // Score components
+  const profileStep2 = state.profile.step2 || 0;
+  const profilePubs = state.profile.publications || 0;
+  const profileResearch = state.profile.researchMonths || 0;
+
+  const step2Score = Math.min((profileStep2 / program.avgStep2) * 100, 100);
+  const pubsScore = Math.min((profilePubs / program.avgPublications) * 100, 100);
+  const researchScore = Math.min((profileResearch / 24) * 100, 100);
+  const tierScore = program.tier === 'T1' ? 100 : program.tier === 'T2' ? 80 : 60;
+
+  const components = [
+    { label: 'Step 2 Score', value: step2Score },
+    { label: 'Publications', value: pubsScore },
+    { label: 'Research Experience', value: researchScore },
+    { label: 'Program Tier', value: tierScore }
+  ];
+
+  let html = '<div class="fit-breakdown">';
+
+  components.forEach(comp => {
+    const color = comp.value >= 80 ? '#22c55e' : comp.value >= 60 ? '#f59e0b' : '#ef4444';
+    html += `
+      <div class="breakdown-item">
+        <div class="breakdown-label">${comp.label}</div>
+        <div class="breakdown-bar-container">
+          <div class="breakdown-bar" style="width: ${comp.value}%; background-color: ${color};"></div>
+        </div>
+        <div class="breakdown-value">${comp.value.toFixed(0)}</div>
+      </div>
+    `;
+  });
+
+  html += '</div>';
+  breakdownContainer.innerHTML = html;
+}
+
+// ============================================================================
+// 9. RECOMMENDATIONS
+// ============================================================================
+function renderRecommendations(programId) {
+  const recsContainer = document.getElementById('recommendationsContainer');
+  if (!recsContainer) return;
+
+  const program = PROGRAMS.find(p => p.id === programId);
+  if (!program) return;
+
+  const profileStep2 = state.profile.step2 || 0;
+  const profilePubs = state.profile.publications || 0;
+
+  const strengths = [];
+  const gaps = [];
+  const tips = [];
+
+  // Analyze strengths
+  if (profileStep2 >= program.avgStep2) {
+    strengths.push('Your Step 2 score matches or exceeds the program average');
+  }
+  if (profilePubs >= program.avgPublications) {
+    strengths.push('You have strong publication activity');
+  }
+  if (program.imgFriendly && state.profile.isImg) {
+    strengths.push('You\'re an IMG and this program is IMG-friendly');
+  }
+
+  // Analyze gaps
+  if (profileStep2 < program.avgStep2) {
+    gaps.push(`Step 2 score ${profileStep2} is below program avg of ${program.avgStep2}`);
+  }
+  if (profilePubs < program.avgPublications) {
+    gaps.push(`Your ${profilePubs} publications are below program avg of ${program.avgPublications}`);
+  }
+  if (!program.imgFriendly && state.profile.isImg) {
+    gaps.push('This program is less IMG-friendly');
+  }
+
+  // Tips
+  tips.push('Highlight your research involvement and any clinical experience');
+  tips.push('Emphasize why you\'re interested in this specific program');
+  tips.push('Reach out to residents at this program for insight into their culture');
+
+  let html = `
+    <div class="recommendations">
+      <div class="rec-section">
+        <h4 style="color: #22c55e;">Strengths</h4>
+        <ul style="color: #22c55e;">
+          ${strengths.length > 0 ? strengths.map(s => `<li>✓ ${s}</li>`).join('') : '<li>Keep building your profile</li>'}
+        </ul>
+      </div>
+
+      <div class="rec-section">
+        <h4 style="color: #ef4444;">Gaps</h4>
+        <ul style="color: #ef4444;">
+          ${gaps.length > 0 ? gaps.map(g => `<li>✗ ${g}</li>`).join('') : '<li>No major gaps identified</li>'}
+        </ul>
+      </div>
+
+      <div class="rec-section">
+        <h4 style="color: #3b82f6;">Tips</h4>
+        <ul style="color: #3b82f6;">
+          ${tips.map(t => `<li>💡 ${t}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+  `;
+
+  recsContainer.innerHTML = html;
+}
+
+// ============================================================================
+// 10. ANALYSIS TAB MASTER RENDERER
+// ============================================================================
+function renderAnalysis() {
+  const analysisContainer = document.getElementById('analysisContainer');
+  if (!analysisContainer) return;
+
+  if (!state.selectedProgramId) {
+    analysisContainer.innerHTML = '<p>Select a program from your Dream Sheet to view detailed analysis.</p>';
+    return;
+  }
+
+  const program = PROGRAMS.find(p => p.id === state.selectedProgramId);
+  if (!program) return;
+
+  let html = `
+    <div class="analysis-section">
+      <h3>${program.name} - Detailed Analysis</h3>
+
+      <div class="analysis-grid">
+        <div class="analysis-card">
+          <h4>Profile Comparison</h4>
+          <canvas id="radarChart" width="300" height="300"></canvas>
+        </div>
+
+        <div class="analysis-card">
+          <h4>Component Breakdown</h4>
+          <div id="fitBreakdownContainer"></div>
+        </div>
+      </div>
+
+      <div class="analysis-full-width">
+        <h4>Recommendations & Insights</h4>
+        <div id="recommendationsContainer"></div>
+      </div>
+    </div>
+  `;
+
+  analysisContainer.innerHTML = html;
+
+  // Render the detailed components
+  setTimeout(() => {
+    drawRadarChart(state.selectedProgramId);
+    renderFitBreakdown(state.selectedProgramId);
+    renderRecommendations(state.selectedProgramId);
+  }, 0);
+}
+
+// ============================================================================
+// 11. MONTE CARLO SIMULATOR
+// ============================================================================
+function runSimulation(iterations) {
+  const results = [];
+  const programMatches = {};
+
+  for (let iter = 0; iter < iterations; iter++) {
+    let matched = false;
+    let matchRank = -1;
+
+    for (let i = 0; i < state.rol.length; i++) {
+      const program = state.rol[i];
+      const fitScore = calculateFitScore(program);
+
+      // Add random noise: ±15%
+      const noiseAmount = (Math.random() - 0.5) * 0.3; // -15% to +15%
+      const noisyThreshold = program.interviewRate / 100 * (1 + noiseAmount);
+
+      // Match if fit score exceeds noisy threshold
+      if (fitScore / 100 > noisyThreshold) {
+        matchRank = i + 1;
+        matched = true;
+        programMatches[program.id] = (programMatches[program.id] || 0) + 1;
+        break;
+      }
+    }
+
+    if (matched) {
+      results.push(matchRank);
+    }
+  }
+
+  // Aggregate statistics
+  const matchRate = (results.length / iterations) * 100;
+  const top3Rate = (results.filter(r => r <= 3).length / iterations) * 100;
+  const top5Rate = (results.filter(r => r <= 5).length / iterations) * 100;
+  const medianRank = results.length > 0 ? results[Math.floor(results.length / 2)] : 0;
+
+  // Find mode program
+  let modeProgram = null;
+  let maxMatches = 0;
+  for (const [progId, count] of Object.entries(programMatches)) {
+    if (count > maxMatches) {
+      maxMatches = count;
+      modeProgram = progId;
+    }
+  }
+
+  state.simResults = {
+    iterations,
+    matchRate,
+    top3Rate,
+    top5Rate,
+    medianRank,
+    modeProgram,
+    histogram: results
+  };
+
+  return state.simResults;
+}
+
+// ============================================================================
+// 12. HISTOGRAM CHART
+// ============================================================================
+function drawHistogram() {
+  const canvas = document.getElementById('histogramChart');
+  if (!canvas || !state.simResults) return;
+
+  const ctx = canvas.getContext('2d');
+  const histogram = state.simResults.histogram;
+
+  // Build frequency map
+  const freqMap = {};
+  histogram.forEach(rank => {
+    freqMap[rank] = (freqMap[rank] || 0) + 1;
+  });
+
+  const maxRank = Math.max(...histogram);
+  const maxFreq = Math.max(...Object.values(freqMap));
+
+  const barWidth = canvas.width / maxRank;
+  const maxBarHeight = canvas.height - 40;
+
+  // Draw bars
+  for (let rank = 1; rank <= maxRank; rank++) {
+    const freq = freqMap[rank] || 0;
+    const barHeight = (freq / maxFreq) * maxBarHeight;
+
+    const x = (rank - 1) * barWidth + 5;
+    const y = canvas.height - barHeight - 30;
+
+    // Color bands
+    let color;
+    if (rank <= 3) color = '#22c55e'; // Green - top 3
+    else if (rank <= 5) color = '#3b82f6'; // Blue - top 5
+    else if (rank <= 10) color = '#f59e0b'; // Yellow - top 10
+    else if (rank <= 20) color = '#f97316'; // Orange
+    else color = '#ef4444'; // Red
+
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, barWidth - 2, barHeight);
+
+    // Draw rank label
+    ctx.fillStyle = '#666';
+    ctx.font = '10px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(rank, x + barWidth / 2 - 1, canvas.height - 10);
+  }
+
+  // Draw axes
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(30, canvas.height - 30);
+  ctx.lineTo(canvas.width, canvas.height - 30);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(30, 0);
+  ctx.lineTo(30, canvas.height - 30);
+  ctx.stroke();
+
+  // Draw labels
+  ctx.fillStyle = '#333';
+  ctx.font = 'bold 12px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('Rank Position', canvas.width / 2, canvas.height - 5);
+
+  ctx.save();
+  ctx.translate(10, canvas.height / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.textAlign = 'center';
+  ctx.fillText('Frequency', 0, 0);
+  ctx.restore();
+}
+
+// ============================================================================
+// 13. SIMULATOR TAB RENDERER
+// ============================================================================
+function renderSimulator() {
+  const simContainer = document.getElementById('simulatorContainer');
+  if (!simContainer) return;
+
+  if (state.rol.length === 0) {
+    simContainer.innerHTML = '<p>Add programs to your Dream Sheet before running simulations.</p>';
+    return;
+  }
+
+  let html = `
+    <div class="simulator-control">
+      <h3>Match Probability Simulator</h3>
+      <p>Run Monte Carlo simulations to estimate your match probability across your rank list.</p>
+
+      <div class="sim-config">
+        <label>
+          Number of Iterations:
+          <input type="number" id="simIterations" value="1000" min="100" max="10000" step="100">
+        </label>
+      </div>
+
+      <button id="runSimButton" class="btn-primary">Run Simulation (1000 iterations)</button>
+    </div>
+
+    <div id="simLoadingState" style="display: none;">
+      <p>Running simulation... Please wait.</p>
+    </div>
+
+    <div id="simResultsContainer"></div>
+  `;
+
+  simContainer.innerHTML = html;
+
+  // Run simulation button
+  const runBtn = document.getElementById('runSimButton');
+  const iterInput = document.getElementById('simIterations');
+
+  if (runBtn) {
+    runBtn.addEventListener('click', () => {
+      const iterations = parseInt(iterInput.value) || 1000;
+      runBtn.disabled = true;
+      runBtn.innerText = 'Running...';
+
+      const loadingState = document.getElementById('simLoadingState');
+      if (loadingState) loadingState.style.display = 'block';
+
+      // Simulate async
+      setTimeout(() => {
+        const results = runSimulation(iterations);
+        displaySimulationResults(results);
+
+        runBtn.disabled = false;
+        runBtn.innerText = 'Run Simulation (' + iterations + ' iterations)';
+        if (loadingState) loadingState.style.display = 'none';
+      }, 100);
+    });
+  }
+
+  // Update button text
+  if (iterInput) {
+    iterInput.addEventListener('change', () => {
+      runBtn.innerText = 'Run Simulation (' + iterInput.value + ' iterations)';
+    });
+  }
+}
+
+function displaySimulationResults(results) {
+  const resultsContainer = document.getElementById('simResultsContainer');
+  if (!resultsContainer) return;
+
+  const modeProgram = PROGRAMS.find(p => p.id === results.modeProgram);
+  const modeName = modeProgram ? modeProgram.name : 'N/A';
+
+  let html = `
+    <div class="sim-results">
+      <h4>Simulation Results</h4>
+      <div class="results-grid">
+        <div class="result-item">
+          <span class="result-label">Overall Match Rate</span>
+          <span class="result-value">${results.matchRate.toFixed(1)}%</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Top 3 Match Rate</span>
+          <span class="result-value">${results.top3Rate.toFixed(1)}%</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Top 5 Match Rate</span>
+          <span class="result-value">${results.top5Rate.toFixed(1)}%</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Median Rank</span>
+          <span class="result-value">${results.medianRank}</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Most Likely Match</span>
+          <span class="result-value">${modeName}</span>
+        </div>
+      </div>
+
+      <div class="histogram-container">
+        <h4>Distribution of Matches</h4>
+        <canvas id="histogramChart" width="600" height="300"></canvas>
+      </div>
+
+      <div class="whatif-section">
+        <h4>What-If Scenarios</h4>
+        <button class="btn-whatif" data-scenario="add_pubs">What if I had +2 publications?</button>
+        <button class="btn-whatif" data-scenario="signal_top3">What if I signal top 3?</button>
+        <button class="btn-whatif" data-scenario="add_programs">What if I add more programs?</button>
+        <div id="whatifResults"></div>
+      </div>
+    </div>
+  `;
+
+  resultsContainer.innerHTML = html;
+
+  // Draw histogram
+  setTimeout(() => {
+    drawHistogram();
+  }, 0);
+
+  // What-if buttons
+  const whatifBtns = document.querySelectorAll('.btn-whatif');
+  whatifBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const scenario = btn.getAttribute('data-scenario');
+      runWhatIf(scenario);
+    });
+  });
+}
+
+// ============================================================================
+// 14. WHAT-IF SCENARIOS
+// ============================================================================
+function runWhatIf(scenario) {
+  const whatifResults = document.getElementById('whatifResults');
+  if (!whatifResults) return;
+
+  let message = '';
+
+  if (scenario === 'add_pubs') {
+    // Temporarily add 2 publications
+    const originalPubs = state.profile.publications;
+    state.profile.publications += 2;
+
+    const newResults = runSimulation(state.simResults.iterations);
+    const improvement = newResults.matchRate - state.simResults.matchRate;
+
+    message = `
+      <div class="whatif-result">
+        <strong>Scenario: +2 Publications</strong>
+        <p>With 2 additional publications:</p>
+        <ul>
+          <li>Match Rate: ${newResults.matchRate.toFixed(1)}% (${improvement > 0 ? '+' : ''}${improvement.toFixed(1)}%)</li>
+          <li>Top 3 Rate: ${newResults.top3Rate.toFixed(1)}%</li>
+          <li>Top 5 Rate: ${newResults.top5Rate.toFixed(1)}%</li>
+        </ul>
+      </div>
+    `;
+
+    // Restore original
+    state.profile.publications = originalPubs;
+
+  } else if (scenario === 'signal_top3') {
+    // Temporarily signal top 3
+    const originalSignals = new Set(state.signals);
+    state.signals.clear();
+    for (let i = 0; i < Math.min(3, state.rol.length); i++) {
+      state.signals.add(state.rol[i].id);
+    }
+
+    const newResults = runSimulation(state.simResults.iterations);
+    const improvement = newResults.matchRate - state.simResults.matchRate;
+
+    message = `
+      <div class="whatif-result">
+        <strong>Scenario: Signal Top 3</strong>
+        <p>If you signal your top 3 programs:</p>
+        <ul>
+          <li>Match Rate: ${newResults.matchRate.toFixed(1)}% (${improvement > 0 ? '+' : ''}${improvement.toFixed(1)}%)</li>
+          <li>Top 3 Rate: ${newResults.top3Rate.toFixed(1)}%</li>
+          <li>Median Rank: ${newResults.medianRank}</li>
+        </ul>
+      </div>
+    `;
+
+    // Restore original
+    state.signals = originalSignals;
+
+  } else if (scenario === 'add_programs') {
+    message = `
+      <div class="whatif-result">
+        <strong>Scenario: Add More Programs</strong>
+        <p>You currently have ${state.rol.length} programs ranked.</p>
+        <p>Adding 5-10 more programs to your list can:</p>
+        <ul>
+          <li>Increase overall match probability</li>
+          <li>Lower your "safety floor" ranking position</li>
+          <li>Provide backup options in competitive markets</li>
+        </ul>
+        <p>Consider adding programs you're comfortable with below your current list.</p>
+      </div>
+    `;
+  }
+
+  whatifResults.innerHTML = message;
+}
+
+// ============================================================================
+// 15. INITIALIZATION
+// ============================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Load state from localStorage
+  const savedROL = localStorage.getItem('matchPortalROL');
+  if (savedROL) {
+    state.rol = JSON.parse(savedROL);
+    state.rolOrder = state.rol.map(p => p.id);
+  }
+
+  const savedSignals = localStorage.getItem('matchPortalSignals');
+  if (savedSignals) {
+    state.signals = new Set(JSON.parse(savedSignals));
+  }
+
+  const savedProfile = localStorage.getItem('matchPortalProfile');
+  if (savedProfile) {
+    state.profile = JSON.parse(savedProfile);
+  }
+
+  // Initialize UI
+  initTabs();
+  initProfileForm();
+
+  // Set default active tab
+  const profileTab = document.querySelector('[data-tab-content="profile"]');
+  if (profileTab) {
+    profileTab.style.display = 'block';
+  }
+
+  // Render initial profile summary
+  renderProfileSummary();
+});
+  </script>
+</body>
+</html>
