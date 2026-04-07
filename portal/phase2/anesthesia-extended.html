@@ -708,26 +708,45 @@
             padding: var(--spacing-xl);
         }
 
-                /* Flashcards Tab */
-        .flashcard-container { max-width: 600px; margin: 0 auto; }
-        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+                        /* Flashcards Tab */
+        .flashcard-container { max-width: 620px; margin: 0 auto; }
+        .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-toolbar-buttons { display: flex; gap: 8px; }
+        .fc-btn-sm { padding: 5px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-family: var(--font-sans); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+        .fc-btn-sm:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
+        .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
         .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .fc-assess { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .fc-assess button { padding: 10px 24px; border-radius: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid; }
+        .fc-got-it { background: #E8F5EE; color: var(--color-success); border-color: var(--color-success); }
+        .fc-got-it:hover { background: var(--color-success); color: #fff; }
+        .fc-missed { background: #FFF3E0; color: #E65100; border-color: #E65100; }
+        .fc-missed:hover { background: #E65100; color: #fff; }
         .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
         .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
         .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
         .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-complete { text-align: center; padding: 40px 20px; }
+        .fc-complete-icon { font-size: 48px; margin-bottom: 12px; }
+        .fc-complete h3 { font-family: var(--font-serif); color: var(--color-success); margin-bottom: 8px; }
+        .fc-complete p { color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px; }
+        .fc-complete-btn { padding: 10px 24px; border-radius: 8px; border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
+        .fc-new-cards { background: var(--color-accent); color: #fff; }
+        .fc-new-cards:hover { background: #005F73; }
+        .fc-restart { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .fc-restart:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* Resources Tab */
         .resources-grid {
@@ -1397,7 +1416,7 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
-        // Flashcard Data
+        // Flashcard Data — Full Pool
         const FLASHCARDS = [
   { front: "What is the approach to difficult airway assessment and management?", back: "Difficult airway prediction: Mallampati (oropharyngeal visualization), thyromental distance (<6 cm difficult), mouth opening (<3 cm limited), neck mobility (stiffness limits access). Mallampati III-IV, short neck, micrognathia, obesity increase difficulty. Management: maintain spontaneous ventilation, prepare alternative devices (video laryngoscope, fiberoptic scope), have backup plan, consider awake intubation for predicted difficulty." },
   { front: "Describe rapid sequence intubation and aspiration precautions.", back: "RSI: anesthesia technique minimizing aspiration risk in full stomach. Preparation: preoxygenation, position (head up 25 degrees), medications (induction agent, paralytic), cricoid pressure (controversial). Sequence: loss of consciousness, immediate intubation, no bag-mask ventilation typically. Agents: ketamine/propofol induction, succinylcholine (rapid paralysis) or rocuronium (longer duration). Confirm tube placement (end-tidal CO2, lung auscultation)." },
@@ -1412,45 +1431,147 @@
   { front: "What is the role of neuraxial anesthesia in postoperative pain management?", back: "Neuraxial opioids: epidural/spinal morphine provides prolonged analgesia (12-24 hours from single dose). Benefits: reduced systemic opioid requirements, improved pain control, lower PONV. Risks: respiratory depression (monitor closely), urinary retention, pruritus. Epidural continuous infusion: local anesthetic + opioid combination, patient-controlled epidural analgesia (PCEA). Improves outcomes vs IV opioid analgesia alone." },
   { front: "Describe the management of postoperative nausea and vomiting (PONV).", back: "PONV: common side effect, risk factors: female, non-smoker, volatile anesthetics, opioid use, postoperative pain. Prevention: avoid triggering agents (volatile anesthetics, high-dose opioids), use TIVA, adequate hydration, multimodal antiemetic (ondansetron, dexamethasone, scopolamine patch). Treatment: antiemetics, fluid therapy, position changes. Delayed PONV (>2 hours): different mechanism, managed with continued antiemetics." },
   { front: "What is the diagnostic approach to emergence delirium and postoperative cognitive dysfunction?", back: "Emergence delirium: confusion, agitation immediately post-anesthesia (resolves <30 minutes). Causes: hypoxia, hypercapnia, pain, full bladder, ICU environment. Prevention: adequate oxygenation, extubation readiness assessment, anxiolysis. POCD: subtle cognitive impairment lasting days-weeks post-op. Risk factors: advanced age, major surgery, prolonged anesthesia. Mechanism unclear (inflammation, microemboli). Prevention: minimize anesthesia depth, early mobilization, cognitive engagement." },
-  { front: "Describe the pharmacokinetics and kinetics principles in anesthesiology.", back: "Pharmacokinetics: absorption (IV rapid), distribution (plasma to tissues), metabolism (hepatic, renal, plasma esterase), elimination. Context-sensitive half-time: time for plasma concentration to decrease 50% after infusion stopped (important for recovery time). Accumulation: occurs with repeated doses or prolonged infusions. Metabolism variability: genetic (pseudocholinesterase deficiency prolongs succinylcholine), hepatic dysfunction, renal impairment. Dosing adjustments necessary in elderly, hepatic/renal disease." },
-  { front: "What is the approach to perioperative temperature management and hypothermia prevention?", back: "Perioperative hypothermia: anesthetics impair thermoregulation. Complications: coagulopathy, infection risk, delayed drug metabolism, shivering post-op (increases oxygen consumption). Prevention: active warming (forced-air, circulating water blankets), IV fluid warming, minimal exposure, increased ambient temperature. Core temperature monitoring (esophageal, bladder if hourly urine output needed). Hypothermia <32C may require extracorporeal rewarming." }
+  { front: "Describe the pharmacokinetics and kinetics principles in anesthesiology.", back: "Pharmacokinetics: absorption (IV rapid), distribution (plasma to tissues), metabolism (hepatic, renal, plasma esterase), elimination. Context-sensitive half-time: time for plasma concentration to decrease 50% after infusion stopped (important for recovery time). Accumulation: occurs with repeated doses or prolonged infusions. Metabolism variability: genetic (pseudocholinesterase deficiency prolongs succinylcholine), hepatic, renal impairment. Dosing adjustments necessary in elderly, hepatic/renal disease." },
+  { front: "What is the approach to perioperative temperature management and hypothermia prevention?", back: "Perioperative hypothermia: anesthetics impair thermoregulation. Complications: coagulopathy, infection risk, delayed drug metabolism, shivering post-op (increases oxygen consumption). Prevention: active warming (forced-air, circulating water blankets), IV fluid warming, minimal exposure, increased ambient temperature. Core temperature monitoring (esophageal, bladder if hourly urine output needed). Hypothermia <32C may require extracorporeal rewarming." },
+  { front: "What is the diagnostic approach to intraoperative hypoxemia?", back: "Intraoperative hypoxemia: SpO2 <94% or PaO2 <60 mmHg. Causes: inadequate preoxygenation, airway obstruction (kinking, secretions, tube obstruction), ventilation malfunction (ventilator settings, pneumothorax), anesthetic-related respiratory depression, anesthesia circuit disconnection. Management: assess airway patency, check breathing circuit, verify ventilator function, increase FiO2, reposition patient, manual bag ventilation if needed. Hyperventilation may worsen if hypocarbia-induced vasodilation." },
+  { front: "Describe the management of intraoperative hypertension and tachycardia.", back: "Intraoperative hypertension/tachycardia: inadequate anesthesia/analgesia, hypercapnia, hypothermia recovery, bladder distension, pain. Assessment: deepen anesthesia, check end-tidal CO2, ensure adequate IV opioid, assess surgical stimulus. Pharmacologic: increase volatile anesthetic concentration, additional IV analgesic (fentanyl), vasodilators (nitroprusside, nicardipine) if SBP >180 mmHg or DBP >110 mmHg. Monitor for causes (MI, sepsis). Avoid sudden drops (hypotension risk)." },
+  { front: "What is the diagnostic approach to anesthesia-related cardiac arrhythmias?", back: "Perioperative arrhythmias: caused by anesthetic agents (halothane sensitizes myocardium), catecholamine surge (inadequate anesthesia), electrolyte abnormalities (hyperkalemia from succinylcholine, hypokalemia), hypoxemia, hypercapnia, hypothermia. Atrial fibrillation common post-op. Management: identify trigger, correct underlying cause, treat arrhythmia if hemodynamically significant (cardioversion, antiarrhythmics). Continuous cardiac monitoring essential." },
+  { front: "Describe the management of perioperative myocardial ischemia and infarction.", back: "Perioperative MI: ischemia manifests as ST depression on ECG, troponin elevation. Risk factors: cardiac history, hypertension, coronary disease, major surgery. Prevention: beta-blockers, statins. Management: reduce oxygen demand (decrease heart rate/BP), increase oxygen delivery (increase FiO2), nitroglycerin, optimize hemoglobin. Troponin drawn if high-risk or symptoms. Postoperative cardiology consultation. Mortality high if perioperative MI." },
+  { front: "What are the induction agents used in anesthesia and their properties?", back: "Induction agents: propofol (rapid onset/offset, hypotension, antiemetic), etomidate (minimal CV effects, adrenal suppression risk), ketamine (hemodynamic stability, dissociative, analgesia), thiopental (rapid onset, cardiovascular depression, long half-life, rarely used). Choice depends on cardiac status, renal/hepatic function, patient preference. Propofol preferred for hemodynamically stable; etomidate or ketamine for unstable patients. IV induction allows rapid airway control." },
+  { front: "Describe the management of perioperative transfusion and massive transfusion protocol.", back: "Perioperative bleeding: assess magnitude (estimated blood loss, vital signs), type of anemia (pre-existing, dilutional, hemolysis), coagulation status. Transfusion thresholds: hemoglobin 7-8 g/dL usually triggers transfusion (except cardiac ischemia risk). Massive transfusion: rapid administration of >10 units RBC in <24 hours. Protocol: 1:1:1 ratio RBC:FFP:platelets, activate coagulopathy labs early. Hypothermia, acidosis, coagulopathy (lethal triad) worsen bleeding. Monitor PT/PTT, fibrinogen, platelets." },
+  { front: "What is the diagnostic approach to local anesthetic toxicity?", back: "Local anesthetic toxicity: from overdose or intravascular injection. Systemic toxicity: CNS effects (seizures, unconsciousness), cardiac effects (bradycardia, arrhythmias, circulatory collapse). Risk factors: overdose, rapid injection, intravascular placement, liver disease (reduced metabolism), regional blocks with higher doses. Management: stop injection, seizure control (benzodiazepines), IV lipid emulsion (20% lipid) if cardiac instability. Avoidance: appropriate dosing, aspiration before injection, ultrasound guidance." },
+  { front: "Describe the technique and monitoring for balanced anesthesia.", back: "Balanced anesthesia: combination of hypnotic (propofol, volatile), analgesic (opioid), paralytic (neuromuscular blocker). Advantages: reduced requirements of each agent, faster recovery, better outcomes. Monitoring: consciousness (electroencephalography via bispectral index), analgesia (facial grimacing, autonomic signs), neuromuscular function (train-of-four). Anesthetic depth guided by BIS (target 40-60). Allows multimodal approach, reducing side effects." },
+  { front: "What is the management of aspiration prophylaxis in perioperative period?", back: "Aspiration risk: full stomach, gastroesophageal reflux disease, pregnancy, obesity, emergency surgery. Prophylaxis: NPO guidelines (6 hrs solids, 2 hrs clear liquids), H2 blockers (ranitidine - now withdrawn), proton pump inhibitors (omeprazole), metoclopramide (gastric motility). Anesthesia modifications: RSI (cricoid pressure - controversial), avoid positive pressure ventilation pre-intubation. Postoperative: maintain fasting until swallowing/protective reflexes normal." },
+  { front: "Describe the diagnostic approach to postoperative pain assessment and management.", back: "Postoperative pain: assessed via numeric scale (0-10), pain location, character. Multimodal analgesia: combines acetaminophen, NSAIDs, opioids, regional techniques. Pharmacologic: IV/oral opioids titrated to effect (avoid excessive sedation), non-opioid analgesics. Regional: epidural/peripheral catheters provide excellent analgesia with lower systemic medication. Non-pharmacologic: ice, elevation, physical therapy. Monitor respiratory depression with opioids, use of naloxone if needed." },
+  { front: "What is the preoperative assessment for anesthetic risk?", back: "Preoperative assessment: ASA physical status classification (I-VI), cardiac risk (METS, Revised Cardiac Risk Index), pulmonary risk (COPD, smoking), anesthetic history (prior complications, malignant hyperthermia), medication review (anticoagulants, beta-blockers), laboratory testing (CBC, BMP, coagulation studies if indicated). Optimize modifiable risk factors (smoking cessation, BP control, diabetes management). Risk stratification guides monitoring/preparation intensity." },
+  { front: "Describe the management of intraoperative coagulopathy and massive bleeding.", back: "Coagulopathy management: assess bleeding (site, magnitude), check coagulation labs (PT/INR, PTT, platelet count, fibrinogen, D-dimer). Reversal agents: vitamin K (warfarin, 6-12 hrs onset), FFP (immediate but volume overload), prothrombin complex concentrate (faster warfarin reversal), idarucizumab (dabigatran reversal), andexanet (apixaban/rivaroxaban reversal). Transfusion protocols, surgical hemostasis control critical. Consider DIC (microthrombi, consumption coagulopathy)." }
 ];
 
-        // Flashcard State
+        // Flashcard Enhanced State
+        const FC_ROUND_SIZE = 15;
+        let fcPool = [...FLASHCARDS];
+        let fcRound = 0;
+        let fcActiveCards = [];
+        let fcMastered = [];
+        let fcMissed = [];
         let fcIndex = 0;
         let fcFlipped = false;
-        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function fcStartRound() {
+            const start = fcRound * FC_ROUND_SIZE;
+            const end = Math.min(start + FC_ROUND_SIZE, fcPool.length);
+            if (start >= fcPool.length) {
+                // All cards exhausted — reshuffle entire pool
+                fcPool.sort(() => Math.random() - 0.5);
+                fcRound = 0;
+                fcMastered = [];
+                fcMissed = [];
+                fcStartRound();
+                return;
+            }
+            fcActiveCards = fcPool.slice(start, end).map((c, i) => ({ ...c, idx: start + i }));
+            fcMastered = [];
+            fcMissed = [];
+            fcIndex = 0;
+            fcFlipped = false;
+        }
+        fcStartRound();
+
+        function fcRemainingCards() {
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx) && !fcMissed.includes(c.idx));
+        }
+
+        function fcCurrentDeck() {
+            // Show missed cards + unreviewed cards
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx));
+        }
 
         function renderFlashcards() {
             const container = document.getElementById("flashcardContainer");
-            if (FLASHCARDS.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+            const deck = fcCurrentDeck();
+            const totalInRound = fcActiveCards.length;
+            const masteredCount = fcMastered.length;
+            const progressPct = Math.round((masteredCount / totalInRound) * 100);
+            const hasMoreRounds = ((fcRound + 1) * FC_ROUND_SIZE) < fcPool.length;
+
+            // All cards in this round mastered
+            if (deck.length === 0) {
+                container.innerHTML = `
+                    <div class="fc-complete">
+                        <div class="fc-complete-icon">&#127942;</div>
+                        <h3>Round ${fcRound + 1} Complete!</h3>
+                        <p>You mastered all ${masteredCount} cards in this round.</p>
+                        <p style="font-size:13px;color:var(--color-text-muted);">${hasMoreRounds ? (fcPool.length - (fcRound + 1) * FC_ROUND_SIZE) + ' new cards remaining in the pool.' : 'You have reviewed all cards in the pool.'}</p>
+                        <div style="margin-top:16px;">
+                            ${hasMoreRounds ? '<button class="fc-complete-btn fc-new-cards" id="fcNewCards">Get New Cards</button>' : ''}
+                            <button class="fc-complete-btn fc-restart" id="fcRestart">Restart All Cards</button>
+                        </div>
+                    </div>
+                `;
+                const newBtn = document.getElementById("fcNewCards");
+                if (newBtn) newBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+                const restartBtn = document.getElementById("fcRestart");
+                if (restartBtn) restartBtn.addEventListener("click", () => { fcPool.sort(() => Math.random() - 0.5); fcRound = 0; fcStartRound(); renderFlashcards(); });
                 return;
             }
-            const card = FLASHCARDS[fcOrder[fcIndex]];
+
+            if (fcIndex >= deck.length) fcIndex = 0;
+            const card = deck[fcIndex];
+
             container.innerHTML = `
                 <div class="flashcard-container">
-                    <div class="flashcard-header">
-                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
-                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    <div class="flashcard-toolbar">
+                        <span class="flashcard-counter">Card ${fcIndex + 1} of ${deck.length} remaining</span>
+                        <div class="flashcard-toolbar-buttons">
+                            <button class="fc-btn-sm" id="fcShuffle">Shuffle</button>
+                            ${hasMoreRounds ? '<button class="fc-btn-sm" id="fcSkipRound">Skip to New Cards</button>' : ''}
+                        </div>
                     </div>
+                    <div class="fc-progress-label">
+                        <span>Round ${fcRound + 1} of ${Math.ceil(fcPool.length / FC_ROUND_SIZE)}</span>
+                        <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
+                    </div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
                     <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
                         <div class="flashcard-inner">
                             <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
                             <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
                         </div>
                     </div>
-                    <div class="flashcard-hint">Click card to flip</div>
+                    ${fcFlipped ? `
+                        <div class="fc-assess">
+                            <button class="fc-got-it" id="fcGotIt">&#10003; Got It</button>
+                            <button class="fc-missed" id="fcMissedBtn">&#10007; Still Learning</button>
+                        </div>
+                    ` : '<div class="flashcard-hint">Click card to flip and reveal the answer</div>'}
                     <div class="flashcard-nav">
                         <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
-                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                        <button id="fcNext" ${fcIndex >= deck.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
                     </div>
                 </div>
             `;
+
             document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
             document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < deck.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            const shuffleBtn = document.getElementById("fcShuffle");
+            if (shuffleBtn) shuffleBtn.addEventListener("click", () => { fcActiveCards.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            const skipBtn = document.getElementById("fcSkipRound");
+            if (skipBtn) skipBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+            const gotItBtn = document.getElementById("fcGotIt");
+            if (gotItBtn) gotItBtn.addEventListener("click", () => {
+                fcMastered.push(card.idx);
+                fcFlipped = false;
+                const remaining = fcCurrentDeck();
+                if (fcIndex >= remaining.length) fcIndex = Math.max(0, remaining.length - 1);
+                renderFlashcards();
+            });
+            const missedBtn = document.getElementById("fcMissedBtn");
+            if (missedBtn) missedBtn.addEventListener("click", () => {
+                fcFlipped = false;
+                fcIndex = (fcIndex + 1) % Math.max(1, fcCurrentDeck().length);
+                renderFlashcards();
+            });
         }
 
         // Utility: Render Resources

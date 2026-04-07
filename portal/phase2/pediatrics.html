@@ -708,26 +708,45 @@
             padding: var(--spacing-xl);
         }
 
-                /* Flashcards Tab */
-        .flashcard-container { max-width: 600px; margin: 0 auto; }
-        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+                        /* Flashcards Tab */
+        .flashcard-container { max-width: 620px; margin: 0 auto; }
+        .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-toolbar-buttons { display: flex; gap: 8px; }
+        .fc-btn-sm { padding: 5px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-family: var(--font-sans); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+        .fc-btn-sm:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
+        .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
         .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .fc-assess { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .fc-assess button { padding: 10px 24px; border-radius: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid; }
+        .fc-got-it { background: #E8F5EE; color: var(--color-success); border-color: var(--color-success); }
+        .fc-got-it:hover { background: var(--color-success); color: #fff; }
+        .fc-missed { background: #FFF3E0; color: #E65100; border-color: #E65100; }
+        .fc-missed:hover { background: #E65100; color: #fff; }
         .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
         .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
         .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
         .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-complete { text-align: center; padding: 40px 20px; }
+        .fc-complete-icon { font-size: 48px; margin-bottom: 12px; }
+        .fc-complete h3 { font-family: var(--font-serif); color: var(--color-success); margin-bottom: 8px; }
+        .fc-complete p { color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px; }
+        .fc-complete-btn { padding: 10px 24px; border-radius: 8px; border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
+        .fc-new-cards { background: var(--color-accent); color: #fff; }
+        .fc-new-cards:hover { background: #005F73; }
+        .fc-restart { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .fc-restart:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* Resources Tab */
         .resources-grid {
@@ -1397,7 +1416,7 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
-        // Flashcard Data
+        // Flashcard Data — Full Pool
         const FLASHCARDS = [
   { front: "What are the developmental milestones from birth to 5 years?", back: "2 months: social smile, head control. 4 months: rolling, reaching. 6 months: sitting, babbling. 9 months: crawling, pincer grasp. 12 months: cruising, mama/dada with meaning. 18 months: walking, 10-20 words. 2 years: 50-100 words, two-word phrases. 3 years: 1000 words, toilet training, tricycle. Delays suggest developmental disorder, hearing loss, cognitive impairment." },
   { front: "Describe the pathophysiology and management of bronchiolitis.", back: "Bronchiolitis: viral (RSV most common) inflammation of bronchioles, affects infants <2 years. Presents with cough, rhinorrhea, wheeze, crackles, respiratory distress. Diagnosis: clinical, viral testing (RSV antigen, PCR). Management: supportive (oxygen, fluids), bronchodilators controversial, ribavirin rarely indicated. Most recover; high-risk (prematurity, CHD, immunocompromised) require hospitalization." },
@@ -1413,44 +1432,149 @@
   { front: "Describe the management of asthma exacerbation in children.", back: "Mild-moderate exacerbation: increased beta-2 agonist (albuterol), consider corticosteroids (prednisone). Severe: continuous albuterol, IV magnesium, corticosteroids, supplemental oxygen. Critical: epinephrine if status asthmaticus, mechanical ventilation if respiratory failure. Prevention: controller medications (inhaled corticosteroids), trigger avoidance, asthma action plan." },
   { front: "What is the approach to a child with diarrhea and dehydration?", back: "Diarrhea: viral most common (rotavirus, norovirus), bacterial (Shigella, Campylobacter, EAEC), parasitic. Assess dehydration: mild (5-10%), moderate (10-15%), severe (>15%). Rehydration: oral (preferred) with low-osmolarity solutions, IV if severe/unable to tolerate. Antibiotics only for invasive bacteria (bloody stools, high fever). Zinc supplementation in developing countries." },
   { front: "Describe the management of newborn jaundice and hyperbilirubinemia.", back: "Jaundice in newborns: physiologic (peaks day 3-5), pathologic if rapid rise. Risk factors: prematurity, isoimmune hemolysis, infection. Diagnosis: serum bilirubin, phototherapy/exchange transfusion thresholds age-dependent. Management: phototherapy (blue light converts bilirubin to water-soluble form), increase feeding (oral/IV), exchange transfusion if severe. Prevent bilirubin neurotoxicity (kernicterus)." },
-  { front: "What is the approach to attention-deficit/hyperactivity disorder (ADHD) diagnosis and treatment?", back: "ADHD: inattention, hyperactivity-impulsivity symptoms before age 12, impairment across settings. Diagnosis: clinical interview, rating scales (Vanderbilt, Conners), rule out medical causes (thyroid, sleep disorder), hearing/vision. Treatment: stimulants (methylphenidate, amphetamine) first-line, atomoxetine, alpha-2 agonists. Behavioral therapy essential. Monitor growth, BP, heart rate." }
+  { front: "What is the approach to attention-deficit/hyperactivity disorder (ADHD) diagnosis and treatment?", back: "ADHD: inattention, hyperactivity-impulsivity symptoms before age 12, impairment across settings. Diagnosis: clinical interview, rating scales (Vanderbilt, Conners), rule out medical causes (thyroid, sleep disorder), hearing/vision. Treatment: stimulants (methylphenidate, amphetamine) first-line, atomoxetine, alpha-2 agonists. Behavioral therapy essential. Monitor growth, BP, heart rate." },
+  { front: "What is the approach to infant formula and nutritional needs in infants?", back: "Breast milk ideal first 6 months (exclusive), continued with solids to 12 months+. Formula: iron-fortified, cow milk-based preferred. Special formulas: hydrolyzed (allergy), elemental (malabsorption), lactose-free (intolerance). Solids introduction: 6 months, single-ingredient foods initially (rice cereal, vegetables, fruits). Cow milk not before 12 months. Vitamin D supplementation from birth." },
+  { front: "Describe the pathophysiology and management of croup.", back: "Croup: viral (parainfluenza most common) laryngotracheitis, barky seal-like cough. Presents with cough, hoarseness, stridor, respiratory distress. Diagnosis: clinical. Management: dexamethasone (0.6 mg/kg single dose), epinephrine racemic inhalation for moderate-severe. Most resolve in 3-5 days. Hospitalization for severe respiratory distress." },
+  { front: "What is the diagnostic approach to constipation in children?", back: "Functional constipation: infrequent stool, pain during defecation, stool withholding. Organic causes: Hirschsprung disease (newborns), medications, hypothyroidism, celiac disease. Diagnosis: history (onset, straining, pain, family history), exam, abdominal X-ray if impaction. Management: increase fiber/fluids, stool softeners, osmotic laxatives (polyethylene glycol). Behavior modification; avoid power struggles." },
+  { front: "Describe the management of urinary tract infection in children.", back: "UTI: dysuria, frequency, urgency in older children; fever, irritability in infants. Diagnosis: urinalysis with nitrites/leukocyte esterase, urine culture gold standard. Infants <3 months: hospitalize, IV/IM antibiotics (ampicillin + gentamicin). Older children: oral antibiotics (amoxicillin-clavulanate, cephalexin). Imaging: ultrasound/VCUG for vesicoureteral reflux if recurrent." },
+  { front: "What is the approach to autism spectrum disorder (ASD) screening and diagnosis?", back: "ASD: persistent deficits in social communication and restricted/repetitive behaviors (onset early childhood). Screening: M-CHAT at 18-24 months. Diagnosis: developmental evaluation, standardized instruments (ADOS). Early intervention: speech/occupational/behavioral therapy improves outcomes. Sensory sensitivities, intellectual disability common comorbidities. No cure; support for core symptoms." },
+  { front: "Describe the pathophysiology and management of sickle cell disease in children.", back: "Sickle cell: valine substitution in beta-globin causes polymerization, red cell sickling. Vaso-occlusive crises: acute pain from vessel occlusion. Acute chest syndrome: pneumonia-like presentation. Complications: splenic infarction (functional asplenia by age 5), stroke (10-15% by age 18). Management: penicillin prophylaxis (to age 5), pain control, hydroxyurea, transfusions for stroke prevention." },
+  { front: "What is the diagnostic approach to elevated blood pressure in children?", back: "Pediatric hypertension: BP >95th percentile for age/sex/height (repeat measurements required). Secondary causes: kidney disease (most common), coarctation, endocrine, medication. Diagnosis: home BP monitoring, imaging (renal ultrasound, echocardiogram), labs (renal function, lipids). Management: lifestyle modifications (weight loss, exercise, diet), pharmacotherapy (ACE-I, beta-blocker) if persistent." },
+  { front: "Describe the management of acute lymphoblastic leukemia (ALL) in children.", back: "ALL: most common childhood cancer, abrupt onset anemia/thrombocytopenia/leukocytosis. Diagnosis: bone marrow biopsy (>25% blasts). Risk stratification: age, WBC, genetics (favorable: t(12;21) TEL-AML1). Treatment: chemotherapy (intensive multi-agent protocol, 2-3 years). Prognosis: 90% 5-year survival (improved with modern protocols). Toxicities: infection, mucositis, secondary malignancy." },
+  { front: "What is the approach to growth hormone deficiency in children?", back: "Growth hormone deficiency: poor linear growth, decreased growth velocity. Diagnosis: serum IGF-1, IGFBP-3, stimulation tests (insulin tolerance test, arginine). MRI brain if pituitary pathology suspected. Treatment: recombinant GH injections (0.025-0.05 mg/kg/day). Monitor growth, lipids, glucose, TSH. Prognosis excellent; most reach near-normal height." },
+  { front: "Describe the pathophysiology and management of inflammatory bowel disease (IBD) in children.", back: "Crohn's disease: transmural inflammation, any GI site (commonly terminal ileum). Ulcerative colitis: mucosal inflammation, colon/rectum only. Presents: abdominal pain, diarrhea, weight loss, delayed puberty. Diagnosis: colonoscopy with biopsy, imaging. Management: 5-ASA (mesalamine), corticosteroids, immunosuppressants (azathioprine), biologic agents (anti-TNF). Surgery for complications (obstruction, perforation, cancer). Growth/development monitoring essential." },
+  { front: "What is the diagnostic approach to learning disability and intellectual disability?", back: "Developmental delay: global (all domains) vs specific (speech, motor). Causes: genetic (Down syndrome, fragile X), metabolic, CNS pathology, environmental deprivation. Diagnosis: developmental screening (Denver II, ASQ), psychometric testing (IQ assessment), genetic testing if indicated. Early intervention services improve outcomes. Support: educational accommodations, vocational training." },
+  { front: "Describe the management of enuresis (bedwetting) in children.", back: "Nocturnal enuresis: involuntary urination during sleep after age 5 (primary if never dry, secondary if regression). Causes: genetic predisposition (75%), diminished ADH, small bladder capacity, sleep disorder. Management: behavioral (limit fluids, nighttime voiding, reward system), desmopressin (nasal spray) for short-term, imipramine (tricyclic) alternative. Most resolve spontaneously; avoid shame/punishment." },
+  { front: "What is the approach to acute leukemia in children?", back: "Acute leukemia: abnormal blast proliferation, anemia/thrombocytopenia/leukocytosis. ALL vs AML differentiation by morphology, immunophenotype. Diagnosis: bone marrow biopsy, cytochemistry, flow cytometry. AML prognosis: 60-70% 5-year survival (better than adult AML). Treatment: intensive chemotherapy, stem cell transplant for high-risk. Complications: tumor lysis, DIC, infection, treatment toxicity." },
+  { front: "Describe the management of seizures and epilepsy in children.", back: "Seizures: 3-5% of children experience at least one. Epilepsy: tendency to recurrent seizures. Types: generalized (tonic-clonic, absence, atonic), focal onset. Diagnosis: EEG, neuroimaging if abnormal EEG/focal features. Management: antiepileptic drugs (levetiracetam, lamotrigine, valproate). 70% seizure-free on monotherapy. Vagal nerve stimulation, ketogenic diet, surgery if drug-resistant. Monitor for teratogenicity (pregnancy planning)." },
+  { front: "What is the diagnostic approach to suspected child maltreatment?", back: "Physical abuse: bruising pattern inconsistent with developmental ability (dating bruises unreliable), spiral fractures, metaphyseal fractures, rib fractures, subdural hematoma, retinal hemorrhage. Sexual abuse: anogenital findings, STI, behavioral changes. Neglect: malnutrition, poor hygiene, untreated illness. Mandated reporting to child protective services/law enforcement; thorough documentation; multidisciplinary team evaluation essential for child safety." }
 ];
 
-        // Flashcard State
+        // Flashcard Enhanced State
+        const FC_ROUND_SIZE = 15;
+        let fcPool = [...FLASHCARDS];
+        let fcRound = 0;
+        let fcActiveCards = [];
+        let fcMastered = [];
+        let fcMissed = [];
         let fcIndex = 0;
         let fcFlipped = false;
-        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function fcStartRound() {
+            const start = fcRound * FC_ROUND_SIZE;
+            const end = Math.min(start + FC_ROUND_SIZE, fcPool.length);
+            if (start >= fcPool.length) {
+                // All cards exhausted — reshuffle entire pool
+                fcPool.sort(() => Math.random() - 0.5);
+                fcRound = 0;
+                fcMastered = [];
+                fcMissed = [];
+                fcStartRound();
+                return;
+            }
+            fcActiveCards = fcPool.slice(start, end).map((c, i) => ({ ...c, idx: start + i }));
+            fcMastered = [];
+            fcMissed = [];
+            fcIndex = 0;
+            fcFlipped = false;
+        }
+        fcStartRound();
+
+        function fcRemainingCards() {
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx) && !fcMissed.includes(c.idx));
+        }
+
+        function fcCurrentDeck() {
+            // Show missed cards + unreviewed cards
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx));
+        }
 
         function renderFlashcards() {
             const container = document.getElementById("flashcardContainer");
-            if (FLASHCARDS.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+            const deck = fcCurrentDeck();
+            const totalInRound = fcActiveCards.length;
+            const masteredCount = fcMastered.length;
+            const progressPct = Math.round((masteredCount / totalInRound) * 100);
+            const hasMoreRounds = ((fcRound + 1) * FC_ROUND_SIZE) < fcPool.length;
+
+            // All cards in this round mastered
+            if (deck.length === 0) {
+                container.innerHTML = `
+                    <div class="fc-complete">
+                        <div class="fc-complete-icon">&#127942;</div>
+                        <h3>Round ${fcRound + 1} Complete!</h3>
+                        <p>You mastered all ${masteredCount} cards in this round.</p>
+                        <p style="font-size:13px;color:var(--color-text-muted);">${hasMoreRounds ? (fcPool.length - (fcRound + 1) * FC_ROUND_SIZE) + ' new cards remaining in the pool.' : 'You have reviewed all cards in the pool.'}</p>
+                        <div style="margin-top:16px;">
+                            ${hasMoreRounds ? '<button class="fc-complete-btn fc-new-cards" id="fcNewCards">Get New Cards</button>' : ''}
+                            <button class="fc-complete-btn fc-restart" id="fcRestart">Restart All Cards</button>
+                        </div>
+                    </div>
+                `;
+                const newBtn = document.getElementById("fcNewCards");
+                if (newBtn) newBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+                const restartBtn = document.getElementById("fcRestart");
+                if (restartBtn) restartBtn.addEventListener("click", () => { fcPool.sort(() => Math.random() - 0.5); fcRound = 0; fcStartRound(); renderFlashcards(); });
                 return;
             }
-            const card = FLASHCARDS[fcOrder[fcIndex]];
+
+            if (fcIndex >= deck.length) fcIndex = 0;
+            const card = deck[fcIndex];
+
             container.innerHTML = `
                 <div class="flashcard-container">
-                    <div class="flashcard-header">
-                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
-                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    <div class="flashcard-toolbar">
+                        <span class="flashcard-counter">Card ${fcIndex + 1} of ${deck.length} remaining</span>
+                        <div class="flashcard-toolbar-buttons">
+                            <button class="fc-btn-sm" id="fcShuffle">Shuffle</button>
+                            ${hasMoreRounds ? '<button class="fc-btn-sm" id="fcSkipRound">Skip to New Cards</button>' : ''}
+                        </div>
                     </div>
+                    <div class="fc-progress-label">
+                        <span>Round ${fcRound + 1} of ${Math.ceil(fcPool.length / FC_ROUND_SIZE)}</span>
+                        <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
+                    </div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
                     <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
                         <div class="flashcard-inner">
                             <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
                             <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
                         </div>
                     </div>
-                    <div class="flashcard-hint">Click card to flip</div>
+                    ${fcFlipped ? `
+                        <div class="fc-assess">
+                            <button class="fc-got-it" id="fcGotIt">&#10003; Got It</button>
+                            <button class="fc-missed" id="fcMissedBtn">&#10007; Still Learning</button>
+                        </div>
+                    ` : '<div class="flashcard-hint">Click card to flip and reveal the answer</div>'}
                     <div class="flashcard-nav">
                         <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
-                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                        <button id="fcNext" ${fcIndex >= deck.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
                     </div>
                 </div>
             `;
+
             document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
             document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < deck.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            const shuffleBtn = document.getElementById("fcShuffle");
+            if (shuffleBtn) shuffleBtn.addEventListener("click", () => { fcActiveCards.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            const skipBtn = document.getElementById("fcSkipRound");
+            if (skipBtn) skipBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+            const gotItBtn = document.getElementById("fcGotIt");
+            if (gotItBtn) gotItBtn.addEventListener("click", () => {
+                fcMastered.push(card.idx);
+                fcFlipped = false;
+                const remaining = fcCurrentDeck();
+                if (fcIndex >= remaining.length) fcIndex = Math.max(0, remaining.length - 1);
+                renderFlashcards();
+            });
+            const missedBtn = document.getElementById("fcMissedBtn");
+            if (missedBtn) missedBtn.addEventListener("click", () => {
+                fcFlipped = false;
+                fcIndex = (fcIndex + 1) % Math.max(1, fcCurrentDeck().length);
+                renderFlashcards();
+            });
         }
 
         // Utility: Render Resources

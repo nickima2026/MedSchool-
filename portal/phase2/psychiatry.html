@@ -708,26 +708,45 @@
             padding: var(--spacing-xl);
         }
 
-                /* Flashcards Tab */
-        .flashcard-container { max-width: 600px; margin: 0 auto; }
-        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+                        /* Flashcards Tab */
+        .flashcard-container { max-width: 620px; margin: 0 auto; }
+        .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-toolbar-buttons { display: flex; gap: 8px; }
+        .fc-btn-sm { padding: 5px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-family: var(--font-sans); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+        .fc-btn-sm:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
+        .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
         .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .fc-assess { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .fc-assess button { padding: 10px 24px; border-radius: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid; }
+        .fc-got-it { background: #E8F5EE; color: var(--color-success); border-color: var(--color-success); }
+        .fc-got-it:hover { background: var(--color-success); color: #fff; }
+        .fc-missed { background: #FFF3E0; color: #E65100; border-color: #E65100; }
+        .fc-missed:hover { background: #E65100; color: #fff; }
         .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
         .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
         .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
         .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-complete { text-align: center; padding: 40px 20px; }
+        .fc-complete-icon { font-size: 48px; margin-bottom: 12px; }
+        .fc-complete h3 { font-family: var(--font-serif); color: var(--color-success); margin-bottom: 8px; }
+        .fc-complete p { color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px; }
+        .fc-complete-btn { padding: 10px 24px; border-radius: 8px; border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
+        .fc-new-cards { background: var(--color-accent); color: #fff; }
+        .fc-new-cards:hover { background: #005F73; }
+        .fc-restart { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .fc-restart:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* Resources Tab */
         .resources-grid {
@@ -1397,7 +1416,7 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
-        // Flashcard Data
+        // Flashcard Data — Full Pool
         const FLASHCARDS = [
   { front: "What are the diagnostic criteria and pathophysiology of major depressive disorder?", back: "MDD: >5 symptoms for >2 weeks including depressed mood or anhedonia. SIGECAPS: sleep, interest, guilt, energy, concentration, appetite, psychomotor, suicidality. Etiology: biogenic (monoamine hypothesis), genetic, life stressors. Pathophysiology: decreased serotonin/norepinephrine/dopamine. Complications: suicide (12% lifetime mortality). Assessment: PHQ-9, suicidality." },
   { front: "Describe the pathophysiology and treatment of generalized anxiety disorder.", back: "GAD: excessive worry about multiple domains for >6 months. Physical symptoms: muscle tension, insomnia, hypervigilance. Pathophysiology: dysregulation of GABA, amygdala hyperactivity. Neurotransmitters: serotonin, norepinephrine, glutamate. Treatment: SSRIs first-line, SNRIs, buspirone, cognitive-behavioral therapy. Benzodiazepines for acute anxiety (abuse potential limits use)." },
@@ -1413,44 +1432,145 @@
   { front: "Describe the management of depression in the medically ill.", back: "Depression common in chronic medical illness (cardiac, cancer, neurologic, pain disorders). Medical causes: hypothyroidism, B12 deficiency, medication side effects (steroids, statins, antihypertensives), pain. Treatment: SSRIs safe in most (adjust for renal/hepatic disease), SNRIs if energy important, tricyclics if pain/insomnia coexists. Psychotherapy, activity, medical optimization essential." },
   { front: "What is adjustment disorder and how does it differ from MDD?", back: "Adjustment disorder: maladaptive response to identified stressor (loss, illness, relocation), symptoms within 3 months of stressor, duration <6 months after stressor ends. Symptoms less severe than MDD, no other diagnosis. Treatment: psychotherapy (supportive, cognitive-behavioral), problem-solving. Medication only if severe depressive/anxiety symptoms warrant additional diagnosis." },
   { front: "Describe the pathophysiology and treatment of autism spectrum disorder (ASD).", back: "ASD: persistent deficits in social communication, restricted/repetitive behaviors/interests from early childhood. Neurobiology: atypical brain connectivity, synaptic pruning abnormalities, genetic factors. Diagnosis: clinical (DSM-5 criteria), developmental history, standardized tools. Treatment: behavioral intervention (applied behavior analysis), speech/occupational therapy, educational support, medication for co-occurring symptoms (ADHD, anxiety)." },
-  { front: "What is the diagnostic approach to personality disorders?", back: "Personality disorders: enduring maladaptive patterns affecting cognition, emotion, interpersonal function. Cluster A: odd/eccentric (paranoid, schizoid, schizotypal). Cluster B: dramatic/emotional (antisocial, borderline, histrionic, narcissistic). Cluster C: anxious/fearful (avoidant, dependent, obsessive-compulsive). Assessment: long-term patterns, impact on functioning. Treatment: psychotherapy (CBT, dialectical behavior therapy for borderline), limited medication evidence." }
+  { front: "What is the diagnostic approach to personality disorders?", back: "Personality disorders: enduring maladaptive patterns affecting cognition, emotion, interpersonal function. Cluster A: odd/eccentric (paranoid, schizoid, schizotypal). Cluster B: dramatic/emotional (antisocial, borderline, histrionic, narcissistic). Cluster C: anxious/fearful (avoidant, dependent, obsessive-compulsive). Assessment: long-term patterns, impact on functioning. Treatment: psychotherapy (CBT, dialectical behavior therapy for borderline), limited medication evidence." },
+  { front: "What is the management of antipsychotic side effects and tardive dyskinesia?", back: "Antipsychotic side effects: extrapyramidal (akathisia, dystonia, parkinsonism, tardive dyskinesia), metabolic (weight gain, hyperglycemia, dyslipidemia), hyperprolactinemia, QT prolongation. Tardive dyskinesia: involuntary movements from chronic dopamine antagonism, may be irreversible. Prevention: lowest effective dose, drug holidays (limited benefit). Treatment: beta-blockers for akathisia, benztropine for dystonia, consider switching agents, valbenazine/tetrabenazine for tardive dyskinesia." },
+  { front: "Describe the management of lithium toxicity and renal/thyroid effects.", back: "Lithium: narrow therapeutic window (0.6-1.2 mEq/L), levels monitored. Acute toxicity: tremor, confusion, ataxia, diarrhea, seizures. Chronic toxicity: polyuria (diabetes insipidus-like), nephrogenic renal disease, hypothyroidism, tremor. Management: dehydration avoidance, NSAIDs reduce clearance, thiazide diuretics increase renal reabsorption, ACE-I reduce clearance. Regular monitoring: renal function, TSH, levels. Monitoring dose reduction with age, renal disease." },
+  { front: "What is serotonin syndrome and how is it managed?", back: "Serotonin syndrome: toxicity from excessive serotonergic activity. Causes: SSRI + MAOI combination (classic), SSRIs + tramadol/DXM, linezolid interaction. Presentation: agitation, confusion, muscle rigidity, hyperreflexia, clonus, hyperthermia, autonomic instability. Mild: reassurance, discontinue offending agent. Severe: supportive care, benzodiazepines for agitation, active cooling, ICU monitoring. Avoid physical restraint (increases temperature)." },
+  { front: "Describe the diagnostic criteria and management of borderline personality disorder (BPD).", back: "BPD: unstable relationships, identity disturbance, impulsive behaviors (substance abuse, binge eating, reckless spending/driving), suicidal behavior/self-harm, affective instability, chronic emptiness, inappropriate intense anger, transient stress-related paranoia. Treatment: dialectical behavior therapy (standard), individual psychotherapy (mentalization-based therapy). Medications: trial-based for specific symptoms (no specific medication). Hospitalization for safety." },
+  { front: "What is the diagnostic approach to dissociative disorders?", back: "Dissociative disorders: disruption of memory, identity, perception, motor control. Dissociative identity disorder: multiple distinct personality states (switching may be sudden). Dissociative amnesia: inability to recall autobiographical information. Depersonalization/derealization disorder: detachment from body/environment, preserved reality testing. Causes: trauma (especially childhood), stress. Treatment: trauma-focused psychotherapy, EMDR, medication for co-occurring symptoms." },
+  { front: "Describe the management of seasonal affective disorder (SAD).", back: "SAD: major depression with seasonal pattern (typically fall/winter onset). Pathophysiology: circadian rhythm dysregulation, melatonin excess. Symptoms: depressed mood, hypersomnia, hyperphagia, carbohydrate craving. Treatment: light therapy (10,000 lux, 20-30 min daily, morning administration), vitamin D supplementation (seasonal deficiency common), SSRIs, psychotherapy, dawn simulation. Prognosis: responds well to light therapy (60-80% response)." },
+  { front: "What is factitious disorder and how does it differ from illness anxiety disorder?", back: "Factitious disorder: intentional production of false/exaggerated symptoms without obvious external reward (different from malingering). Driven by psychological needs (attention, identity). Munchausen by proxy: inducing illness in dependent. Illness anxiety disorder: preoccupation with having serious illness despite minimal symptoms, health anxiety (not somatic symptoms). Treatment: supportive approach, addressing underlying psychological needs, psychiatric comorbidity treatment. Poor prognosis if recognition increases defensiveness." },
+  { front: "Describe the management of delirium in hospitalized patients.", back: "Delirium: acute confusion, inattention, disorganized thinking, consciousness alteration. Causes: infection, metabolic, medication, withdrawal, hypoxia, pain, dehydration. Risk factors: elderly, dementia, multiple comorbidities, polypharmacy. Prevention: reorientation, early mobilization, sleep hygiene, minimize sedating medications. Treatment: identify/treat underlying cause, environmental optimization, low-dose antipsychotics if agitated. Mortality increased in delirium superimposed on dementia." },
+  { front: "What is the diagnostic approach to conversion disorder?", back: "Conversion disorder: neurologic symptoms without neurologic cause, following psychological stressor. Symptoms: paralysis, sensory loss, seizures (non-epileptic), aphonia. Clinical features: inconsistency with neuroanatomy, selective disability (can't lift leg but can walk), indifference (la belle indifference). Diagnosis: exclusion of organic disease, inconsistent findings. Treatment: reassurance, physical therapy, psychotherapy addressing stressor/trauma. Prognosis: better if acute onset, younger age." },
+  { front: "Describe the approach to medication-induced movement disorders.", back: "Akathisia: inner restlessness, inability to sit still. Dystonia: sustained muscle contractions, abnormal postures. Parkinsonism: tremor, rigidity, bradykinesia. Tardive dyskinesia: involuntary movements from chronic exposure (may persist). Neuroleptic malignant syndrome: emergency, high fever, rigidity, altered mental status, elevated CK, potential mortality. Management: dose reduction, switch agents, benztropine for dystonia, propranolol for akathisia, supportive care for NMS." },
+  { front: "What is the management of insomnia and sleep disorders?", back: "Insomnia: difficulty initiating/maintaining sleep, early awakening, nonrestorative sleep. Causes: anxiety, depression, medical (pain, sleep apnea, GERD), medications, poor sleep hygiene, circadian rhythm disorder. Cognitive-behavioral therapy for insomnia (CBT-I): gold standard. Pharmacologic: short-term benzodiazepines/non-benzodiazepines (zolpidem, zaleplon), melatonin, trazodone. Avoid chronic benzodiazepine use. Address underlying cause essential." }
 ];
 
-        // Flashcard State
+        // Flashcard Enhanced State
+        const FC_ROUND_SIZE = 15;
+        let fcPool = [...FLASHCARDS];
+        let fcRound = 0;
+        let fcActiveCards = [];
+        let fcMastered = [];
+        let fcMissed = [];
         let fcIndex = 0;
         let fcFlipped = false;
-        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function fcStartRound() {
+            const start = fcRound * FC_ROUND_SIZE;
+            const end = Math.min(start + FC_ROUND_SIZE, fcPool.length);
+            if (start >= fcPool.length) {
+                // All cards exhausted — reshuffle entire pool
+                fcPool.sort(() => Math.random() - 0.5);
+                fcRound = 0;
+                fcMastered = [];
+                fcMissed = [];
+                fcStartRound();
+                return;
+            }
+            fcActiveCards = fcPool.slice(start, end).map((c, i) => ({ ...c, idx: start + i }));
+            fcMastered = [];
+            fcMissed = [];
+            fcIndex = 0;
+            fcFlipped = false;
+        }
+        fcStartRound();
+
+        function fcRemainingCards() {
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx) && !fcMissed.includes(c.idx));
+        }
+
+        function fcCurrentDeck() {
+            // Show missed cards + unreviewed cards
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx));
+        }
 
         function renderFlashcards() {
             const container = document.getElementById("flashcardContainer");
-            if (FLASHCARDS.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+            const deck = fcCurrentDeck();
+            const totalInRound = fcActiveCards.length;
+            const masteredCount = fcMastered.length;
+            const progressPct = Math.round((masteredCount / totalInRound) * 100);
+            const hasMoreRounds = ((fcRound + 1) * FC_ROUND_SIZE) < fcPool.length;
+
+            // All cards in this round mastered
+            if (deck.length === 0) {
+                container.innerHTML = `
+                    <div class="fc-complete">
+                        <div class="fc-complete-icon">&#127942;</div>
+                        <h3>Round ${fcRound + 1} Complete!</h3>
+                        <p>You mastered all ${masteredCount} cards in this round.</p>
+                        <p style="font-size:13px;color:var(--color-text-muted);">${hasMoreRounds ? (fcPool.length - (fcRound + 1) * FC_ROUND_SIZE) + ' new cards remaining in the pool.' : 'You have reviewed all cards in the pool.'}</p>
+                        <div style="margin-top:16px;">
+                            ${hasMoreRounds ? '<button class="fc-complete-btn fc-new-cards" id="fcNewCards">Get New Cards</button>' : ''}
+                            <button class="fc-complete-btn fc-restart" id="fcRestart">Restart All Cards</button>
+                        </div>
+                    </div>
+                `;
+                const newBtn = document.getElementById("fcNewCards");
+                if (newBtn) newBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+                const restartBtn = document.getElementById("fcRestart");
+                if (restartBtn) restartBtn.addEventListener("click", () => { fcPool.sort(() => Math.random() - 0.5); fcRound = 0; fcStartRound(); renderFlashcards(); });
                 return;
             }
-            const card = FLASHCARDS[fcOrder[fcIndex]];
+
+            if (fcIndex >= deck.length) fcIndex = 0;
+            const card = deck[fcIndex];
+
             container.innerHTML = `
                 <div class="flashcard-container">
-                    <div class="flashcard-header">
-                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
-                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    <div class="flashcard-toolbar">
+                        <span class="flashcard-counter">Card ${fcIndex + 1} of ${deck.length} remaining</span>
+                        <div class="flashcard-toolbar-buttons">
+                            <button class="fc-btn-sm" id="fcShuffle">Shuffle</button>
+                            ${hasMoreRounds ? '<button class="fc-btn-sm" id="fcSkipRound">Skip to New Cards</button>' : ''}
+                        </div>
                     </div>
+                    <div class="fc-progress-label">
+                        <span>Round ${fcRound + 1} of ${Math.ceil(fcPool.length / FC_ROUND_SIZE)}</span>
+                        <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
+                    </div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
                     <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
                         <div class="flashcard-inner">
                             <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
                             <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
                         </div>
                     </div>
-                    <div class="flashcard-hint">Click card to flip</div>
+                    ${fcFlipped ? `
+                        <div class="fc-assess">
+                            <button class="fc-got-it" id="fcGotIt">&#10003; Got It</button>
+                            <button class="fc-missed" id="fcMissedBtn">&#10007; Still Learning</button>
+                        </div>
+                    ` : '<div class="flashcard-hint">Click card to flip and reveal the answer</div>'}
                     <div class="flashcard-nav">
                         <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
-                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                        <button id="fcNext" ${fcIndex >= deck.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
                     </div>
                 </div>
             `;
+
             document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
             document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < deck.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            const shuffleBtn = document.getElementById("fcShuffle");
+            if (shuffleBtn) shuffleBtn.addEventListener("click", () => { fcActiveCards.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            const skipBtn = document.getElementById("fcSkipRound");
+            if (skipBtn) skipBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+            const gotItBtn = document.getElementById("fcGotIt");
+            if (gotItBtn) gotItBtn.addEventListener("click", () => {
+                fcMastered.push(card.idx);
+                fcFlipped = false;
+                const remaining = fcCurrentDeck();
+                if (fcIndex >= remaining.length) fcIndex = Math.max(0, remaining.length - 1);
+                renderFlashcards();
+            });
+            const missedBtn = document.getElementById("fcMissedBtn");
+            if (missedBtn) missedBtn.addEventListener("click", () => {
+                fcFlipped = false;
+                fcIndex = (fcIndex + 1) % Math.max(1, fcCurrentDeck().length);
+                renderFlashcards();
+            });
         }
 
         // Utility: Render Resources

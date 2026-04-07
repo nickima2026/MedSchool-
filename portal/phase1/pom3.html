@@ -708,26 +708,45 @@
             padding: var(--spacing-xl);
         }
 
-                /* Flashcards Tab */
-        .flashcard-container { max-width: 600px; margin: 0 auto; }
-        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+                        /* Flashcards Tab */
+        .flashcard-container { max-width: 620px; margin: 0 auto; }
+        .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-toolbar-buttons { display: flex; gap: 8px; }
+        .fc-btn-sm { padding: 5px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-family: var(--font-sans); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+        .fc-btn-sm:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
+        .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
         .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .fc-assess { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .fc-assess button { padding: 10px 24px; border-radius: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid; }
+        .fc-got-it { background: #E8F5EE; color: var(--color-success); border-color: var(--color-success); }
+        .fc-got-it:hover { background: var(--color-success); color: #fff; }
+        .fc-missed { background: #FFF3E0; color: #E65100; border-color: #E65100; }
+        .fc-missed:hover { background: #E65100; color: #fff; }
         .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
         .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
         .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
         .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-complete { text-align: center; padding: 40px 20px; }
+        .fc-complete-icon { font-size: 48px; margin-bottom: 12px; }
+        .fc-complete h3 { font-family: var(--font-serif); color: var(--color-success); margin-bottom: 8px; }
+        .fc-complete p { color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px; }
+        .fc-complete-btn { padding: 10px 24px; border-radius: 8px; border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
+        .fc-new-cards { background: var(--color-accent); color: #fff; }
+        .fc-new-cards:hover { background: #005F73; }
+        .fc-restart { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .fc-restart:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* Resources Tab */
         .resources-grid {
@@ -1408,7 +1427,7 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
-        // Flashcard Data
+        // Flashcard Data — Full Pool
         const FLASHCARDS = [
   { front: "What are the key differences between inpatient and outpatient management?", back: "Inpatient: 24-hour monitoring, IV medications, frequent assessments, intensive procedures. Outpatient: self-care, oral medications, periodic follow-up, procedures done in office/ambulatory surgery centers. Admission criteria: hemodynamic instability, need for IV therapy, complex medical management." },
   { front: "How do you structure an effective handoff and what information is critical?", back: "SBAR format: Situation (patient, chief complaint), Background (history, current status), Assessment (impression, plan), Recommendation (next steps). Be concise, accurate, and available for questions. Poor handoffs increase medical errors and adverse events." },
@@ -1424,44 +1443,149 @@
   { front: "Describe effective communication with patients and families from diverse backgrounds.", back: "Use clear language, avoid jargon. Utilize interpreters for language barriers. Respect cultural beliefs about illness/treatment. Involve family in decision-making (when culturally appropriate). Acknowledge emotions, validate concerns. Give information in understandable amounts." },
   { front: "What are the components of a quality board-preparation study plan?", back: "Integrate clinical experience with systematic review: UWorld (practice questions), First Aid (high-yield facts), specialty books (detailed knowledge). Schedule 2-3 hours daily during clinical rotations. Focus on weaknesses. Review board-style questions regularly. Adapt pace to your performance." },
   { front: "How do you build clinical skills and procedural competence during clerkships?", back: "Observe, assist, lead, perform with supervision. Seek feedback on performance. Practice in simulation labs if available. Document milestone achievement. Build manual dexterity through repetition. Ask to perform procedures on consenting patients under supervision." },
-  { front: "What is the importance of professional development and building a physician identity?", back: "Develop empathy through patient interactions. Cultivate lifelong learning habits. Engage in quality improvement or research. Network with mentors and peers. Practice resilience and self-care to prevent burnout. Reflect on experiences to strengthen clinical judgment." }
+  { front: "What is the importance of professional development and building a physician identity?", back: "Develop empathy through patient interactions. Cultivate lifelong learning habits. Engage in quality improvement or research. Network with mentors and peers. Practice resilience and self-care to prevent burnout. Reflect on experiences to strengthen clinical judgment." },
+  { front: "How do you manage difficult patient encounters and communication challenges?", back: "Remain calm, listen without interrupting, validate concerns. Acknowledge emotions and frustrations. Establish boundaries respectfully. Involve senior staff if confrontation escalates. Document interactions objectively. Use de-escalation techniques. Follow up after resolution to rebuild trust." },
+  { front: "What is the approach to medical errors and disclosure to patients?", back: "Acknowledge error promptly and sincerely. Disclose to patient and family (requirement in most states). Explain what happened, why it happened, what will be done to prevent recurrence. Provide compensation information. Involve risk management. Document disclosure. Support affected staff through peer counseling." },
+  { front: "Describe principles of team-based care and interdisciplinary collaboration.", back: "Communicate clearly with nurses, therapists, social workers, pharmacists. Value each team member's expertise. Establish mutual respect and shared goals. Use structured communication tools (huddles, SBAR). Ensure team understands care plan. Regular feedback strengthens collaboration and outcomes." },
+  { front: "What is the significance of patient autonomy and shared decision-making?", back: "Respect patient right to make informed decisions about their care. Present evidence-based options without bias. Support patient values, preferences, and life circumstances. Involve patients in goal-setting. Document patient understanding and consent. Avoid paternalism; partner with patient in treatment decisions." },
+  { front: "How do you recognize and prevent physician burnout in yourself and colleagues?", back: "Burnout signs: exhaustion, cynicism, reduced effectiveness. Prevention: maintain work-life balance, seek mentorship, participate in wellness programs, engage in meaningful work. Support colleagues showing burnout signs. Advocate for systemic changes (reasonable hours, EHR optimization, administrative burden reduction)." },
+  { front: "Describe the elements of quality improvement methodology and implementing changes.", back: "Identify problem, collect data, use plan-do-check-act (PDCA) cycles. Involve stakeholders. Test small changes before full implementation. Measure outcomes using key performance indicators. Share results and celebrate successes. Sustain improvements through monitoring and staff engagement." },
+  { front: "What is the importance of continuing education and keeping current with evidence?", back: "Medicine rapidly evolves; outdated knowledge impacts patient care. Engage in CME activities aligned with your practice. Read peer-reviewed journals. Attend conferences. Participate in case discussions. Use evidence-based resources (UpToDate, Cochrane). Maintain licensure and certification." },
+  { front: "How do you approach ethical dilemmas in clinical practice?", back: "Apply four principles: autonomy (patient decision-making), beneficence (act in patient's best interest), non-maleficence (avoid harm), justice (fair allocation of resources). Consult hospital ethics committee for complex cases. Involve patient, family, and interdisciplinary team. Document reasoning." },
+  { front: "Describe the approach to caring for patients with complex social needs.", back: "Assess: housing, food insecurity, transportation, substance use disorder, mental health, social support. Involve social work early. Connect with community resources (food banks, mental health services, addiction treatment). Follow-up ensures patients access services. Address social determinants as integral to treatment." },
+  { front: "What is the role of mentorship in physician development and career success?", back: "Mentors provide guidance, share experiences, advocate for mentee advancement. Seek multiple mentors across disciplines. Be willing to mentor junior physicians and students. Mentorship improves professional satisfaction and retention. Establish regular meetings with mentors. Express gratitude and reciprocate mentoring." },
+  { front: "How do you develop resilience and manage stress in medical practice?", back: "Cultivate healthy coping: exercise, sleep, social connections, hobbies, mindfulness. Seek support early (physician health programs, counseling). Set boundaries between work and personal life. Build professional identity beyond medicine. Seek feedback and support from mentors and peers." },
+  { front: "Describe the transition to independent practice and building a successful career.", back: "Establish mentoring relationships. Build clinical network and referral base. Engage in continuous learning. Develop leadership skills. Consider quality improvement projects. Seek work-life integration aligned with personal values. Plan financial sustainability. Network with peers for professional growth." },
+  { front: "What is the importance of feedback and evaluation in clinical development?", back: "Seek 360-degree feedback from supervisors, peers, patients, staff. Be receptive to constructive criticism. Use feedback to identify strengths and areas for improvement. Set learning goals. Track progress. Provide feedback to others to create culture of continuous improvement." },
+  { front: "How do you navigate conflicts of interest and maintain professional integrity?", back: "Disclose relationships with industry (pharmaceutical, device companies). Avoid accepting lavish gifts from vendors. Recuse yourself from decisions where financial interest conflicts. Follow institutional policies. Prioritize patient welfare over personal gain. Maintain credibility through transparency." },
+  { front: "Describe approaches to physician wellness and preventing moral injury.", back: "Moral injury occurs when forced to act against values (administrative burden, lack of autonomy, limited resources). Prevention: advocate for ethical practice environment, support colleagues, engage in meaningful clinical work, maintain purpose. Seek help if experiencing guilt, shame, or anger from moral distress." }
 ];
 
-        // Flashcard State
+        // Flashcard Enhanced State
+        const FC_ROUND_SIZE = 15;
+        let fcPool = [...FLASHCARDS];
+        let fcRound = 0;
+        let fcActiveCards = [];
+        let fcMastered = [];
+        let fcMissed = [];
         let fcIndex = 0;
         let fcFlipped = false;
-        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function fcStartRound() {
+            const start = fcRound * FC_ROUND_SIZE;
+            const end = Math.min(start + FC_ROUND_SIZE, fcPool.length);
+            if (start >= fcPool.length) {
+                // All cards exhausted — reshuffle entire pool
+                fcPool.sort(() => Math.random() - 0.5);
+                fcRound = 0;
+                fcMastered = [];
+                fcMissed = [];
+                fcStartRound();
+                return;
+            }
+            fcActiveCards = fcPool.slice(start, end).map((c, i) => ({ ...c, idx: start + i }));
+            fcMastered = [];
+            fcMissed = [];
+            fcIndex = 0;
+            fcFlipped = false;
+        }
+        fcStartRound();
+
+        function fcRemainingCards() {
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx) && !fcMissed.includes(c.idx));
+        }
+
+        function fcCurrentDeck() {
+            // Show missed cards + unreviewed cards
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx));
+        }
 
         function renderFlashcards() {
             const container = document.getElementById("flashcardContainer");
-            if (FLASHCARDS.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+            const deck = fcCurrentDeck();
+            const totalInRound = fcActiveCards.length;
+            const masteredCount = fcMastered.length;
+            const progressPct = Math.round((masteredCount / totalInRound) * 100);
+            const hasMoreRounds = ((fcRound + 1) * FC_ROUND_SIZE) < fcPool.length;
+
+            // All cards in this round mastered
+            if (deck.length === 0) {
+                container.innerHTML = `
+                    <div class="fc-complete">
+                        <div class="fc-complete-icon">&#127942;</div>
+                        <h3>Round ${fcRound + 1} Complete!</h3>
+                        <p>You mastered all ${masteredCount} cards in this round.</p>
+                        <p style="font-size:13px;color:var(--color-text-muted);">${hasMoreRounds ? (fcPool.length - (fcRound + 1) * FC_ROUND_SIZE) + ' new cards remaining in the pool.' : 'You have reviewed all cards in the pool.'}</p>
+                        <div style="margin-top:16px;">
+                            ${hasMoreRounds ? '<button class="fc-complete-btn fc-new-cards" id="fcNewCards">Get New Cards</button>' : ''}
+                            <button class="fc-complete-btn fc-restart" id="fcRestart">Restart All Cards</button>
+                        </div>
+                    </div>
+                `;
+                const newBtn = document.getElementById("fcNewCards");
+                if (newBtn) newBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+                const restartBtn = document.getElementById("fcRestart");
+                if (restartBtn) restartBtn.addEventListener("click", () => { fcPool.sort(() => Math.random() - 0.5); fcRound = 0; fcStartRound(); renderFlashcards(); });
                 return;
             }
-            const card = FLASHCARDS[fcOrder[fcIndex]];
+
+            if (fcIndex >= deck.length) fcIndex = 0;
+            const card = deck[fcIndex];
+
             container.innerHTML = `
                 <div class="flashcard-container">
-                    <div class="flashcard-header">
-                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
-                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    <div class="flashcard-toolbar">
+                        <span class="flashcard-counter">Card ${fcIndex + 1} of ${deck.length} remaining</span>
+                        <div class="flashcard-toolbar-buttons">
+                            <button class="fc-btn-sm" id="fcShuffle">Shuffle</button>
+                            ${hasMoreRounds ? '<button class="fc-btn-sm" id="fcSkipRound">Skip to New Cards</button>' : ''}
+                        </div>
                     </div>
+                    <div class="fc-progress-label">
+                        <span>Round ${fcRound + 1} of ${Math.ceil(fcPool.length / FC_ROUND_SIZE)}</span>
+                        <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
+                    </div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
                     <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
                         <div class="flashcard-inner">
                             <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
                             <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
                         </div>
                     </div>
-                    <div class="flashcard-hint">Click card to flip</div>
+                    ${fcFlipped ? `
+                        <div class="fc-assess">
+                            <button class="fc-got-it" id="fcGotIt">&#10003; Got It</button>
+                            <button class="fc-missed" id="fcMissedBtn">&#10007; Still Learning</button>
+                        </div>
+                    ` : '<div class="flashcard-hint">Click card to flip and reveal the answer</div>'}
                     <div class="flashcard-nav">
                         <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
-                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                        <button id="fcNext" ${fcIndex >= deck.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
                     </div>
                 </div>
             `;
+
             document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
             document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < deck.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            const shuffleBtn = document.getElementById("fcShuffle");
+            if (shuffleBtn) shuffleBtn.addEventListener("click", () => { fcActiveCards.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            const skipBtn = document.getElementById("fcSkipRound");
+            if (skipBtn) skipBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+            const gotItBtn = document.getElementById("fcGotIt");
+            if (gotItBtn) gotItBtn.addEventListener("click", () => {
+                fcMastered.push(card.idx);
+                fcFlipped = false;
+                const remaining = fcCurrentDeck();
+                if (fcIndex >= remaining.length) fcIndex = Math.max(0, remaining.length - 1);
+                renderFlashcards();
+            });
+            const missedBtn = document.getElementById("fcMissedBtn");
+            if (missedBtn) missedBtn.addEventListener("click", () => {
+                fcFlipped = false;
+                fcIndex = (fcIndex + 1) % Math.max(1, fcCurrentDeck().length);
+                renderFlashcards();
+            });
         }
 
         // Utility: Render Resources

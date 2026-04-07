@@ -708,26 +708,45 @@
             padding: var(--spacing-xl);
         }
 
-                /* Flashcards Tab */
-        .flashcard-container { max-width: 600px; margin: 0 auto; }
-        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+                        /* Flashcards Tab */
+        .flashcard-container { max-width: 620px; margin: 0 auto; }
+        .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-toolbar-buttons { display: flex; gap: 8px; }
+        .fc-btn-sm { padding: 5px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-family: var(--font-sans); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+        .fc-btn-sm:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
+        .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
         .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .fc-assess { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .fc-assess button { padding: 10px 24px; border-radius: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid; }
+        .fc-got-it { background: #E8F5EE; color: var(--color-success); border-color: var(--color-success); }
+        .fc-got-it:hover { background: var(--color-success); color: #fff; }
+        .fc-missed { background: #FFF3E0; color: #E65100; border-color: #E65100; }
+        .fc-missed:hover { background: #E65100; color: #fff; }
         .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
         .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
         .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
         .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-complete { text-align: center; padding: 40px 20px; }
+        .fc-complete-icon { font-size: 48px; margin-bottom: 12px; }
+        .fc-complete h3 { font-family: var(--font-serif); color: var(--color-success); margin-bottom: 8px; }
+        .fc-complete p { color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px; }
+        .fc-complete-btn { padding: 10px 24px; border-radius: 8px; border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
+        .fc-new-cards { background: var(--color-accent); color: #fff; }
+        .fc-new-cards:hover { background: #005F73; }
+        .fc-restart { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .fc-restart:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* Resources Tab */
         .resources-grid {
@@ -1397,7 +1416,7 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
-        // Flashcard Data
+        // Flashcard Data — Full Pool
         const FLASHCARDS = [
   { front: "What are the principles of curriculum design in medical education?", back: "Curriculum: planned learning experiences with defined objectives, content, instructional methods, assessment. Design: align objectives (what students learn) with assessment (how we measure learning) using backwards design. Content: knowledge, skills (clinical, procedural), attitudes (professionalism). Sequence: foundations then clinical, simple to complex. Accreditation: LCME standards for US medical schools require competency-based curriculum addressing knowledge, skills, behaviors. Evaluation: continuous improvement based on assessment data." },
   { front: "Describe Bloom's taxonomy and learning objectives.", back: "Bloom's taxonomy: levels of learning from simple to complex. Lower order: remember (facts), understand (concepts). Higher order: apply (new situations), analyze (components), evaluate (judgment), create (new knowledge). Objectives: state what students will be able to do (action verb + content + conditions). Example: \"Student will analyze EKG for acute MI findings.\" Importance: guides instruction and assessment (avoid assessing only factual recall, include higher-order thinking). Assessment alignment: align assessment with learning objective (don't teach higher-order but test recall)." },
@@ -1413,44 +1432,149 @@
   { front: "Describe wellness and addressing burnout in medical education.", back: "Physician burnout: emotional exhaustion, depersonalization, reduced personal accomplishment. Prevalence: 50% of US physicians. Causes: excessive workload, lack of autonomy, bureaucracy, EHR burden, moral distress. Student/resident burnout: high workload, limited autonomy, financial debt. Prevention: work-hour limits, schedule flexibility, institutional support, mental health resources. Interventions: stress management training, mindfulness, peer support, addressing system issues. Outcomes: burnout associated with medical errors, patient harm, suicide." },
   { front: "What is the role of patient partnerships in medical education?", back: "Patient partnerships: patients involved in curriculum design, teaching, evaluation. Examples: patients teach clinical examination skills (more realistic than mannequins), provide feedback on student performance, share illness experiences. Benefits: patient-centered perspective, authenticity, humanization of medicine. Barriers: recruitment/compensation, scheduling, privacy concerns. Co-teaching: students learn from patient perspective alongside faculty knowledge. Governance: patient input into educational decisions. Outcomes: improved communication skills, empathy, patient satisfaction." },
   { front: "Describe precision health education and personalized learning.", back: "Precision education: tailor learning to individual student needs (learning style, pace, knowledge gaps). Assessment: identify student strengths/weaknesses (diagnostic testing, learning analytics). Adaptive learning: technology adjusts content difficulty/pace based on performance. Personalization: recommend resources, focus areas, career paths. Technology: learning management systems, adaptive platforms, AI tutoring. Benefits: efficiency (focus on weaknesses), engagement (relevant), outcomes. Challenges: data privacy, algorithmic bias, technology accessibility." },
-  { front: "What is the role of assessment of learning vs. assessment for learning?", back: "Assessment of learning (summative): measures knowledge/skills at endpoint (exams, final grades). Purpose: gate-keeping, credentialing, accountability. Assessment for learning (formative): provides feedback during learning process (quizzes, practice tests, peer review). Purpose: inform instruction, identify gaps, adjust teaching. Both needed: summative proves competency, formative improves learning. Feedback quality: timely, specific, actionable feedback from formative assessment most effective. Low-stakes vs. high-stakes: formative typically low-stakes (safe to make mistakes), summative high-stakes (determines advancement)." }
+  { front: "What is the role of assessment of learning vs. assessment for learning?", back: "Assessment of learning (summative): measures knowledge/skills at endpoint (exams, final grades). Purpose: gate-keeping, credentialing, accountability. Assessment for learning (formative): provides feedback during learning process (quizzes, practice tests, peer review). Purpose: inform instruction, identify gaps, adjust teaching. Both needed: summative proves competency, formative improves learning. Feedback quality: timely, specific, actionable feedback from formative assessment most effective. Low-stakes vs. high-stakes: formative typically low-stakes (safe to make mistakes), summative high-stakes (determines advancement)." },
+  { front: "What is the diagnostic approach to educational assessment validity and reliability?", back: "Validity: assessment measures what it purports to measure. Types: content (covers domains), construct (measures intended construct), criterion (predicts future performance). Reliability: consistency of assessment (same scores if repeated). Sources of error: ambiguous questions, rater bias, environmental factors. Threats: high-stakes assessments increase anxiety (affects reliability), cheating. Strategies to improve: clear instructions, standardization, multiple assessments (reduce random error), rater training. Psychometrics: quantify validity/reliability, guide test refinement." },
+  { front: "Describe problem-based learning (PBL) and case-based learning.", back: "PBL: students work in small groups on clinical problems, self-directed learning, faculty as facilitators. Process: encounter problem, identify learning needs, research independently, apply knowledge. Benefits: develops clinical reasoning, teamwork, self-directed learning, motivation. Challenges: requires trained facilitators, extensive preparation, assessment complexity, variable student engagement. Case-based learning: shorter than PBL, faculty-guided application of concepts. Effectiveness: both improve long-term retention, clinical reasoning vs lectures. Adoption: increasingly standard in medical education." },
+  { front: "What is the role of evidence-based medicine (EBM) education in medical schools?", back: "EBM: integrate best current evidence, clinical expertise, patient values in decision-making. Teaching: ask (clinical question), acquire (search literature), appraise (evaluate evidence quality), apply (decide with patient), assess (outcomes). Skills: literature search (PubMed, databases), critical appraisal (validity, applicability), numbers needed to treat, relative/absolute risk. Barriers: time constraints, evidence quality varies, individual patient differences. Importance: equips students for lifelong learning, quality improvement. Integration: taught throughout curriculum, applied in clinical cases." },
+  { front: "Describe the transition from medical school to residency training.", back: "Medical school to residency: significant adjustment (increased responsibility, autonomy, hours, complexity). Challenges: sleep deprivation (duty-hour regulations limiting hours), moral distress (resource limitations), impostor syndrome, financial debt burden. Competencies needed: clinical skills, knowledge application, professionalism, communication, team collaboration. Support: mentorship, counseling resources, wellness programs. First-year resident: high error rates (steep learning curve), supervision crucial. Programs vary: some more supportive than others, culture matters." },
+  { front: "What is the diagnostic approach to student remediation and struggling learners?", back: "Struggling learners: poor test performance, clinical skill deficits, unprofessional behavior. Identification: early detection via formative assessments. Approaches: targeted tutoring (address knowledge gaps), coaching (skill development), counseling (personal issues), probation (monitor if serious). Documentation: essential if remediation fails (transparency, due process). Outcomes: most remediate successfully, some require extended training or dismissal. Prevention: earlier intervention, supportive culture. Fairness: ensure consistency across students, transparent criteria." },
+  { front: "Describe team-based learning (TBL) and its implementation.", back: "TBL: students in permanent teams complete preparation (reading), readiness assurance (tests), application (group problem-solving). Structure: accountability (individual and team accountability), immediate feedback (reveal correct answers), action/engagement (apply knowledge). Benefits: active learning, peer teaching, accountability, engagement. Vs PBL: TBL more structured, larger cohorts feasible, less faculty burden. Effectiveness: improves learning outcomes, higher-order thinking. Implementation: requires curriculum redesign, faculty training, assessment alignment." },
+  { front: "What is the role of diversity, equity, and inclusion in medical education?", back: "Diversity: race, ethnicity, gender, socioeconomic status, disability, LGBTQ+ representation. Equity: ensure equal opportunity and outcomes (address barriers). Inclusion: create welcoming environment, value diverse perspectives. Importance: improves outcomes for underserved populations, diverse physician workforce reflects population. Barriers: implicit bias, stereotype threat (performance anxiety), discrimination, underrepresentation. Strategies: pipeline programs (pre-med), holistic admissions, anti-racism training, support groups, recruitment from underrepresented backgrounds. Impact: improved healthcare equity, cultural competence." },
+  { front: "Describe longitudinal integrated clerkships (LIC) in medical education.", back: "LIC: students spend longer (weeks-months) with same team, follow patients longitudinally. Advantages: continuity (deeper relationships, better clinical reasoning), autonomy increase, specialty exposure, mentorship (sustained). Vs traditional: block rotations shorter, multiple transitions. Benefits: improved clinical reasoning (longitudinal follow-up), better outcomes, reduced unnecessary procedures, higher satisfaction. Challenges: scheduling, faculty engagement variability, assessment complexity. Emerging model: shows promise for improving clinical competencies." },
+  { front: "What is the diagnostic approach to medical school selection and admission processes?", back: "Admission: medical school competitiveness; MCAT scores, GPA, clinical experience emphasized. Holistic review: considers achievements, disadvantage, diversity, personal qualities. Variability: different schools emphasize different criteria. Disparities: traditional metrics correlate with socioeconomic status, race/ethnicity. Pipeline: underrepresented minorities have fewer preps, supports. Reforms: reduce MCAT emphasis, increase recruitment from underserved areas, support programs. Goal: select diverse physicians, improve equity." },
+  { front: "Describe the role of technology and learning management systems (LMS) in medical education.", back: "LMS: platforms (Canvas, Blackboard) for course content delivery, assignments, assessments, communication. Features: videos, readings, quizzes, discussion forums, grade tracking. Advantages: flexible access, asynchronous learning, analytics (identify struggling students). Challenges: digital divide (access inequality), screen fatigue, less personal interaction. Virtual learning: pandemic accelerated adoption, mixed effectiveness. Hybrid models: combine in-person + virtual. Emerging: AI tutors, adaptive learning, immersive technology." },
+  { front: "What is the diagnostic approach to medical school curriculum evaluation and accreditation?", back: "Curriculum evaluation: assess effectiveness in achieving objectives (student learning, outcomes). Methods: student performance (exams, clinical skills), graduate outcomes (board exam pass rates, specialty choice, career satisfaction), employer feedback (residency program satisfaction). Accreditation: LCME (US) sets standards for curriculum structure, competencies, teaching quality, resources, diversity. Compliance: schools undergo self-study, site visits, continuous improvement. Outcomes accountability: increasingly focused on graduate competencies, not just inputs." },
+  { front: "Describe the education of physicians for interprofessional practice and collaborative care.", back: "Interprofessional practice: physicians + nurses + social workers + pharmacists + others coordinate care. Education: shared learning experiences, joint case discussions, team simulations. Competencies: communication, conflict resolution, shared decision-making, respect for expertise. Barriers: profession-specific curriculum, limited scheduling, hierarchy perceptions. Benefits: better outcomes, reduced errors, improved patient satisfaction. Implementation: curriculum restructuring, cultural change, practice settings transition. Importance: healthcare moving toward team-based care." },
+  { front: "What is the role of research training and scholarly activity in medical education?", back: "Research: develops skills (critical appraisal, scientific method), fosters innovation, produces knowledge. Medical school: variable research expectations (2-year research requirement at some), electives at others. Importance: builds research competencies for academic careers, quality improvement projects. Barriers: limited time, lack of mentorship, cost, publication difficulty. Benefits: improved writing, presentation skills, networking. Outcomes: research exposure associated with academic careers, some pursue MD/PhD. Integration: research across curriculum vs dedicated research blocks." },
+  { front: "Describe cognitive apprenticeship and situated learning in clinical education.", back: "Cognitive apprenticeship: learn complex skills through observation, guided practice, independent practice. Situated learning: learning occurs in authentic context (patient care), meaningful for learners. Elements: modeling (observe expert), coaching (guided practice), scaffolding (gradually reduce support), articulation (reflect on learning). Application: procedural skills (suturing, intubation), clinical reasoning, communication. Effectiveness: students develop competence faster with authentic context. Vs classroom: more transferable to practice." },
+  { front: "What is the diagnostic approach to measuring and improving teaching quality in medical education?", back: "Teaching quality evaluation: student course evaluations (limitations: popularity bias, timing), objective measures (student learning outcomes), peer observation, portfolios (teaching effectiveness documentation). Improvement: faculty development programs (pedagogy training), feedback on evaluations, mentorship. Incentives: tenure consideration, promotion rewards teaching excellence, course improvements. Challenges: subjective nature, resistance to change, time commitment. Goal: identify effective teachers, share best practices, support growth." }
 ];
 
-        // Flashcard State
+        // Flashcard Enhanced State
+        const FC_ROUND_SIZE = 15;
+        let fcPool = [...FLASHCARDS];
+        let fcRound = 0;
+        let fcActiveCards = [];
+        let fcMastered = [];
+        let fcMissed = [];
         let fcIndex = 0;
         let fcFlipped = false;
-        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function fcStartRound() {
+            const start = fcRound * FC_ROUND_SIZE;
+            const end = Math.min(start + FC_ROUND_SIZE, fcPool.length);
+            if (start >= fcPool.length) {
+                // All cards exhausted — reshuffle entire pool
+                fcPool.sort(() => Math.random() - 0.5);
+                fcRound = 0;
+                fcMastered = [];
+                fcMissed = [];
+                fcStartRound();
+                return;
+            }
+            fcActiveCards = fcPool.slice(start, end).map((c, i) => ({ ...c, idx: start + i }));
+            fcMastered = [];
+            fcMissed = [];
+            fcIndex = 0;
+            fcFlipped = false;
+        }
+        fcStartRound();
+
+        function fcRemainingCards() {
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx) && !fcMissed.includes(c.idx));
+        }
+
+        function fcCurrentDeck() {
+            // Show missed cards + unreviewed cards
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx));
+        }
 
         function renderFlashcards() {
             const container = document.getElementById("flashcardContainer");
-            if (FLASHCARDS.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+            const deck = fcCurrentDeck();
+            const totalInRound = fcActiveCards.length;
+            const masteredCount = fcMastered.length;
+            const progressPct = Math.round((masteredCount / totalInRound) * 100);
+            const hasMoreRounds = ((fcRound + 1) * FC_ROUND_SIZE) < fcPool.length;
+
+            // All cards in this round mastered
+            if (deck.length === 0) {
+                container.innerHTML = `
+                    <div class="fc-complete">
+                        <div class="fc-complete-icon">&#127942;</div>
+                        <h3>Round ${fcRound + 1} Complete!</h3>
+                        <p>You mastered all ${masteredCount} cards in this round.</p>
+                        <p style="font-size:13px;color:var(--color-text-muted);">${hasMoreRounds ? (fcPool.length - (fcRound + 1) * FC_ROUND_SIZE) + ' new cards remaining in the pool.' : 'You have reviewed all cards in the pool.'}</p>
+                        <div style="margin-top:16px;">
+                            ${hasMoreRounds ? '<button class="fc-complete-btn fc-new-cards" id="fcNewCards">Get New Cards</button>' : ''}
+                            <button class="fc-complete-btn fc-restart" id="fcRestart">Restart All Cards</button>
+                        </div>
+                    </div>
+                `;
+                const newBtn = document.getElementById("fcNewCards");
+                if (newBtn) newBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+                const restartBtn = document.getElementById("fcRestart");
+                if (restartBtn) restartBtn.addEventListener("click", () => { fcPool.sort(() => Math.random() - 0.5); fcRound = 0; fcStartRound(); renderFlashcards(); });
                 return;
             }
-            const card = FLASHCARDS[fcOrder[fcIndex]];
+
+            if (fcIndex >= deck.length) fcIndex = 0;
+            const card = deck[fcIndex];
+
             container.innerHTML = `
                 <div class="flashcard-container">
-                    <div class="flashcard-header">
-                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
-                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    <div class="flashcard-toolbar">
+                        <span class="flashcard-counter">Card ${fcIndex + 1} of ${deck.length} remaining</span>
+                        <div class="flashcard-toolbar-buttons">
+                            <button class="fc-btn-sm" id="fcShuffle">Shuffle</button>
+                            ${hasMoreRounds ? '<button class="fc-btn-sm" id="fcSkipRound">Skip to New Cards</button>' : ''}
+                        </div>
                     </div>
+                    <div class="fc-progress-label">
+                        <span>Round ${fcRound + 1} of ${Math.ceil(fcPool.length / FC_ROUND_SIZE)}</span>
+                        <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
+                    </div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
                     <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
                         <div class="flashcard-inner">
                             <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
                             <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
                         </div>
                     </div>
-                    <div class="flashcard-hint">Click card to flip</div>
+                    ${fcFlipped ? `
+                        <div class="fc-assess">
+                            <button class="fc-got-it" id="fcGotIt">&#10003; Got It</button>
+                            <button class="fc-missed" id="fcMissedBtn">&#10007; Still Learning</button>
+                        </div>
+                    ` : '<div class="flashcard-hint">Click card to flip and reveal the answer</div>'}
                     <div class="flashcard-nav">
                         <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
-                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                        <button id="fcNext" ${fcIndex >= deck.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
                     </div>
                 </div>
             `;
+
             document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
             document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < deck.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            const shuffleBtn = document.getElementById("fcShuffle");
+            if (shuffleBtn) shuffleBtn.addEventListener("click", () => { fcActiveCards.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            const skipBtn = document.getElementById("fcSkipRound");
+            if (skipBtn) skipBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+            const gotItBtn = document.getElementById("fcGotIt");
+            if (gotItBtn) gotItBtn.addEventListener("click", () => {
+                fcMastered.push(card.idx);
+                fcFlipped = false;
+                const remaining = fcCurrentDeck();
+                if (fcIndex >= remaining.length) fcIndex = Math.max(0, remaining.length - 1);
+                renderFlashcards();
+            });
+            const missedBtn = document.getElementById("fcMissedBtn");
+            if (missedBtn) missedBtn.addEventListener("click", () => {
+                fcFlipped = false;
+                fcIndex = (fcIndex + 1) % Math.max(1, fcCurrentDeck().length);
+                renderFlashcards();
+            });
         }
 
         // Utility: Render Resources

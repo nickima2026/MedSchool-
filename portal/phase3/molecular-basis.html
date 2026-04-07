@@ -708,26 +708,45 @@
             padding: var(--spacing-xl);
         }
 
-                /* Flashcards Tab */
-        .flashcard-container { max-width: 600px; margin: 0 auto; }
-        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+                        /* Flashcards Tab */
+        .flashcard-container { max-width: 620px; margin: 0 auto; }
+        .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-toolbar-buttons { display: flex; gap: 8px; }
+        .fc-btn-sm { padding: 5px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-family: var(--font-sans); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+        .fc-btn-sm:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
+        .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
         .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .fc-assess { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .fc-assess button { padding: 10px 24px; border-radius: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid; }
+        .fc-got-it { background: #E8F5EE; color: var(--color-success); border-color: var(--color-success); }
+        .fc-got-it:hover { background: var(--color-success); color: #fff; }
+        .fc-missed { background: #FFF3E0; color: #E65100; border-color: #E65100; }
+        .fc-missed:hover { background: #E65100; color: #fff; }
         .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
         .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
         .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
         .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-complete { text-align: center; padding: 40px 20px; }
+        .fc-complete-icon { font-size: 48px; margin-bottom: 12px; }
+        .fc-complete h3 { font-family: var(--font-serif); color: var(--color-success); margin-bottom: 8px; }
+        .fc-complete p { color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px; }
+        .fc-complete-btn { padding: 10px 24px; border-radius: 8px; border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
+        .fc-new-cards { background: var(--color-accent); color: #fff; }
+        .fc-new-cards:hover { background: #005F73; }
+        .fc-restart { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .fc-restart:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* Resources Tab */
         .resources-grid {
@@ -1397,7 +1416,7 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
-        // Flashcard Data
+        // Flashcard Data — Full Pool
         const FLASHCARDS = [
   { front: "What are the fundamental mechanisms of enzyme catalysis and drug action?", back: "Enzyme catalysis: enzymes lower activation energy, facilitate substrate-product conversion. Michaelis-Menten kinetics: describes enzyme kinetics (Vmax, Km). Drug mechanisms: competitive inhibition (blocks active site), non-competitive (binds elsewhere, reduces Vmax), suicide inhibitors (irreversibly bind, used for selective toxicity). Lock-and-key model: enzyme active site shape/chemistry specific for substrate. Clinical examples: statins inhibit HMG-CoA reductase (cholesterol synthesis), ACE inhibitors inhibit ACE (blood pressure)." },
   { front: "Describe signal transduction pathways and cellular communication.", back: "Signal transduction: extracellular signal (hormone, growth factor) activates receptor, intracellular cascade. Pathways: MAPK (growth/proliferation), PI3K/AKT (metabolism, survival), JAK/STAT (inflammation, immunity), Wnt/beta-catenin (development). Second messengers: cAMP, IP3, Ca2+. Amplification: single receptor activation activates many downstream effectors. Dysregulation: cancer mutations often in growth signaling (EGFR, BRAF, RAS). Drugs target: receptors (hormone antagonists), kinases (tyrosine kinase inhibitors), second messengers." },
@@ -1413,44 +1432,148 @@
   { front: "Describe the molecular mechanisms of hormone action.", back: "Hormone signaling: hormones bind receptors (nuclear - intracellular, cell surface - extracellular). Nuclear: transcription factor activation (steroid hormones). Cell surface: second messengers (insulin - tyrosine kinase, epinephrine - GPCR-cAMP). Receptor diversity: target tissues express specific receptors (estrogen receptor in breast/uterus). Dysregulation: hormone-responsive cancers (breast - estrogen receptor, prostate - androgen receptor). Therapy: hormone antagonists (tamoxifen blocks estrogen), receptor modulators." },
   { front: "What are the mechanisms of stem cell differentiation and reprogramming?", back: "Stem cells: self-renewal + differentiation capacity. Differentiation: transcription factor cascades direct lineage commitment (MyoD → myoblasts). Epigenetics: DNA methylation, histone modifications silence/activate genes. Pluripotent stem cells: can differentiate to any cell type. Induced pluripotent stem cells (iPSCs): reprogramming somatic cells via Yamanaka factors (OCT4, SOX2, KLF4, c-MYC). Clinical: iPSCs bypass immune rejection, generate patient-specific therapies. Challenges: tumor formation risk (incomplete reprogramming), efficiency." },
   { front: "Describe the molecular basis of wound healing and fibrosis.", back: "Wound healing phases: hemostasis (clot), inflammation (cytokines, immune cells), proliferation (angiogenesis, collagen deposition), remodeling (collagen reorganization, scar). Growth factors: PDGF (chemotaxis), FGF (fibroblast activation), VEGF (angiogenesis), TGF-beta (cytokine, pro-fibrotic). Complications: keloids (excessive collagen), chronic wounds (inflammatory phase prolonged), fibrosis (excessive collagen accumulation in organs). Dysregulation: chronic wounds (diabetes, vascular insufficiency), pulmonary fibrosis, liver cirrhosis. Therapy: target TGF-beta (anti-fibrotic), growth factor supplementation." },
-  { front: "What are the mechanisms of immunological tolerance and autoimmunity?", back: "Tolerance: immune system doesn't attack self-antigens. Central: thymus (T cells) and bone marrow (B cells) delete self-reactive cells. Peripheral: Tregs suppress, FasL-mediated killing, immune-privileged sites (CNS, eye). Breakdown: loss of Tregs, defective negative selection, molecular mimicry (pathogen antigens resemble self), bystander activation (inflammation activates self-reactive cells). Autoimmune diseases: SLE (anti-DNA), rheumatoid arthritis (anti-IgG), thyroiditis (anti-thyroid peroxidase). Therapy: immunosuppression, anti-TNF biologics." }
+  { front: "What are the mechanisms of immunological tolerance and autoimmunity?", back: "Tolerance: immune system doesn't attack self-antigens. Central: thymus (T cells) and bone marrow (B cells) delete self-reactive cells. Peripheral: Tregs suppress, FasL-mediated killing, immune-privileged sites (CNS, eye). Breakdown: loss of Tregs, defective negative selection, molecular mimicry (pathogen antigens resemble self), bystander activation (inflammation activates self-reactive cells). Autoimmune diseases: SLE (anti-DNA), rheumatoid arthritis (anti-IgG), thyroiditis (anti-thyroid peroxidase). Therapy: immunosuppression, anti-TNF biologics." },
+  { front: "What is the role of ubiquitin-proteasome system in protein degradation?", back: "Ubiquitin: small protein marking other proteins for destruction. Ubiquitination: E1 enzymes activate ubiquitin, E2 transfers, E3 ligases recognize substrate (target specificity). Proteasome: 26S structure degrades ubiquitinated proteins. Regulation: controls protein abundance (cell cycle, growth factors). Dysregulation: cancer mutations affect E3 ligases (VHL in renal cancer), accumulation of abnormal proteins. Inhibitors: proteasome inhibitors (bortezomib) for multiple myeloma. NEDD8 pathway: related ubiquitin-like protein." },
+  { front: "Describe the molecular mechanisms of autophagy and cellular recycling.", back: "Autophagy: cellular degradation pathway for proteins and organelles. Process: isolation membrane engulfs cargo, autophagosome fuses lysosome, contents degraded. Regulation: mTOR pathway (inhibitor when nutrients low), AMPK activates. Selective autophagy: mitophagy (mitochondria), lipophagy (lipids). Functions: remove damaged organelles, amino acid recycling during starvation. Dysregulation: insufficient autophagy (Alzheimer accumulation), excessive autophagy (starvation, neurodegeneration). Therapy: inhibit/enhance depending on disease." },
+  { front: "What is the diagnostic approach to epigenetic modifications and gene regulation?", back: "Epigenetics: heritable changes in gene expression without DNA sequence change. Mechanisms: DNA methylation (5-methylcytosine silences genes), histone modifications (acetylation activates, methylation variable), chromatin remodeling (compact vs open). Reader proteins: interpret modifications via protein domains. Writers: add modifications. Erasers: remove modifications. Cancer: epigenetic silencing of tumor suppressors (VHL, BRCA1, MLH1). Therapy: HDAC inhibitors (activate silenced genes), DNMT inhibitors (reverse methylation)." },
+  { front: "Describe the molecular basis of cellular senescence and aging.", back: "Senescence: cell cycle arrest, permanent growth stop. Triggers: telomere shortening (end-replication problem after 50-70 divisions), DNA damage (p53/p16 pathway), oxidative stress. Senescent cells: metabolically active, secrete inflammatory cytokines (SASP). Aging: accumulated senescent cells drive tissue dysfunction, inflammation, disease. p16/Rb pathway: controls senescence entry. Longevity: telomerase extends telomeres (cancer cells, germline). Senolytics: drugs eliminate senescent cells (emerging therapy)." },
+  { front: "What is the role of microRNAs (miRNAs) in post-transcriptional regulation?", back: "MicroRNAs: small RNAs (~22 nucleotides) regulate mRNA. Biogenesis: transcribed as pri-miRNA, processed by Drosha/Dicer. Mechanism: base-pair to mRNA (usually 3-UTR), recruit RISC complex, degrade or inhibit translation. Gene expression: single miRNA can regulate multiple mRNAs, single mRNA targeted by multiple miRNAs. Dysregulation: cancer miRNA dysregulation (miR-155 upregulated in lymphomas, miR-34 downregulated). Diagnostics: miRNA signatures for cancer classification. Therapeutics: antagomiRs (block miRNA), miRNA mimics." },
+  { front: "Describe the molecular mechanisms of intestinal barrier function and tight junctions.", back: "Intestinal epithelial barrier: single layer cells selectively absorb nutrients, exclude pathogens. Tight junctions: claudins, occludin, JAMs seal paracellular space. Adherens junctions: E-cadherin links cells. Transport: transcellular (transporters), paracellular (tight junctions). Regulation: zonula occludens proteins organize tight junctions. Dysregulation: intestinal permeability (increased paracellular flux) linked to IBD, IBS, food allergy. Mechanisms: tight junction disruption by pathogens (C. difficile toxins), inflammation (TNF-alpha). Therapy: tight junction modifiers in development." },
+  { front: "What is the diagnostic approach to metabolic pathways and energy production?", back: "Glycolysis: glucose → pyruvate (cytoplasm, ATP generation). Citric acid cycle: acetyl-CoA oxidation (mitochondria, NADH production). Oxidative phosphorylation: NADH/FADH2 → ATP (electron transport chain). ATP yield: 30-32 ATP per glucose. Regulation: phosphofructokinase (allosteric, ATP/AMP sensitive), pyruvate dehydrogenase (phosphorylation). Dysregulation: cancer Warburg effect (prefer glycolysis despite oxygen), diabetes (glucose metabolism impaired), mitochondrial disease." },
+  { front: "Describe the molecular basis of bone homeostasis and remodeling.", back: "Bone: dynamic tissue constantly remodeled (old → new). Osteoblasts: produce bone matrix (collagen, minerals). Osteocytes: embedded in matrix, sense mechanical stress, direct remodeling. Osteoclasts: resorb bone (via H+ and proteases). RANKL/RANK: key signal from osteoblasts activating osteoclasts. Regulation: estrogen (inhibits osteoclasts), PTH (biphasic - high dose catabolic, low dose anabolic). Dysregulation: osteoporosis (resorption > formation), Paget disease (disorganized remodeling), osteomyelitis (infection). Therapy: bisphosphonates inhibit osteoclasts." },
+  { front: "What is the molecular basis of blood coagulation and thrombosis?", back: "Coagulation cascade: extrinsic (TF + VII), intrinsic (VIII, IX, XI, XII), common (II, V, X, VII → thrombin → fibrin). Factors: numbered 1-13 (I-fibrinogen, II-prothrombin, etc). Thrombin: converts fibrinogen → fibrin monomers, polymerize into clot. Regulation: anticoagulants (protein C/S, TFPI, antithrombin), fibrinolysis (plasmin via tPA). Dysregulation: hypercoagulability (thrombosis - Factor V Leiden, prothrombin mutation), hypocoagulability (bleeding - hemophilia A/B). Therapy: warfarin (VKD-dependent factors), DOACs (direct thrombin/Xa inhibitors)." },
+  { front: "Describe the molecular mechanisms of cardiac contraction and calcium handling.", back: "Cardiac muscle: organized myofilaments (thick actin, thin myosin) generate force via sliding. Calcium: SR releases Ca2+ (RyR), binds troponin C, exposes myosin-binding sites, contraction. SERCA: reuptakes Ca2+ into SR. Dysregulation: heart failure (impaired Ca2+ handling, reduced SERCA, increased phospholamban), arrhythmias (calcium overload). Genetic: mutations in contractile proteins (HCM - myosin, tropomyosin), calcium handling (RyR mutations - catecholaminergic polymorphic ventricular tachycardia). Therapy: beta-blockers, ACE inhibitors, inotropes." },
+  { front: "What is the role of aquaporins and water transport mechanisms?", back: "Aquaporins: water channel proteins facilitate osmosis across membranes. Types: AQP1-13 with tissue-specific distribution. Functions: AQP1 (kidney proximal tubule, RBC), AQP2 (kidney collecting duct, vasopressin-regulated), AQP3 (skin hydration), AQP5 (salivary gland). Regulation: phosphorylation, trafficking, osmotic gradient. Dysregulation: Sjögren syndrome (AQP3, AQP5 loss), nephrogenic diabetes insipidus (AQP2 mutations, vasopressin resistance). Edema pathophysiology: altered aquaporin expression/function. Therapy: emerging for autoimmune targets." },
+  { front: "Describe the molecular mechanisms of renal sodium handling and hypertension.", back: "Kidney filtration: glomerulus filters water + small solutes, proximal tubule reabsorbs glucose/amino acids/salt, loop of Henle concentrates urine. Sodium: crucial for osmotic pressure, membrane potential, neural signaling. Transporters: Na+/K+-ATPase (basolateral), Na+/glucose cotransporter (luminal), Na+/Cl- cotransporter (thiazide target). Renin-angiotensin system: low sodium → renin → angiotensin II → sodium retention. Dysregulation: essential hypertension (genetic predisposition + sodium), hypertensive crisis (secondary), SIADH (water retention). Therapy: ACE inhibitors, diuretics (block reabsorption)." },
+  { front: "What is the diagnostic approach to lipid metabolism and atherosclerosis development?", back: "Lipid metabolism: cholesterol synthesis (HMG-CoA reductase, statins target), lipoprotein transport (LDL, HDL, triglycerides). LDL receptor: internalizes cholesterol, dysregulation → familial hypercholesterolemia. Atherosclerosis: LDL oxidation → foam cells (macrophages) → plaques. Inflammation: plaques contain T cells, monocytes releasing cytokines. Rupture risk: thin fibrous cap, lipid core. Prevention: lower LDL (statins), increase HDL (niacin, fibrates), antiplatelet (aspirin). Novel: PCSK9 inhibitors (LDL further lowering)." },
+  { front: "Describe the molecular regulation of glucose homeostasis and diabetes pathophysiology.", back: "Glucose sensing: pancreatic beta cells release insulin when glucose high. Insulin signaling: activates tyrosine kinase, PI3K/AKT pathway. Effects: GLUT4 translocation (glucose uptake), glycogen synthesis, lipogenesis. Glucagon: opposite effects (glycogenolysis, gluconeogenesis). Type 1 diabetes: beta cell destruction (autoimmune). Type 2 diabetes: insulin resistance (impaired IRS/PI3K signaling), beta cell dysfunction. Mechanisms: obesity (inflammation, FFA), lipotoxicity, mitochondrial dysfunction. Therapy: insulin (Type 1), metformin (enhance insulin sensitivity), sulfonylureas (stimulate insulin), GLP-1 agonists." }
 ];
 
-        // Flashcard State
+        // Flashcard Enhanced State
+        const FC_ROUND_SIZE = 15;
+        let fcPool = [...FLASHCARDS];
+        let fcRound = 0;
+        let fcActiveCards = [];
+        let fcMastered = [];
+        let fcMissed = [];
         let fcIndex = 0;
         let fcFlipped = false;
-        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function fcStartRound() {
+            const start = fcRound * FC_ROUND_SIZE;
+            const end = Math.min(start + FC_ROUND_SIZE, fcPool.length);
+            if (start >= fcPool.length) {
+                // All cards exhausted — reshuffle entire pool
+                fcPool.sort(() => Math.random() - 0.5);
+                fcRound = 0;
+                fcMastered = [];
+                fcMissed = [];
+                fcStartRound();
+                return;
+            }
+            fcActiveCards = fcPool.slice(start, end).map((c, i) => ({ ...c, idx: start + i }));
+            fcMastered = [];
+            fcMissed = [];
+            fcIndex = 0;
+            fcFlipped = false;
+        }
+        fcStartRound();
+
+        function fcRemainingCards() {
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx) && !fcMissed.includes(c.idx));
+        }
+
+        function fcCurrentDeck() {
+            // Show missed cards + unreviewed cards
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx));
+        }
 
         function renderFlashcards() {
             const container = document.getElementById("flashcardContainer");
-            if (FLASHCARDS.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+            const deck = fcCurrentDeck();
+            const totalInRound = fcActiveCards.length;
+            const masteredCount = fcMastered.length;
+            const progressPct = Math.round((masteredCount / totalInRound) * 100);
+            const hasMoreRounds = ((fcRound + 1) * FC_ROUND_SIZE) < fcPool.length;
+
+            // All cards in this round mastered
+            if (deck.length === 0) {
+                container.innerHTML = `
+                    <div class="fc-complete">
+                        <div class="fc-complete-icon">&#127942;</div>
+                        <h3>Round ${fcRound + 1} Complete!</h3>
+                        <p>You mastered all ${masteredCount} cards in this round.</p>
+                        <p style="font-size:13px;color:var(--color-text-muted);">${hasMoreRounds ? (fcPool.length - (fcRound + 1) * FC_ROUND_SIZE) + ' new cards remaining in the pool.' : 'You have reviewed all cards in the pool.'}</p>
+                        <div style="margin-top:16px;">
+                            ${hasMoreRounds ? '<button class="fc-complete-btn fc-new-cards" id="fcNewCards">Get New Cards</button>' : ''}
+                            <button class="fc-complete-btn fc-restart" id="fcRestart">Restart All Cards</button>
+                        </div>
+                    </div>
+                `;
+                const newBtn = document.getElementById("fcNewCards");
+                if (newBtn) newBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+                const restartBtn = document.getElementById("fcRestart");
+                if (restartBtn) restartBtn.addEventListener("click", () => { fcPool.sort(() => Math.random() - 0.5); fcRound = 0; fcStartRound(); renderFlashcards(); });
                 return;
             }
-            const card = FLASHCARDS[fcOrder[fcIndex]];
+
+            if (fcIndex >= deck.length) fcIndex = 0;
+            const card = deck[fcIndex];
+
             container.innerHTML = `
                 <div class="flashcard-container">
-                    <div class="flashcard-header">
-                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
-                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    <div class="flashcard-toolbar">
+                        <span class="flashcard-counter">Card ${fcIndex + 1} of ${deck.length} remaining</span>
+                        <div class="flashcard-toolbar-buttons">
+                            <button class="fc-btn-sm" id="fcShuffle">Shuffle</button>
+                            ${hasMoreRounds ? '<button class="fc-btn-sm" id="fcSkipRound">Skip to New Cards</button>' : ''}
+                        </div>
                     </div>
+                    <div class="fc-progress-label">
+                        <span>Round ${fcRound + 1} of ${Math.ceil(fcPool.length / FC_ROUND_SIZE)}</span>
+                        <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
+                    </div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
                     <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
                         <div class="flashcard-inner">
                             <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
                             <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
                         </div>
                     </div>
-                    <div class="flashcard-hint">Click card to flip</div>
+                    ${fcFlipped ? `
+                        <div class="fc-assess">
+                            <button class="fc-got-it" id="fcGotIt">&#10003; Got It</button>
+                            <button class="fc-missed" id="fcMissedBtn">&#10007; Still Learning</button>
+                        </div>
+                    ` : '<div class="flashcard-hint">Click card to flip and reveal the answer</div>'}
                     <div class="flashcard-nav">
                         <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
-                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                        <button id="fcNext" ${fcIndex >= deck.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
                     </div>
                 </div>
             `;
+
             document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
             document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < deck.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            const shuffleBtn = document.getElementById("fcShuffle");
+            if (shuffleBtn) shuffleBtn.addEventListener("click", () => { fcActiveCards.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            const skipBtn = document.getElementById("fcSkipRound");
+            if (skipBtn) skipBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+            const gotItBtn = document.getElementById("fcGotIt");
+            if (gotItBtn) gotItBtn.addEventListener("click", () => {
+                fcMastered.push(card.idx);
+                fcFlipped = false;
+                const remaining = fcCurrentDeck();
+                if (fcIndex >= remaining.length) fcIndex = Math.max(0, remaining.length - 1);
+                renderFlashcards();
+            });
+            const missedBtn = document.getElementById("fcMissedBtn");
+            if (missedBtn) missedBtn.addEventListener("click", () => {
+                fcFlipped = false;
+                fcIndex = (fcIndex + 1) % Math.max(1, fcCurrentDeck().length);
+                renderFlashcards();
+            });
         }
 
         // Utility: Render Resources

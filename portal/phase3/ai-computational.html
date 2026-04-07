@@ -708,26 +708,45 @@
             padding: var(--spacing-xl);
         }
 
-                /* Flashcards Tab */
-        .flashcard-container { max-width: 600px; margin: 0 auto; }
-        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+                        /* Flashcards Tab */
+        .flashcard-container { max-width: 620px; margin: 0 auto; }
+        .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-toolbar-buttons { display: flex; gap: 8px; }
+        .fc-btn-sm { padding: 5px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-family: var(--font-sans); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+        .fc-btn-sm:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
+        .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
         .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .fc-assess { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .fc-assess button { padding: 10px 24px; border-radius: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid; }
+        .fc-got-it { background: #E8F5EE; color: var(--color-success); border-color: var(--color-success); }
+        .fc-got-it:hover { background: var(--color-success); color: #fff; }
+        .fc-missed { background: #FFF3E0; color: #E65100; border-color: #E65100; }
+        .fc-missed:hover { background: #E65100; color: #fff; }
         .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
         .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
         .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
         .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-complete { text-align: center; padding: 40px 20px; }
+        .fc-complete-icon { font-size: 48px; margin-bottom: 12px; }
+        .fc-complete h3 { font-family: var(--font-serif); color: var(--color-success); margin-bottom: 8px; }
+        .fc-complete p { color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px; }
+        .fc-complete-btn { padding: 10px 24px; border-radius: 8px; border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
+        .fc-new-cards { background: var(--color-accent); color: #fff; }
+        .fc-new-cards:hover { background: #005F73; }
+        .fc-restart { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .fc-restart:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* Resources Tab */
         .resources-grid {
@@ -1397,7 +1416,7 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
-        // Flashcard Data
+        // Flashcard Data — Full Pool
         const FLASHCARDS = [
   { front: "What are the fundamental machine learning algorithms used in medicine?", back: "Supervised learning: regression (continuous outcomes - mortality risk), classification (binary/multiclass - disease diagnosis). Algorithms: random forests, support vector machines, neural networks. Unsupervised learning: clustering identifies patient subgroups (precision medicine). Deep learning: convolutional neural networks for imaging (pathology, radiology), recurrent neural networks for time-series data (EHR). Validation: cross-validation, holdout test set prevents overfitting." },
   { front: "Describe clinical decision support systems and machine learning in diagnosis.", back: "Clinical decision support: algorithms assist clinicians in diagnosis/treatment. Examples: sepsis alert systems (lactate + organ dysfunction), stroke alert (symptom timing), chest pain prediction (HEART score automation). Integration: EHR-embedded, real-time alerts. Benefits: improved detection, reduced adverse events, better outcomes. Pitfalls: alert fatigue (too many alerts ignored), incomplete data (missing lab values), over-reliance on algorithm. Human-in-the-loop: clinician makes final decision." },
@@ -1413,44 +1432,149 @@
   { front: "Describe computational epidemiology and disease modeling.", back: "Disease modeling: predict disease spread (pandemics), assess intervention impact. Models: SEIR (susceptible-exposed-infected-recovered), agent-based simulations. COVID-19: models predicted healthcare capacity needs, informed lockdown decisions. Parameters: transmission rate, incubation period, recovery time, population structure. Validation: compare predictions to actual data. Challenges: parameter uncertainty, behavioral changes, new variant emergence." },
   { front: "What are the applications of artificial intelligence in drug repurposing?", back: "Drug repurposing: identify new uses for existing drugs (faster than developing new drugs). AI approaches: similarity networks (find drugs similar to known effective ones), network pharmacology (identify drug-target-disease relationships), literature mining (text analysis finds associations). Examples: ivermectin screening for COVID-19 (ultimately ineffective), dexamethasone for severe COVID (effective). Reduces cost, accelerates availability." },
   { front: "Describe wearable sensors and remote monitoring in digital health.", back: "Wearable technology: smartwatches, continuous glucose monitors, patches measure vital signs/biomarkers. Data: heart rate, SpO2, ECG, temperature, activity, sleep. Applications: AFib detection (Apple watch), glucose monitoring (diabetics), continuous blood pressure (hypertension management). Challenges: data privacy, integration with EHR, clinical validation, liability. Telemedicine: combines wearables with virtual visits, remote patient monitoring." },
-  { front: "What is the role of computer vision and image segmentation in surgery?", back: "Computer vision: algorithms analyze surgical images/videos. Applications: real-time guidance (surgical navigation), tissue classification (cancer vs normal), anatomical landmark identification. Image segmentation: precisely outlines organs/tissues. Deep learning: automated tumor margin detection, intraoperative guidance systems. Benefits: improved precision, reduced operative time, better outcomes. Challenges: real-time processing requirements, surgical environment variability, regulatory approval." }
+  { front: "What is the role of computer vision and image segmentation in surgery?", back: "Computer vision: algorithms analyze surgical images/videos. Applications: real-time guidance (surgical navigation), tissue classification (cancer vs normal), anatomical landmark identification. Image segmentation: precisely outlines organs/tissues. Deep learning: automated tumor margin detection, intraoperative guidance systems. Benefits: improved precision, reduced operative time, better outcomes. Challenges: real-time processing requirements, surgical environment variability, regulatory approval." },
+  { front: "What is transfer learning and domain adaptation in medical AI?", back: "Transfer learning: use knowledge from one task/domain for another (pre-trained models). Medical example: ImageNet pre-trained CNN adapted for radiology (fewer data needed). Advantages: accelerates development, improves performance with limited data, reduces computational cost. Domain adaptation: adjust model trained on one hospital's data for another institution. Challenges: different imaging protocols, patient demographics, disease prevalence between institutions." },
+  { front: "Describe natural language processing for clinical phenotyping and cohort identification.", back: "Clinical phenotyping: identify patients with specific conditions from unstructured text. NLP methods: rule-based (simple pattern matching), machine learning (learns patterns from training data). Applications: identify diabetic patients with neuropathy, asthma patients with uncontrolled symptoms, sepsis cases. Benefits: reduce manual chart review, identify eligible patients for research/trials, quality improvement initiatives. Accuracy improves with clinical domain knowledge incorporation." },
+  { front: "What is the diagnostic approach to algorithm bias and fairness in healthcare AI?", back: "Bias sources: training data underrepresentation of minorities, historical disparities in care, proxy variables (ZIP code for socioeconomic status). Detection: evaluate algorithm performance across subgroups (different races, ages, comorbidities). Fairness definitions: equal performance (same accuracy across groups), equalized odds (same false positive/negative rates). Mitigation: diverse training data, fairness-aware algorithms, stratified validation. Importance: prevent perpetuating healthcare disparities." },
+  { front: "Describe ontologies and knowledge graphs in biomedical AI.", back: "Ontologies: structured representations of biomedical knowledge (diseases, drugs, genes). Examples: SNOMED CT (standardized medical terminology), UMLS (Unified Medical Language System). Knowledge graphs: nodes (entities like drugs/diseases), edges (relationships). Applications: drug discovery (find drug-disease relationships), clinical decision support (infer treatments based on gene mutations), semantic search (find similar patients). Benefits: standardize terminology, enable computational reasoning." },
+  { front: "What is active learning and its application in medical data annotation?", back: "Active learning: algorithm selects most informative samples for human annotation (reduces labeling effort). Medical application: pathologist annotates hardest cases identified by algorithm (easy cases auto-labeled). Strategies: uncertainty sampling (model uncertain cases), query-by-committee (disagreement between models). Benefits: reduces manual annotation cost, improves model performance faster. Challenges: annotation expertise required, incorporation of human feedback." },
+  { front: "Describe temporal data analysis and time-series prediction in healthcare.", back: "Temporal analysis: captures evolving patient status (vital signs, labs over time). Methods: recurrent neural networks (RNNs), long short-term memory (LSTM) networks handle sequential data. Applications: sepsis prediction (declining trends in vitals/labs), patient deterioration (ICU early warning), disease progression. Challenges: irregular sampling intervals, missing data, concept drift (disease patterns change over time). Advantages over static models: captures temporal relationships, early warning capability." },
+  { front: "What is the role of synthetic data generation in medical AI?", back: "Synthetic data: artificially generated data mimics real patient data distributions. Methods: generative adversarial networks (GANs), variational autoencoders (VAEs). Applications: training models when real data limited (rare diseases), privacy-preserving (remove identifiers), augment training sets (improve model performance). Challenges: ensure synthetic data quality, validate realism, ensure clinical utility. Regulatory status: FDA guidance on synthetic data emerging." },
+  { front: "Describe attention mechanisms and transformer models in medical AI.", back: "Attention mechanisms: focus on relevant information (weights important parts). Transformers: state-of-the-art for sequential data (notes, genomic sequences). Medical applications: clinical note summarization, protein structure prediction (AlphaFold uses attention), disease biomarker discovery. Advantages: parallel processing (faster), long-range dependencies (understand relationships across document). Challenges: black-box interpretability, data requirements, computational cost." },
+  { front: "What is the diagnostic approach to model validation and generalization in clinical AI?", back: "Validation strategies: internal (cross-validation, hold-out test set) inflates performance. External validation: test on different hospital/population essential for real-world use. Temporal validation: train on historical data, test on future data (realistic). Performance metrics: sensitivity/specificity, AUC-ROC, calibration (predicted vs actual probabilities). Generalization: algorithm must perform well on unseen populations. Real-world monitoring: continuous performance tracking, retraining if accuracy drifts." },
+  { front: "Describe multi-modal learning and integration of diverse medical data types.", back: "Multi-modal learning: combines different data types (imaging + genomics + text notes). Benefits: captures complementary information, improves prediction accuracy. Examples: cancer diagnosis using pathology images + genomic mutations + clinical notes. Methods: fusion architectures (early fusion before processing, late fusion after). Challenges: different data scales/modalities, missing modalities (not all tests done). Increasingly important for precision medicine (integrate all available information)." },
+  { front: "What is the role of adversarial attacks and robustness in medical AI?", back: "Adversarial examples: slightly perturbed inputs fool ML models. Medical concern: could misclassify imaging (tumor vs normal). Robustness assessment: test algorithm against perturbations (noise, contrast changes). Defense mechanisms: adversarial training (train on perturbed data), input validation, ensemble methods. Clinical implications: ensure algorithm reliable for deployment. Regulatory: FDA increasingly scrutinizes robustness testing." },
+  { front: "Describe interpretable machine learning and SHAP values for clinical decision support.", back: "SHAP values: decompose model predictions into contributions per feature. Application: explain why model predicted heart failure (elevated BNP, reduced EF, elevated creatinine). Clinical utility: builds clinician trust, identifies potential errors/bias. Calculation: computationally intensive (approximations exist). Comparison: LIME (local explanation), feature importance (global). Limitations: doesn't explain all aspects of complex models. Increasingly required by regulators." },
+  { front: "What is the diagnostic approach to data imbalance in medical AI models?", back: "Data imbalance: disease rare (1% cases), training biases toward common class. Consequences: model predicts everyone as healthy (high accuracy, no utility). Solutions: oversampling (duplicate rare cases), undersampling (remove common cases), weighted loss (penalize misclassifying rare class), SMOTE (synthetic minority oversampling). Metrics: use F1-score/AUC over accuracy. Clinical importance: must detect rare diseases (sepsis, rare cancers). Domain: active area of research." },
+  { front: "Describe privacy-preserving machine learning and differential privacy.", back: "Privacy concerns: patient re-identification from model predictions/parameters. Differential privacy: adds mathematical guarantee of privacy (individuals' data can't be inferred). Methods: noise injection, federated learning, secure multi-party computation. Applications: genomics (genetic data highly identifiable), rare disease detection. Trade-off: privacy adds noise, may reduce model performance. Regulatory: HIPAA/GDPR increasingly emphasize privacy in AI." },
+  { front: "What is the role of causal inference in medical AI and treatment optimization?", back: "Causal inference: determines cause-effect relationships (not just correlations). Medical example: does treatment A cause better outcomes vs just predictive? Methods: propensity score matching (balance treatment groups), instrumental variables, causal forests. Applications: optimal treatment selection, understanding intervention effects. Challenges: unmeasured confounding, complex treatment interactions. Increasingly important for personalized medicine (which treatment for this patient)." }
 ];
 
-        // Flashcard State
+        // Flashcard Enhanced State
+        const FC_ROUND_SIZE = 15;
+        let fcPool = [...FLASHCARDS];
+        let fcRound = 0;
+        let fcActiveCards = [];
+        let fcMastered = [];
+        let fcMissed = [];
         let fcIndex = 0;
         let fcFlipped = false;
-        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function fcStartRound() {
+            const start = fcRound * FC_ROUND_SIZE;
+            const end = Math.min(start + FC_ROUND_SIZE, fcPool.length);
+            if (start >= fcPool.length) {
+                // All cards exhausted — reshuffle entire pool
+                fcPool.sort(() => Math.random() - 0.5);
+                fcRound = 0;
+                fcMastered = [];
+                fcMissed = [];
+                fcStartRound();
+                return;
+            }
+            fcActiveCards = fcPool.slice(start, end).map((c, i) => ({ ...c, idx: start + i }));
+            fcMastered = [];
+            fcMissed = [];
+            fcIndex = 0;
+            fcFlipped = false;
+        }
+        fcStartRound();
+
+        function fcRemainingCards() {
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx) && !fcMissed.includes(c.idx));
+        }
+
+        function fcCurrentDeck() {
+            // Show missed cards + unreviewed cards
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx));
+        }
 
         function renderFlashcards() {
             const container = document.getElementById("flashcardContainer");
-            if (FLASHCARDS.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+            const deck = fcCurrentDeck();
+            const totalInRound = fcActiveCards.length;
+            const masteredCount = fcMastered.length;
+            const progressPct = Math.round((masteredCount / totalInRound) * 100);
+            const hasMoreRounds = ((fcRound + 1) * FC_ROUND_SIZE) < fcPool.length;
+
+            // All cards in this round mastered
+            if (deck.length === 0) {
+                container.innerHTML = `
+                    <div class="fc-complete">
+                        <div class="fc-complete-icon">&#127942;</div>
+                        <h3>Round ${fcRound + 1} Complete!</h3>
+                        <p>You mastered all ${masteredCount} cards in this round.</p>
+                        <p style="font-size:13px;color:var(--color-text-muted);">${hasMoreRounds ? (fcPool.length - (fcRound + 1) * FC_ROUND_SIZE) + ' new cards remaining in the pool.' : 'You have reviewed all cards in the pool.'}</p>
+                        <div style="margin-top:16px;">
+                            ${hasMoreRounds ? '<button class="fc-complete-btn fc-new-cards" id="fcNewCards">Get New Cards</button>' : ''}
+                            <button class="fc-complete-btn fc-restart" id="fcRestart">Restart All Cards</button>
+                        </div>
+                    </div>
+                `;
+                const newBtn = document.getElementById("fcNewCards");
+                if (newBtn) newBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+                const restartBtn = document.getElementById("fcRestart");
+                if (restartBtn) restartBtn.addEventListener("click", () => { fcPool.sort(() => Math.random() - 0.5); fcRound = 0; fcStartRound(); renderFlashcards(); });
                 return;
             }
-            const card = FLASHCARDS[fcOrder[fcIndex]];
+
+            if (fcIndex >= deck.length) fcIndex = 0;
+            const card = deck[fcIndex];
+
             container.innerHTML = `
                 <div class="flashcard-container">
-                    <div class="flashcard-header">
-                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
-                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    <div class="flashcard-toolbar">
+                        <span class="flashcard-counter">Card ${fcIndex + 1} of ${deck.length} remaining</span>
+                        <div class="flashcard-toolbar-buttons">
+                            <button class="fc-btn-sm" id="fcShuffle">Shuffle</button>
+                            ${hasMoreRounds ? '<button class="fc-btn-sm" id="fcSkipRound">Skip to New Cards</button>' : ''}
+                        </div>
                     </div>
+                    <div class="fc-progress-label">
+                        <span>Round ${fcRound + 1} of ${Math.ceil(fcPool.length / FC_ROUND_SIZE)}</span>
+                        <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
+                    </div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
                     <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
                         <div class="flashcard-inner">
                             <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
                             <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
                         </div>
                     </div>
-                    <div class="flashcard-hint">Click card to flip</div>
+                    ${fcFlipped ? `
+                        <div class="fc-assess">
+                            <button class="fc-got-it" id="fcGotIt">&#10003; Got It</button>
+                            <button class="fc-missed" id="fcMissedBtn">&#10007; Still Learning</button>
+                        </div>
+                    ` : '<div class="flashcard-hint">Click card to flip and reveal the answer</div>'}
                     <div class="flashcard-nav">
                         <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
-                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                        <button id="fcNext" ${fcIndex >= deck.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
                     </div>
                 </div>
             `;
+
             document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
             document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < deck.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            const shuffleBtn = document.getElementById("fcShuffle");
+            if (shuffleBtn) shuffleBtn.addEventListener("click", () => { fcActiveCards.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            const skipBtn = document.getElementById("fcSkipRound");
+            if (skipBtn) skipBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+            const gotItBtn = document.getElementById("fcGotIt");
+            if (gotItBtn) gotItBtn.addEventListener("click", () => {
+                fcMastered.push(card.idx);
+                fcFlipped = false;
+                const remaining = fcCurrentDeck();
+                if (fcIndex >= remaining.length) fcIndex = Math.max(0, remaining.length - 1);
+                renderFlashcards();
+            });
+            const missedBtn = document.getElementById("fcMissedBtn");
+            if (missedBtn) missedBtn.addEventListener("click", () => {
+                fcFlipped = false;
+                fcIndex = (fcIndex + 1) % Math.max(1, fcCurrentDeck().length);
+                renderFlashcards();
+            });
         }
 
         // Utility: Render Resources

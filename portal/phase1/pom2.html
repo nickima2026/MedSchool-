@@ -708,26 +708,45 @@
             padding: var(--spacing-xl);
         }
 
-                /* Flashcards Tab */
-        .flashcard-container { max-width: 600px; margin: 0 auto; }
-        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+                        /* Flashcards Tab */
+        .flashcard-container { max-width: 620px; margin: 0 auto; }
+        .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-toolbar-buttons { display: flex; gap: 8px; }
+        .fc-btn-sm { padding: 5px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-family: var(--font-sans); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+        .fc-btn-sm:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
+        .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
         .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .fc-assess { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .fc-assess button { padding: 10px 24px; border-radius: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid; }
+        .fc-got-it { background: #E8F5EE; color: var(--color-success); border-color: var(--color-success); }
+        .fc-got-it:hover { background: var(--color-success); color: #fff; }
+        .fc-missed { background: #FFF3E0; color: #E65100; border-color: #E65100; }
+        .fc-missed:hover { background: #E65100; color: #fff; }
         .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
         .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
         .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
         .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-complete { text-align: center; padding: 40px 20px; }
+        .fc-complete-icon { font-size: 48px; margin-bottom: 12px; }
+        .fc-complete h3 { font-family: var(--font-serif); color: var(--color-success); margin-bottom: 8px; }
+        .fc-complete p { color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px; }
+        .fc-complete-btn { padding: 10px 24px; border-radius: 8px; border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
+        .fc-new-cards { background: var(--color-accent); color: #fff; }
+        .fc-new-cards:hover { background: #005F73; }
+        .fc-restart { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .fc-restart:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* Resources Tab */
         .resources-grid {
@@ -1408,7 +1427,7 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
-        // Flashcard Data
+        // Flashcard Data — Full Pool
         const FLASHCARDS = [
   { front: "What is the diagnostic approach to a patient with chest pain?", back: "Determine onset, character (pressure, sharp, pleuritic), location, radiation, associated symptoms. Assess cardiac risk factors and exam findings. Use EKG, troponin, chest X-ray as appropriate. HEART score risk-stratifies acute coronary syndrome risk." },
   { front: "Describe the differential diagnosis for acute dyspnea and how to narrow it.", back: "Cardiac (heart failure, ACS, arrhythmia), pulmonary (pneumonia, asthma, PE), metabolic (DKA, sepsis), musculoskeletal, anxiety. History of onset, vital signs, exam findings, and imaging (CXR, EKG, echocardiogram, BNP) guide diagnosis." },
@@ -1424,44 +1443,149 @@
   { front: "How do you approach weight gain and obesity from a diagnostic perspective?", back: "Obtain careful history: appetite, thyroid symptoms, mood, medications (steroids, antipsychotics). Screen: TSH, glucose, lipids. Exclude Cushing syndrome (24-hour urine free cortisol, low-dose dexamethasone suppression test) if centripetal obesity present. Most is simple caloric excess." },
   { front: "What is the approach to a patient with joint pain and arthritis?", back: "Obtain: number of joints (monoarticular, oligoarticular, polyarticular), onset (acute vs insidious), inflammatory markers (ESR, CRP), RF/anti-CCP, ANA for autoimmune disease. Imaging: X-ray for osteoarthritis, ultrasound for inflammation. Monoarticular joint with effusion warrants arthrocentesis." },
   { front: "Describe the diagnostic approach to hyponatremia and hypernatremia.", back: "Check osmolality and urine osmolality/sodium. Hyponatremia with high urine osmolality (SIADH, on thiazide) vs low osmolality (polydipsia). Hypernatremia: assess thirst mechanism and output. Insensible losses, diabetes insipidus (central vs nephrogenic), or inadequate water intake." },
-  { front: "What is the approach to evidence-based medicine and critical appraisal of studies?", back: "Assess: study design (RCT > cohort > case-control > case series), population relevance, randomization, blinding, outcome measures, confounders. Calculate NNT, NNH, sensitivity/specificity. Consider publication bias. Apply results only to similar populations." }
+  { front: "What is the approach to evidence-based medicine and critical appraisal of studies?", back: "Assess: study design (RCT > cohort > case-control > case series), population relevance, randomization, blinding, outcome measures, confounders. Calculate NNT, NNH, sensitivity/specificity. Consider publication bias. Apply results only to similar populations." },
+  { front: "How do you approach a patient with acute abdominal pain and potential surgical abdomen?", back: "Red flags: peritoneal signs (rebound, guarding, rigidity), sepsis, hemodynamic instability, or profound pain. Obtain labs: CBC, comprehensive metabolic panel, lactate, lipase. Imaging: CT abdomen/pelvis is gold standard. Surgical consultation warranted for acute findings." },
+  { front: "What is the diagnostic approach to diarrhea and how do you differentiate infectious from non-infectious causes?", back: "Assess: duration (acute <4 weeks vs chronic), bloody vs watery, associated symptoms, medication use. Infectious: fever, leukocytes in stool, recent antibiotic use suggest C. difficile or bacterial colitis. Non-infectious: lack of inflammatory markers, chronic course suggest IBS or inflammatory bowel disease." },
+  { front: "Describe the approach to elevated creatinine and assessment of renal function.", back: "Calculate GFR using CKD-EPI equation (more accurate than MDRD in non-obese). Assess trends: stable suggests chronic disease. Rapid rise suggests AKI requiring workup. Check urine sodium, osmolality, protein to differentiate prerenal, intrinsic, and postrenal causes. Ultrasound assesses size and echogenicity." },
+  { front: "What is the approach to a patient with hematuria and risk stratification for malignancy?", back: "Assess: gross vs microscopic, painless (malignancy) vs painful (stone, infection). Gross hematuria warrants urologic workup regardless of other findings. Obtain CBC, creatinine, urinalysis with culture. Imaging: ultrasound screens kidneys; cystoscopy evaluates for bladder cancer if >40 years or risk factors." },
+  { front: "How do you evaluate a patient with fatigue and prioritize investigations?", back: "Obtain history: acute vs chronic, associated weight loss, fever, bleeding. Screen: CBC (anemia, infection, malignancy), TSH (hypothyroidism), CMP (renal/liver disease), depression screening. Most fatigue is functional or depression-related. Order targeted testing based on history and exam." },
+  { front: "Describe the diagnostic approach to polydipsia and polyuria.", back: "Confirm with 24-hour urine volume. Assess random glucose, serum sodium, urine osmolality. High serum sodium + low urine osmolality suggests diabetes insipidus (central vs nephrogenic differentiated by desmopressin trial). Normal sodium + elevated glucose suggests diabetes mellitus." },
+  { front: "What is the approach to a patient with abnormal thyroid function tests?", back: "Elevated TSH + low T4 suggests primary hypothyroidism (most common). Low TSH + high T4/T3 suggests hyperthyroidism (Graves, toxic nodule, thyroiditis). TSH normal with abnormal T4/T3 suggests secondary cause. TPO antibodies differentiate autoimmune from other etiologies." },
+  { front: "How do you approach a patient with edema and differentiate peripheral from pulmonary causes?", back: "Assess location (peripheral vs facial/sacral suggests different etiologies). Check vital signs, JVP, lung sounds, hepatomegaly. Peripheral edema: gravity-dependent suggests venous disease or hypervolemia. BNP elevation indicates heart failure. Hypoalbuminemia, elevated lipids suggest liver or renal disease." },
+  { front: "Describe the approach to a patient with tremor and parkinsonism.", back: "Assess: resting (Parkinson), postural (essential tremor, anxiety), kinetic (cerebellar). Examine for bradykinesia, rigidity, postural instability (Parkinson cardinal features). Assess gait, cognition, mood. Imaging (MRI) rules out secondary causes. Clinical diagnosis remains gold standard." },
+  { front: "What is the diagnostic approach to nausea and vomiting and when does it require imaging?", back: "Assess: onset, duration, associated symptoms, medication triggers, pregnancy status. Differentials: GERD, gastroparesis, migraine, CNS causes, medications. Red flags (abdominal pain, fever, altered mental status, severe dehydration) warrant imaging (CT, ultrasound). Most is viral or medication-related." },
+  { front: "How do you evaluate a patient with hypokalemia and identify the source?", back: "Check urine potassium: high (>15-20 mEq/L) suggests renal loss (diuretics, Cushing syndrome, renal tubular acidosis); low suggests GI loss (vomiting, diarrhea) or inadequate intake. Assess acid-base status, glucose, and BP to narrow differential. Severe hypokalemia requires urgent replacement." },
+  { front: "Describe the diagnostic approach to hematochezia and melena.", back: "Melena (black stool) indicates upper GI bleeding; hematochezia (bright red blood) usually lower but can be rapid upper source. Assess hemodynamic stability, presence of hematemesis, abdominal exam. Upper endoscopy for hematemesis or melena; colonoscopy for hematochezia after upper source excluded." },
+  { front: "What is the approach to a patient with amenorrhea and evaluation of fertility?", back: "Assess: primary vs secondary, signs of pregnancy, thyroid symptoms, galactorrhea. Check hCG, TSH, prolactin. Secondary amenorrhea: elevated prolactin suggests pituitary adenoma; low FSH/LH suggests functional (stress, exercise, eating disorder); elevated FSH suggests ovarian failure. MRI of pituitary if prolactin elevated." },
+  { front: "How do you evaluate a patient with elevated lipids and cardiovascular risk?", back: "Calculate ASCVD 10-year risk. Assess LDL (primary target), triglycerides, HDL, non-HDL cholesterol. Secondary causes: hypothyroidism, liver disease, diabetes. Family history of early CAD raises suspicion for familial hypercholesterolemia. Risk score guides intensity of statin therapy." },
+  { front: "Describe the approach to a patient with nightmares and sleep disturbances.", back: "Assess: frequency, triggers (medication, trauma, sleep deprivation), impact on function, associated symptoms (restless legs, sleep apnea, depression). PTSD common cause in trauma history. Sleep study warranted if daytime somnolence or witnessed apneas. Optimize sleep hygiene, treat underlying psychiatric conditions." }
 ];
 
-        // Flashcard State
+        // Flashcard Enhanced State
+        const FC_ROUND_SIZE = 15;
+        let fcPool = [...FLASHCARDS];
+        let fcRound = 0;
+        let fcActiveCards = [];
+        let fcMastered = [];
+        let fcMissed = [];
         let fcIndex = 0;
         let fcFlipped = false;
-        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function fcStartRound() {
+            const start = fcRound * FC_ROUND_SIZE;
+            const end = Math.min(start + FC_ROUND_SIZE, fcPool.length);
+            if (start >= fcPool.length) {
+                // All cards exhausted — reshuffle entire pool
+                fcPool.sort(() => Math.random() - 0.5);
+                fcRound = 0;
+                fcMastered = [];
+                fcMissed = [];
+                fcStartRound();
+                return;
+            }
+            fcActiveCards = fcPool.slice(start, end).map((c, i) => ({ ...c, idx: start + i }));
+            fcMastered = [];
+            fcMissed = [];
+            fcIndex = 0;
+            fcFlipped = false;
+        }
+        fcStartRound();
+
+        function fcRemainingCards() {
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx) && !fcMissed.includes(c.idx));
+        }
+
+        function fcCurrentDeck() {
+            // Show missed cards + unreviewed cards
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx));
+        }
 
         function renderFlashcards() {
             const container = document.getElementById("flashcardContainer");
-            if (FLASHCARDS.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+            const deck = fcCurrentDeck();
+            const totalInRound = fcActiveCards.length;
+            const masteredCount = fcMastered.length;
+            const progressPct = Math.round((masteredCount / totalInRound) * 100);
+            const hasMoreRounds = ((fcRound + 1) * FC_ROUND_SIZE) < fcPool.length;
+
+            // All cards in this round mastered
+            if (deck.length === 0) {
+                container.innerHTML = `
+                    <div class="fc-complete">
+                        <div class="fc-complete-icon">&#127942;</div>
+                        <h3>Round ${fcRound + 1} Complete!</h3>
+                        <p>You mastered all ${masteredCount} cards in this round.</p>
+                        <p style="font-size:13px;color:var(--color-text-muted);">${hasMoreRounds ? (fcPool.length - (fcRound + 1) * FC_ROUND_SIZE) + ' new cards remaining in the pool.' : 'You have reviewed all cards in the pool.'}</p>
+                        <div style="margin-top:16px;">
+                            ${hasMoreRounds ? '<button class="fc-complete-btn fc-new-cards" id="fcNewCards">Get New Cards</button>' : ''}
+                            <button class="fc-complete-btn fc-restart" id="fcRestart">Restart All Cards</button>
+                        </div>
+                    </div>
+                `;
+                const newBtn = document.getElementById("fcNewCards");
+                if (newBtn) newBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+                const restartBtn = document.getElementById("fcRestart");
+                if (restartBtn) restartBtn.addEventListener("click", () => { fcPool.sort(() => Math.random() - 0.5); fcRound = 0; fcStartRound(); renderFlashcards(); });
                 return;
             }
-            const card = FLASHCARDS[fcOrder[fcIndex]];
+
+            if (fcIndex >= deck.length) fcIndex = 0;
+            const card = deck[fcIndex];
+
             container.innerHTML = `
                 <div class="flashcard-container">
-                    <div class="flashcard-header">
-                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
-                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    <div class="flashcard-toolbar">
+                        <span class="flashcard-counter">Card ${fcIndex + 1} of ${deck.length} remaining</span>
+                        <div class="flashcard-toolbar-buttons">
+                            <button class="fc-btn-sm" id="fcShuffle">Shuffle</button>
+                            ${hasMoreRounds ? '<button class="fc-btn-sm" id="fcSkipRound">Skip to New Cards</button>' : ''}
+                        </div>
                     </div>
+                    <div class="fc-progress-label">
+                        <span>Round ${fcRound + 1} of ${Math.ceil(fcPool.length / FC_ROUND_SIZE)}</span>
+                        <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
+                    </div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
                     <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
                         <div class="flashcard-inner">
                             <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
                             <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
                         </div>
                     </div>
-                    <div class="flashcard-hint">Click card to flip</div>
+                    ${fcFlipped ? `
+                        <div class="fc-assess">
+                            <button class="fc-got-it" id="fcGotIt">&#10003; Got It</button>
+                            <button class="fc-missed" id="fcMissedBtn">&#10007; Still Learning</button>
+                        </div>
+                    ` : '<div class="flashcard-hint">Click card to flip and reveal the answer</div>'}
                     <div class="flashcard-nav">
                         <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
-                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                        <button id="fcNext" ${fcIndex >= deck.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
                     </div>
                 </div>
             `;
+
             document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
             document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < deck.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            const shuffleBtn = document.getElementById("fcShuffle");
+            if (shuffleBtn) shuffleBtn.addEventListener("click", () => { fcActiveCards.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            const skipBtn = document.getElementById("fcSkipRound");
+            if (skipBtn) skipBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+            const gotItBtn = document.getElementById("fcGotIt");
+            if (gotItBtn) gotItBtn.addEventListener("click", () => {
+                fcMastered.push(card.idx);
+                fcFlipped = false;
+                const remaining = fcCurrentDeck();
+                if (fcIndex >= remaining.length) fcIndex = Math.max(0, remaining.length - 1);
+                renderFlashcards();
+            });
+            const missedBtn = document.getElementById("fcMissedBtn");
+            if (missedBtn) missedBtn.addEventListener("click", () => {
+                fcFlipped = false;
+                fcIndex = (fcIndex + 1) % Math.max(1, fcCurrentDeck().length);
+                renderFlashcards();
+            });
         }
 
         // Utility: Render Resources

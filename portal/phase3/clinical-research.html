@@ -708,26 +708,45 @@
             padding: var(--spacing-xl);
         }
 
-                /* Flashcards Tab */
-        .flashcard-container { max-width: 600px; margin: 0 auto; }
-        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+                        /* Flashcards Tab */
+        .flashcard-container { max-width: 620px; margin: 0 auto; }
+        .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-toolbar-buttons { display: flex; gap: 8px; }
+        .fc-btn-sm { padding: 5px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-family: var(--font-sans); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+        .fc-btn-sm:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
+        .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
         .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .fc-assess { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .fc-assess button { padding: 10px 24px; border-radius: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid; }
+        .fc-got-it { background: #E8F5EE; color: var(--color-success); border-color: var(--color-success); }
+        .fc-got-it:hover { background: var(--color-success); color: #fff; }
+        .fc-missed { background: #FFF3E0; color: #E65100; border-color: #E65100; }
+        .fc-missed:hover { background: #E65100; color: #fff; }
         .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
         .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
         .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
         .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-complete { text-align: center; padding: 40px 20px; }
+        .fc-complete-icon { font-size: 48px; margin-bottom: 12px; }
+        .fc-complete h3 { font-family: var(--font-serif); color: var(--color-success); margin-bottom: 8px; }
+        .fc-complete p { color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px; }
+        .fc-complete-btn { padding: 10px 24px; border-radius: 8px; border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
+        .fc-new-cards { background: var(--color-accent); color: #fff; }
+        .fc-new-cards:hover { background: #005F73; }
+        .fc-restart { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .fc-restart:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* Resources Tab */
         .resources-grid {
@@ -1397,7 +1416,7 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
-        // Flashcard Data
+        // Flashcard Data — Full Pool
         const FLASHCARDS = [
   { front: "What is the role of translational research in moving discoveries to clinical practice?", back: "Translational research: bridges bench science and clinical care (T1 translational: lab to human testing, T2: clinical trial to practice implementation). Phases: basic research identifies target, T1 develops drug/device, Phase I-IV clinical trials test safety/efficacy, FDA approval, T2 ensures adoption. Time: discovery to FDA approval 10-15 years, $1-2 billion cost. Barriers: only 10% of promising basic discoveries become drugs, regulatory requirements, manufacturing scale-up, market incentives." },
   { front: "Describe clinical trial phases and their objectives.", back: "Phase I: safety/dosage in small group (20-100), healthy volunteers if possible. Phase II: efficacy/side effects in patient population (100-500), preliminary efficacy data. Phase III: efficacy/monitoring adverse reactions in large population (1000-5000), compares to standard treatment. Phase IV: post-market surveillance, long-term effects, additional indications. IND application: before Phase I starts, Sponsor submits preclinical data, toxicology, chemistry/manufacture, research plan. NDA/BLA: after Phase III, FDA approval application." },
@@ -1413,44 +1432,148 @@
   { front: "Describe clinical trial registries and publication requirements.", back: "Trial registration: NCT identifier from ClinicalTrials.gov (US) or WHO International Clinical Trials Registry. Requirements: US FDA requires registration for many trials, international registries coordinate. Benefits: transparency, protocol accessibility, results reporting. Publication: journal requirements increasingly mandate registration pre-publication. Results reporting: within 12 months of study completion (FDA requirement). Trial registry posting: summarizes results, links to published paper. Selective reporting bias: registration prevents outcome switching." },
   { front: "What are the ethical challenges specific to pediatric clinical trials?", back: "Pediatric trial ethics: special protections for vulnerable population. Assent: child's agreement (in addition to parental consent) if age >7 years. Minimal risk: standard consent. Greater than minimal risk: only if direct benefit or Institutional Review Board approval. Surrogate consent: parents decide (assume best interest). Research-only intervention: requires minimal risk. Challenges: inability to consent, fast growth/development (different physiology than adults), different disease manifestations. Pediatric exclusivity regulations: incentivize pediatric studies." },
   { front: "Describe the role of comparative effectiveness research in health policy.", back: "CER: compares effectiveness of interventions for real-world populations in real-world settings. Goal: inform clinical decisions, health policy, resource allocation. Methods: RCTs, observational studies, systematic reviews, patient registries. Examples: comparing antihypertensives (ALLHAT), cardiovascular outcomes in diabetes (ACCORD). Applications: clinical practice guidelines, formulary decisions, Medicare coverage policies. Funding: NIH, AHRQ, PCORI support CER. Challenges: heterogeneous effects (treatment A better in subgroup X, treatment B better in subgroup Y), implementation complexity." },
-  { front: "What is the role of registry-based studies in clinical research?", back: "Registry studies: observational cohorts tracking patients over time (disease-specific or general population). Data collection: demographics, diagnoses, treatments, outcomes. Advantages: real-world data, long-term follow-up, lower cost than RCTs, identify rare outcomes. Uses: post-market surveillance, comparative effectiveness, natural history, identify patient subgroups. Examples: cancer registries track survival/treatment patterns, cardiovascular registries monitor device safety. Challenges: selection bias, missing data, confounding, generalizability. Integration: increasingly combined with RCT data for comprehensive evidence." }
+  { front: "What is the role of registry-based studies in clinical research?", back: "Registry studies: observational cohorts tracking patients over time (disease-specific or general population). Data collection: demographics, diagnoses, treatments, outcomes. Advantages: real-world data, long-term follow-up, lower cost than RCTs, identify rare outcomes. Uses: post-market surveillance, comparative effectiveness, natural history, identify patient subgroups. Examples: cancer registries track survival/treatment patterns, cardiovascular registries monitor device safety. Challenges: selection bias, missing data, confounding, generalizability. Integration: increasingly combined with RCT data for comprehensive evidence." },
+  { front: "What is the diagnostic approach to clinical trial design for rare/genetic diseases?", back: "Rare genetic disease trials: ultra-small populations require specialized designs. Considerations: natural history documentation (disease course without treatment), single-arm trials acceptable if dramatic improvement expected. Adaptive designs: sample size re-estimation based on interim efficacy. Digital health: remote visits, home-based assessments reduce burden. Biomarkers: measure disease-specific biomarkers (genotype-based endpoints). Accelerated approval pathways: FDA allows earlier approval with conditional continuation. Patient registries: prospective monitoring links research to care. Challenges: patient heterogeneity despite shared genotype, recruitment from dispersed populations." },
+  { front: "Describe pragmatic vs explanatory trials and when each is appropriate.", back: "Pragmatic trials: conditions resemble real-world, broad inclusion criteria, simple endpoints (effectiveness), clinician discretion allowed, diverse settings/populations. Explanatory trials: controlled conditions, strict inclusion criteria, detailed outcomes (mechanism), protocol adherence required, specialized centers. Trade-offs: pragmatic provides generalizability but less internal validity; explanatory provides efficacy proof but poor generalizability. Choice depends on research question: does treatment work? (explanatory) vs how well does treatment work in real world? (pragmatic). Many modern trials hybrid (pragmatic + explanatory elements)." },
+  { front: "What is the role of subgroup analysis and treatment effect heterogeneity in trials?", back: "Subgroup analysis: examine treatment effect in patient subsets (age, sex, disease severity, biomarkers). Hypothesis-generating vs hypothesis-testing: post-hoc analysis often spurious (multiple comparisons increase false positives). Pre-specified subgroups: more credible. Effect modification/interaction: does treatment effect truly differ (statistical evidence, biologic plausibility). Precision medicine: tailor treatment based on biomarkers (predictive biomarkers identify who benefits). Challenges: multiple comparisons, small sample sizes in subgroups, confounding, publication bias (report only positive subgroup analyses)." },
+  { front: "Describe surrogate endpoints and their role in clinical trials.", back: "Surrogate endpoint: biomarker/clinical measure expected to correlate with clinical benefit (not the benefit itself). Examples: CD4 count for HIV treatment, LDL cholesterol for cardiovascular disease, HbA1c for diabetes. Advantages: measured earlier (shorter trials), smaller sample sizes, cheaper. Disadvantages: may not predict clinical outcome (disease-dependent), potential for drug approval on ineffective/harmful surrogates. Regulatory: FDA accepts surrogates if correlation well-established. Accelerated approval: uses surrogate with requirement for confirmatory trial. Validation: identify surrogates predictive of clinical benefit in patient population." },
+  { front: "What is the diagnostic approach to clinical trial sample size re-estimation?", back: "Sample size re-estimation: interim analysis estimates treatment effect, adjusts final sample size if needed. Scenarios: planned effect size larger than expected (reduce N), smaller than expected (increase N). Blinded re-estimation: preserves statistical properties (no Type I error inflation). Adaptive designs: prospectively specify re-estimation rules. Challenges: timing (when conduct interim?), conditional power (probability of success if continue), futility boundaries (stop if unlikely to succeed). Benefits: efficiency (avoid over/under-powering), ethical (stop failing trials early). Statistical complexity: requires specialized analysis plan." },
+  { front: "Describe intention-to-treat (ITT) vs per-protocol (PP) analysis in trials.", back: "ITT analysis: includes all randomized participants in assigned group regardless of adherence/dropout. Advantages: preserves randomization (prevents bias), reflects real-world practice (people don't always adhere). Disadvantages: underestimates treatment effect (diluted by non-adherence). Per-protocol analysis: includes only participants who completed treatment as assigned. Advantages: estimates treatment efficacy (if perfectly adhered). Disadvantages: introduces bias (non-completers may differ from completers). Regulatory: FDA typically requires ITT as primary analysis. Practical: ITT conservative (reports minimal effect), PP complementary (estimates potential benefit with adherence)." },
+  { front: "What is the role of systematic reviews and meta-analysis in clinical research?", back: "Systematic review: comprehensive, reproducible summary of evidence answering specific question. Methods: predefined protocol, comprehensive search, quality assessment, data extraction. Meta-analysis: statistical combination of study results (if homogeneous). Advantages: higher statistical power, estimates population effect, identifies subgroups. Forest plot: graphically displays study results, confidence intervals. Heterogeneity assessment: I-squared statistic (0-100%), Q-test. Limitations: publication bias (unpublished negative studies), poor-quality studies included, different populations/interventions. Updating: living systematic reviews continuously incorporate new evidence." },
+  { front: "Describe adverse event monitoring and post-market surveillance in drug development.", back: "Adverse events (AEs): unintended/unwanted effects during clinical trials or after drug approval. Monitoring: clinical trials use case report forms, institutional review boards assess serious AEs. Grading: CTCAE (cancer) grades by severity (1-5). Serious adverse events: reportable to FDA within specified timeframe (15 days for fatal/life-threatening). Post-market surveillance (Phase IV): spontaneous reporting (MedWatch - FDA system), registries, claims data. Signal detection: identifies previously unknown risks. FDA actions: black box warnings, label changes, market withdrawal (Vioxx - cardiovascular risk)." },
+  { front: "What is the diagnostic approach to regulatory pathways and accelerated approvals?", back: "FDA pathways: standard (NDA approval 10 months), priority review (6 months for major improvement), accelerated approval (before full Phase III if life-threatening disease + promising benefit). Breakthrough designation: FDA expedites drugs with preliminary evidence of substantial improvement. Fast track: FDA facilitates development of promising agents. Conditional approval: early approval with requirement for post-approval studies. Orphan drug status: incentivizes rare disease development (tax credits, exclusivity). Each pathway balances speed vs evidence certainty, risk vs benefit." },
+  { front: "Describe electronic data capture and data management in clinical trials.", back: "Electronic Data Capture (EDC): digital case report forms replace paper, real-time data entry. Benefits: standardization, automatic validations (catch missing/inconsistent data), audit trails (regulatory requirement), reduced transcription errors. Challenges: learning curve, technical issues, data security. Data management: quality assurance (plausibility checks), validation rules, queries to sites (resolve inconsistencies). Database lock: final verification before statistical analysis. Electronic Health Records (EHR) integration: links clinical data to trial data (efficiency, consistency). CDISC standards: common data exchange format enables data pooling across trials." },
+  { front: "What is the role of bioethics consultants in clinical research oversight?", back: "Bioethicist roles: IRB member (expert ethical review), research consultation (ethical dilemmas), protocol design (integrate ethics from start), education (train researchers). Expertise: ethical principles, regulatory requirements, vulnerable population protections, research ethics history. Value: external perspective (institutional review bias mitigation), experienced ethical reasoning, community perspective (if recruited from community). Limitations: limited authority (IRB makes decisions), institutional pressures, workload constraints. Emerging: bioethics consultants increasingly involved in health policy, AI ethics, precision medicine." },
+  { front: "Describe the role of community-based participatory research (CBPR) in trials.", back: "CBPR: community partners collaborate with researchers from conception to dissemination. Principles: partnership (shared decision-making), capacity building (strengthen community), co-learning (mutual benefit), action (results guide change), sustainability (long-term commitment). Applications: health disparities research, disease prevention (community-tailored interventions), implementation science. Benefits: increased trust, culturally appropriate methods, improved outcomes, community empowerment. Challenges: slower timelines (consensus-building), conflicting priorities (research vs community needs), power dynamics. Funding: NIH increasingly supports CBPR." },
+  { front: "What is the diagnostic approach to missing data and dropout in clinical trials?", back: "Missing data: baseline/follow-up data absent. Patterns: missing completely at random (MCAR - unrelated to variables), missing at random (MAR - related to observed variables), missing not at random (MNAR - related to unobserved variables, most problematic). Analysis: complete case (excludes missing), intent-to-treat (includes with assumptions), multiple imputation (fills missing via plausible values), sensitivity analysis (tests robustness). Dropout (attrition): participants leave trial. Rates: typical 10-30% depending on duration/burden. Mitigation: retention strategies, flexible visit scheduling, incentives. Reporting: CONSORT diagram documents flow." },
+  { front: "Describe novel statistical methods and Bayesian approaches in clinical trials.", back: "Bayesian methods: incorporate prior information (existing evidence) + current data to estimate posterior probability. Advantages: incorporate expertise, flexible design adaptations, direct probability statements (vs p-values). Applications: adaptive trials, early stopping for futility/efficacy, subgroup analysis. Prior specification: informative (strong prior) vs non-informative (weak prior), sensitivity analysis tests robustness. Challenges: prior choice controversial, computational complexity, regulatory acceptance evolving. N-of-1 trials: single patient, repeated treatment-control cycles, personalized medicine approach. Frequentist vs Bayesian: ongoing methodologic debate, increasingly combined." }
 ];
 
-        // Flashcard State
+        // Flashcard Enhanced State
+        const FC_ROUND_SIZE = 15;
+        let fcPool = [...FLASHCARDS];
+        let fcRound = 0;
+        let fcActiveCards = [];
+        let fcMastered = [];
+        let fcMissed = [];
         let fcIndex = 0;
         let fcFlipped = false;
-        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function fcStartRound() {
+            const start = fcRound * FC_ROUND_SIZE;
+            const end = Math.min(start + FC_ROUND_SIZE, fcPool.length);
+            if (start >= fcPool.length) {
+                // All cards exhausted — reshuffle entire pool
+                fcPool.sort(() => Math.random() - 0.5);
+                fcRound = 0;
+                fcMastered = [];
+                fcMissed = [];
+                fcStartRound();
+                return;
+            }
+            fcActiveCards = fcPool.slice(start, end).map((c, i) => ({ ...c, idx: start + i }));
+            fcMastered = [];
+            fcMissed = [];
+            fcIndex = 0;
+            fcFlipped = false;
+        }
+        fcStartRound();
+
+        function fcRemainingCards() {
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx) && !fcMissed.includes(c.idx));
+        }
+
+        function fcCurrentDeck() {
+            // Show missed cards + unreviewed cards
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx));
+        }
 
         function renderFlashcards() {
             const container = document.getElementById("flashcardContainer");
-            if (FLASHCARDS.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+            const deck = fcCurrentDeck();
+            const totalInRound = fcActiveCards.length;
+            const masteredCount = fcMastered.length;
+            const progressPct = Math.round((masteredCount / totalInRound) * 100);
+            const hasMoreRounds = ((fcRound + 1) * FC_ROUND_SIZE) < fcPool.length;
+
+            // All cards in this round mastered
+            if (deck.length === 0) {
+                container.innerHTML = `
+                    <div class="fc-complete">
+                        <div class="fc-complete-icon">&#127942;</div>
+                        <h3>Round ${fcRound + 1} Complete!</h3>
+                        <p>You mastered all ${masteredCount} cards in this round.</p>
+                        <p style="font-size:13px;color:var(--color-text-muted);">${hasMoreRounds ? (fcPool.length - (fcRound + 1) * FC_ROUND_SIZE) + ' new cards remaining in the pool.' : 'You have reviewed all cards in the pool.'}</p>
+                        <div style="margin-top:16px;">
+                            ${hasMoreRounds ? '<button class="fc-complete-btn fc-new-cards" id="fcNewCards">Get New Cards</button>' : ''}
+                            <button class="fc-complete-btn fc-restart" id="fcRestart">Restart All Cards</button>
+                        </div>
+                    </div>
+                `;
+                const newBtn = document.getElementById("fcNewCards");
+                if (newBtn) newBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+                const restartBtn = document.getElementById("fcRestart");
+                if (restartBtn) restartBtn.addEventListener("click", () => { fcPool.sort(() => Math.random() - 0.5); fcRound = 0; fcStartRound(); renderFlashcards(); });
                 return;
             }
-            const card = FLASHCARDS[fcOrder[fcIndex]];
+
+            if (fcIndex >= deck.length) fcIndex = 0;
+            const card = deck[fcIndex];
+
             container.innerHTML = `
                 <div class="flashcard-container">
-                    <div class="flashcard-header">
-                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
-                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    <div class="flashcard-toolbar">
+                        <span class="flashcard-counter">Card ${fcIndex + 1} of ${deck.length} remaining</span>
+                        <div class="flashcard-toolbar-buttons">
+                            <button class="fc-btn-sm" id="fcShuffle">Shuffle</button>
+                            ${hasMoreRounds ? '<button class="fc-btn-sm" id="fcSkipRound">Skip to New Cards</button>' : ''}
+                        </div>
                     </div>
+                    <div class="fc-progress-label">
+                        <span>Round ${fcRound + 1} of ${Math.ceil(fcPool.length / FC_ROUND_SIZE)}</span>
+                        <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
+                    </div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
                     <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
                         <div class="flashcard-inner">
                             <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
                             <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
                         </div>
                     </div>
-                    <div class="flashcard-hint">Click card to flip</div>
+                    ${fcFlipped ? `
+                        <div class="fc-assess">
+                            <button class="fc-got-it" id="fcGotIt">&#10003; Got It</button>
+                            <button class="fc-missed" id="fcMissedBtn">&#10007; Still Learning</button>
+                        </div>
+                    ` : '<div class="flashcard-hint">Click card to flip and reveal the answer</div>'}
                     <div class="flashcard-nav">
                         <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
-                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                        <button id="fcNext" ${fcIndex >= deck.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
                     </div>
                 </div>
             `;
+
             document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
             document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < deck.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            const shuffleBtn = document.getElementById("fcShuffle");
+            if (shuffleBtn) shuffleBtn.addEventListener("click", () => { fcActiveCards.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            const skipBtn = document.getElementById("fcSkipRound");
+            if (skipBtn) skipBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+            const gotItBtn = document.getElementById("fcGotIt");
+            if (gotItBtn) gotItBtn.addEventListener("click", () => {
+                fcMastered.push(card.idx);
+                fcFlipped = false;
+                const remaining = fcCurrentDeck();
+                if (fcIndex >= remaining.length) fcIndex = Math.max(0, remaining.length - 1);
+                renderFlashcards();
+            });
+            const missedBtn = document.getElementById("fcMissedBtn");
+            if (missedBtn) missedBtn.addEventListener("click", () => {
+                fcFlipped = false;
+                fcIndex = (fcIndex + 1) % Math.max(1, fcCurrentDeck().length);
+                renderFlashcards();
+            });
         }
 
         // Utility: Render Resources

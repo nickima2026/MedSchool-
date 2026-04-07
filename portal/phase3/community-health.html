@@ -708,26 +708,45 @@
             padding: var(--spacing-xl);
         }
 
-                /* Flashcards Tab */
-        .flashcard-container { max-width: 600px; margin: 0 auto; }
-        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+                        /* Flashcards Tab */
+        .flashcard-container { max-width: 620px; margin: 0 auto; }
+        .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-toolbar-buttons { display: flex; gap: 8px; }
+        .fc-btn-sm { padding: 5px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-family: var(--font-sans); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+        .fc-btn-sm:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
+        .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
         .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .fc-assess { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .fc-assess button { padding: 10px 24px; border-radius: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid; }
+        .fc-got-it { background: #E8F5EE; color: var(--color-success); border-color: var(--color-success); }
+        .fc-got-it:hover { background: var(--color-success); color: #fff; }
+        .fc-missed { background: #FFF3E0; color: #E65100; border-color: #E65100; }
+        .fc-missed:hover { background: #E65100; color: #fff; }
         .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
         .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
         .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
         .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-complete { text-align: center; padding: 40px 20px; }
+        .fc-complete-icon { font-size: 48px; margin-bottom: 12px; }
+        .fc-complete h3 { font-family: var(--font-serif); color: var(--color-success); margin-bottom: 8px; }
+        .fc-complete p { color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px; }
+        .fc-complete-btn { padding: 10px 24px; border-radius: 8px; border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
+        .fc-new-cards { background: var(--color-accent); color: #fff; }
+        .fc-new-cards:hover { background: #005F73; }
+        .fc-restart { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .fc-restart:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* Resources Tab */
         .resources-grid {
@@ -1397,7 +1416,7 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
-        // Flashcard Data
+        // Flashcard Data — Full Pool
         const FLASHCARDS = [
   { front: "What are the social determinants of health and their impact?", back: "Social determinants: non-medical factors influencing health (income, education, neighborhood, housing, food security, transportation, social support). Mechanisms: stress (chronic activation of HPA axis), material deprivation (limited access to resources), behavioral (smoking, limited exercise), healthcare access. Health disparities: systematic inequalities across socioeconomic groups, races/ethnicities. Examples: infant mortality higher in low-income/Black communities. Interventions: address root causes (housing, jobs, education), not just medical treatment. Population-level approach shifts from individual to community." },
   { front: "Describe health equity and strategies to reduce disparities.", back: "Health equity: absence of systematic disparities in health/healthcare access. Disparities: preventable differences in health outcomes across groups. Approaches: structural (policy, healthcare system), clinical (provider cultural competence, bias training), community (resources, trust building). Specific strategies: community health workers, culturally tailored interventions, language services, implicit bias training, collection of race/ethnicity data. Challenges: historical trauma, mistrust of healthcare system, systemic racism. Accountability: healthcare organizations establish equity metrics." },
@@ -1413,44 +1432,146 @@
   { front: "Describe the role of community health workers (CHWs).", back: "CHWs: trusted community members providing health education, navigation, health services. Background: typically from community served, bilingual, understand cultural context. Roles: disease prevention education, chronic disease management support, health system navigation, social support. Benefits: increased healthcare access, culturally appropriate care, cost-effective (lower cost than providers), improved outcomes. Barriers: low pay, limited benefits, inconsistent training standards. Integration: healthcare systems increasingly employ CHWs as bridge between community/system." },
   { front: "What are the principles of health justice and health activism?", back: "Health justice: connects health to broader social justice, recognizes systemic inequities. Health activism: organizing for policy change (healthcare access, environmental cleanup, worker protections). Examples: civil rights movement improved healthcare access, environmental justice movements reduce pollution exposure in communities of color. Approaches: community organizing, advocacy, policy change, addressing power imbalances. Goal: systemic change vs individual behavior change. Healthcare providers: role in advocacy (support patients' social needs, attest to harms of policies)." },
   { front: "Describe disaster public health and emergency preparedness.", back: "Disaster types: natural (hurricanes, earthquakes), human-made (chemical spills, nuclear accidents), intentional (bioterrorism). Public health role: epidemiologic investigation, disease surveillance, water/sanitation safety, infection prevention, mental health support. Preparedness: emergency action plans, stockpiles (vaccines, PPE), workforce training, communication systems. Response: rapid assessment, establishment of command structure, alternate care sites if healthcare surge. Recovery: long-term health monitoring, psychosocial support, rebuilding infrastructure. Vulnerable populations: require evacuation assistance, medical supplies continuity." },
-  { front: "What is the role of policy advocacy in improving public health outcomes?", back: "Health policy: legislation/regulations affecting health (tobacco taxes, seatbelt laws, clean air standards, healthcare access). Evidence-base: use research to inform policy, translate findings to policy-makers. Advocacy: healthcare providers testify before legislatures, provide expert opinion, organize communities. Examples: sugar taxes reduce obesity/diabetes, helmet laws reduce motorcycle injury mortality, clean air regulations reduce asthma hospitalizations. Challenges: industry opposition (tobacco, food), political polarization, time from policy to measurable outcomes. Equity focus: prioritize policies benefiting vulnerable populations." }
+  { front: "What is the role of policy advocacy in improving public health outcomes?", back: "Health policy: legislation/regulations affecting health (tobacco taxes, seatbelt laws, clean air standards, healthcare access). Evidence-base: use research to inform policy, translate findings to policy-makers. Advocacy: healthcare providers testify before legislatures, provide expert opinion, organize communities. Examples: sugar taxes reduce obesity/diabetes, helmet laws reduce motorcycle injury mortality, clean air regulations reduce asthma hospitalizations. Challenges: industry opposition (tobacco, food), political polarization, time from policy to measurable outcomes. Equity focus: prioritize policies benefiting vulnerable populations." },
+  { front: "What is the role of screening programs in community health?", back: "Screening: test for disease in asymptomatic individuals. Types: mass screening (entire population), targeted (high-risk groups), opportunistic (at healthcare visits). Criteria: disease has latent phase (early detection possible), screening test sensitive/specific, treatment available, benefits outweigh harms. Examples: cancer screening (mammography, colonoscopy), infectious disease (TB skin test, HIV antibody), metabolic (newborn screening, cholesterol). Challenges: false positives (anxiety, additional testing), overdiagnosis (cancers that wouldn't cause harm), cost. Lead time bias: screening detects disease earlier but doesn't improve survival." },
+  { front: "Describe substance use and addiction as a public health issue.", back: "Substance use disorder: compulsive substance use despite negative consequences. Epidemiology: opioid epidemic (prescription pills, heroin, fentanyl), alcohol use disorder, cocaine/methamphetamine. Public health approach: harm reduction (needle exchange, naloxone distribution), medication-assisted treatment (methadone, buprenorphine), peer support, integrated care (mental health + addiction medicine). Stigma: substance use disorder is disease, not moral failure. Prevention: education, youth programs, regulation (opioid prescribing limits). Justice: incarceration ineffective, treatment-focused approaches superior." },
+  { front: "What is the diagnostic approach to violence prevention in communities?", back: "Violence: leading cause of injury mortality (homicide, suicide). Determinants: poverty, limited opportunity, substance use, access to firearms, trauma history. Prevention approaches: primary (youth programs, conflict resolution, reduce inequality), secondary (violence interruption programs, trauma-informed care), tertiary (violence survivor support, rehabilitation). Gun violence: public health crisis (40,000+ deaths annually), prevention via background checks, waiting periods, safe storage. Intimate partner violence: screening in healthcare, safety planning, counseling, legal advocacy. Trauma-informed care: recognize violence effects, avoid re-traumatization." },
+  { front: "Describe aging and geriatric health in community settings.", back: "Aging population: growing proportion of elderly (65+ years). Health challenges: chronic disease (multiple conditions), functional decline, cognitive impairment (dementia), medication management (polypharmacy complications). Community supports: aging in place programs, senior centers, transportation, meals on wheels, home care services. Preventive care: falls prevention (strength training, vision/hearing correction), cognitive engagement, social connection. Elder abuse: screening for financial exploitation, neglect, physical abuse. Workforce: shortage of geriatricians/gerontologists, nursing home care quality concerns." },
+  { front: "What is the role of school health programs in public health?", back: "School health programs: address health needs of children/adolescents (6-18 years). Components: health services (screening, immunizations), health education (disease prevention, healthy behaviors), counseling/psychological services (mental health, substance abuse), nutrition services, safe school environment. School nurses: assess health, refer to services, manage chronic conditions (asthma, diabetes). Health-promoting schools: integrate health throughout curriculum. Benefits: improved academic performance, reduced absenteeism, healthier lifestyles. Equity: public schools serve underserved populations. Barriers: limited funding, school resistance." },
+  { front: "Describe immigrant and refugee health considerations.", back: "Immigrant health: unique challenges include language barriers, cultural differences, limited healthcare access, legal status concerns. Health issues: untreated infectious diseases (TB, parasites), mental health (trauma, grief), reproductive health gaps, chronic disease management. Refugees: often experienced violence/persecution, trauma (PTSD), limited education. Healthcare access: safety-net clinics, federally qualified health centers, insurance coverage limitations. Screening: tuberculosis, infectious diseases, immunization status. Integration: social support critical for adjustment, employment, education. Healthcare provider training: cultural competence, trauma-informed care." },
+  { front: "What is the diagnostic approach to chronic disease management in primary care?", back: "Chronic disease: long-term conditions (diabetes, hypertension, COPD, heart disease, arthritis). Management: patient engagement (self-management education), pharmacotherapy, regular monitoring (vital signs, labs), comorbidity assessment. Chronic care model: productive interactions (informed patients, prepared team), decision support, delivery system redesign, clinical information systems. Barriers: healthcare access, cost, medication non-adherence, competing priorities. Outcomes: quality of life, functional status, mortality. Population health approach: identify at-risk populations, target interventions, track metrics." },
+  { front: "Describe infectious disease surveillance in community settings.", back: "Surveillance: ongoing systematic collection of health data to detect disease patterns. Types: passive (providers report notifiable diseases), active (health department contacts providers), sentinel (subset of sites). Uses: detect outbreaks, guide prevention, monitor effectiveness of interventions. Notifiable diseases: vary by jurisdiction (examples: TB, measles, sexually transmitted infections). Reporting: timeliness important (within days to weeks). Challenges: incomplete reporting, delays, variable data quality. Data use: generate alerts, investigate outbreaks, inform public communication. Privacy: confidentiality maintained while allowing follow-up." },
+  { front: "What is the role of vaccination programs and immunization in public health?", back: "Vaccination: stimulates immunity to prevent infectious disease. Schedule: childhood (DTaP, measles, varicella), adolescent (HPV, meningococcal), adult (influenza, pneumococcal, zoster). Herd immunity threshold: 70-90% coverage depending on disease (measles = 95%), protects unvaccinated. Vaccine hesitancy: declining coverage in some populations increases outbreak risk (measles outbreaks in unvaccinated communities). Public health response: education, accessibility (free/low-cost), addressing misinformation. Equity: ensure access in underserved communities. New vaccines: COVID-19 vaccination, RSV vaccine, newer COVID variants require booster strategies." },
+  { front: "Describe health literacy and addressing communication barriers.", back: "Health literacy: capacity to understand health information and navigate healthcare system. Components: reading (understand written instructions), listening (comprehend verbal information), numeracy (understand numbers - probability, medication doses), cultural understanding. Assessment: observe patient understanding, teach-back method. Interventions: simplified materials (8th grade reading level), visual aids, bilingual services, video education. Digital divide: not all populations have internet/smartphone access (health equity concern). Misinformation: social media spreads health myths; counter with trusted messengers. Healthcare provider role: speak plainly, confirm understanding, respect patient knowledge." },
+  { front: "What is the diagnostic approach to health disparities measurement and monitoring?", back: "Disparities measurement: collect race/ethnicity/income/geography data, analyze outcomes by group, identify gaps. Metrics: mortality rates, disease incidence, healthcare access, treatment response. Data disaggregation: break down by age, sex, insurance status to identify vulnerable groups. Monitoring: track progress toward equity goals, identify emerging disparities. Causes: structural (systemic racism, policy), clinical (provider bias, different treatment), social (poverty, education). Accountability: healthcare organizations set equity metrics, measure progress, public reporting. Challenges: historical data gaps, privacy concerns, local vs national comparisons." },
+  { front: "Describe health promotion and disease prevention campaigns.", back: "Health promotion: empowers people to increase control over health (healthy behaviors, social support, environmental change). Campaigns: public education on disease prevention (smoking cessation, physical activity, vaccination, safe sex, healthy diet). Channels: media (TV, radio, social media), community events, school-based programs, healthcare provider counseling. Evidence-based: use behavioral theory, tailored to audience, measure effectiveness. Examples: Truth campaign reduced youth smoking, play-safe campaigns reduce STI transmission. Challenges: industry opposition (tobacco/food), behavior change difficulty, reach vs resources. Equity: target campaigns to highest-need populations." }
 ];
 
-        // Flashcard State
+        // Flashcard Enhanced State
+        const FC_ROUND_SIZE = 15;
+        let fcPool = [...FLASHCARDS];
+        let fcRound = 0;
+        let fcActiveCards = [];
+        let fcMastered = [];
+        let fcMissed = [];
         let fcIndex = 0;
         let fcFlipped = false;
-        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function fcStartRound() {
+            const start = fcRound * FC_ROUND_SIZE;
+            const end = Math.min(start + FC_ROUND_SIZE, fcPool.length);
+            if (start >= fcPool.length) {
+                // All cards exhausted — reshuffle entire pool
+                fcPool.sort(() => Math.random() - 0.5);
+                fcRound = 0;
+                fcMastered = [];
+                fcMissed = [];
+                fcStartRound();
+                return;
+            }
+            fcActiveCards = fcPool.slice(start, end).map((c, i) => ({ ...c, idx: start + i }));
+            fcMastered = [];
+            fcMissed = [];
+            fcIndex = 0;
+            fcFlipped = false;
+        }
+        fcStartRound();
+
+        function fcRemainingCards() {
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx) && !fcMissed.includes(c.idx));
+        }
+
+        function fcCurrentDeck() {
+            // Show missed cards + unreviewed cards
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx));
+        }
 
         function renderFlashcards() {
             const container = document.getElementById("flashcardContainer");
-            if (FLASHCARDS.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+            const deck = fcCurrentDeck();
+            const totalInRound = fcActiveCards.length;
+            const masteredCount = fcMastered.length;
+            const progressPct = Math.round((masteredCount / totalInRound) * 100);
+            const hasMoreRounds = ((fcRound + 1) * FC_ROUND_SIZE) < fcPool.length;
+
+            // All cards in this round mastered
+            if (deck.length === 0) {
+                container.innerHTML = `
+                    <div class="fc-complete">
+                        <div class="fc-complete-icon">&#127942;</div>
+                        <h3>Round ${fcRound + 1} Complete!</h3>
+                        <p>You mastered all ${masteredCount} cards in this round.</p>
+                        <p style="font-size:13px;color:var(--color-text-muted);">${hasMoreRounds ? (fcPool.length - (fcRound + 1) * FC_ROUND_SIZE) + ' new cards remaining in the pool.' : 'You have reviewed all cards in the pool.'}</p>
+                        <div style="margin-top:16px;">
+                            ${hasMoreRounds ? '<button class="fc-complete-btn fc-new-cards" id="fcNewCards">Get New Cards</button>' : ''}
+                            <button class="fc-complete-btn fc-restart" id="fcRestart">Restart All Cards</button>
+                        </div>
+                    </div>
+                `;
+                const newBtn = document.getElementById("fcNewCards");
+                if (newBtn) newBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+                const restartBtn = document.getElementById("fcRestart");
+                if (restartBtn) restartBtn.addEventListener("click", () => { fcPool.sort(() => Math.random() - 0.5); fcRound = 0; fcStartRound(); renderFlashcards(); });
                 return;
             }
-            const card = FLASHCARDS[fcOrder[fcIndex]];
+
+            if (fcIndex >= deck.length) fcIndex = 0;
+            const card = deck[fcIndex];
+
             container.innerHTML = `
                 <div class="flashcard-container">
-                    <div class="flashcard-header">
-                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
-                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    <div class="flashcard-toolbar">
+                        <span class="flashcard-counter">Card ${fcIndex + 1} of ${deck.length} remaining</span>
+                        <div class="flashcard-toolbar-buttons">
+                            <button class="fc-btn-sm" id="fcShuffle">Shuffle</button>
+                            ${hasMoreRounds ? '<button class="fc-btn-sm" id="fcSkipRound">Skip to New Cards</button>' : ''}
+                        </div>
                     </div>
+                    <div class="fc-progress-label">
+                        <span>Round ${fcRound + 1} of ${Math.ceil(fcPool.length / FC_ROUND_SIZE)}</span>
+                        <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
+                    </div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
                     <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
                         <div class="flashcard-inner">
                             <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
                             <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
                         </div>
                     </div>
-                    <div class="flashcard-hint">Click card to flip</div>
+                    ${fcFlipped ? `
+                        <div class="fc-assess">
+                            <button class="fc-got-it" id="fcGotIt">&#10003; Got It</button>
+                            <button class="fc-missed" id="fcMissedBtn">&#10007; Still Learning</button>
+                        </div>
+                    ` : '<div class="flashcard-hint">Click card to flip and reveal the answer</div>'}
                     <div class="flashcard-nav">
                         <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
-                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                        <button id="fcNext" ${fcIndex >= deck.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
                     </div>
                 </div>
             `;
+
             document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
             document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < deck.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            const shuffleBtn = document.getElementById("fcShuffle");
+            if (shuffleBtn) shuffleBtn.addEventListener("click", () => { fcActiveCards.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            const skipBtn = document.getElementById("fcSkipRound");
+            if (skipBtn) skipBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+            const gotItBtn = document.getElementById("fcGotIt");
+            if (gotItBtn) gotItBtn.addEventListener("click", () => {
+                fcMastered.push(card.idx);
+                fcFlipped = false;
+                const remaining = fcCurrentDeck();
+                if (fcIndex >= remaining.length) fcIndex = Math.max(0, remaining.length - 1);
+                renderFlashcards();
+            });
+            const missedBtn = document.getElementById("fcMissedBtn");
+            if (missedBtn) missedBtn.addEventListener("click", () => {
+                fcFlipped = false;
+                fcIndex = (fcIndex + 1) % Math.max(1, fcCurrentDeck().length);
+                renderFlashcards();
+            });
         }
 
         // Utility: Render Resources

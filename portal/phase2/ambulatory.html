@@ -708,26 +708,45 @@
             padding: var(--spacing-xl);
         }
 
-                /* Flashcards Tab */
-        .flashcard-container { max-width: 600px; margin: 0 auto; }
-        .flashcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+                        /* Flashcards Tab */
+        .flashcard-container { max-width: 620px; margin: 0 auto; }
+        .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 16px; }
+        .flashcard-toolbar-buttons { display: flex; gap: 8px; }
+        .fc-btn-sm { padding: 5px 12px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); font-family: var(--font-sans); font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+        .fc-btn-sm:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+        .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
+        .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
         .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
+        .fc-assess { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .fc-assess button { padding: 10px 24px; border-radius: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1.5px solid; }
+        .fc-got-it { background: #E8F5EE; color: var(--color-success); border-color: var(--color-success); }
+        .fc-got-it:hover { background: var(--color-success); color: #fff; }
+        .fc-missed { background: #FFF3E0; color: #E65100; border-color: #E65100; }
+        .fc-missed:hover { background: #E65100; color: #fff; }
         .flashcard-nav { display: flex; justify-content: center; gap: 12px; }
         .flashcard-nav button { padding: 8px 20px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--color-text); }
         .flashcard-nav button:hover { border-color: var(--color-accent); color: var(--color-accent); }
         .flashcard-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
-        .flashcard-shuffle { padding: 6px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); font-family: var(--font-sans); font-size: 13px; cursor: pointer; color: var(--color-text-secondary); }
-        .flashcard-shuffle:hover { border-color: var(--color-accent); color: var(--color-accent); }
+        .fc-complete { text-align: center; padding: 40px 20px; }
+        .fc-complete-icon { font-size: 48px; margin-bottom: 12px; }
+        .fc-complete h3 { font-family: var(--font-serif); color: var(--color-success); margin-bottom: 8px; }
+        .fc-complete p { color: var(--color-text-secondary); margin-bottom: 20px; font-size: 14px; }
+        .fc-complete-btn { padding: 10px 24px; border-radius: 8px; border: none; font-family: var(--font-sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
+        .fc-new-cards { background: var(--color-accent); color: #fff; }
+        .fc-new-cards:hover { background: #005F73; }
+        .fc-restart { background: var(--color-surface); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .fc-restart:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
 /* Resources Tab */
         .resources-grid {
@@ -1397,7 +1416,7 @@
             container.innerHTML = '<div class="quiz-empty">No course quizzes available yet. Add notes and lectures to generate quizzes from your course content.</div>';
         }
 
-        // Flashcard Data
+        // Flashcard Data — Full Pool
         const FLASHCARDS = [
   { front: "What is the role of outpatient clinics in chronic disease management?", back: "Ambulatory care: longitudinal management of chronic conditions. Advantages: continuity, relationship with patient, cost-effective compared to ED/hospitalization. Chronic disease management: diabetes, hypertension, heart failure, COPD, asthma. Regular visits: assess control, medication adherence, modify therapies, prevent complications. Care coordination with specialists, pharmacists, social work improves outcomes." },
   { front: "Describe the diagnostic approach to dyslipidemia and lipid targets.", back: "Dyslipidemia: elevated LDL, low HDL, elevated triglycerides increase atherosclerotic risk. Lipid panel: total cholesterol, LDL, HDL, triglycerides. LDL targets: depends on ASCVD risk (very high: <70, high: <100, moderate: <130). HDL: goal >40 men, >50 women. Triglycerides: goal <150. Assessment: fasting vs non-fasting lipids acceptable. Risk calculator guides treatment intensity." },
@@ -1413,44 +1432,152 @@
   { front: "Describe the role of outpatient specialty referrals and care coordination.", back: "Specialty referral: when expertise beyond primary care needed (cardiology for HTN not at goal, gastroenterology for GI symptoms). Clear referral: indicate urgency, question to answer, relevant history. Follow-up: obtain specialist notes, review recommendations, implement changes in primary care. Coordinate with multiple specialists: ensure medication reconciliation, prevent duplication, optimize adherence." },
   { front: "What is the diagnostic approach to new-onset anemia in the outpatient setting?", back: "Anemia: low hemoglobin in outpatient labs. Assess reticulocyte count (low suggests bone marrow issue; high suggests hemolysis/bleeding). Differential: iron deficiency (microcytic, hypochromic), B12 deficiency (macrocytic), folate deficiency (macrocytic), anemia of chronic disease (normocytic/microcytic). Workup: iron studies, B12, folate, renal function, peripheral smear. Oral iron supplementation for iron deficiency." },
   { front: "Describe the management of polypharmacy and medication safety in the elderly.", back: "Polypharmacy (>5 medications) common, increases adverse effects, falls, cognitive impairment. Review each visit: indication still present? Dose appropriate for renal/hepatic function? Drug-drug interactions? Over-the-counter supplements included? Deprescribe inappropriate agents (anticholinergics, benzodiazepines, NSAIDs). Beers Criteria lists potentially inappropriate medications in elderly. Simpler regimens improve adherence." },
-  { front: "What is the approach to preventive cardiovascular care in the outpatient setting?", back: "Cardiovascular prevention: assess 10-year ASCVD risk. Lifestyle: diet (Mediterranean, DASH), exercise (150 min moderate/week), smoking cessation, weight management, stress reduction. Pharmacologic: aspirin (if high risk), statin (moderate-high intensity per risk), antihypertensive agents (goal <130/80), diabetes control. Regular visits: BP/lipids/glucose monitoring. Refer to cardiac rehab post-MI." }
+  { front: "What is the approach to preventive cardiovascular care in the outpatient setting?", back: "Cardiovascular prevention: assess 10-year ASCVD risk. Lifestyle: diet (Mediterranean, DASH), exercise (150 min moderate/week), smoking cessation, weight management, stress reduction. Pharmacologic: aspirin (if high risk), statin (moderate-high intensity per risk), antihypertensive agents (goal <130/80), diabetes control. Regular visits: BP/lipids/glucose monitoring. Refer to cardiac rehab post-MI." },
+  { front: "What is the diagnostic approach to lower urinary tract symptoms (LUTS) in men?", back: "LUTS: urinary frequency, urgency, nocturia, weak stream, hesitancy, incomplete emptying. Etiology: benign prostatic hyperplasia (age-related, progressive), urinary tract infection, prostate cancer, overactive bladder, neurogenic. Assessment: symptom severity (IPSS score), post-void residual (ultrasound or catheterization), urinalysis. Management: behavioral (fluid restriction, timed voiding), alpha-blockers (tamsulosin), 5-alpha reductase inhibitors (finasteride) if enlarged prostate. Consider urology referral if severe or concerning features." },
+  { front: "Describe the approach to incontinence in women in the outpatient setting.", back: "Urinary incontinence: stress (leakage with activity/cough/sneeze), urge (sudden uncontrollable urge, OAB), mixed. Risk factors: age, parity, obesity, chronic cough. Assessment: voiding diary, post-void residual, urinalysis, pelvic exam (pelvic floor strength, atrophy). Stress incontinence: pelvic floor physical therapy (kegel exercises), weight loss, pessary. Urge incontinence: bladder retraining, anticholinergic medications (oxybutynin), mirabegron. Refer urology/urogynecology if severe or not responding." },
+  { front: "What is the diagnostic approach to erectile dysfunction in the outpatient setting?", back: "Erectile dysfunction (ED): inability to achieve/maintain erection sufficient for intercourse. Risk factors: age, diabetes, cardiovascular disease, hypertension, medications (antidepressants, antihypertensives), depression, smoking. Assessment: duration, relationship stressors, libido, nocturnal erections, cardiovascular disease evaluation. Management: PDE5 inhibitors (sildenafil, tadalafil, vardenafil) first-line. Address cardiovascular risk. Consider testosterone if low. Penile vacuum device, intracavernous injections, surgical options (penile implant) if medical management fails. Psychotherapy if psychogenic." },
+  { front: "Describe the management of seasonal affective disorder in the outpatient setting.", back: "Seasonal affective disorder (SAD): depression with seasonal pattern, typically fall/winter onset. Diagnosis: seasonal depressive episodes with remission in spring/summer. Symptoms: depressed mood, hypersomnia, hyperphagia, low energy, carbohydrate cravings. Risk factors: northern latitudes, family history depression. Management: light therapy (10,000 lux, 20-30 min daily morning), vitamin D supplementation, outdoor exposure, exercise, SSRIs. Prognosis: responds well to light therapy (60-80% response rate)." },
+  { front: "What is the diagnostic approach to pre-diabetes screening and management?", back: "Pre-diabetes: fasting glucose 100-125 mg/dL or HbA1c 5.7-6.4% or 2-hour glucose 140-199 on OGTT. Risk: 15-30% progress to diabetes in 5 years. Screening: indicated in adults overweight/obese with risk factors (age >45, family history, sedentary). Management: intensive lifestyle intervention (weight loss 5-10%, exercise 150 min/week) reduces progression 58%. Metformin (especially if BMI >35 or age <60) prevents/delays diabetes. Monitor annually with repeated glucose testing." },
+  { front: "Describe the management of hypothyroidism and TSH monitoring in the outpatient setting.", back: "Hypothyroidism: decreased thyroid hormone causing fatigue, weight gain, cold intolerance, constipation, depression. Common cause: Hashimoto thyroiditis (autoimmune). Diagnosis: elevated TSH, low free T4. Management: levothyroxine (synthetic T4, long half-life 7 days, stable dosing). Dosing: start low (25-50 mcg), titrate based on TSH (goal 0.5-2.5 mIU/L for most). Take on empty stomach (morning, separate from supplements). Recheck TSH 6-8 weeks after dose change. Stable patients: check TSH annually." },
+  { front: "What is the diagnostic approach to gastroesophageal reflux disease (GERD) in the outpatient setting?", back: "GERD: chronic reflux of gastric contents causing heartburn, regurgitation, chest discomfort. Risk factors: obesity, pregnancy, smoking, alcohol, caffeine, fatty foods, medications (CCB, anticholinergics). Diagnosis: clinical, esophageal pH monitoring if atypical symptoms or treatment-resistant. Management: lifestyle (weight loss, avoid triggers, elevate head of bed, avoid meals 3 hours before sleep), H2 blockers (ranitidine - now withdrawn), proton pump inhibitors (omeprazole, pantoprazole). Endoscopy if alarm features (dysphagia, weight loss, anemia, persistent symptoms despite PPI)." },
+  { front: "Describe the management of type 2 diabetes in the outpatient setting.", back: "Type 2 diabetes: insulin resistance with progressive beta cell dysfunction. Diagnosis: fasting glucose >126 mg/dL, HbA1c >6.5%, random glucose >200 with symptoms, 2-hour OGTT >200. Initial: lifestyle modification, metformin first-line (improves insulin sensitivity, cardiovascular benefit). Additional agents if HbA1c not at goal: SGLT2 inhibitors (renal/cardio benefit), GLP-1 agonists (weight loss, cardio benefit), DPP4 inhibitors, sulfonylureas (hypoglycemia risk). Insulin if needed. Target HbA1c 7% (individualize). Monitor renal function, lipids, urinary protein." },
+  { front: "What is the approach to smoking cessation in the outpatient setting?", back: "Smoking assessment: ask about use, assess readiness to quit, discuss triggers. Counseling: motivational interviewing, discuss benefits/barriers, problem-solving. Pharmacotherapy: first-line is varenicline (Chantix, 1-2 mg daily, most effective), nicotine replacement (patches, gum, lozenges, inhaler, nasal spray), bupropion (300 mg daily, ADHD/depression benefit). Combination therapy: varenicline + NRT more effective than single agent. Behavioral support: counseling, group programs, quitlines (1-800-QUIT-NOW), smartphone apps. Relapse common; reassure and restart. Each quit attempt increases eventual success." },
+  { front: "Describe the diagnostic approach to recurrent urinary tract infections in women.", back: "Recurrent UTI: >2 uncomplicated UTIs in 6 months or >3 in 12 months. Risk factors: sexual activity, spermicide use, diaphragm use, anatomic abnormality, diabetes, immunosuppression, incomplete bladder emptying. Evaluation: urinalysis, urine culture (with susceptibility), renal ultrasound (structural abnormality). Prevention: increase fluid intake, void after intercourse, avoid irritants. Prophylaxis: low-dose antibiotics (trimethoprim-sulfamethoxazole, nitrofurantoin nightly) or post-coital dosing. Probiotics, cranberry juice limited evidence. Refer urology if recurrent despite prophylaxis." },
+  { front: "What is the diagnostic approach to abnormal uterine bleeding in the outpatient setting?", back: "Abnormal uterine bleeding (AUB): excessive, prolonged, or irregular menstrual bleeding affecting quality of life. Differential by age: reproductive age (dysfunctional, fibroids, polyps, coagulopathy), perimenopausal (anovulation, endometrial pathology), postmenopausal (always investigate for malignancy). Workup: pelvic ultrasound (structural lesions), endometrial sampling (if >45 years or risk factors). Coagulation studies if heavy bleeding since menarche. Management: NSAIDs first-line, hormonal contraception (OCP, levonorgestrel IUD), tranexamic acid. Refer gynecology if structural lesion or treatment-resistant." },
+  { front: "Describe the management of chronic obstructive pulmonary disease exacerbations in outpatient setting.", back: "COPD exacerbation: acute worsening dyspnea, sputum production, cough. Mild-moderate: increased short-acting bronchodilators, consider oral corticosteroids (prednisone 40 mg daily 5-7 days), antibiotics if purulent sputum (amoxicillin-clavulanate, respiratory fluoroquinolone). Assessment: oxygen saturation, peak flow if asthmatic features. Red flags requiring ED referral: severe dyspnea, confusion, altered oxygen saturation, inability to take oral medications. Close follow-up 24-48 hours essential. Consider pulmonary function testing if frequent exacerbations." },
+  { front: "What is the approach to constipation management in the outpatient setting?", back: "Constipation: infrequent hard stool defecation, straining, incomplete evacuation (Rome IV: <3 stools/week for >3 months). Causes: low fiber/fluid intake, sedentary, medications (opioids, anticholinergics, iron), irritable bowel syndrome, hypothyroidism, diabetes. Workup: abdominal exam (no distension, normal bowel sounds), exclude red flags (fever, weight loss, blood). Management: dietary fiber (25-35 g/day gradually increase), hydration (8 glasses water/day), exercise, stool softeners (docusate), osmotic laxatives (polyethylene glycol, lactulose), stimulant laxatives (senna) if needed. Avoid chronic stimulant use. Assess medication side effects." },
+  { front: "Describe the diagnostic approach to dyspnea in the outpatient clinic setting.", back: "Dyspnea: sensation of breathlessness concerning to patient. Differential: cardiac (heart failure, ACS, pericarditis, arrhythmia), pulmonary (pneumonia, COPD, asthma, PE, pneumothorax), anemia, anxiety, deconditioning. History: onset (acute vs gradual), triggers, associated symptoms, past medical history. Exam: vital signs, oxygen saturation, lung sounds, heart sounds, extremity edema, JVD. Workup: EKG, chest X-ray, CBC, troponin if cardiac concern, BNP if heart failure suspected, spiral CT if PE suspected. Admit if hypoxia, altered mental status, hemodynamic instability." },
+  { front: "What is the diagnostic approach to hair loss in the outpatient setting?", back: "Hair loss differential: androgenetic alopecia (genetic, male/female pattern, progressive), telogen effluvium (diffuse, recent stressor, reversible), alopecia areata (patches, autoimmune), tinea capitis (infection), traction alopecia (repeated pulling). History: onset, pattern, medications (beta-blockers, ACE-I), stress, thyroid disease, iron deficiency. Labs: TSH, iron studies, CBC if indicated. Androgenetic alopecia: minoxidil (topical, regrows) or finasteride (oral, males). Alopecia areata: intralesional corticosteroids, topical immunotherapy. Telogen effluvium: reassure, treat underlying cause (stress management, address nutritional deficiency)." },
+  { front: "Describe the management of osteoarthritis in the outpatient clinic.", back: "Osteoarthritis (OA): degenerative joint disease from cartilage loss, most common form of arthritis. Risk factors: age, obesity, prior joint injury, family history. Symptoms: joint pain, stiffness (worse after activity), swelling, decreased range of motion. Diagnosis: clinical + imaging (X-ray shows joint space narrowing, osteophytes). Management: weight loss, physical therapy (strengthen surrounding muscles), NSAIDs (ibuprofen, naproxen) with gastroprotection if risk, topical capsaicin, joint injections (corticosteroid, hyaluronic acid). Surgery (joint replacement) if severe/failed conservative management." },
+  { front: "What is the diagnostic approach to orthostatic hypotension in the outpatient setting?", back: "Orthostatic hypotension: drop in SBP >20 mmHg or DBP >10 mmHg within 3 minutes of standing, causing dizziness/syncope. Causes: medications (antihypertensives, anticholinergics, decongestants), volume depletion, autonomic dysfunction, prolonged bed rest, elderly. Assessment: lying/sitting/standing BP and heart rate, check for medication contributions. Workup: orthostatic vital signs at home (morning before medication), CBC (anemia), renal function. Management: increase fluid intake (2-3 L/day), salt intake (>10 g/day if tolerated), compression stockings, elevate head of bed, slow position changes. Medication adjustment: reduce antihypertensive dose or change class. Fludrocortisone or midodrine if refractory." },
+  { front: "Describe the management of insomnia in the outpatient setting.", back: "Insomnia: difficulty initiating/maintaining sleep, early morning awakening, nonrestorative sleep for >3 months affecting daytime function. Causes: psychological stress, anxiety, depression, medical (pain, sleep apnea, GERD, nocturia), medications (stimulants, some antidepressants), poor sleep hygiene. Assessment: detailed sleep history, screen for sleep apnea (snoring, witnessed apnea), depression/anxiety. Cognitive-behavioral therapy for insomnia (CBT-I) is gold standard: sleep restriction, stimulus control, relaxation, cognitive therapy. Pharmacologic: short-term benzodiazepines (lorazepam), non-benzodiazepine hypnotics (zolpidem, zaleplon), melatonin (limited evidence), trazodone. Avoid chronic benzodiazepine use (dependence risk)." }
 ];
 
-        // Flashcard State
+        // Flashcard Enhanced State
+        const FC_ROUND_SIZE = 15;
+        let fcPool = [...FLASHCARDS];
+        let fcRound = 0;
+        let fcActiveCards = [];
+        let fcMastered = [];
+        let fcMissed = [];
         let fcIndex = 0;
         let fcFlipped = false;
-        let fcOrder = FLASHCARDS.map((_, i) => i);
+
+        function fcStartRound() {
+            const start = fcRound * FC_ROUND_SIZE;
+            const end = Math.min(start + FC_ROUND_SIZE, fcPool.length);
+            if (start >= fcPool.length) {
+                // All cards exhausted — reshuffle entire pool
+                fcPool.sort(() => Math.random() - 0.5);
+                fcRound = 0;
+                fcMastered = [];
+                fcMissed = [];
+                fcStartRound();
+                return;
+            }
+            fcActiveCards = fcPool.slice(start, end).map((c, i) => ({ ...c, idx: start + i }));
+            fcMastered = [];
+            fcMissed = [];
+            fcIndex = 0;
+            fcFlipped = false;
+        }
+        fcStartRound();
+
+        function fcRemainingCards() {
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx) && !fcMissed.includes(c.idx));
+        }
+
+        function fcCurrentDeck() {
+            // Show missed cards + unreviewed cards
+            return fcActiveCards.filter(c => !fcMastered.includes(c.idx));
+        }
 
         function renderFlashcards() {
             const container = document.getElementById("flashcardContainer");
-            if (FLASHCARDS.length === 0) {
-                container.innerHTML = '<div class="quiz-empty">No flashcards available yet.</div>';
+            const deck = fcCurrentDeck();
+            const totalInRound = fcActiveCards.length;
+            const masteredCount = fcMastered.length;
+            const progressPct = Math.round((masteredCount / totalInRound) * 100);
+            const hasMoreRounds = ((fcRound + 1) * FC_ROUND_SIZE) < fcPool.length;
+
+            // All cards in this round mastered
+            if (deck.length === 0) {
+                container.innerHTML = `
+                    <div class="fc-complete">
+                        <div class="fc-complete-icon">&#127942;</div>
+                        <h3>Round ${fcRound + 1} Complete!</h3>
+                        <p>You mastered all ${masteredCount} cards in this round.</p>
+                        <p style="font-size:13px;color:var(--color-text-muted);">${hasMoreRounds ? (fcPool.length - (fcRound + 1) * FC_ROUND_SIZE) + ' new cards remaining in the pool.' : 'You have reviewed all cards in the pool.'}</p>
+                        <div style="margin-top:16px;">
+                            ${hasMoreRounds ? '<button class="fc-complete-btn fc-new-cards" id="fcNewCards">Get New Cards</button>' : ''}
+                            <button class="fc-complete-btn fc-restart" id="fcRestart">Restart All Cards</button>
+                        </div>
+                    </div>
+                `;
+                const newBtn = document.getElementById("fcNewCards");
+                if (newBtn) newBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+                const restartBtn = document.getElementById("fcRestart");
+                if (restartBtn) restartBtn.addEventListener("click", () => { fcPool.sort(() => Math.random() - 0.5); fcRound = 0; fcStartRound(); renderFlashcards(); });
                 return;
             }
-            const card = FLASHCARDS[fcOrder[fcIndex]];
+
+            if (fcIndex >= deck.length) fcIndex = 0;
+            const card = deck[fcIndex];
+
             container.innerHTML = `
                 <div class="flashcard-container">
-                    <div class="flashcard-header">
-                        <span class="flashcard-counter">${fcIndex + 1} / ${FLASHCARDS.length}</span>
-                        <button class="flashcard-shuffle" id="fcShuffle">Shuffle</button>
+                    <div class="flashcard-toolbar">
+                        <span class="flashcard-counter">Card ${fcIndex + 1} of ${deck.length} remaining</span>
+                        <div class="flashcard-toolbar-buttons">
+                            <button class="fc-btn-sm" id="fcShuffle">Shuffle</button>
+                            ${hasMoreRounds ? '<button class="fc-btn-sm" id="fcSkipRound">Skip to New Cards</button>' : ''}
+                        </div>
                     </div>
+                    <div class="fc-progress-label">
+                        <span>Round ${fcRound + 1} of ${Math.ceil(fcPool.length / FC_ROUND_SIZE)}</span>
+                        <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
+                    </div>
+                    <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
                     <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
                         <div class="flashcard-inner">
                             <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
                             <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
                         </div>
                     </div>
-                    <div class="flashcard-hint">Click card to flip</div>
+                    ${fcFlipped ? `
+                        <div class="fc-assess">
+                            <button class="fc-got-it" id="fcGotIt">&#10003; Got It</button>
+                            <button class="fc-missed" id="fcMissedBtn">&#10007; Still Learning</button>
+                        </div>
+                    ` : '<div class="flashcard-hint">Click card to flip and reveal the answer</div>'}
                     <div class="flashcard-nav">
                         <button id="fcPrev" ${fcIndex === 0 ? 'disabled' : ''}>&larr; Previous</button>
-                        <button id="fcNext" ${fcIndex >= FLASHCARDS.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+                        <button id="fcNext" ${fcIndex >= deck.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
                     </div>
                 </div>
             `;
+
             document.getElementById("fcCard").addEventListener("click", () => { fcFlipped = !fcFlipped; renderFlashcards(); });
             document.getElementById("fcPrev").addEventListener("click", () => { if (fcIndex > 0) { fcIndex--; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < FLASHCARDS.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
-            document.getElementById("fcShuffle").addEventListener("click", () => { fcOrder = fcOrder.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            document.getElementById("fcNext").addEventListener("click", () => { if (fcIndex < deck.length - 1) { fcIndex++; fcFlipped = false; renderFlashcards(); } });
+            const shuffleBtn = document.getElementById("fcShuffle");
+            if (shuffleBtn) shuffleBtn.addEventListener("click", () => { fcActiveCards.sort(() => Math.random() - 0.5); fcIndex = 0; fcFlipped = false; renderFlashcards(); });
+            const skipBtn = document.getElementById("fcSkipRound");
+            if (skipBtn) skipBtn.addEventListener("click", () => { fcRound++; fcStartRound(); renderFlashcards(); });
+            const gotItBtn = document.getElementById("fcGotIt");
+            if (gotItBtn) gotItBtn.addEventListener("click", () => {
+                fcMastered.push(card.idx);
+                fcFlipped = false;
+                const remaining = fcCurrentDeck();
+                if (fcIndex >= remaining.length) fcIndex = Math.max(0, remaining.length - 1);
+                renderFlashcards();
+            });
+            const missedBtn = document.getElementById("fcMissedBtn");
+            if (missedBtn) missedBtn.addEventListener("click", () => {
+                fcFlipped = false;
+                fcIndex = (fcIndex + 1) % Math.max(1, fcCurrentDeck().length);
+                renderFlashcards();
+            });
         }
 
         // Utility: Render Resources
