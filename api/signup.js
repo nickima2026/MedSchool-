@@ -80,7 +80,7 @@ export default async function handler(req) {
     'Authorization': `Bearer ${serviceRoleKey}`,
   };
 
-  // ── 1. Extract domain and look up school ─────────────────────────────────────
+  // ── 1. Extract domain and look up school (fall back to Open Access) ──────────
   const domain = email.split('@')[1]?.toLowerCase().trim();
   if (!domain) {
     return new Response(JSON.stringify({ error: 'Invalid email address.' }), {
@@ -88,17 +88,27 @@ export default async function handler(req) {
     });
   }
 
+  // Try to match a recognized school domain
   const schoolRes = await fetch(
     `${supabaseUrl}/rest/v1/schools?email_domain=eq.${encodeURIComponent(domain)}&select=id,name,slug&limit=1`,
     { headers: authHeaders }
   );
 
-  const schools = await schoolRes.json();
+  let schools = await schoolRes.json();
+
+  // If no matching school domain, fall back to "MSIB Open Access"
+  if (!Array.isArray(schools) || schools.length === 0) {
+    const fallbackRes = await fetch(
+      `${supabaseUrl}/rest/v1/schools?slug=eq.open&select=id,name,slug&limit=1`,
+      { headers: authHeaders }
+    );
+    schools = await fallbackRes.json();
+  }
 
   if (!Array.isArray(schools) || schools.length === 0) {
     return new Response(JSON.stringify({
-      error: `Your email domain (@${domain}) is not registered with any school. Please contact your administrator.`,
-    }), { status: 400, headers: corsHeaders });
+      error: 'Server configuration error: no default school found.',
+    }), { status: 500, headers: corsHeaders });
   }
 
   const school = schools[0];
