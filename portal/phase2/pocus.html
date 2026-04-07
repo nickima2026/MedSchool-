@@ -708,7 +708,7 @@
             padding: var(--spacing-xl);
         }
 
-                        /* Flashcards Tab */
+                                /* Flashcards Tab */
         .flashcard-container { max-width: 620px; margin: 0 auto; }
         .flashcard-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .flashcard-counter { font-size: 14px; color: var(--color-text-muted); font-weight: 600; }
@@ -718,13 +718,11 @@
         .fc-progress-bar { height: 6px; background: var(--color-border); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
         .fc-progress-fill { height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-success)); border-radius: 3px; transition: width 0.4s ease; }
         .fc-progress-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
-        .flashcard { perspective: 1000px; height: 280px; cursor: pointer; margin-bottom: 12px; }
-        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
-        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; overflow-y: auto; }
+        .flashcard { min-height: 280px; cursor: pointer; margin-bottom: 12px; }
+        .flashcard-face { width: 100%; min-height: 280px; border-radius: 8px; border: 1.5px solid var(--color-border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; position: relative; }
         .flashcard-front { background: var(--color-surface); }
         .flashcard-front::before { content: 'Q'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-accent); background: rgba(0,124,146,0.08); padding: 2px 8px; border-radius: 4px; }
-        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); transform: rotateY(180deg); }
+        .flashcard-back { background: linear-gradient(135deg, #F1F8F5, #E8F5EE); border-color: var(--color-success); }
         .flashcard-back::before { content: 'A'; position: absolute; top: 12px; left: 16px; font-size: 12px; font-weight: 700; color: var(--color-success); background: rgba(45,134,89,0.1); padding: 2px 8px; border-radius: 4px; }
         .flashcard-face p { font-size: 15px; line-height: 1.65; color: var(--color-text); margin: 0; }
         .flashcard-hint { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-bottom: 12px; }
@@ -1519,6 +1517,11 @@
             if (fcIndex >= deck.length) fcIndex = 0;
             const card = deck[fcIndex];
 
+            // Show only ONE face at a time — no CSS 3D transforms needed
+            const faceHTML = fcFlipped
+                ? `<div class="flashcard-face flashcard-back"><p>${card.back}</p></div>`
+                : `<div class="flashcard-face flashcard-front"><p>${card.front}</p></div>`;
+
             container.innerHTML = `
                 <div class="flashcard-container">
                     <div class="flashcard-toolbar">
@@ -1533,11 +1536,8 @@
                         <span>${masteredCount}/${totalInRound} mastered (${progressPct}%)</span>
                     </div>
                     <div class="fc-progress-bar"><div class="fc-progress-fill" style="width:${progressPct}%"></div></div>
-                    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fcCard">
-                        <div class="flashcard-inner">
-                            <div class="flashcard-face flashcard-front"><p>${card.front}</p></div>
-                            <div class="flashcard-face flashcard-back"><p>${card.back}</p></div>
-                        </div>
+                    <div class="flashcard" id="fcCard">
+                        ${faceHTML}
                     </div>
                     ${fcFlipped ? `
                         <div class="fc-assess">
@@ -1574,6 +1574,7 @@
                 renderFlashcards();
             });
         }
+
 
         // Utility: Render Resources
         function renderResources() {
