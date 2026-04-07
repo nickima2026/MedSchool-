@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mental Health &amp; Wellness — MSIB.io</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== CSS VARIABLES (MSIB.io Design System) ===== */
+    :root {
+      --color-primary: #8C1515;
+      --color-secondary: #2E4057;
+      --color-accent: #007C92;
+      --color-success: #2D8659;
+      --color-warning: #E98300;
+      --color-bg: #FAFAFA;
+      --color-surface: #FFFFFF;
+      --color-surface-alt: #F5F3F0;
+      --color-border: #E0DCD8;
+      --color-text: #2E2D29;
+      --color-text-secondary: #585754;
+      --color-text-muted: #8B8A88;
+
+      /* Wellness-specific palette */
+      --color-calm: #4A7C59;
+      --color-calm-light: #E8F0EA;
+      --color-warmth: #C17817;
+      --color-warmth-light: #FDF3E4;
+      --color-trust: #3B6FA0;
+      --color-trust-light: #E6EFF7;
+      --color-crisis: #C0392B;
+      --color-crisis-light: #FDECEB;
+
+      --font-serif: 'Source Serif 4', serif;
+      --font-sans: 'Source Sans 3', sans-serif;
+      --font-mono: 'Source Code Pro', monospace;
+
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --spacing-2xl: 3rem;
+      --spacing-3xl: 4rem;
+
+      --radius-sm: 0.25rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 1rem;
+      --radius-xl: 1.5rem;
+
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ===== RESET & BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main { flex: 1; }
+
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    a:hover { color: var(--color-accent); }
+
+    /* ===== NAVIGATION ===== */
+    nav.topnav {
+      background-color: var(--color-surface);
+      border-bottom: 2px solid var(--color-border);
+      padding: var(--spacing-md) var(--spacing-xl);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .topnav-brand {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .topnav-links {
+      display: flex;
+      gap: var(--spacing-xl);
+      list-style: none;
+    }
+
+    .topnav-links a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      padding-bottom: var(--spacing-sm);
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .topnav-links a:hover { color: var(--color-primary); }
+    .topnav-links a.active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+    }
+
+    @media (max-width: 768px) {
+      nav.topnav { flex-direction: column; gap: var(--spacing-lg); }
+      .topnav-links { gap: var(--spacing-lg); flex-wrap: wrap; justify-content: center; }
+    }
+
+    /* ===== HERO / HEADER ===== */
+    .page-hero {
+      background: linear-gradient(135deg, var(--color-calm) 0%, #3A6349 50%, var(--color-secondary) 100%);
+      color: white;
+      padding: var(--spacing-3xl) var(--spacing-xl);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='0.5'/%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='0.5'/%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='0.5'/%3E%3C/svg%3E") repeat;
+      opacity: 0.6;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-icon {
+      font-size: 3rem;
+      margin-bottom: var(--spacing-md);
+      display: inline-block;
+      animation: pulse-gentle 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse-gentle {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+    }
+
+    .page-hero h1 {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: var(--spacing-md);
+      letter-spacing: -0.5px;
+    }
+
+    .page-hero .subtitle {
+      font-size: 1.15rem;
+      opacity: 0.92;
+      max-width: 650px;
+      margin: 0 auto var(--spacing-lg);
+      line-height: 1.7;
+    }
+
+    .hero-reassurance {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-lg) var(--spacing-xl);
+      max-width: 620px;
+      margin: 0 auto;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      font-style: italic;
+      opacity: 0.95;
+    }
+
+    @media (max-width: 768px) {
+      .page-hero { padding: var(--spacing-2xl) var(--spacing-md); }
+      .page-hero h1 { font-size: 1.75rem; }
+    }
+
+    /* ===== CRISIS BANNER ===== */
+    .crisis-banner {
+      background: var(--color-crisis-light);
+      border-left: 4px solid var(--color-crisis);
+      padding: var(--spacing-lg) var(--spacing-xl);
+      margin: var(--spacing-xl) auto;
+      max-width: 900px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-md);
+    }
+
+    .crisis-banner .crisis-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .crisis-banner .crisis-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .crisis-banner strong {
+      color: var(--color-crisis);
+    }
+
+    .crisis-banner a {
+      color: var(--color-crisis);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    /* ===== SECTION LAYOUT ===== */
+    .content-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: var(--spacing-2xl) var(--spacing-xl);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-sm);
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .section-icon {
+      font-size: 1.6rem;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-lg);
+      flex-shrink: 0;
+    }
+
+    .section-header h2 {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--color-text);
+      letter-spacing: -0.3px;
+    }
+
+    .section-header p {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      margin-top: var(--spacing-xs);
+    }
+
+    .section-divider {
+      margin: var(--spacing-3xl) 0 var(--spacing-2xl);
+    }
+
+    /* ===== RESOURCE CARDS ===== */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--spacing-lg);
+    }
+
+    .resource-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-lg);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .resource-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      border-color: var(--color-accent);
+    }
+
+    .resource-card .card-accent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+
+    .resource-card .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .resource-card .card-emoji {
+      font-size: 1.75rem;
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+    }
+
+    .resource-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .resource-card .card-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      margin-top: var(--spacing-xs);
+    }
+
+    .resource-card .card-body {
+      font-size: 0.92rem;
+      color: var(--color-text-secondary);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .resource-card .card-contact {
+      background: var(--color-surface-alt);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-sm) var(--spacing-md);
+      font-size: 0.85rem;
+      margin-bottom: var(--spacing-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+    }
+
+    .resource-card .card-contact .contact-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .resource-card .card-contact .contact-item strong {
+      color: var(--color-text);
+    }
+
+    .resource-card .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--radius-md);
+      transition: all 0.2s ease;
+      align-self: flex-start;
+    }
+
+    .resource-card .card-link:hover {
+      transform: translateX(3px);
+    }
+
+    /* Color variants */
+    .card-crisis .card-accent { background: var(--color-crisis); }
+    .card-crisis .card-emoji { background: var(--color-crisis-light); }
+    .card-crisis .card-badge { background: var(--color-crisis-light); color: var(--color-crisis); }
+    .card-crisis .card-link { color: var(--color-crisis); }
+
+    .card-trust .card-accent { background: var(--color-trust); }
+    .card-trust .card-emoji { background: var(--color-trust-light); }
+    .card-trust .card-badge { background: var(--color-trust-light); color: var(--color-trust); }
+    .card-trust .card-link { color: var(--color-trust); }
+
+    .card-calm .card-accent { background: var(--color-calm); }
+    .card-calm .card-emoji { background: var(--color-calm-light); }
+    .card-calm .card-badge { background: var(--color-calm-light); color: var(--color-calm); }
+    .card-calm .card-link { color: var(--color-calm); }
+
+    .card-warmth .card-accent { background: var(--color-warmth); }
+    .card-warmth .card-emoji { background: var(--color-warmth-light); }
+    .card-warmth .card-badge { background: var(--color-warmth-light); color: var(--color-warmth); }
+    .card-warmth .card-link { color: var(--color-warmth); }
+
+    /* ===== QUOTE / ENCOURAGEMENT ===== */
+    .encouragement-section {
+      background: var(--color-surface-alt);
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-2xl);
+      margin: var(--spacing-2xl) 0;
+      text-align: center;
+    }
+
+    .encouragement-section .quote-icon {
+      font-size: 2.5rem;
+      opacity: 0.15;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .encouragement-section blockquote {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--color-text);
+      max-width: 600px;
+      margin: 0 auto var(--spacing-md);
+      line-height: 1.7;
+    }
+
+    .encouragement-section cite {
+      font-family: var(--font-sans);
+      font-style: normal;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+    }
+
+    /* ===== COPING STRATEGIES GRID ===== */
+    .strategies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-lg);
+    }
+
+    .strategy-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-lg);
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+
+    .strategy-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .strategy-card .strat-icon {
+      font-size: 2rem;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .strategy-card h4 {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: var(--spacing-sm);
+      color: var(--color-text);
+    }
+
+    .strategy-card p {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ===== SELF-CHECK SECTION ===== */
+    .self-check {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-2xl);
+      margin: var(--spacing-2xl) 0;
+    }
+
+    .self-check h3 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      margin-bottom: var(--spacing-md);
+      text-align: center;
+    }
+
+    .check-list {
+      list-style: none;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    .check-list li {
+      padding: var(--spacing-sm) 0;
+      border-bottom: 1px solid var(--color-border);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      cursor: pointer;
+      transition: background 0.15s;
+      padding-left: var(--spacing-sm);
+      border-radius: var(--radius-sm);
+    }
+
+    .check-list li:hover {
+      background: var(--color-surface-alt);
+    }
+
+    .check-list li:last-child {
+      border-bottom: none;
+    }
+
+    .check-list input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--color-calm);
+      flex-shrink: 0;
+    }
+
+    .check-result {
+      text-align: center;
+      margin-top: var(--spacing-lg);
+      padding: var(--spacing-md);
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .check-result.visible {
+      display: block;
+    }
+
+    .check-result.low {
+      background: var(--color-calm-light);
+      color: var(--color-calm);
+    }
+
+    .check-result.moderate {
+      background: var(--color-warmth-light);
+      color: var(--color-warmth);
+    }
+
+    .check-result.high {
+      background: var(--color-crisis-light);
+      color: var(--color-crisis);
+    }
+
+    /* ===== BREATHING EXERCISE ===== */
+    .breathing-widget {
+      background: linear-gradient(135deg, var(--color-calm-light) 0%, var(--color-trust-light) 100%);
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-2xl);
+      text-align: center;
+      margin: var(--spacing-2xl) 0;
+    }
+
+    .breathing-widget h3 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .breathing-widget .breath-subtitle {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .breath-circle-container {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin: 0 auto var(--spacing-lg);
+    }
+
+    .breath-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: var(--color-calm);
+      opacity: 0.2;
+      transition: transform 4s ease-in-out, opacity 4s ease-in-out;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .breath-circle.inhale {
+      transform: scale(1.3);
+      opacity: 0.35;
+    }
+
+    .breath-circle.exhale {
+      transform: scale(0.85);
+      opacity: 0.15;
+    }
+
+    .breath-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--color-calm);
+      z-index: 1;
+    }
+
+    .breath-btn {
+      background: var(--color-calm);
+      color: white;
+      border: none;
+      padding: var(--spacing-sm) var(--spacing-xl);
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .breath-btn:hover {
+      background: #3D6B4D;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background-color: var(--color-surface);
+      border-top: 2px solid var(--color-border);
+      padding: var(--spacing-xl) var(--spacing-xl);
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+    }
+
+    footer .footer-crisis {
+      font-size: 0.9rem;
+      color: var(--color-crisis);
+      font-weight: 600;
+      margin-bottom: var(--spacing-sm);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="topnav">
+    <a href="../index.html" class="topnav-brand">MSIB.io</a>
+    <ul class="topnav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="match-portal.html">Match Portal</a></li>
+      <li><a href="#" class="active">Mental Health</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="page-hero">
+    <div class="hero-inner">
+      <div class="hero-icon">&#x1F331;</div>
+      <h1>Mental Health &amp; Wellness</h1>
+      <p class="subtitle">
+        Medical school is one of the most demanding journeys you'll ever take.
+        The stress, doubt, and exhaustion you feel are not signs of weakness &mdash;
+        they're signs that you care deeply about becoming an excellent physician.
+      </p>
+      <div class="hero-reassurance">
+        Every medical student experiences mental health stress during training.
+        You are not alone. The important thing is to find healthy ways to cope,
+        ask for help when you need it, and remember that struggling is part of growing.
+      </div>
+    </div>
+  </section>
+
+  <main>
+
+    <!-- ===== CRISIS BANNER ===== -->
+    <div class="crisis-banner">
+      <span class="crisis-icon">&#x1F6A8;</span>
+      <div class="crisis-text">
+        <strong>In crisis right now?</strong> If you or someone you know is in immediate danger,
+        call <strong>988</strong> (Suicide &amp; Crisis Lifeline) or text <strong>HOME to 741741</strong>
+        (Crisis Text Line). You can also call the
+        <a href="tel:18884090141">Physician Support Line: 1-888-409-0141</a>
+        (Mon&ndash;Fri, 8 AM &ndash; 12 AM ET). These services are free and confidential.
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+
+      <!-- ===== SECTION 1: IMMEDIATE PEER & CRISIS SUPPORT ===== -->
+      <div class="section-header">
+        <div class="section-icon" style="background: var(--color-crisis-light);">&#x1F91D;</div>
+        <div>
+          <h2>Immediate Peer &amp; Crisis Support</h2>
+          <p>When you need someone to talk to right now &mdash; free, confidential, and judgment-free.</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+
+        <!-- Physician Support Line -->
+        <div class="resource-card card-crisis">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x260E;&#xFE0F;</div>
+            <div>
+              <h3>Physician Support Line</h3>
+              <span class="card-badge">Free &amp; Anonymous</span>
+            </div>
+          </div>
+          <div class="card-body">
+            A free, confidential, and anonymous national support line specifically for U.S.-based medical students and physicians. Staffed by volunteer psychiatrists who provide peer support to help navigate personal and professional life stressors.
+          </div>
+          <div class="card-contact">
+            <div class="contact-item">
+              <span>&#x1F4DE;</span>
+              <strong>1-888-409-0141</strong>
+            </div>
+            <div class="contact-item">
+              <span>&#x1F552;</span>
+              Monday &ndash; Friday, 8 AM &ndash; 12 AM ET
+            </div>
+          </div>
+          <a href="https://www.physiciansupportline.com" target="_blank" rel="noopener" class="card-link">
+            Visit Website &rarr;
+          </a>
+        </div>
+
+        <!-- Crisis Text Line -->
+        <div class="resource-card card-crisis">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x1F4F1;</div>
+            <div>
+              <h3>Crisis Text Line</h3>
+              <span class="card-badge">24/7 Text Support</span>
+            </div>
+          </div>
+          <div class="card-body">
+            Students in any medical school can text HOME to 741741 to reach a volunteer Crisis Counselor for immediate emotional support and guided resources. Available 24 hours a day, 7 days a week.
+          </div>
+          <div class="card-contact">
+            <div class="contact-item">
+              <span>&#x1F4AC;</span>
+              Text <strong>HOME</strong> to <strong>741741</strong>
+            </div>
+            <div class="contact-item">
+              <span>&#x1F552;</span>
+              Available 24/7
+            </div>
+          </div>
+          <a href="https://www.crisistextline.org" target="_blank" rel="noopener" class="card-link">
+            Learn More &rarr;
+          </a>
+        </div>
+
+        <!-- Togetherall -->
+        <div class="resource-card card-trust">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x1F310;</div>
+            <div>
+              <h3>Togetherall</h3>
+              <span class="card-badge">Anonymous Community</span>
+            </div>
+          </div>
+          <div class="card-body">
+            An anonymous, 24/7 online community monitored by mental health professionals. Often commissioned by schools to provide free support, allowing students to chat with others going through similar experiences and access self-assessment tools.
+          </div>
+          <div class="card-contact">
+            <div class="contact-item">
+              <span>&#x1F552;</span>
+              Available 24/7 &mdash; Clinically moderated
+            </div>
+          </div>
+          <a href="https://www.togetherall.com" target="_blank" rel="noopener" class="card-link">
+            Join Community &rarr;
+          </a>
+        </div>
+
+        <!-- Medtal Health -->
+        <div class="resource-card card-trust">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x1F4BB;</div>
+            <div>
+              <h3>Medtal Health</h3>
+              <span class="card-badge">Weekly Zoom Sessions</span>
+            </div>
+          </div>
+          <div class="card-body">
+            A free, anonymous independent support program that holds weekly one-hour Zoom sessions where medical students can connect with student volunteers in private breakout rooms. No sign-up required, just show up.
+          </div>
+          <div class="card-contact">
+            <div class="contact-item">
+              <span>&#x1F4C5;</span>
+              Weekly 1-hour sessions via Zoom
+            </div>
+          </div>
+          <a href="https://www.medtalhealth.com" target="_blank" rel="noopener" class="card-link">
+            Find a Session &rarr;
+          </a>
+        </div>
+
+      </div>
+
+      <!-- ===== BREATHING EXERCISE WIDGET ===== -->
+      <div class="breathing-widget">
+        <h3>Take a Moment &mdash; Guided Breathing</h3>
+        <p class="breath-subtitle">The 4-7-8 technique can calm your nervous system in under 60 seconds.</p>
+        <div class="breath-circle-container">
+          <div class="breath-circle" id="breathCircle"></div>
+          <div class="breath-label" id="breathLabel">Ready</div>
+        </div>
+        <button class="breath-btn" id="breathBtn" onclick="startBreathing()">Start Breathing Exercise</button>
+      </div>
+
+      <!-- ===== SECTION 2: PROFESSIONAL & INSTITUTIONAL RESOURCES ===== -->
+      <div class="section-divider"></div>
+      <div class="section-header">
+        <div class="section-icon" style="background: var(--color-trust-light);">&#x1F3DB;&#xFE0F;</div>
+        <div>
+          <h2>Professional &amp; Institutional Resources</h2>
+          <p>Established organizations dedicated to supporting medical students at every stage.</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+
+        <!-- AMSA -->
+        <div class="resource-card card-trust">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x1F393;</div>
+            <div>
+              <h3>American Medical Student Association (AMSA)</h3>
+              <span class="card-badge">Member Benefit</span>
+            </div>
+          </div>
+          <div class="card-body">
+            Provides wellness resources including 28 days of free professional online counseling via BetterHelp for members. AMSA advocates for medical student well-being at the national level.
+          </div>
+          <a href="https://www.amsa.org" target="_blank" rel="noopener" class="card-link">
+            Explore AMSA &rarr;
+          </a>
+        </div>
+
+        <!-- AAMC -->
+        <div class="resource-card card-trust">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x1F4DA;</div>
+            <div>
+              <h3>AAMC Well-Being Resources</h3>
+              <span class="card-badge">Comprehensive</span>
+            </div>
+          </div>
+          <div class="card-body">
+            The Association of American Medical Colleges (AAMC) offers a collection of tools covering mental, physical, financial, and professional well-being specifically for those on the journey from pre-med through residency.
+          </div>
+          <a href="https://www.aamc.org/about-us/mission-areas/medical-education/well-being" target="_blank" rel="noopener" class="card-link">
+            Browse Resources &rarr;
+          </a>
+        </div>
+
+        <!-- ACP Hub -->
+        <div class="resource-card card-warmth">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x1FA7A;</div>
+            <div>
+              <h3>ACP I.M. Emotional Support Hub</h3>
+              <span class="card-badge">Peer Support</span>
+            </div>
+          </div>
+          <div class="card-body">
+            The American College of Physicians' I.M. Emotional Support Hub provides peer support, confidential counseling, and tools tailored to the unique challenges of internal medicine and medical education.
+          </div>
+          <a href="https://www.acponline.org/practice-resources/physician-well-being-and-professional-fulfillment" target="_blank" rel="noopener" class="card-link">
+            Visit ACP Hub &rarr;
+          </a>
+        </div>
+
+        <!-- Dr. Lorna Breen -->
+        <div class="resource-card card-warmth">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x1F31F;</div>
+            <div>
+              <h3>Dr. Lorna Breen Heroes' Foundation</h3>
+              <span class="card-badge">Culture Change</span>
+            </div>
+          </div>
+          <div class="card-body">
+            Features a Medical Student Coalition that aims to change medical curricula to reflect a culture of well-being and career satisfaction. Working to reduce the stigma around mental health in medicine.
+          </div>
+          <a href="https://drlornabreen.org" target="_blank" rel="noopener" class="card-link">
+            Learn More &rarr;
+          </a>
+        </div>
+
+      </div>
+
+      <!-- ===== ENCOURAGEMENT QUOTE ===== -->
+      <div class="encouragement-section">
+        <div class="quote-icon">&#x201C;</div>
+        <blockquote>
+          The struggle you're in today is developing the strength you need for tomorrow. Asking for help is not a sign of weakness &mdash; it's a sign of courage and self-awareness.
+        </blockquote>
+        <cite>&mdash; Adapted from medical wellness literature</cite>
+      </div>
+
+      <!-- ===== SECTION 3: SELF-GUIDED TOOLS AND APPS ===== -->
+      <div class="section-divider"></div>
+      <div class="section-header">
+        <div class="section-icon" style="background: var(--color-calm-light);">&#x1F9E0;</div>
+        <div>
+          <h2>Self-Guided Tools &amp; Apps</h2>
+          <p>Evidence-based tools you can use anytime to build resilience and manage stress.</p>
+        </div>
+      </div>
+
+      <div class="resource-grid">
+
+        <!-- Headspace -->
+        <div class="resource-card card-calm">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x1F9D8;</div>
+            <div>
+              <h3>Headspace for Medical Students</h3>
+              <span class="card-badge">Often Free via AMA</span>
+            </div>
+          </div>
+          <div class="card-body">
+            Some organizations, including the AMA, offer free subscriptions to this app which provides guided meditations, sleep hygiene tools, and stress management activities designed for busy schedules.
+          </div>
+          <a href="https://www.headspace.com" target="_blank" rel="noopener" class="card-link">
+            Get Headspace &rarr;
+          </a>
+        </div>
+
+        <!-- ART in Medicine -->
+        <div class="resource-card card-calm">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x1F4AA;</div>
+            <div>
+              <h3>Active Resilience Training (ART)</h3>
+              <span class="card-badge">Prevention-Focused</span>
+            </div>
+          </div>
+          <div class="card-body">
+            Programs like ART in Medicine provide prevention-focused tactics to build the psychological and physical pillars of resilience needed to balance a medical career. Focuses on proactive skills, not just crisis response.
+          </div>
+          <a href="https://www.artinmedicine.org" target="_blank" rel="noopener" class="card-link">
+            Explore ART &rarr;
+          </a>
+        </div>
+
+        <!-- MindShift CBT -->
+        <div class="resource-card card-calm">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x1F4DD;</div>
+            <div>
+              <h3>MindShift CBT</h3>
+              <span class="card-badge">Free App</span>
+            </div>
+          </div>
+          <div class="card-body">
+            A free app using Cognitive Behavioral Therapy techniques to help users manage anxiety through thought journals, coping cards, and relief tools. Particularly helpful before high-stakes exams.
+          </div>
+          <a href="https://www.anxietycanada.com/resources/mindshift-cbt/" target="_blank" rel="noopener" class="card-link">
+            Download MindShift &rarr;
+          </a>
+        </div>
+
+        <!-- Insight Timer -->
+        <div class="resource-card card-calm">
+          <div class="card-accent"></div>
+          <div class="card-header">
+            <div class="card-emoji">&#x23F2;&#xFE0F;</div>
+            <div>
+              <h3>Insight Timer</h3>
+              <span class="card-badge">40,000+ Meditations</span>
+            </div>
+          </div>
+          <div class="card-body">
+            A free resource featuring over 40,000 guided meditations that can help with immediate focus and deep breathing exercises before exams. Includes sleep aids and mindfulness courses.
+          </div>
+          <a href="https://insighttimer.com" target="_blank" rel="noopener" class="card-link">
+            Try Insight Timer &rarr;
+          </a>
+        </div>
+
+      </div>
+
+      <!-- ===== HEALTHY COPING STRATEGIES ===== -->
+      <div class="section-divider"></div>
+      <div class="section-header">
+        <div class="section-icon" style="background: var(--color-warmth-light);">&#x2728;</div>
+        <div>
+          <h2>Healthy Coping Strategies</h2>
+          <p>Small, evidence-based habits that build resilience over time.</p>
+        </div>
+      </div>
+
+      <div class="strategies-grid">
+        <div class="strategy-card">
+          <div class="strat-icon">&#x1F6B6;</div>
+          <h4>Move Your Body</h4>
+          <p>Even 10 minutes of walking reduces cortisol levels. Physical activity is one of the most studied interventions for depression and anxiety.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-icon">&#x1F4A4;</div>
+          <h4>Protect Your Sleep</h4>
+          <p>Sleep deprivation impairs clinical reasoning, memory consolidation, and emotional regulation. Prioritize 7+ hours when possible.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-icon">&#x1F465;</div>
+          <h4>Stay Connected</h4>
+          <p>Isolation amplifies stress. Even brief social contact &mdash; a coffee with a classmate, a call home &mdash; buffers against burnout.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-icon">&#x1F4D3;</div>
+          <h4>Journal or Reflect</h4>
+          <p>Writing about stressful experiences for just 15 minutes has been shown to reduce intrusive thoughts and improve working memory.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-icon">&#x1F3A8;</div>
+          <h4>Creative Outlets</h4>
+          <p>Art, music, cooking, or any creative activity activates the default mode network and provides cognitive rest from medical study.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-icon">&#x1F6D1;</div>
+          <h4>Set Boundaries</h4>
+          <p>Learning to say no and carving out protected personal time is not selfish &mdash; it's necessary for sustainable performance.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-icon">&#x1F33F;</div>
+          <h4>Spend Time Outdoors</h4>
+          <p>Nature exposure reduces rumination and lowers activity in the brain's self-referential worry circuits. Even campus green spaces help.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-icon">&#x1F9D1;&#x200D;&#x2695;&#xFE0F;</div>
+          <h4>See a Professional</h4>
+          <p>Therapy is a strength. Cognitive behavioral therapy has strong evidence for anxiety, depression, and imposter syndrome common in medical training.</p>
+        </div>
+      </div>
+
+      <!-- ===== SELF-CHECK WIDGET ===== -->
+      <div class="self-check">
+        <h3>&#x1F4CB; Quick Wellness Self-Check</h3>
+        <p style="text-align:center; color: var(--color-text-secondary); font-size: 0.9rem; margin-bottom: var(--spacing-lg);">
+          This is not a diagnostic tool. It's a moment to honestly reflect on how you're doing. Check any that apply to you in the past two weeks.
+        </p>
+        <ul class="check-list" id="checkList">
+          <li><input type="checkbox" id="c1"><label for="c1">I've been feeling overwhelmed more days than not</label></li>
+          <li><input type="checkbox" id="c2"><label for="c2">I've had trouble sleeping or I'm sleeping much more than usual</label></li>
+          <li><input type="checkbox" id="c3"><label for="c3">I've withdrawn from friends, family, or activities I used to enjoy</label></li>
+          <li><input type="checkbox" id="c4"><label for="c4">I've been irritable or easily frustrated with others</label></li>
+          <li><input type="checkbox" id="c5"><label for="c5">I've had difficulty concentrating on studying or clinical work</label></li>
+          <li><input type="checkbox" id="c6"><label for="c6">I've felt like I don't belong in medical school (imposter syndrome)</label></li>
+          <li><input type="checkbox" id="c7"><label for="c7">I've been using alcohol, substances, or food to cope</label></li>
+          <li><input type="checkbox" id="c8"><label for="c8">I've had physical symptoms like headaches, stomach issues, or fatigue</label></li>
+          <li><input type="checkbox" id="c9"><label for="c9">I've felt hopeless about the future or questioned why I'm doing this</label></li>
+          <li><input type="checkbox" id="c10"><label for="c10">I've thought about hurting myself or wished I wasn't here</label></li>
+        </ul>
+        <div class="check-result" id="checkResult"></div>
+        <div style="text-align:center; margin-top: var(--spacing-lg);">
+          <button class="breath-btn" onclick="evaluateCheck()" style="background: var(--color-trust);">Reflect on My Answers</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p class="footer-crisis">
+      If you are in crisis: Call 988 &bull; Text HOME to 741741 &bull; Call 1-888-409-0141
+    </p>
+    <p>Mental Health &amp; Wellness Portal &mdash; MSIB.io &copy; 2026. You matter, and help is always available.</p>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // =====================================================================
+    // BREATHING EXERCISE
+    // =====================================================================
+    let breathingInterval = null;
+    let breathingActive = false;
+
+    function startBreathing() {
+      const circle = document.getElementById('breathCircle');
+      const label = document.getElementById('breathLabel');
+      const btn = document.getElementById('breathBtn');
+
+      if (breathingActive) {
+        // Stop
+        breathingActive = false;
+        clearInterval(breathingInterval);
+        circle.className = 'breath-circle';
+        label.textContent = 'Ready';
+        btn.textContent = 'Start Breathing Exercise';
+        return;
+      }
+
+      breathingActive = true;
+      btn.textContent = 'Stop';
+
+      // 4-7-8 pattern: Inhale 4s, Hold 7s, Exhale 8s = 19s cycle
+      const phases = [
+        { name: 'Breathe In', duration: 4000, cls: 'inhale' },
+        { name: 'Hold', duration: 7000, cls: 'inhale' },
+        { name: 'Breathe Out', duration: 8000, cls: 'exhale' }
+      ];
+
+      let phaseIndex = 0;
+
+      function nextPhase() {
+        if (!breathingActive) return;
+        const phase = phases[phaseIndex];
+        label.textContent = phase.name;
+        circle.className = 'breath-circle ' + phase.cls;
+
+        // Countdown inside label
+        let secondsLeft = Math.round(phase.duration / 1000);
+        const countdownId = setInterval(function() {
+          if (!breathingActive) { clearInterval(countdownId); return; }
+          secondsLeft--;
+          if (secondsLeft > 0) {
+            label.textContent = phase.name + ' (' + secondsLeft + ')';
+          }
+        }, 1000);
+
+        breathingInterval = setTimeout(function() {
+          clearInterval(countdownId);
+          phaseIndex = (phaseIndex + 1) % phases.length;
+          nextPhase();
+        }, phase.duration);
+      }
+
+      nextPhase();
+    }
+
+    // =====================================================================
+    // SELF-CHECK EVALUATION
+    // =====================================================================
+    function evaluateCheck() {
+      const checkboxes = document.querySelectorAll('#checkList input[type="checkbox"]');
+      const resultDiv = document.getElementById('checkResult');
+      let count = 0;
+      let lastChecked = false;
+
+      checkboxes.forEach(function(cb, i) {
+        if (cb.checked) count++;
+        if (i === checkboxes.length - 1 && cb.checked) lastChecked = true;
+      });
+
+      resultDiv.classList.add('visible');
+      resultDiv.className = 'check-result visible';
+
+      if (lastChecked) {
+        resultDiv.classList.add('high');
+        resultDiv.innerHTML = '<strong>Please reach out for support now.</strong><br>' +
+          'The last item you checked is especially important. You deserve help, and it is available right now.<br><br>' +
+          '<strong>Call 988</strong> (Suicide & Crisis Lifeline) or text <strong>HOME to 741741</strong>.<br>' +
+          'You can also call the <strong>Physician Support Line: 1-888-409-0141</strong>.';
+      } else if (count >= 5) {
+        resultDiv.classList.add('high');
+        resultDiv.innerHTML = '<strong>It sounds like you\'re carrying a lot right now.</strong><br>' +
+          'Checking 5 or more items suggests significant stress. This is common among medical students, but it doesn\'t mean you should push through alone.<br><br>' +
+          'Consider reaching out to a counselor, calling the <strong>Physician Support Line (1-888-409-0141)</strong>, ' +
+          'or visiting your school\'s student wellness center. You deserve support.';
+      } else if (count >= 3) {
+        resultDiv.classList.add('moderate');
+        resultDiv.innerHTML = '<strong>You\'re experiencing some stress signals.</strong><br>' +
+          'This is normal during medical training, but it\'s worth paying attention to. ' +
+          'Try incorporating some of the coping strategies above, talk to a trusted friend or mentor, ' +
+          'and consider exploring the self-guided tools like Headspace or MindShift CBT.';
+      } else if (count >= 1) {
+        resultDiv.classList.add('low');
+        resultDiv.innerHTML = '<strong>You seem to be managing well overall.</strong><br>' +
+          'A few stress signals are expected in medical school. Keep using the healthy coping strategies that work for you, ' +
+          'stay connected with your support network, and remember these resources are here if you ever need them.';
+      } else {
+        resultDiv.classList.add('low');
+        resultDiv.innerHTML = '<strong>Great to hear you\'re doing well!</strong><br>' +
+          'Keep taking care of yourself. Bookmark this page so these resources are here whenever you or a classmate might need them.';
+      }
+    }
+
+    // Make check-list labels clickable
+    document.querySelectorAll('.check-list li').forEach(function(li) {
+      li.addEventListener('click', function(e) {
+        if (e.target.tagName !== 'INPUT') {
+          var cb = li.querySelector('input[type="checkbox"]');
+          cb.checked = !cb.checked;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
