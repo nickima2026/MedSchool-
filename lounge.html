@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Lounge — MSIB.io</title>
+    <meta name="description" content="Drop into the MSIB Student Lounge — a real-time chat room for medical students to discuss issues of the day, share study tips, and support each other.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <style>
+    /* === Student Lounge Styles === */
+
+    .lounge-hero {
+        background: linear-gradient(135deg, #2E4057 0%, #1a2a3a 100%);
+        color: #fff;
+        padding: var(--space-xl) 0 var(--space-lg);
+        text-align: center;
+    }
+    .lounge-hero h1 { color: #fff; font-size: 1.75rem; margin-bottom: var(--space-xs); }
+    .lounge-hero p { color: rgba(255,255,255,0.7); font-size: 0.95rem; margin: 0; }
+    .lounge-hero__status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: var(--space-sm);
+        font-size: 0.8rem;
+        color: rgba(255,255,255,0.6);
+    }
+    .lounge-hero__dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        background: #4ADE80;
+        display: inline-block;
+    }
+    .lounge-hero__dot.offline { background: #F87171; }
+
+    /* Auth Gate */
+    .lounge-auth {
+        max-width: 480px;
+        margin: var(--space-2xl) auto;
+        text-align: center;
+        padding: 0 var(--space-lg);
+    }
+    .lounge-auth h2 { margin-bottom: var(--space-sm); }
+    .lounge-auth p { color: var(--color-text-secondary); margin-bottom: var(--space-lg); }
+    .lounge-auth__btn {
+        display: inline-block;
+        background: var(--color-primary);
+        color: #fff;
+        padding: 12px 28px;
+        border-radius: var(--radius);
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: background 0.2s;
+    }
+    .lounge-auth__btn:hover { background: var(--color-primary-dark); color: #fff; }
+
+    /* Chat Container */
+    .lounge-wrap {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: var(--space-md) var(--space-lg) var(--space-lg);
+        display: none; /* shown when authenticated */
+    }
+
+    .lounge-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-sm) 0;
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: var(--space-md);
+        font-size: 0.8rem;
+        color: var(--color-text-muted);
+    }
+    .lounge-info__ephemeral {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* Messages Area */
+    .lounge-messages {
+        height: 55vh;
+        min-height: 320px;
+        overflow-y: auto;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        background: var(--color-surface);
+        padding: var(--space-md);
+        scroll-behavior: smooth;
+    }
+
+    .lounge-msg {
+        margin-bottom: var(--space-md);
+        animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(4px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .lounge-msg__header {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-sm);
+        margin-bottom: 2px;
+    }
+    .lounge-msg__name {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--color-secondary);
+    }
+    .lounge-msg__school {
+        font-size: 0.75rem;
+        color: var(--color-text-muted);
+        background: var(--color-surface-alt);
+        padding: 1px 6px;
+        border-radius: 8px;
+    }
+    .lounge-msg__time {
+        font-size: 0.75rem;
+        color: var(--color-text-muted);
+        margin-left: auto;
+    }
+    .lounge-msg__body {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: var(--color-text);
+        padding-left: 0;
+    }
+    .lounge-msg--own .lounge-msg__name {
+        color: var(--color-primary);
+    }
+    .lounge-msg--system {
+        text-align: center;
+        color: var(--color-text-muted);
+        font-size: 0.8rem;
+        font-style: italic;
+        margin: var(--space-sm) 0;
+    }
+
+    .lounge-empty {
+        text-align: center;
+        color: var(--color-text-muted);
+        padding: var(--space-2xl) 0;
+        font-size: 0.95rem;
+    }
+    .lounge-empty span { font-size: 2rem; display: block; margin-bottom: var(--space-sm); }
+
+    /* Input Area */
+    .lounge-input {
+        display: flex;
+        gap: var(--space-sm);
+        margin-top: var(--space-md);
+    }
+    .lounge-input__field {
+        flex: 1;
+        padding: 12px 16px;
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--radius);
+        font-size: 0.95rem;
+        font-family: var(--font-body);
+        color: var(--color-text);
+        background: var(--color-surface);
+        transition: border-color 0.2s;
+        resize: none;
+        min-height: 46px;
+        max-height: 120px;
+    }
+    .lounge-input__field:focus {
+        outline: none;
+        border-color: var(--color-primary);
+    }
+    .lounge-input__field::placeholder { color: var(--color-text-muted); }
+    .lounge-input__send {
+        padding: 12px 20px;
+        background: var(--color-primary);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius);
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        white-space: nowrap;
+        align-self: flex-end;
+    }
+    .lounge-input__send:hover { background: var(--color-primary-dark); }
+    .lounge-input__send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Connectivity Banner */
+    .lounge-offline {
+        display: none;
+        background: #FEF3C7;
+        border: 1px solid #FCD34D;
+        border-radius: var(--radius);
+        padding: var(--space-sm) var(--space-md);
+        text-align: center;
+        font-size: 0.85rem;
+        color: #92400E;
+        margin-bottom: var(--space-md);
+    }
+    .lounge-offline.visible { display: block; }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+        .lounge-hero { padding: var(--space-lg) var(--space-md) var(--space-md); }
+        .lounge-hero h1 { font-size: 1.5rem; }
+        .lounge-wrap { padding: var(--space-sm) var(--space-md) var(--space-md); }
+        .lounge-messages { height: 50vh; min-height: 280px; }
+    }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="topnav">
+        <div class="container">
+            <div class="topnav__brand">
+                <svg viewBox="0 0 40 40" width="32" height="32" class="logo-icon">
+                    <rect x="16" y="8" width="8" height="24" fill="currentColor"/>
+                    <rect x="8" y="16" width="24" height="8" fill="currentColor"/>
+                    <path d="M20 28 Q15 28 12 25 L12 12 Q15 9 20 9 Q25 9 28 12 L28 25 Q25 28 20 28" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+                <span class="logo-text">MSIB.io</span>
+            </div>
+            <ul class="topnav__links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="bookstore.html">Public Bookstore</a></li>
+                <li><a href="board-prep.html">Board Prep</a></li>
+                <li><a href="wellness.html">Wellness</a></li>
+                <li><a href="lounge.html" style="color:var(--color-primary);font-weight:600;">Lounge</a></li>
+            </ul>
+            <button class="topnav__hamburger" aria-label="Toggle navigation">&#9776;</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="lounge-hero">
+        <div class="container">
+            <h1>Student Lounge</h1>
+            <p>Drop in, say hello, discuss the issues of the day.</p>
+            <div class="lounge-hero__status" id="connectionStatus">
+                <span class="lounge-hero__dot" id="statusDot"></span>
+                <span id="statusText">Connecting...</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Auth Gate (shown when not signed in) -->
+    <div class="lounge-auth" id="authGate">
+        <h2>Sign in to join the conversation</h2>
+        <p>The Student Lounge is open to all registered MSIB students. Sign in or create a free account to start chatting.</p>
+        <a href="login.html" class="lounge-auth__btn">Sign in</a>
+        <p style="margin-top:var(--space-md);font-size:0.85rem;">
+            Don't have an account? <a href="signup.html" style="color:var(--color-primary);font-weight:600;">Sign up free</a>
+        </p>
+    </div>
+
+    <!-- Chat Area (shown when authenticated) -->
+    <div class="lounge-wrap" id="chatArea">
+        <!-- Offline Banner -->
+        <div class="lounge-offline" id="offlineBanner">
+            You appear to be offline. Messages will not send until your connection is restored.
+        </div>
+
+        <div class="lounge-info">
+            <span>Signed in as <strong id="userName">—</strong></span>
+            <span class="lounge-info__ephemeral">&#9202; Messages disappear after 24 hours</span>
+        </div>
+
+        <!-- Messages -->
+        <div class="lounge-messages" id="messagesContainer">
+            <div class="lounge-empty" id="emptyState">
+                <span>&#9749;</span>
+                No messages yet today. Be the first to say something.
+            </div>
+        </div>
+
+        <!-- Input -->
+        <div class="lounge-input">
+            <textarea class="lounge-input__field" id="messageInput"
+                placeholder="Type a message..." rows="1"
+                maxlength="2000"></textarea>
+            <button class="lounge-input__send" id="sendBtn" disabled>Send</button>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        // ── Config ────────────────────────────────────────────────────────────────
+        let SUPABASE_URL = '';
+        let SUPABASE_ANON_KEY = '';
+        let supabase = null;
+        let currentUser = null;
+        let currentUserMeta = {};
+        let currentSchool = '';
+        let realtimeChannel = null;
+
+        const authGate      = document.getElementById('authGate');
+        const chatArea       = document.getElementById('chatArea');
+        const messagesEl     = document.getElementById('messagesContainer');
+        const emptyState     = document.getElementById('emptyState');
+        const messageInput   = document.getElementById('messageInput');
+        const sendBtn        = document.getElementById('sendBtn');
+        const userNameEl     = document.getElementById('userName');
+        const statusDot      = document.getElementById('statusDot');
+        const statusText     = document.getElementById('statusText');
+        const offlineBanner  = document.getElementById('offlineBanner');
+
+        // ── Initialize ────────────────────────────────────────────────────────────
+        async function init() {
+            // Fetch config from API
+            try {
+                const configRes = await fetch('/api/config');
+                const config = await configRes.json();
+                SUPABASE_URL = config.supabaseUrl;
+                SUPABASE_ANON_KEY = config.supabaseAnonKey;
+            } catch (e) {
+                console.error('Failed to load config', e);
+                statusText.textContent = 'Configuration error';
+                statusDot.classList.add('offline');
+                return;
+            }
+
+            if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+                statusText.textContent = 'Not configured';
+                statusDot.classList.add('offline');
+                return;
+            }
+
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            // Check auth state
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                onAuthenticated(session);
+            } else {
+                authGate.style.display = 'block';
+                chatArea.style.display = 'none';
+                statusText.textContent = 'Sign in to chat';
+                statusDot.classList.add('offline');
+            }
+
+            // Listen for auth changes (login/logout from other tabs)
+            supabase.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_IN' && session) {
+                    onAuthenticated(session);
+                } else if (event === 'SIGNED_OUT') {
+                    authGate.style.display = 'block';
+                    chatArea.style.display = 'none';
+                    if (realtimeChannel) {
+                        supabase.removeChannel(realtimeChannel);
+                    }
+                }
+            });
+        }
+
+        // ── Authenticated ─────────────────────────────────────────────────────────
+        async function onAuthenticated(session) {
+            currentUser = session.user;
+            currentUserMeta = currentUser.user_metadata || {};
+            currentSchool = currentUser.app_metadata?.school_name || '';
+
+            const displayName = currentUserMeta.full_name || currentUser.email.split('@')[0];
+            userNameEl.textContent = displayName;
+
+            authGate.style.display = 'none';
+            chatArea.style.display = 'block';
+
+            // Fetch school name if we have school_id
+            if (currentUser.app_metadata?.school_id && !currentSchool) {
+                try {
+                    const { data } = await supabase
+                        .from('schools')
+                        .select('name')
+                        .eq('id', currentUser.app_metadata.school_id)
+                        .single();
+                    if (data) currentSchool = data.name;
+                } catch (e) { /* non-fatal */ }
+            }
+
+            await loadMessages();
+            subscribeToRealtime();
+            statusText.textContent = 'Connected';
+            statusDot.classList.remove('offline');
+        }
+
+        // ── Load existing messages ────────────────────────────────────────────────
+        async function loadMessages() {
+            const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+            const { data, error } = await supabase
+                .from('messages')
+                .select('*')
+                .gte('created_at', cutoff)
+                .order('created_at', { ascending: true })
+                .limit(200);
+
+            if (error) {
+                console.error('Failed to load messages', error);
+                return;
+            }
+
+            if (data && data.length > 0) {
+                emptyState.style.display = 'none';
+                data.forEach(msg => appendMessage(msg));
+                scrollToBottom();
+            }
+        }
+
+        // ── Realtime subscription ─────────────────────────────────────────────────
+        function subscribeToRealtime() {
+            realtimeChannel = supabase
+                .channel('lounge-messages')
+                .on('postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'messages' },
+                    (payload) => {
+                        emptyState.style.display = 'none';
+                        appendMessage(payload.new);
+                        scrollToBottom();
+                    }
+                )
+                .subscribe((status) => {
+                    if (status === 'SUBSCRIBED') {
+                        statusText.textContent = 'Connected';
+                        statusDot.classList.remove('offline');
+                    } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+                        statusText.textContent = 'Reconnecting...';
+                        statusDot.classList.add('offline');
+                    }
+                });
+        }
+
+        // ── Render a message ──────────────────────────────────────────────────────
+        function appendMessage(msg) {
+            const div = document.createElement('div');
+            const isOwn = currentUser && msg.user_id === currentUser.id;
+            div.className = 'lounge-msg' + (isOwn ? ' lounge-msg--own' : '');
+
+            const time = new Date(msg.created_at);
+            const timeStr = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const schoolBadge = msg.school_name
+                ? '<span class="lounge-msg__school">' + escHtml(msg.school_name) + '</span>'
+                : '';
+
+            div.innerHTML =
+                '<div class="lounge-msg__header">' +
+                    '<span class="lounge-msg__name">' + escHtml(msg.user_name) + '</span>' +
+                    schoolBadge +
+                    '<span class="lounge-msg__time">' + timeStr + '</span>' +
+                '</div>' +
+                '<div class="lounge-msg__body">' + escHtml(msg.body) + '</div>';
+
+            messagesEl.appendChild(div);
+        }
+
+        function escHtml(str) {
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+
+        function scrollToBottom() {
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        // ── Send message ──────────────────────────────────────────────────────────
+        async function sendMessage() {
+            const body = messageInput.value.trim();
+            if (!body || !currentUser) return;
+
+            sendBtn.disabled = true;
+            messageInput.value = '';
+            autoResize();
+
+            const displayName = currentUserMeta.full_name || currentUser.email.split('@')[0];
+
+            const { error } = await supabase.from('messages').insert({
+                user_id: currentUser.id,
+                user_name: displayName,
+                school_name: currentSchool || null,
+                body: body,
+            });
+
+            if (error) {
+                console.error('Send failed', error);
+                messageInput.value = body; // restore on failure
+                alert('Failed to send message. Please try again.');
+            }
+
+            sendBtn.disabled = false;
+            messageInput.focus();
+        }
+
+        // ── Input handling ────────────────────────────────────────────────────────
+        messageInput.addEventListener('input', () => {
+            sendBtn.disabled = !messageInput.value.trim();
+            autoResize();
+        });
+
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (messageInput.value.trim()) sendMessage();
+            }
+        });
+
+        sendBtn.addEventListener('click', sendMessage);
+
+        function autoResize() {
+            messageInput.style.height = 'auto';
+            messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
+        }
+
+        // ── Connectivity detection ────────────────────────────────────────────────
+        window.addEventListener('online', () => {
+            offlineBanner.classList.remove('visible');
+            statusText.textContent = 'Connected';
+            statusDot.classList.remove('offline');
+        });
+
+        window.addEventListener('offline', () => {
+            offlineBanner.classList.add('visible');
+            statusText.textContent = 'Offline';
+            statusDot.classList.add('offline');
+        });
+
+        if (!navigator.onLine) {
+            offlineBanner.classList.add('visible');
+            statusText.textContent = 'Offline — connect to WiFi or cellular to use the Lounge';
+            statusDot.classList.add('offline');
+        }
+
+        // ── Mobile nav toggle ─────────────────────────────────────────────────────
+        document.querySelector('.topnav__hamburger')?.addEventListener('click', function() {
+            document.querySelector('.topnav__links')?.classList.toggle('open');
+        });
+
+        // ── Boot ──────────────────────────────────────────────────────────────────
+        init();
+    })();
+    </script>
+</body>
+</html>
