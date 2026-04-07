@@ -1243,6 +1243,996 @@
                 ],
                 "correct": 2,
                 "explanation": "A cross-sectional study measures both exposure and outcome at a single point in time. It can identify associations (prevalence) but cannot establish temporal sequence or causation."
+        },
+        {
+                "question": "A screening test for disease has sensitivity 85% and specificity 90%. If the prevalence is 20%, what is the positive predictive value?",
+                "options": [
+                        "65.6%",
+                        "85.9%",
+                        "79.2%",
+                        "90%"
+                ],
+                "correct": 0,
+                "explanation": "PPV = (0.85 × 0.20) / [(0.85 × 0.20) + (0.10 × 0.80)] = 0.17 / (0.17 + 0.08) = 0.17 / 0.25 = 68%. With higher disease prevalence, PPV is higher than with rare diseases."
+        },
+        {
+                "question": "In a cohort study of smoking and cancer, 500 smokers and 500 non-smokers are followed. After 5 years, 50 smokers and 20 non-smokers developed cancer. What is the absolute risk reduction?",
+                "options": [
+                        "6%",
+                        "10%",
+                        "30%",
+                        "60%"
+                ],
+                "correct": 0,
+                "explanation": "Risk in smokers = 50/500 = 10%. Risk in non-smokers = 20/500 = 4%. ARR = 10% - 4% = 6%."
+        },
+        {
+                "question": "A study finds hazard ratio 2.0 (95% CI: 1.5-2.5). How should this be interpreted?",
+                "options": [
+                        "The result is not statistically significant",
+                        "Exposed individuals have 2 times the risk and the result is statistically significant",
+                        "50% of exposed individuals will develop the outcome",
+                        "The confidence interval is too wide"
+                ],
+                "correct": 1,
+                "explanation": "HR of 2.0 with CI excluding 1.0 indicates exposed group has twice the hazard, and the result is statistically significant."
+        },
+        {
+                "question": "Which assumption is critical for the validity of a case-control study?",
+                "options": [
+                        "Cases and controls must be matched on all variables",
+                        "Cases and controls must be selected independently of exposure status",
+                        "All cases must have the disease confirmed",
+                        "Recall accuracy must be perfect"
+                ],
+                "correct": 1,
+                "explanation": "Controls must be selected from the same source population as cases, regardless of exposure status. This ensures the OR estimates the RR appropriately."
+        },
+        {
+                "question": "A disease surveillance system shows 100 cases last year and 150 cases this year. What is the percent change in incidence?",
+                "options": [
+                        "50 cases",
+                        "50%",
+                        "33%",
+                        "150%"
+                ],
+                "correct": 1,
+                "explanation": "Percent change = (150-100)/100 × 100% = 50%."
+        },
+        {
+                "question": "What is the primary difference between RRR and ARR?",
+                "options": [
+                        "RRR is absolute, ARR is relative",
+                        "ARR is the percentage reduction, RRR is the absolute reduction",
+                        "RRR is relative percentage reduction, ARR is absolute percentage point reduction",
+                        "They are identical measures"
+                ],
+                "correct": 2,
+                "explanation": "ARR is the absolute difference in rates (10% - 4% = 6%). RRR is the relative reduction (6%/10% = 60%). ARR is more interpretable for clinical decisions."
+        },
+        {
+                "question": "A meta-analysis compares results across studies. What does homogeneity (I² = 10%) indicate?",
+                "options": [
+                        "High variation between studies",
+                        "Low variation between studies, suggesting pooling is appropriate",
+                        "Publication bias is present",
+                        "Study quality is poor"
+                ],
+                "correct": 1,
+                "explanation": "Low I² (< 25%) suggests low heterogeneity and that results are consistent across studies, supporting the validity of the pooled estimate."
+        },
+        {
+                "question": "Which bias occurs when study participants change behavior because they know they are being observed?",
+                "options": [
+                        "Recall bias",
+                        "Selection bias",
+                        "Hawthorne effect",
+                        "Measurement bias"
+                ],
+                "correct": 2,
+                "explanation": "The Hawthorne effect describes behavioral changes due to study awareness, potentially affecting outcomes in both intervention and control groups."
+        },
+        {
+                "question": "In a diagnostic accuracy study, what term describes people without disease who have a negative test?",
+                "options": [
+                        "False positive",
+                        "True negative",
+                        "False negative",
+                        "True positive"
+                ],
+                "correct": 1,
+                "explanation": "True negatives are individuals without disease who correctly test negative. These are used to calculate specificity."
+        },
+        {
+                "question": "A cohort study examines the relationship between alcohol use and liver disease. Which is an example of confounding by indication?",
+                "options": [
+                        "Heavy drinkers are older on average",
+                        "Alcohol users have more hepatitis B exposure",
+                        "Physicians prescribe hepatic medications to heavy drinkers",
+                        "Liver disease causes people to stop drinking"
+                ],
+                "correct": 2,
+                "explanation": "Confounding by indication occurs when a confounder is related to the exposure because of clinical decision-making (e.g., doctors prescribe hepatic medications based on alcohol use and risk, not liver disease alone)."
+        },
+        {
+                "question": "What is the primary advantage of propensity score methods?",
+                "options": [
+                        "They eliminate all bias",
+                        "They balance measured confounders, reducing confounding bias",
+                        "They increase sample size",
+                        "They are less expensive than RCTs"
+                ],
+                "correct": 1,
+                "explanation": "Propensity scores match or stratify on the probability of exposure, balancing confounders and mimicking randomization for measured covariates only."
+        },
+        {
+                "question": "A randomized trial shows treatment reduces risk from 20% to 15%. The 95% CI is (8%, 22%). What can be concluded?",
+                "options": [
+                        "The result is statistically significant at p < 0.05",
+                        "The treatment is clinically beneficial",
+                        "The CI width suggests insufficient precision to draw conclusions",
+                        "The result is not statistically significant because the CI is wide"
+                ],
+                "correct": 2,
+                "explanation": "Although the CI does not include zero (suggesting statistical significance), the wide interval (8%-22%) includes both clinically meaningful and trivial effects, suggesting insufficient precision. The lower bound crosses into possible harm."
+        },
+        {
+                "question": "In a study of diagnostic test accuracy, 400 people with disease and 600 without disease are tested. 380 with disease test positive. What is the sensitivity?",
+                "options": [
+                        "95%",
+                        "63.3%",
+                        "86.4%",
+                        "38%"
+                ],
+                "correct": 0,
+                "explanation": "Sensitivity = True Positives / (True Positives + False Negatives) = 380 / 400 = 95%."
+        },
+        {
+                "question": "What statistical approach is used to account for multiple testing when hypothesis tests are performed?",
+                "options": [
+                        "Increasing sample size",
+                        "Bonferroni correction or false discovery rate control",
+                        "Using larger p-values",
+                        "Blinding all participants"
+                ],
+                "correct": 1,
+                "explanation": "Multiple testing increases Type I error rate. Bonferroni (α/number of tests) and FDR control adjust significance levels to maintain overall error rate."
+        },
+        {
+                "question": "A health survey asks respondents to recall their physical activity from 5 years ago. What type of bias is most concerning?",
+                "options": [
+                        "Selection bias",
+                        "Information bias from recall error",
+                        "Publication bias",
+                        "Detection bias"
+                ],
+                "correct": 1,
+                "explanation": "Retrospective self-report over long periods introduces substantial measurement error and recall bias, particularly if recall differs between groups (e.g., diseased individuals remember differently)."
+        },
+        {
+                "question": "Which of the following is the most important assumption for inference from a sample to a population?",
+                "options": [
+                        "Large sample size",
+                        "Random or representative sampling",
+                        "Normal distribution of outcomes",
+                        "High statistical power"
+                ],
+                "correct": 1,
+                "explanation": "Representative sampling (random sampling or stratification) ensures the sample reflects the population, allowing valid generalization (external validity)."
+        },
+        {
+                "question": "A case-control study of heart disease matches cases and controls on age. How might this affect interpretation?",
+                "options": [
+                        "Age cannot be assessed as a risk factor due to loss of variation",
+                        "Age-adjustment becomes unnecessary",
+                        "Only confounding by age is eliminated",
+                        "All confounding is eliminated"
+                ],
+                "correct": 0,
+                "explanation": "Matching on a variable creates perfect association, preventing assessment of that variable's independent effect. However, it efficiently controls that confounder."
+        },
+        {
+                "question": "In survival analysis, what does censoring mean?",
+                "options": [
+                        "Excluding participants from analysis",
+                        "Removing outliers from the data",
+                        "A participant's event time is unknown because they were lost to follow-up or study ended",
+                        "Hiding data from analysis teams"
+                ],
+                "correct": 2,
+                "explanation": "Censoring in survival analysis acknowledges that some participants have unknown event times. Kaplan-Meier methods appropriately handle censored data."
+        },
+        {
+                "question": "What is the primary advantage of conducting a pilot study?",
+                "options": [
+                        "It replaces the need for a larger study",
+                        "It identifies feasibility issues and provides estimates for sample size calculation",
+                        "It provides final results",
+                        "It eliminates all bias"
+                ],
+                "correct": 1,
+                "explanation": "Pilot studies test procedures, identify challenges, and provide effect size estimates for power calculation in the main study."
+        },
+        {
+                "question": "A longitudinal study finds that people who exercise have lower disease rates 20 years later. What is a limitation in inferring exercise prevents disease?",
+                "options": [
+                        "Longitudinal studies cannot show causation",
+                        "Exercise status may be confounded by socioeconomic status or diet",
+                        "Healthy people may be more likely to exercise (reverse causation)",
+                        "All of the above"
+                ],
+                "correct": 3,
+                "explanation": "Even in prospective studies, confounding and reverse causation threaten causal inference. Only RCTs directly test causation."
+        },
+        {
+                "question": "Which of the following best represents statistical power in a hypothesis test?",
+                "options": [
+                        "Probability of Type I error",
+                        "Probability of correctly rejecting a false null hypothesis",
+                        "Sample size",
+                        "P-value"
+                ],
+                "correct": 1,
+                "explanation": "Statistical power (1 - beta) is the probability of detecting a true effect when it exists. Higher power reduces Type II error."
+        },
+        {
+                "question": "A study of a new drug includes a historical control group (data from previous patients). What is a major concern?",
+                "options": [
+                        "Historical controls are always valid",
+                        "Patient populations may differ over time (calendar period effects)",
+                        "There is no concern because historical data is objective",
+                        "Historical controls eliminate confounding"
+                ],
+                "correct": 1,
+                "explanation": "Historical controls are subject to secular trends, changes in disease severity, practice patterns, and supportive care that differ from the trial period."
+        },
+        {
+                "question": "What is the primary purpose of subgroup analysis in clinical trials?",
+                "options": [
+                        "To identify populations where treatment is more effective",
+                        "To increase sample size",
+                        "To eliminate confounding",
+                        "To replace the overall analysis"
+                ],
+                "correct": 0,
+                "explanation": "Subgroup analysis explores whether treatment effects differ across patient characteristics. However, multiple subgroup analyses increase false positive rates unless pre-specified."
+        },
+        {
+                "question": "A screening program targets 100,000 people. Disease prevalence is 1%. If test sensitivity is 95% and specificity is 99%, how many people will test positive?",
+                "options": [
+                        "950",
+                        "990",
+                        "1,990",
+                        "9,900"
+                ],
+                "correct": 2,
+                "explanation": "True positives: 1,000 × 0.95 = 950. False positives: 99,000 × 0.01 = 990. Total positive: 950 + 990 = 1,940 ≈ 1,990."
+        },
+        {
+                "question": "What assumption underlies the use of crude rates (not age-adjusted) in epidemiology?",
+                "options": [
+                        "Age distribution is identical across populations being compared",
+                        "Age is not a risk factor for the disease",
+                        "The population is homogeneous",
+                        "Crude rates are always preferable"
+                ],
+                "correct": 0,
+                "explanation": "Crude rates reflect both the true risk and the age structure of the population. If populations have different age distributions, age-adjusted rates allow fair comparison."
+        },
+        {
+                "question": "In a non-inferiority trial, what is the purpose of the non-inferiority margin?",
+                "options": [
+                        "To prove superiority of the new treatment",
+                        "To define the maximum acceptable difference between treatments",
+                        "To eliminate confounding",
+                        "To increase statistical power"
+                ],
+                "correct": 1,
+                "explanation": "The non-inferiority margin (delta) represents the worst acceptable performance difference. If the CI lies above -delta, non-inferiority is concluded."
+        },
+        {
+                "question": "A study examining coffee intake and disease finds an association that disappears after adjusting for smoking. What does this suggest?",
+                "options": [
+                        "Coffee causes disease",
+                        "The association was confounded by smoking",
+                        "Smoking is not a confounder",
+                        "Residual confounding is absent"
+                ],
+                "correct": 1,
+                "explanation": "When an association disappears after adjustment, it was likely confounded by the adjusted variable. Smokers drink more coffee and have higher disease rates."
+        },
+        {
+                "question": "What is the main disadvantage of randomization with respect to external validity?",
+                "options": [
+                        "It reduces precision",
+                        "It increases selection bias",
+                        "Randomized participants may differ from the general population, affecting generalizability",
+                        "It eliminates confounding"
+                ],
+                "correct": 2,
+                "explanation": "Eligibility criteria and self-selection in RCTs often create study populations that differ from the broader patient population, potentially limiting generalizability."
+        },
+        {
+                "question": "In an epidemiological investigation of a foodborne outbreak, which source can be most directly identified?",
+                "options": [
+                        "Case-control study of secondary cases",
+                        "Cohort study of people at the event",
+                        "Descriptive epidemiology of cases",
+                        "Ecological analysis of the region"
+                ],
+                "correct": 1,
+                "explanation": "A cohort study of event attendees compares attack rates between those who ate different foods, directly identifying the source."
+        },
+        {
+                "question": "What is the relationship between test sensitivity and the false negative rate?",
+                "options": [
+                        "They are independent",
+                        "False negative rate = 1 - Sensitivity",
+                        "Sensitivity = False negative rate",
+                        "They cannot be calculated together"
+                ],
+                "correct": 1,
+                "explanation": "False negative rate = 1 - Sensitivity. If sensitivity is 90%, false negative rate is 10%."
+        },
+        {
+                "question": "A cross-sectional study measures both current employment and depression diagnosis. What cannot be determined?",
+                "options": [
+                        "The prevalence of depression",
+                        "The prevalence of unemployment",
+                        "Whether unemployment causes depression",
+                        "The association between variables"
+                ],
+                "correct": 2,
+                "explanation": "Cross-sectional studies measure exposure and outcome simultaneously and cannot establish temporal sequence necessary for causation. Unemployment could cause depression or depression could cause job loss."
+        },
+        {
+                "question": "In a meta-analysis, the forest plot shows confidence intervals that mostly do not overlap. What does this suggest?",
+                "options": [
+                        "Studies are homogeneous",
+                        "Heterogeneity likely exists among study results",
+                        "Publication bias is absent",
+                        "Overall effect is small"
+                ],
+                "correct": 1,
+                "explanation": "Non-overlapping confidence intervals suggest large differences in effect estimates between studies, indicating heterogeneity."
+        },
+        {
+                "question": "What is the primary strength of observational studies compared to randomized trials?",
+                "options": [
+                        "Better internal validity",
+                        "Better external validity and feasibility in real-world settings",
+                        "Fewer confounders",
+                        "Lower cost"
+                ],
+                "correct": 1,
+                "explanation": "Observational studies can reflect diverse populations and real-world conditions, improving external validity. RCTs have better internal validity but may be less generalizable."
+        },
+        {
+                "question": "A diagnostic test is more useful when the disease prevalence is high because:",
+                "options": [
+                        "Sensitivity increases with prevalence",
+                        "Positive predictive value increases with prevalence",
+                        "Specificity improves",
+                        "Negative predictive value decreases"
+                ],
+                "correct": 1,
+                "explanation": "As prevalence increases, PPV increases (more positive tests represent true disease), even with fixed sensitivity and specificity."
+        },
+        {
+                "question": "Which factor would make a confounder problematic in observational research?",
+                "options": [
+                        "It must be associated with the exposure",
+                        "It must be associated with the outcome",
+                        "It must be associated with both exposure and outcome AND not be on the causal pathway",
+                        "Only associations measured with high precision"
+                ],
+                "correct": 2,
+                "explanation": "A true confounder is associated with both exposure and outcome independently. If it is on the causal pathway (mediator), adjusting for it may eliminate the true effect."
+        },
+        {
+                "question": "A study uses matching to control for age. What is the consequence for data analysis?",
+                "options": [
+                        "Paired analysis is required",
+                        "Simple independent samples tests are appropriate",
+                        "Matching is ignored in analysis",
+                        "Stratified analysis is recommended"
+                ],
+                "correct": 0,
+                "explanation": "Matching creates dependent samples (pairs) that must be analyzed with paired statistical tests, not independent samples methods."
+        },
+        {
+                "question": "Why are loss to follow-up rates of > 20% particularly concerning in RCTs?",
+                "options": [
+                        "They reduce sample size",
+                        "They can introduce significant bias if dropouts differ between groups",
+                        "They require larger initial sample sizes",
+                        "They always result in non-significant findings"
+                ],
+                "correct": 1,
+                "explanation": "High differential loss to follow-up (different rates/reasons between groups) threatens the internal validity of RCTs despite randomization."
+        },
+        {
+                "question": "A public health official wants to estimate the burden of a disease in the community. Which measure is most appropriate?",
+                "options": [
+                        "Incidence rate",
+                        "Relative risk",
+                        "Prevalence",
+                        "Hazard ratio"
+                ],
+                "correct": 2,
+                "explanation": "Prevalence shows how many people in the community have the disease at a point in time, reflecting the disease burden for planning resources."
+        },
+        {
+                "question": "How does standardization affect comparison of rates between populations with different age structures?",
+                "options": [
+                        "It eliminates the need for statistical testing",
+                        "It removes confounding by age, allowing fair comparison",
+                        "It increases the effect size",
+                        "It has no effect on rates"
+                ],
+                "correct": 1,
+                "explanation": "Age-adjusted rates use a common age structure standard, allowing fair comparison of disease rates between populations with different demographic structures."
+        },
+        {
+                "question": "What is the primary method to detect publication bias in a meta-analysis?",
+                "options": [
+                        "I² statistic",
+                        "Funnel plot asymmetry",
+                        "Forest plot width",
+                        "Number of studies included"
+                ],
+                "correct": 1,
+                "explanation": "Funnel plots show the relationship between study size and effect size. Asymmetry suggests missing studies with null results (publication bias)."
+        },
+        {
+                "question": "In a study of drug efficacy, a secondary outcome shows p = 0.04 but was not pre-specified. How should this be interpreted?",
+                "options": [
+                        "The finding is statistically significant and should be reported as conclusive",
+                        "Multiple testing adjustment suggests caution; may be a false positive",
+                        "Secondary outcomes are never important",
+                        "The p-value is always accurate regardless of testing history"
+                ],
+                "correct": 1,
+                "explanation": "Unplanned statistical tests increase Type I error. Multiple testing inflation suggests a higher false positive rate. The finding should be noted but viewed as exploratory and requiring confirmation."
+        },
+        {
+                "question": "A study examining the relationship between coffee consumption and myocardial infarction finds a correlation coefficient of -0.15. Which statement is most accurate?",
+                "options": [
+                        "There is a strong inverse relationship between coffee and MI",
+                        "There is a weak inverse relationship; causation is unlikely",
+                        "The negative correlation proves coffee prevents MI",
+                        "This finding would not be statistically significant"
+                ],
+                "correct": 1,
+                "explanation": "A correlation coefficient of -0.15 represents a weak inverse association. Correlation does not imply causation, and weak correlations are prone to confounding and reverse causation."
+        },
+        {
+                "question": "In a case-control study of myocardial infarction and oral contraceptive use, the odds ratio is 3.5 with a 95% CI of 2.1-5.8. How should this be interpreted?",
+                "options": [
+                        "We are 95% confident the true OR lies between 2.1 and 5.8",
+                        "There is a 95% chance the drug causes MI",
+                        "The finding is not statistically significant",
+                        "This proves causation"
+                ],
+                "correct": 0,
+                "explanation": "A 95% CI that does not cross 1.0 indicates statistical significance. We are 95% confident the true OR lies within the interval. This shows association but not causation."
+        },
+        {
+                "question": "A diagnostic test has sensitivity 80% and specificity 85% in a diseased population. If the test is run on a healthy population, what changes?",
+                "options": [
+                        "Both sensitivity and specificity increase",
+                        "Both sensitivity and specificity remain the same",
+                        "Sensitivity and specificity reverse",
+                        "Positive and negative predictive values change significantly"
+                ],
+                "correct": 1,
+                "explanation": "Sensitivity and specificity are properties of the test itself and do not change with population. However, PPV and NPV are highly population dependent and will change dramatically in a low-prevalence healthy population."
+        },
+        {
+                "question": "Which type of bias occurs when sicker patients are more likely to recall past exposures?",
+                "options": [
+                        "Selection bias",
+                        "Recall bias",
+                        "Detection bias",
+                        "Confounding"
+                ],
+                "correct": 1,
+                "explanation": "Recall bias occurs when differential accuracy of memory about past events depends on case/control status. Diseased individuals may better remember exposures they think caused their disease."
+        },
+        {
+                "question": "A clinical trial is stopped early because the intervention arm shows clear benefit. What is the primary concern with this approach?",
+                "options": [
+                        "Increasing Type II error",
+                        "Decreasing statistical power",
+                        "Inflating Type I error",
+                        "Reducing external validity"
+                ],
+                "correct": 2,
+                "explanation": "Early stopping increases Type I error because repeated interim analyses increase the probability of observing a false positive by chance. Predetermined stopping rules and adjusted significance levels are required."
+        },
+        {
+                "question": "In a randomized controlled trial with a p-value of 0.045 and a pre-specified alpha of 0.05, which statement is correct?",
+                "options": [
+                        "The result is statistically significant",
+                        "There is a 4.5% probability the drug works",
+                        "There is a 95.5% probability of Type II error",
+                        "The result proves clinical significance"
+                ],
+                "correct": 0,
+                "explanation": "P = 0.045 is less than alpha 0.05, so the result is statistically significant. This means if the null hypothesis were true, we would observe these results 4.5% of the time by chance."
+        },
+        {
+                "question": "A vaccine study finds an incidence rate ratio of 0.4 for vaccinated versus unvaccinated. How should this be interpreted?",
+                "options": [
+                        "Vaccination decreases disease by 40%",
+                        "Vaccination decreases disease by 60%",
+                        "Vaccination increases disease by 40%",
+                        "No relationship exists between vaccination and disease"
+                ],
+                "correct": 1,
+                "explanation": "An IRR of 0.4 means vaccinated individuals have 40% of the disease risk of unvaccinated individuals, or a 60% reduction in risk. This is calculated as 1 - 0.4 = 0.6 or 60%."
+        },
+        {
+                "question": "Which of the following is the most appropriate measure of association in a cross-sectional study?",
+                "options": [
+                        "Relative risk",
+                        "Odds ratio",
+                        "Absolute risk",
+                        "Attributable risk"
+                ],
+                "correct": 1,
+                "explanation": "In cross-sectional studies, odds ratios are preferred because the temporal relationship between exposure and disease is unclear. Prevalence odds ratios approximate risk when disease prevalence is low."
+        },
+        {
+                "question": "A confidence interval for a difference in means is -2.1 to 0.8. What conclusion can be drawn?",
+                "options": [
+                        "The difference is statistically significant",
+                        "The difference is not statistically significant",
+                        "There is a positive treatment effect",
+                        "The result proves equivalence"
+                ],
+                "correct": 1,
+                "explanation": "A CI that crosses zero (includes 0) indicates the difference is not statistically significant at the corresponding alpha level. We cannot conclude the groups differ."
+        },
+        {
+                "question": "In an observational study, patients receiving treatment A have better outcomes than those receiving treatment B. Which is the most likely explanation for this finding?",
+                "options": [
+                        "Treatment A is definitively superior",
+                        "Confounding by indication (healthier patients received treatment A)",
+                        "Treatment B is harmful",
+                        "No bias is present in observational studies"
+                ],
+                "correct": 1,
+                "explanation": "Confounding by indication is a major threat to observational studies. Healthier, lower-risk patients may preferentially receive the newer or preferred treatment, making that treatment appear superior."
+        },
+        {
+                "question": "What is the primary advantage of intention-to-treat analysis in RCTs?",
+                "options": [
+                        "It increases statistical power",
+                        "It maintains randomization and reduces bias from crossover",
+                        "It always produces more favorable results",
+                        "It eliminates the need for blinding"
+                ],
+                "correct": 1,
+                "explanation": "Intention-to-treat analysis preserves the benefit of randomization by analyzing participants in their originally assigned groups, regardless of adherence or crossover."
+        },
+        {
+                "question": "A researcher performs 20 independent statistical tests and finds one with p < 0.05. What is the most appropriate interpretation?",
+                "options": [
+                        "This finding definitely represents a true effect",
+                        "This could easily be a false positive due to multiple testing",
+                        "The result is highly significant",
+                        "No correction is needed for multiple testing"
+                ],
+                "correct": 1,
+                "explanation": "With 20 independent tests and alpha 0.05, about 1 false positive is expected by chance. The Bonferroni or other multiple testing correction should be applied."
+        },
+        {
+                "question": "In a study of a new diagnostic test, the likelihood ratio positive is 8. How should this be interpreted?",
+                "options": [
+                        "A positive test is 8 times more likely in disease than non-disease",
+                        "The test is 8% accurate",
+                        "A positive test means 8x higher probability of disease",
+                        "The test has 80% sensitivity"
+                ],
+                "correct": 0,
+                "explanation": "LR+ = sensitivity/(1-specificity). An LR+ of 8 means a positive result is 8 times more likely in diseased than non-diseased individuals, substantially increasing the probability of disease."
+        },
+        {
+                "question": "What is the number needed to harm (NNH) if a drug causes an adverse event in 5% of treated patients versus 1% in controls?",
+                "options": [
+                        "5",
+                        "20",
+                        "25",
+                        "100"
+                ],
+                "correct": 2,
+                "explanation": "NNH = 1 / (adverse event rate treatment - adverse event rate control) = 1 / (0.05 - 0.01) = 1/0.04 = 25. One harm occurs for every 25 patients treated."
+        },
+        {
+                "question": "Which statistical test is most appropriate for comparing the proportion of patients with adverse events between two groups?",
+                "options": [
+                        "Independent samples t-test",
+                        "Chi-square test",
+                        "ANOVA",
+                        "Paired t-test"
+                ],
+                "correct": 1,
+                "explanation": "Chi-square test (or Fisher's exact test) is appropriate for comparing proportions or categorical outcomes between groups."
+        },
+        {
+                "question": "A study finds that antioxidants reduce cardiovascular disease risk with RR = 0.8 (95% CI: 0.5-1.2). What is the most appropriate conclusion?",
+                "options": [
+                        "Antioxidants definitely reduce CV disease risk",
+                        "Antioxidants definitely do not reduce CV disease risk",
+                        "The result is inconclusive because the CI includes the null value",
+                        "The result is statistically significant"
+                ],
+                "correct": 2,
+                "explanation": "A CI that includes 1.0 indicates no statistically significant difference. The point estimate suggests 20% reduction, but the wide CI includes the null (no effect) and increases."
+        },
+        {
+                "question": "In survival analysis, what does a hazard ratio of 1.5 mean in a treatment comparison?",
+                "options": [
+                        "Treatment reduces mortality by 50%",
+                        "Treatment increases mortality by 50%",
+                        "Treatment increases hazard of death by 50% at any time point",
+                        "Treatment requires 1.5 times longer to work"
+                ],
+                "correct": 2,
+                "explanation": "Hazard ratio represents the instantaneous risk of the event at any given time. HR = 1.5 means the treated group has 1.5 times the instantaneous risk of death compared to control."
+        },
+        {
+                "question": "Which of the following is most likely to cause selection bias in a case-control study?",
+                "options": [
+                        "Random assignment of cases to groups",
+                        "Differential participation rates between cases and controls",
+                        "Blinding of investigators to exposure status",
+                        "Large sample size"
+                ],
+                "correct": 1,
+                "explanation": "Selection bias occurs when cases and controls are not representative of the source population. Differential participation rates based on exposure status create selection bias."
+        },
+        {
+                "question": "What is the main limitation of the Kaplan-Meier survival curve?",
+                "options": [
+                        "It cannot handle censored data",
+                        "It assumes constant hazard over time",
+                        "It cannot be used with continuous variables",
+                        "It does not account for covariates"
+                ],
+                "correct": 3,
+                "explanation": "Kaplan-Meier curves are univariate and cannot adjust for confounding variables. Cox proportional hazards regression is needed for multivariate analysis."
+        },
+        {
+                "question": "In a randomized controlled trial, baseline imbalance in a prognostic variable between groups primarily increases the risk of:",
+                "options": [
+                        "Type I error",
+                        "Type II error",
+                        "Reduced external validity",
+                        "Loss of statistical power"
+                ],
+                "correct": 3,
+                "explanation": "Baseline imbalance in important prognostic factors increases unexplained variance and reduces statistical power to detect true treatment effects."
+        },
+        {
+                "question": "A study using logistic regression finds that the adjusted odds ratio for smoking and lung cancer is 4.2. What does 'adjusted' mean?",
+                "options": [
+                        "The result has been corrected for measurement error",
+                        "Confounders have been controlled for in the model",
+                        "The p-value has been modified",
+                        "The data has been weighted"
+                ],
+                "correct": 1,
+                "explanation": "Adjusted OR means the association has been controlled for other variables in the regression model (confounders), providing a more accurate estimate of the smoking-cancer association."
+        },
+        {
+                "question": "What is the primary difference between a fixed-effects and random-effects meta-analysis model?",
+                "options": [
+                        "Fixed assumes studies are identical; random assumes heterogeneity",
+                        "Fixed is always more powerful",
+                        "Random effects cannot include multiple studies",
+                        "They produce identical results when I² < 25%"
+                ],
+                "correct": 0,
+                "explanation": "Fixed-effects assumes all studies estimate the same true effect. Random-effects assumes true effects vary across studies and accounts for both within and between-study variance."
+        },
+        {
+                "question": "A test has a negative likelihood ratio of 0.1. How should this be interpreted?",
+                "options": [
+                        "A negative test is 10 times less likely in disease than non-disease",
+                        "A negative test rules out disease",
+                        "The test is 90% specific",
+                        "A negative test is uninformative"
+                ],
+                "correct": 0,
+                "explanation": "LR- = (1-sensitivity)/specificity. An LR- of 0.1 means a negative result is 0.1 times (or 10 times less) likely in diseased versus non-diseased individuals, substantially lowering post-test probability."
+        },
+        {
+                "question": "In a clinical trial, which of the following best protects against selection bias?",
+                "options": [
+                        "Large sample size",
+                        "Randomization with concealment of allocation",
+                        "High statistical power",
+                        "Sensitive outcome measures"
+                ],
+                "correct": 1,
+                "explanation": "Randomization with allocation concealment prevents selection bias by ensuring treatments are assigned unpredictably and independently of baseline characteristics."
+        },
+        {
+                "question": "A study investigates whether aspirin prevents heart disease. Aspirin users have lower heart disease rates, but also have more physician visits. This is an example of:",
+                "options": [
+                        "Recall bias",
+                        "Detection bias",
+                        "Confounding",
+                        "Information bias"
+                ],
+                "correct": 2,
+                "explanation": "More frequent medical visits leads to more heart disease detection, creating an apparent protective effect of aspirin. The number of visits confounds the aspirin-disease association."
+        },
+        {
+                "question": "What sample size calculation primarily depends on?",
+                "options": [
+                        "The geographic location of the study",
+                        "The age of participants",
+                        "The expected effect size, baseline rates, and desired alpha/beta",
+                        "The race/ethnicity of participants"
+                ],
+                "correct": 2,
+                "explanation": "Sample size depends on the effect size to be detected, baseline event rates, desired power (1-beta), and significance level (alpha). Demographic characteristics are not primary determinants."
+        },
+        {
+                "question": "A prospective cohort study finds an association between estrogen use and breast cancer. Participants who used estrogen were more likely to have had mammograms. This demonstrates:",
+                "options": [
+                        "A true causal effect",
+                        "Detection bias (differential detection between groups)",
+                        "Lack of internal validity",
+                        "Random error"
+                ],
+                "correct": 1,
+                "explanation": "The apparent association may result from more frequent screening in estrogen users, detecting more cancers. This is differential detection between groups, a form of bias."
+        },
+        {
+                "question": "In a time-to-event analysis, what is censoring?",
+                "options": [
+                        "Excluding data that shows unfavorable results",
+                        "When participants are lost to follow-up before the event occurs",
+                        "Removing outliers from the analysis",
+                        "Failing to blind the outcome assessor"
+                ],
+                "correct": 1,
+                "explanation": "Censoring occurs when a participant's follow-up ends before the event of interest (death, recurrence) occurs. Kaplan-Meier and Cox regression properly handle censored data."
+        },
+        {
+                "question": "Which is an example of a Type II error in a diagnostic test context?",
+                "options": [
+                        "Positive test in a person without disease (false positive)",
+                        "Negative test in a person with disease (false negative)",
+                        "Positive test in a person with disease",
+                        "Negative test in a person without disease"
+                ],
+                "correct": 1,
+                "explanation": "Type II error is failing to detect the disease when it is present (false negative). In testing, this is when sensitivity is low and true positives are missed."
+        },
+        {
+                "question": "A study of a new screening program shows improved survival in screened versus unscreened groups. However, only the screened group has long-term follow-up data. What bias is most likely?",
+                "options": [
+                        "Lead time bias",
+                        "Recall bias",
+                        "Publication bias",
+                        "Observer bias"
+                ],
+                "correct": 0,
+                "explanation": "Lead time bias occurs when screening advances diagnosis earlier in the disease course, appearing to improve survival without actually changing the course of disease."
+        },
+        {
+                "question": "In a meta-analysis, funnel plot asymmetry suggests:",
+                "options": [
+                        "Studies are of high quality",
+                        "Publication bias or small study effects are present",
+                        "Random effects model was used",
+                        "No heterogeneity exists"
+                ],
+                "correct": 1,
+                "explanation": "Asymmetric funnel plots suggest smaller studies with results favoring the intervention are more likely to be published, indicating publication bias."
+        },
+        {
+                "question": "A drug has a number needed to harm of 10. How many patients must be treated before one experiences the adverse event?",
+                "options": [
+                        "1",
+                        "5",
+                        "10",
+                        "100"
+                ],
+                "correct": 2,
+                "explanation": "NNH is the number of patients that must be treated for one harm to occur. NNH = 10 means one adverse event occurs for every 10 patients treated."
+        },
+        {
+                "question": "Which statistical measure is most useful for understanding how much a risk factor is responsible for disease in the population?",
+                "options": [
+                        "Relative risk",
+                        "Attributable risk percentage",
+                        "Odds ratio",
+                        "Incidence density"
+                ],
+                "correct": 1,
+                "explanation": "Attributable risk percentage shows the proportion of disease in exposed individuals that is due to the exposure, addressing the public health impact of eliminating the risk factor."
+        },
+        {
+                "question": "In a diagnostic accuracy study, prevalence of disease affects which measure(s)?",
+                "options": [
+                        "Sensitivity and specificity only",
+                        "PPV and NPV only",
+                        "All four measures equally",
+                        "Only likelihood ratios"
+                ],
+                "correct": 1,
+                "explanation": "Prevalence affects predictive values (PPV and NPV) but not sensitivity or specificity. LRs are also relatively stable across populations."
+        },
+        {
+                "question": "A clinical trial is powered at 80% to detect a 20% relative risk reduction. What does this mean?",
+                "options": [
+                        "There is an 80% chance of finding any difference",
+                        "If a true 20% RRR exists, there is an 80% probability the study will detect it",
+                        "The study will miss 80% of real effects",
+                        "All significant findings are 80% likely to be true"
+                ],
+                "correct": 1,
+                "explanation": "Power (1-beta) is the probability of detecting a specified effect size when it truly exists. 80% power means 20% Type II error rate for the specified effect."
+        },
+        {
+                "question": "What is the relationship between confidence level and p-value in hypothesis testing?",
+                "options": [
+                        "They are unrelated",
+                        "A 95% CI corresponds to a two-tailed p-value of 0.05",
+                        "Higher confidence always means lower p-values",
+                        "P-values cannot be used with confidence intervals"
+                ],
+                "correct": 1,
+                "explanation": "A 95% CI corresponds to alpha = 0.05 (two-tailed). When a CI excludes the null value, the p-value is < 0.05 at that significance level."
+        },
+        {
+                "question": "In epidemiology, what is the primary purpose of stratification in an analysis?",
+                "options": [
+                        "To increase sample size",
+                        "To examine confounding and effect modification",
+                        "To decrease statistical power",
+                        "To randomize participants"
+                ],
+                "correct": 1,
+                "explanation": "Stratification divides the data by a third variable to determine if it confounds the exposure-disease association or modifies the effect."
+        },
+        {
+                "question": "A study reports that Drug A reduces risk with RR = 0.7 (95% CI: 0.65-0.76). Which statement is most accurate?",
+                "options": [
+                        "The result is not statistically significant",
+                        "The result is statistically significant and clinically meaningful",
+                        "There is a 95% probability the drug works",
+                        "The CI is too wide for proper interpretation"
+                ],
+                "correct": 1,
+                "explanation": "The CI excludes 1.0, indicating statistical significance. The CI is narrow and the point estimate (30% risk reduction) is clinically meaningful."
+        },
+        {
+                "question": "In a study examining treatment effect, the relative risk is 0.75 with a 95% CI of 0.68-0.82. What is the correct interpretation?",
+                "options": [
+                        "Treatment reduces risk by 25%; we are 95% confident true reduction is 18-32%",
+                        "There is a 95% probability the treatment works",
+                        "The result is not statistically significant",
+                        "Treatment effectiveness is weak"
+                ],
+                "correct": 0,
+                "explanation": "RR 0.75 means 25% risk reduction. The CI (0.68-0.82) tells us we are 95% confident the true RR reduction is between 18-32%."
+        },
+        {
+                "question": "A clinical trial has a baseline event rate of 20% in the control group. If the intervention reduces this to 15%, what is the absolute risk reduction?",
+                "options": [
+                        "5%",
+                        "25%",
+                        "75%",
+                        "20%"
+                ],
+                "correct": 0,
+                "explanation": "Absolute risk reduction = baseline rate - intervention rate = 20% - 15% = 5%. This is the actual reduction in probability of the event."
+        },
+        {
+                "question": "Which measure of effect is most useful for clinical decision-making regarding resource allocation?",
+                "options": [
+                        "Odds ratio",
+                        "Relative risk",
+                        "Number needed to treat (NNT)",
+                        "P-value"
+                ],
+                "correct": 2,
+                "explanation": "NNT directly tells clinicians how many patients must be treated to prevent one adverse outcome, facilitating resource allocation decisions."
+        },
+        {
+                "question": "A study with n=100 shows a difference between groups that is not statistically significant (p=0.08). What might increase the chance of detecting significance?",
+                "options": [
+                        "Decreasing sample size",
+                        "Increasing sample size",
+                        "Decreasing effect size",
+                        "Increasing alpha to 0.10"
+                ],
+                "correct": 1,
+                "explanation": "Increasing sample size increases statistical power. Larger samples can detect smaller true effects with p<0.05."
+        },
+        {
+                "question": "What is the 'file drawer problem' in scientific research?",
+                "options": [
+                        "Studies are difficult to locate in libraries",
+                        "Negative or non-significant results are less likely to be published",
+                        "Researchers file results away without analysis",
+                        "Journal space is limited"
+                ],
+                "correct": 1,
+                "explanation": "Publication bias (file drawer problem) occurs when studies with negative or null results remain unpublished, biasing meta-analyses toward positive findings."
+        },
+        {
+                "question": "In a diagnostic test study, the sensitivity is reported as 85%. What does this indicate?",
+                "options": [
+                        "85% of positive tests indicate disease",
+                        "Of those with disease, 85% test positive",
+                        "85% of the general population tests positive",
+                        "The test is 85% accurate overall"
+                ],
+                "correct": 1,
+                "explanation": "Sensitivity = true positives / (true positives + false negatives). It indicates the proportion of diseased individuals who test positive."
+        },
+        {
+                "question": "A researcher performs a test of proportions comparing two groups. The result is chi-square = 4.2 with p = 0.04. Which conclusion is appropriate?",
+                "options": [
+                        "The groups are identical",
+                        "There is a statistically significant difference at p < 0.05",
+                        "The clinical difference is large",
+                        "The result is biologically important"
+                ],
+                "correct": 1,
+                "explanation": "Chi-square test p = 0.04 is less than alpha 0.05, indicating statistical significance. Clinical significance must be assessed separately."
+        },
+        {
+                "question": "Which sampling method is most prone to selection bias?",
+                "options": [
+                        "Simple random sampling",
+                        "Stratified random sampling",
+                        "Convenience sampling",
+                        "Systematic sampling"
+                ],
+                "correct": 2,
+                "explanation": "Convenience sampling is non-random and highly susceptible to selection bias because participants are chosen based on availability."
+        },
+        {
+                "question": "A study reports adjusted odds ratio for smoking and lung cancer as 5.0. What does 'adjusted' indicate?",
+                "options": [
+                        "The data has been corrected for measurement error",
+                        "Results were altered to favor the hypothesis",
+                        "Analysis controlled for potential confounders",
+                        "The confidence interval was widened"
+                ],
+                "correct": 2,
+                "explanation": "Adjusted OR means other variables (confounders like age, alcohol use) were included in the regression model to isolate the smoking effect."
+        },
+        {
+                "question": "What is the primary goal of randomization in clinical trials?",
+                "options": [
+                        "To save money on the trial",
+                        "To balance both known and unknown confounders between groups",
+                        "To ensure all participants receive the active treatment",
+                        "To reduce the need for statistical analysis"
+                ],
+                "correct": 1,
+                "explanation": "Randomization creates comparable groups, minimizing both known and unknown confounders that could bias the treatment estimate."
+        },
+        {
+                "question": "In precision medicine, how should treatment be selected?",
+                "options": [
+                        "One-size-fits-all approach",
+                        "Based on individual patient genetics, biomarkers, and disease characteristics",
+                        "Only based on average population outcomes",
+                        "Never using genetic information"
+                ],
+                "correct": 1,
+                "explanation": "Precision medicine tailors treatment to individual genetic and molecular profiles, improving efficacy and reducing adverse effects."
         }
 ];
         let RESOURCES = [

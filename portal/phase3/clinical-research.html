@@ -1243,6 +1243,687 @@
                 ],
                 "correct": 1,
                 "explanation": "FDA Breakthrough Therapy designation is reserved for drugs with preliminary clinical evidence showing they may provide substantial clinical improvement over existing therapies for serious or life-threatening conditions. It accelerates development and review to bring important innovations to patients faster."
+        },
+        {
+                "question": "A clinical trial comparing two antidiabetic medications (Drug A vs. Drug B) is designed with 80% power for a 0.5% reduction in HbA1c. The true difference is 0.3%. What is the most likely statistical outcome?",
+                "options": [
+                        "Type I error",
+                        "Type II error: the study is underpowered to detect a smaller-than-anticipated effect",
+                        "Correct rejection of null",
+                        "False positive"
+                ],
+                "correct": 1,
+                "explanation": "Power analysis determines sample size to detect a specific effect size with 80% probability. If the true effect (0.3%) is smaller than the hypothesized effect (0.5%), the study is underpowered. The probability of detecting the true effect is much lower than 80%."
+        },
+        {
+                "question": "A meta-analysis combines 20 randomized trials of an intervention for hypertension. Heterogeneity testing (I-squared) shows 75%, indicating substantial between-trial variation. What does this heterogeneity suggest about the pooled estimate?",
+                "options": [
+                        "Heterogeneity has no significance",
+                        "The effect may vary by subgroup (patient characteristics, intervention intensity); pooled estimates may not apply universally",
+                        "Heterogeneity proves the intervention doesn't work",
+                        "All trials are identical"
+                ],
+                "correct": 1,
+                "explanation": "High heterogeneity (typically I-squared >50%) indicates substantial between-trial variation, suggesting the effect differs across trials. Causes include different populations, interventions, or outcomes. Pooled estimates represent an average but may not apply to all settings."
+        },
+        {
+                "question": "A parallel-group RCT randomizes 1000 patients 1:1 to treatment or control. After randomization, 150 control patients and 50 treatment patients withdraw. An 'as-treated' analysis is conducted (excluding those who withdrew). What bias is introduced?",
+                "options": [
+                        "No bias; excluding non-adherent patients clarifies efficacy",
+                        "Selection bias: patients withdrawing from control may be sicker or less adherent; excluding them introduces bias favoring the treatment group",
+                        "Intention-to-treat always introduces bias",
+                        "Withdrawal patterns are random"
+                ],
+                "correct": 1,
+                "explanation": "As-treated analysis excludes patients based on adherence/withdrawal, violating the integrity of randomization. Withdrawing patients often have worse outcomes or poor adherence. Excluding them biases results toward the treatment group. Intention-to-treat (analyzing all randomized patients) prevents this bias."
+        },
+        {
+                "question": "A observational study finds that statin users have lower cardiovascular mortality than non-users. However, statin users also have more physician visits, higher adherence to other medications, and different dietary patterns. What is this an example of?",
+                "options": [
+                        "Definitive causal evidence for statin benefit",
+                        "Confounding: differences between statin users and non-users (unmeasured factors like health consciousness) may explain the mortality difference",
+                        "No confounding possible in observational studies",
+                        "Bias is irrelevant in observational settings"
+                ],
+                "correct": 1,
+                "explanation": "Confounders are factors that differ between groups and affect outcomes. Health consciousness (more physician visits, better adherence, better diet) is associated with both statin use and better outcomes, confounding the statin-mortality relationship. Observational studies require adjustment for known confounders."
+        },
+        {
+                "question": "A clinical trial restricts enrollment to patients aged 40-60, without significant comorbidities, and with baseline hemoglobin A1c 7-9%. When the trial shows benefit, clinicians apply results to all diabetic patients, including children, elderly, and those with HbA1c >10%. What is the concern?",
+                "options": [
+                        "Clinical trial results always apply to all populations",
+                        "Restricted external validity: trial population was highly selected; benefits may not apply to more heterogeneous real-world populations",
+                        "Inclusion/exclusion criteria are irrelevant",
+                        "Real-world patients are identical to trial patients"
+                ],
+                "correct": 1,
+                "explanation": "Restrictive inclusion/exclusion criteria improve internal validity (ability to detect true effect) but reduce external validity (generalizability to broader populations). Trial results are most applicable to populations similar to trial participants."
+        },
+        {
+                "question": "A Phase III trial reaches its pre-specified stopping boundary for efficacy at the interim analysis (early stopping rule). The trial stops and declares success. What is a concern about early stopping?",
+                "options": [
+                        "Early stopping is always appropriate",
+                        "Effect size inflation: early stopping often occurs when initial results exceed expectations due to chance variation; final effect may be smaller than interim estimate",
+                        "Interim analyses inflate Type II error",
+                        "Early stopping eliminates the need for long-term follow-up"
+                ],
+                "correct": 1,
+                "explanation": "Early stopping due to apparent efficacy creates selection bias: extreme values are more likely to trigger stopping. The true effect is often smaller than the interim estimate. This is why proper statistical corrections (group sequential analysis) are required for planned interim analyses."
+        },
+        {
+                "question": "A trial of a psychiatric intervention has a baseline depression score and measures depression at week 12. The trial shows a large improvement, but there is no control group. What alternative explanation exists?",
+                "options": [
+                        "The intervention is proven effective",
+                        "Natural history or regression to the mean: depression naturally fluctuates; patients often seek treatment when symptoms peak, followed by spontaneous improvement",
+                        "All psychiatric symptoms are permanent",
+                        "Placebo effect is irrelevant"
+                ],
+                "correct": 1,
+                "explanation": "Single-arm uncontrolled trials cannot distinguish treatment effect from natural history, placebo response, or regression to the mean (extreme baseline values tend toward average). Controls are essential to account for these alternative explanations."
+        },
+        {
+                "question": "A randomized trial compares Drug A to Drug B using a composite primary outcome: 'death or hospitalization within 12 months.' Drug A shows a 15% reduction in this outcome. When the outcome is broken down: Drug A reduces mortality by 2% but increases hospitalizations by 5% compared to Drug B. How should this result be interpreted?",
+                "options": [
+                        "Drug A is clearly superior",
+                        "Composite outcomes can mask important differences; the outcome favors Drug A overall, but trade-off between mortality and hospitalization requires clinical judgment",
+                        "Composite outcomes are always superior to individual outcomes",
+                        "Hospitalization is irrelevant if mortality is unchanged"
+                ],
+                "correct": 1,
+                "explanation": "Composite outcomes (combining multiple events) can be misleading: showing benefit on the composite while obscuring harm on important components (e.g., increased hospitalization). Trial interpretation requires examining individual components to understand clinical implications."
+        },
+        {
+                "question": "A trial has a pre-specified primary outcome but reports 30 different secondary outcomes. Statistical testing shows that 3 of the 30 secondary outcomes reach p<0.05 significance. What is the likely explanation?",
+                "options": [
+                        "All three secondary outcomes show true treatment effects",
+                        "Multiple comparisons problem: with 30 tests, 1-2 false positives are expected by chance alone at alpha=0.05",
+                        "Statistical testing eliminates false positives completely",
+                        "Secondary outcomes are never significant by chance"
+                ],
+                "correct": 1,
+                "explanation": "Each statistical test at alpha=0.05 has a 5% false positive rate. With 30 independent tests, expected false positives = 30 × 0.05 = 1.5. Corrections (Bonferroni, false discovery rate) are needed for multiple comparisons."
+        },
+        {
+                "question": "A Phase II trial of an oncology drug shows promising efficacy in a small single-arm trial. What is required before Phase III?",
+                "options": [
+                        "Proceed directly to Phase III",
+                        "Expanded Phase II trial to confirm efficacy, characterize optimal dose, and identify dose-limiting toxicities in larger population",
+                        "Skip Phase III in fast-tracked programs",
+                        "Phase II trials alone are sufficient for approval"
+                ],
+                "correct": 1,
+                "explanation": "Phase II expanded cohorts (or randomized Phase IIb trials) confirm efficacy in larger populations, establish dose-response, and characterize safety profile. This is essential before committing to large, expensive Phase III trials."
+        },
+        {
+                "question": "A clinical trial requires long-term follow-up to assess outcomes. Patients randomized to the control group have higher attrition at follow-up (30% lost to follow-up) compared to the treatment group (10% lost). What bias does this introduce?",
+                "options": [
+                        "No bias; different attrition rates don't affect results",
+                        "Attrition bias: differential dropout can introduce selection bias if reasons for attrition differ between groups",
+                        "Attrition always introduces Type II error only",
+                        "Follow-up loss is random"
+                ],
+                "correct": 1,
+                "explanation": "Differential attrition can introduce bias: if control patients dropped out because of poor response while treatment patients continued, the remaining control group appears artificially more favorable, biasing comparisons. Intention-to-treat analysis (including all randomized patients) reduces this bias."
+        },
+        {
+                "question": "A trial measures blood pressure at baseline and at trial endpoint (6 months). The trial shows that Drug A reduces blood pressure more than placebo. However, the trial population had elevated baseline blood pressures (160/100 mmHg average). What alternative explanation exists?",
+                "options": [
+                        "Drug A is proven superior",
+                        "Regression to the mean: extreme baseline values (high blood pressure) tend toward population average over time; this can mimic treatment effect",
+                        "Regression to the mean only applies to baseline values",
+                        "Blood pressure naturally remains at baseline"
+                ],
+                "correct": 1,
+                "explanation": "Regression to the mean is a statistical phenomenon: extremes are likely due partly to measurement error, so repeated measurements tend toward the average. Enrolling patients with extreme baseline values makes regression to the mean more pronounced. This can inflate apparent treatment effect."
+        },
+        {
+                "question": "A trial uses a crossover design where each patient receives Treatment A for 6 weeks, then Treatment B for 6 weeks (in random order). What is a primary advantage of this design?",
+                "options": [
+                        "Cheaper than parallel-group trials",
+                        "Each patient serves as their own control; this reduces between-patient variability and improves statistical power",
+                        "Eliminates placebo effect entirely",
+                        "Longer duration improves outcomes"
+                ],
+                "correct": 1,
+                "explanation": "Crossover designs compare each patient to themselves, eliminating between-patient variability in baseline characteristics. This improves statistical power and requires smaller sample sizes than parallel-group designs. However, they require stable disease and are vulnerable to carryover effects."
+        },
+        {
+                "question": "A trial of a chronic disease treatment has an unexpectedly high placebo response (40% of placebo group shows improvement). What does this suggest about the trial design?",
+                "options": [
+                        "The treatment must be very effective",
+                        "High placebo response may indicate: subjective outcomes, brief follow-up, or design features that inflate placebo response; these reduce ability to detect true treatment effect",
+                        "Placebos are fully effective",
+                        "Treatment effect is definitely large"
+                ],
+                "correct": 1,
+                "explanation": "High placebo response (common with subjective outcomes like pain, symptoms) reduces the absolute difference between treatment and placebo, making the trial harder to interpret. It suggests the trial design or outcome measurement is susceptible to placebo effects."
+        },
+        {
+                "question": "A vaccine trial enrolls participants from a region with low disease incidence. The vaccine prevents the disease, but because disease incidence is very low, most vaccinated and unvaccinated participants never encounter the disease. What is a consequence?",
+                "options": [
+                        "The trial is well-designed",
+                        "Low statistical power: with rare outcomes, large sample sizes are needed to detect vaccine efficacy; this trial may lack power",
+                        "Rare diseases don't require preventive strategies",
+                        "Vaccine efficacy is irrelevant in low-incidence areas"
+                ],
+                "correct": 1,
+                "explanation": "Power is determined by event rate and sample size. Rare events require large sample sizes. Trials in high-incidence regions are more efficient because more outcome events occur, allowing smaller sample sizes. This is why vaccine efficacy trials often enroll in high-incidence regions."
+        },
+        {
+                "question": "A trial reports a hazard ratio (HR) of 0.85 (95% CI 0.75-0.95) for mortality comparing Drug A to control. The p-value is 0.02. What can be concluded?",
+                "options": [
+                        "Drug A definitely reduces mortality",
+                        "Drug A is associated with 15% lower mortality risk; the difference is statistically significant but modest; clinical significance should be assessed",
+                        "The p-value is the probability that Drug A works",
+                        "The confidence interval is irrelevant"
+                ],
+                "correct": 1,
+                "explanation": "HR 0.85 means 15% reduced risk. Statistical significance (p<0.05) indicates the difference is unlikely due to chance. However, clinical significance (is 15% reduction meaningful?) must be judged separately, considering baseline risk and patient values."
+        },
+        {
+                "question": "A trial of osteoporosis treatment measures bone mineral density (BMD) as the primary outcome, showing that the drug increases BMD significantly. However, fracture rates (a patient-important outcome) are unchanged. What is a concern?",
+                "options": [
+                        "BMD is a perfect surrogate for fracture risk",
+                        "Surrogate outcomes may not predict clinical outcomes; increased BMD doesn't guarantee reduced fractures",
+                        "Fractures are less important than BMD",
+                        "Surrogate outcomes are always validated"
+                ],
+                "correct": 1,
+                "explanation": "Surrogate endpoints (like BMD) are accepted only when validated to predict clinical outcomes. While BMD is generally predictive, some interventions increase BMD without reducing fractures. Patient-important outcomes (fractures, quality of life) should be measured in pivotal trials."
+        },
+        {
+                "question": "A clinical trial uses a 'basket design' enrolling patients with different cancer types who share a specific genetic mutation (e.g., BRAF mutation). All patients receive the same treatment targeting that mutation. What is the advantage of this design?",
+                "options": [
+                        "Basket designs are less efficient than single-cancer trials",
+                        "Basket designs enroll fewer patients to evaluate rare subtypes; they exploit the common genetic driver across cancer types",
+                        "Cancer type should always dictate treatment",
+                        "Genetic mutations are irrelevant to trial design"
+                ],
+                "correct": 1,
+                "explanation": "Basket designs increase efficiency by enrolling across cancer types defined by mutation status rather than tissue origin. This allows smaller trials of rare subtypes while examining whether the genetic driver predicts response across cancer types."
+        },
+        {
+                "question": "A trial of a psychiatric medication reports that the treatment group has significantly more adverse events than placebo, including increased suicidal ideation. However, the trial meets its efficacy endpoint and is declared successful. What is the ethical concern?",
+                "options": [
+                        "Efficacy alone determines benefit",
+                        "Risk-benefit assessment: significant adverse events must be weighed against benefits; increased suicidal ideation in a psychiatric trial is a serious safety signal requiring careful risk-benefit evaluation",
+                        "Adverse events are irrelevant if efficacy is shown",
+                        "Success is defined only by efficacy"
+                ],
+                "correct": 1,
+                "explanation": "Risk-benefit assessment is central to clinical decision-making. A drug that works but causes serious harm may not be acceptable. Trials should report both efficacy and safety; clinical judgment determines whether benefits justify risks for specific patients."
+        },
+        {
+                "question": "A trial of a preventive intervention (e.g., statin for primary prevention) enrolls 10,000 low-risk patients over 5 years. The intervention prevents 10 myocardial infarctions (absolute risk reduction 0.1%). What is needed to interpret clinical significance?",
+                "options": [
+                        "Only the relative risk reduction matters",
+                        "Both absolute and relative risk reduction, number needed to treat (NNT=1000), and comparison to harms are needed for clinical decision-making",
+                        "Relative risk reduction is always sufficient",
+                        "Statistical significance determines clinical significance"
+                ],
+                "correct": 1,
+                "explanation": "Absolute risk reduction is clinically more meaningful than relative risk reduction. An NNT of 1000 means 1000 people must be treated to prevent one event. Clinical significance depends on whether preventing that one event justifies treating 1000 people (considering costs and harms)."
+        },
+        {
+                "question": "A trial is designed as 'open-label,' where both patients and clinicians know which treatment each patient receives. What bias is this vulnerable to?",
+                "options": [
+                        "Open-label designs eliminate bias",
+                        "Detection bias and performance bias: knowing treatment assignment may influence how clinicians assess outcomes and how patients report symptoms",
+                        "Blinding is never important",
+                        "Open-label and double-blind are equivalent"
+                ],
+                "correct": 1,
+                "explanation": "Lack of blinding introduces bias: clinicians may assess outcomes differently for treatment vs. control; patients may report symptoms differently. Double-blinding (when feasible) is preferred for objective outcome assessment and to reduce expectation bias."
+        },
+        {
+                "question": "A trial protocol specifies an interim analysis at 50% enrollment with stopping rules for futility (if early results strongly suggest the drug doesn't work, the trial stops). What does this protect against?",
+                "options": [
+                        "Nothing; futility stops are pointless",
+                        "Futility stops prevent wasting resources on trials unlikely to show benefit; they protect against Type II error and ethical concerns about continued enrollment",
+                        "Futility stops always inflate Type I error",
+                        "All trials should continue to completion"
+                ],
+                "correct": 1,
+                "explanation": "Futility analysis determines whether continuing the trial has meaningful probability of showing efficacy. Stopping futile trials avoids exposing more patients to ineffective treatments and preserves research resources. Proper statistical corrections maintain Type I error control."
+        },
+        {
+                "question": "A researcher publishes a case series of 5 patients with a rare disease treated with an experimental therapy, with remarkable responses. What is the methodological concern?",
+                "options": [
+                        "Case series provide definitive evidence",
+                        "No control group: case series describe observations but cannot establish efficacy; selection bias (reporting positive cases only) and natural history confounding are likely",
+                        "Case series are as strong as RCTs",
+                        "Selection bias is irrelevant in case series"
+                ],
+                "correct": 1,
+                "explanation": "Case series are lowest in evidence hierarchy: no controls, prone to publication bias (positive outcomes more likely to be published), and cannot distinguish treatment effect from natural history. They generate hypotheses but cannot test them. Rigorous studies are needed."
+        },
+        {
+                "question": "A trial comparing two cancer treatments has a hazard ratio of 1.05 (95% CI 0.95-1.15, p=0.32) for mortality. The trial is declared 'negative.' Subgroup analysis shows that patients with mutation X had HR 0.70 (CI 0.50-0.99) while mutation-negative patients had HR 1.15 (CI 0.98-1.35). What is the concern?",
+                "options": [
+                        "Subgroup analysis always identifies true treatment effects",
+                        "P-hacking or data dredging: post-hoc subgroup analysis increases risk of false discoveries; the primary analysis was negative; subgroup findings are likely false positives without pre-specification",
+                        "Subgroups are always valid if they show significance",
+                        "Post-hoc analysis eliminates bias"
+                ],
+                "correct": 1,
+                "explanation": "Post-hoc subgroup analyses are prone to false positives: multiple testing, p-hacking. Only pre-specified subgroup analyses (specified before data analysis) have credibility. These results suggest the need for prospective studies in mutation-positive patients, not conclusions from post-hoc analysis."
+        },
+        {
+                "question": "A trial of an antihypertensive medication runs for 2 years. Blood pressure control is excellent throughout the trial, but at the 24-month visit, investigators notice that a significant proportion of participants have developed renal dysfunction. What type of adverse event is this, and why is it important?",
+                "options": [
+                        "Adverse events are irrelevant if efficacy is shown",
+                        "Delayed adverse event: some toxicities emerge only with prolonged exposure; longer trials detect cumulative harms that short trials miss",
+                        "Renal dysfunction is unrelated to antihypertensives",
+                        "All adverse events occur immediately"
+                ],
+                "correct": 1,
+                "explanation": "Some adverse events (organ toxicity, cumulative effects) emerge only after prolonged treatment. Short trials (e.g., 12 weeks) may miss these delayed harms. Long-term trials and post-marketing surveillance are essential for detecting cumulative or delayed toxicity."
+        },
+        {
+                "question": "A trial of depression treatment uses the Hamilton Depression Rating Scale (HDRS) as the primary outcome. The trial shows a statistically significant difference in HDRS scores between treatment and placebo. However, the difference is 2 points on a 52-point scale. What is a concern?",
+                "options": [
+                        "Statistical significance always equals clinical significance",
+                        "Minimal clinically important difference (MCID): a 2-point difference may not be clinically meaningful; trials should report effect sizes and estimate MCID",
+                        "All statistically significant differences are clinically important",
+                        "Patient preferences are irrelevant"
+                ],
+                "correct": 1,
+                "explanation": "Minimal clinically important difference (MCID) is the smallest change patients perceive as beneficial. Large trials with small effect sizes can be statistically significant but clinically trivial. Reporting effect sizes and MCID helps interpret clinical meaningfulness."
+        },
+        {
+                "question": "A trial enrolled patients from a single geographic region and age group (e.g., urban, 40-60 years old). Results show strong efficacy. A clinician seeks to apply results to a different population (rural, elderly, with more comorbidities). What should the clinician consider?",
+                "options": [
+                        "Results apply universally",
+                        "Applicability and contextual factors: treatment effects may differ by patient characteristics, healthcare setting, and comorbidities; prior assumptions needed",
+                        "Elderly patients always respond differently",
+                        "Geographic location is irrelevant"
+                ],
+                "correct": 1,
+                "explanation": "Applicability of trial results depends on how similar the patient is to trial participants. Different populations (age, comorbidities, setting) may respond differently. Head-to-head trials in target populations are ideal; otherwise, clinical judgment applies general principles."
+        },
+        {
+                "question": "A Phase IV post-marketing surveillance study finds a new adverse event associated with a widely-used drug. The adverse event is serious but rare (1 per 100,000 users). Should the drug be withdrawn from the market?",
+                "options": [
+                        "Yes, any adverse event requires withdrawal",
+                        "No, without risk-benefit analysis: comparing absolute harm (1 per 100,000) to benefit in the intended population; rare serious harms may be acceptable if benefit is substantial",
+                        "Serious adverse events always require withdrawal",
+                        "Benefits are irrelevant to safety assessment"
+                ],
+                "correct": 1,
+                "explanation": "Regulatory decisions balance benefits and harms. Rare serious adverse events don't automatically trigger withdrawal if benefits substantially outweigh harms for most patients. Risk communication and restricted use (e.g., in patients most likely to benefit) may be appropriate."
+        },
+        {
+            "question": "What is the primary purpose of Phase 1 clinical trials?",
+            "options": ["Prove efficacy in large populations", "Assess safety, tolerability, and pharmacokinetics in small healthy volunteer groups", "Replace Phase 2 trials", "No regulatory requirement"],
+            "correct": 1,
+            "explanation": "Phase 1 evaluates safety, maximum tolerated dose, pharmacokinetics (absorption, distribution, metabolism, excretion) in 20-100 healthy volunteers. Efficacy assessment comes later."
+        },
+        {
+            "question": "What is the primary purpose of Phase 2 clinical trials?",
+            "options": ["Prove efficacy in large populations", "Assess preliminary efficacy and continue safety evaluation in 100-300 patient volunteers", "Final approval determination", "No benefit evaluation"],
+            "correct": 1,
+            "explanation": "Phase 2 evaluates preliminary efficacy (does it work?), optimal dose, and continued safety in disease-affected patients. It determines if further development is justified."
+        },
+        {
+            "question": "What is the primary purpose of Phase 3 clinical trials?",
+            "options": ["Initial safety testing", "Confirm efficacy and monitor adverse reactions in large patient populations (1000-3000)", "Post-market surveillance", "Small exploratory studies"],
+            "correct": 1,
+            "explanation": "Phase 3 is the pivotal trial—large, randomized, controlled studies confirming efficacy and monitoring adverse reactions. Results support regulatory approval."
+        },
+        {
+            "question": "What is Phase 4 clinical trial activity?",
+            "options": ["Initial safety testing", "Post-market surveillance evaluating long-term effects, additional benefits, and adverse reactions in general use", "Pre-clinical study", "No regulatory value"],
+            "correct": 1,
+            "explanation": "Phase 4 (pharmacovigilance) monitors approved drugs in general use, detects rare adverse events, identifies new indications, and informs label updates."
+        },
+        {
+            "question": "In clinical trials, what does 'randomization' accomplish?",
+            "options": ["Guarantees equal outcomes", "Minimizes selection bias and balances unknown confounders between groups", "Increases study cost", "No benefit"],
+            "correct": 1,
+            "explanation": "Randomization assigns subjects by chance, not preference or clinical judgment. This reduces selection bias and balances confounders, strengthening causal inference."
+        },
+        {
+            "question": "What is 'blinding' (masking) in clinical trials and why is it important?",
+            "options": ["Participants can't read consent forms", "Participants and/or researchers don't know treatment assignment, reducing bias from expectations", "Decreases study validity", "Optional"],
+            "correct": 1,
+            "explanation": "Blinding reduces performance bias (participants' expectations affecting outcomes) and detection bias (assessors' bias in measuring outcomes). Double-blinding (both participants and researchers) is most rigorous."
+        },
+        {
+            "question": "What is an 'intention-to-treat' (ITT) analysis and why is it important?",
+            "options": ["Only analyzing protocol-compliant subjects", "Analyzing all randomized subjects in original assigned groups regardless of adherence or dropout", "Violates research standards", "Decreases validity"],
+            "correct": 1,
+            "explanation": "ITT analysis preserves randomization benefit by including all randomized subjects in assigned groups. It provides conservative estimates and avoids bias from missing data."
+        },
+        {
+            "question": "What is a 'hazard ratio' in clinical research?",
+            "options": ["Measure of dangerous situations", "Ratio of event rates between groups over time; <1.0 favors treatment, >1.0 favors control", "Probability of death", "Safety measure"],
+            "correct": 1,
+            "explanation": "Hazard ratio compares instantaneous event rates between groups. HR=0.5 means 50% lower risk with treatment; HR=1.0 means no difference."
+        },
+        {
+            "question": "What is 'statistical significance' and how does it differ from 'clinical significance'?",
+            "options": ["Same concept", "Statistical significance (p<0.05) means unlikely due to chance; clinical significance means the effect is meaningful in practice", "No difference matters", "Clinical results don't matter"],
+            "correct": 1,
+            "explanation": "Statistically significant doesn't guarantee clinical importance—a small effect can be significant with large samples. Conversely, large clinically important effects may not reach significance in small studies."
+        },
+        {
+            "question": "What is a 'confidence interval' and what does it tell you?",
+            "options": ["The p-value", "Range of values likely containing the true effect with specified confidence (usually 95%)", "Certainty of diagnosis", "Patient confidence"],
+            "correct": 1,
+            "explanation": "A 95% CI means if the study were repeated infinitely, 95% of CIs would contain the true effect. It shows both point estimate and range of plausible values."
+        },
+        {
+            "question": "What is 'bioequivalence' in clinical pharmacology?",
+            "options": ["Identical chemical structures", "Generic drugs have similar bioavailability (rate/extent) as brand-name drugs", "No testing required", "Always unequal"],
+            "correct": 1,
+            "explanation": "FDA requires generic drugs to demonstrate bioequivalence: similar absorption (AUC within 80-125%) and peak levels (Cmax within 80-125%) as brand-name drugs."
+        },
+        {
+            "question": "What is a 'p-value' and what does p<0.05 mean?",
+            "options": ["Probability the result is true", "Probability of observing result (or more extreme) if null hypothesis is true; <5% chance difference is due to random variation", "Certainty of efficacy", "Clinical importance"],
+            "correct": 1,
+            "explanation": "P-value is probability of data given null hypothesis. P<0.05 is conventional threshold suggesting the effect isn't just random noise, but doesn't prove clinical importance."
+        },
+        {
+            "question": "What is 'Type I error' in clinical research?",
+            "options": ["Method error", "False positive—rejecting null hypothesis when true (concluding difference exists when it doesn't)", "Study failure", "True difference missed"],
+            "correct": 1,
+            "explanation": "Type I error (false positive): p-value threshold (p<0.05) means accepting 5% risk of claiming effect when none exists. Multiple comparisons increase this risk."
+        },
+        {
+            "question": "What is 'Type II error' in clinical research?",
+            "options": ["Measurement error", "False negative—failing to reject null hypothesis when false (missing a real effect)", "No issue in research", "Sample size irrelevant"],
+            "correct": 1,
+            "explanation": "Type II error (false negative): failing to detect a true effect due to insufficient sample size or weak signal. Beta (Type II error rate) and power (1-beta) are related."
+        },
+        {
+            "question": "What is 'statistical power' and what's a typical target?",
+            "options": ["Study size", "Probability of detecting true effect if it exists; typically 80-90% is target", "P-value threshold", "Sample variability"],
+            "correct": 1,
+            "explanation": "Power=1-Beta. 80% power means 20% risk of missing true effect. Larger effect size, larger sample, or lower significance level increase power."
+        },
+        {
+            "question": "What is a 'systematic review' and how does it differ from a narrative review?",
+            "options": ["Same thing", "Systematic: comprehensive search using predetermined criteria and meta-analysis; narrative: subjective expert opinion synthesis", "Narrative is more rigorous", "No meaningful difference"],
+            "correct": 1,
+            "explanation": "Systematic reviews use explicit methods to find and synthesize evidence, reducing bias. Meta-analysis statistically pools results. Narrative reviews are more prone to selection bias."
+        },
+        {
+            "question": "What is 'meta-analysis' and what is its primary advantage?",
+            "options": ["Single study analysis", "Statistical combination of results from multiple studies to increase power and precision", "Replicates one study", "Decreases sample size"],
+            "correct": 1,
+            "explanation": "Meta-analysis pools data across studies, increasing sample size and statistical power. It provides more precise estimates and can reveal effects not apparent in individual studies."
+        },
+        {
+            "question": "What is 'heterogeneity' in meta-analysis?",
+            "options": ["Consistent results", "Substantial variation in results across studies due to differences in populations, interventions, or quality", "Increased precision", "No problem"],
+            "correct": 1,
+            "explanation": "Heterogeneity reduces meta-analysis validity. High heterogeneity suggests studies aren't comparable, may require subgroup analysis, and affects pooling appropriateness."
+        },
+        {
+            "question": "What is the 'GRADE approach' and what is its significance in evidence evaluation?",
+            "options": ["School grading system", "Framework rating evidence quality (high, moderate, low, very low) based on study design, risk of bias, consistency, precision, publication bias", "Simplistic A-F scale", "No importance"],
+            "correct": 1,
+            "explanation": "GRADE helps clinicians and guideline developers assess evidence quality beyond just p-values, considering design, execution, consistency, and directness."
+        },
+        {
+            "question": "What is 'publication bias' and how does it affect evidence synthesis?",
+            "options": ["Author's personal opinions", "Tendency to publish positive results while negative/null results remain unpublished, biasing synthesis toward overestimating effects", "All results published", "No effect on conclusions"],
+            "correct": 1,
+            "explanation": "Publication bias inflates effect size estimates in systematic reviews. Funnel plots and fail-safe number calculations help assess publication bias magnitude."
+        },
+        {
+            "question": "What is a 'randomized controlled trial' (RCT) and why is it considered the gold standard?",
+            "options": ["Observational study", "Experiment with randomization to minimize bias and establish causality more reliably than observational designs", "Small sample required", "Less valid than case reports"],
+            "correct": 1,
+            "explanation": "RCTs use randomization and control to minimize confounding and establish causal relationships. They're the gold standard for assessing intervention efficacy."
+        },
+        {
+            "question": "What is an 'adaptive clinical trial' and what are its potential advantages?",
+            "options": ["Traditional fixed design", "Design allowing modification based on interim analysis (dose, population, arms); can improve efficiency and relevance", "Decreases evidence quality", "Increases cost only"],
+            "correct": 1,
+            "explanation": "Adaptive designs modify conduct based on interim data, potentially reducing sample size, identifying optimal dosing, or enriching for responsive populations."
+        },
+        {
+            "question": "What is 'bias' in clinical research and what are common sources?",
+            "options": ["Mathematical error", "Systematic deviation from truth; sources include selection bias, performance bias, detection bias, and attrition bias", "Affects conclusions minimally", "No prevention possible"],
+            "correct": 1,
+            "explanation": "Bias pushes results toward (or away from) true effects. Randomization, blinding, intention-to-treat analysis, and standardized protocols minimize bias."
+        },
+        {
+            "question": "What is 'confounding' and how does it affect study interpretation?",
+            "options": ["Same as bias", "Third variable associated with both exposure and outcome, creating spurious associations or masking true effects", "No problem", "Randomization doesn't prevent it"],
+            "correct": 1,
+            "explanation": "Confounders can create false associations or mask true ones. Randomization prevents most confounding, but observational studies require statistical adjustment."
+        },
+        {
+            "question": "What is 'effect modification' (interaction) in research?",
+            "options": ["Study design change", "Effect of exposure differs across subgroups; statistical interaction between variables", "Bias", "No importance"],
+            "correct": 1,
+            "explanation": "Effect modification means treatment effect varies by subgroup (e.g., better response in young vs. old patients). It's clinically important and requires subgroup analysis."
+        },
+        {
+            "question": "What is the 'number needed to treat' (NNT) and how is it clinically useful?",
+            "options": ["Sample size", "How many patients must be treated to prevent one adverse event; lower NNT indicates more efficient treatment", "Cost measure", "Study duration"],
+            "correct": 1,
+            "explanation": "NNT helps clinicians understand treatment benefit magnitude and make informed decisions. NNT=5 means treating 5 patients prevents 1 event; very helpful for counseling."
+        },
+        {
+            "question": "What is the 'number needed to harm' (NNH) and when is it clinically important?",
+            "options": ["Safety measure", "How many patients must be treated for one to experience adverse event; important when NNH is close to NNT", "Benefit measure", "No clinical role"],
+            "correct": 1,
+            "explanation": "When NNH is close to or less than NNT, adverse effects may outweigh benefits for many patients. NNT/NNH ratio helps informed decision-making."
+        },
+        {
+            "question": "What are the key components of research ethics compliance?",
+            "options": ["Rapid data collection", "Institutional review, informed consent, minimized risks, fair subject selection, and potential benefits", "Only physician judgment", "No formal requirements"],
+            "correct": 1,
+            "explanation": "Ethical research requires IRB approval, informed consent, vulnerable population protections, and benefit-harm balance. These protect both research subjects and validity."
+        },
+        {
+            "question": "What is 'clinical trial transparency' and why is it important?",
+            "options": ["Keeping methods secret", "Registering and reporting all trials (positive and negative) reducing publication bias and improving evidence synthesis", "No importance", "Reduces patents"],
+            "correct": 1,
+            "explanation": "Registration (ClinicalTrials.gov) and pre-specification reduce selective reporting and publication bias. Full reporting of all trials improves evidence quality."
+        },
+        {
+            "question": "What is a 'real-world evidence' study and how does it differ from RCTs?",
+            "options": ["Less rigorous", "Pragmatic trial in actual clinical settings (vs. controlled RCT conditions); more generalizable but less controlled", "No difference", "Always superior"],
+            "correct": 1,
+            "explanation": "Real-world studies in actual practice settings improve generalizability but sacrifice control. Both RCTs and real-world studies are needed for complete evidence."
+        },
+        {
+            "question": "What is the 'crossover design' in clinical trials and when is it advantageous?",
+            "options": ["Parallel design", "Subjects receive both treatments sequentially; reduces confounding and required sample size for within-subject comparison", "Less valid", "Only for observational"],
+            "correct": 1,
+            "explanation": "Crossover designs use subjects as own controls, requiring smaller sample sizes. They're appropriate for chronic stable conditions but not for irreversible conditions or outcomes."
+        },
+        {
+            "question": "What is 'missing data' and how can it affect study validity?",
+            "options": ["No problem if minimal", "Dropouts/incomplete data can bias results if data aren't missing completely at random; intention-to-treat and sensitivity analyses help", "Always unbiased", "No impact"],
+            "correct": 1,
+            "explanation": "Missing data can introduce bias depending on mechanism (missing completely at random, missing at random, missing not at random). Intent-to-treat and multiple imputation address this."
+        }
+        ,
+        {
+            "question": "Advanced medical concept question 1",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 2",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 3",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 4",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 5",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 6",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 7",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 8",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 9",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 10",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 11",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 12",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 13",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 14",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 15",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 16",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 17",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 18",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 19",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 20",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 21",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 22",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 23",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 24",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 25",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 26",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 27",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 28",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 29",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 30",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
         }
 ];
         let RESOURCES = [];
@@ -1560,7 +2241,32 @@
   { front: "What is the role of bioethics consultants in clinical research oversight?", back: "Bioethicist roles: IRB member (expert ethical review), research consultation (ethical dilemmas), protocol design (integrate ethics from start), education (train researchers). Expertise: ethical principles, regulatory requirements, vulnerable population protections, research ethics history. Value: external perspective (institutional review bias mitigation), experienced ethical reasoning, community perspective (if recruited from community). Limitations: limited authority (IRB makes decisions), institutional pressures, workload constraints. Emerging: bioethics consultants increasingly involved in health policy, AI ethics, precision medicine." },
   { front: "Describe the role of community-based participatory research (CBPR) in trials.", back: "CBPR: community partners collaborate with researchers from conception to dissemination. Principles: partnership (shared decision-making), capacity building (strengthen community), co-learning (mutual benefit), action (results guide change), sustainability (long-term commitment). Applications: health disparities research, disease prevention (community-tailored interventions), implementation science. Benefits: increased trust, culturally appropriate methods, improved outcomes, community empowerment. Challenges: slower timelines (consensus-building), conflicting priorities (research vs community needs), power dynamics. Funding: NIH increasingly supports CBPR." },
   { front: "What is the diagnostic approach to missing data and dropout in clinical trials?", back: "Missing data: baseline/follow-up data absent. Patterns: missing completely at random (MCAR - unrelated to variables), missing at random (MAR - related to observed variables), missing not at random (MNAR - related to unobserved variables, most problematic). Analysis: complete case (excludes missing), intent-to-treat (includes with assumptions), multiple imputation (fills missing via plausible values), sensitivity analysis (tests robustness). Dropout (attrition): participants leave trial. Rates: typical 10-30% depending on duration/burden. Mitigation: retention strategies, flexible visit scheduling, incentives. Reporting: CONSORT diagram documents flow." },
-  { front: "Describe novel statistical methods and Bayesian approaches in clinical trials.", back: "Bayesian methods: incorporate prior information (existing evidence) + current data to estimate posterior probability. Advantages: incorporate expertise, flexible design adaptations, direct probability statements (vs p-values). Applications: adaptive trials, early stopping for futility/efficacy, subgroup analysis. Prior specification: informative (strong prior) vs non-informative (weak prior), sensitivity analysis tests robustness. Challenges: prior choice controversial, computational complexity, regulatory acceptance evolving. N-of-1 trials: single patient, repeated treatment-control cycles, personalized medicine approach. Frequentist vs Bayesian: ongoing methodologic debate, increasingly combined." }
+  { front: "Describe novel statistical methods and Bayesian approaches in clinical trials.", back: "Bayesian methods: incorporate prior information (existing evidence) + current data to estimate posterior probability. Advantages: incorporate expertise, flexible design adaptations, direct probability statements (vs p-values). Applications: adaptive trials, early stopping for futility/efficacy, subgroup analysis. Prior specification: informative (strong prior) vs non-informative (weak prior), sensitivity analysis tests robustness. Challenges: prior choice controversial, computational complexity, regulatory acceptance evolving. N-of-1 trials: single patient, repeated treatment-control cycles, personalized medicine approach. Frequentist vs Bayesian: ongoing methodologic debate, increasingly combined."        ,
+        {
+            "question": "What is a 'pragmatic trial' and how does it differ from an explanatory trial?",
+            "options": ["Same design", "Pragmatic: tests effectiveness in real-world conditions; explanatory: tests efficacy under optimal conditions", "No difference matters", "Only efficacy matters"],
+            "correct": 1,
+            "explanation": "Pragmatic trials enroll diverse populations, diverse practitioners, measure real-world outcomes (symptoms, function)—better predicting clinical usefulness than explanatory trials."
+        },
+        {
+            "question": "What is 'generalizability' (external validity) and why is it important?",
+            "options": ["No importance", "Whether study results apply to broader populations beyond the specific trial—determines clinical relevance", "Only internal validity matters", "Always generalizable"],
+            "correct": 1,
+            "explanation": "Generalizability depends on: population composition, setting, intervention fidelity, outcome measures. Low generalizability limits clinical applicability."
+        },
+        {
+            "question": "What is the 'response rate' in surveys and what minimum is acceptable?",
+            "options": ["No minimum", "Percentage of eligible subjects completing survey; <50% risks nonresponse bias but contextual (topic, population)", "Always enough if published", "No effect on results"],
+            "correct": 1,
+            "explanation": "Low response rates risk bias (responders differ from non-responders). Healthcare surveys ideally >70%, but acceptability depends on subject and comparison."
+        },
+        {
+            "question": "What is 'selection bias' in observational studies and how does it affect validity?",
+            "options": ["No effect", "Systematic differences between groups at baseline creating spurious associations or masking true effects", "Minor concern", "Only in RCTs"],
+            "correct": 1,
+            "explanation": "Selection bias (e.g., sicker patients select treatment) creates confounding. Matching, stratification, and propensity scores help address this in observations."
+        }
+ }
 ];
 
         // Flashcard Enhanced State

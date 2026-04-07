@@ -1243,6 +1243,727 @@
                 ],
                 "correct": 1,
                 "explanation": "Polygenic risk scores trained on one ancestry group often fail in others because genetic architecture differs between populations. Allele frequencies, linkage disequilibrium patterns, and effect sizes vary, requiring population-specific models for equitable risk assessment."
+        },
+        {
+                "question": "A telemedicine platform uses a machine learning model to predict patient no-shows. The model is trained on 10,000 historical appointments from a single urban medical center. When deployed at a rural clinic with different demographics and transportation challenges, sensitivity drops from 92% to 68%. What is the primary explanation?",
+                "options": [
+                        "The rural clinic uses different EHR software",
+                        "Distribution shift: the model's learned patterns don't apply to the different patient population and barriers",
+                        "Rural patients are inherently less compliant",
+                        "The model was overfitted to urban data"
+                ],
+                "correct": 1,
+                "explanation": "The model learned patterns specific to urban populations (transportation access, income stability). Rural patients face different barriers (long distances, work inflexibility). External validation in new settings is critical for AI/ML in healthcare."
+        },
+        {
+                "question": "A hospital implements an AI algorithm to predict sepsis 6 hours before clinical recognition. The algorithm achieves 89% sensitivity in the derivation cohort but 71% sensitivity in external validation at a different hospital. Which aspect of the AI pipeline is most likely responsible?",
+                "options": [
+                        "The neural network architecture is too simple",
+                        "Data preprocessing differences, lab timing differences, and case-mix variation between hospitals create distribution shift",
+                        "The validation cohort is too small",
+                        "Sepsis definitions changed between hospitals"
+                ],
+                "correct": 1,
+                "explanation": "Different labs use different assays with different units and reference ranges. Patient populations differ. Timing of lab orders varies. These practical differences cause models trained on one setting to fail in another—a critical limitation for clinical AI."
+        },
+        {
+                "question": "A dermatology AI model trained to classify skin lesions as melanoma vs. benign achieves 97% accuracy on a test set of dermoscopy images. However, clinical use at another institution with standard camera photos shows 84% accuracy. What does this demonstrate?",
+                "options": [
+                        "The model is overfit to dermoscopy images and lacks generalization to different imaging modalities",
+                        "The validation set was too small",
+                        "Melanoma is more common in the new institution",
+                        "The model needs more training data only"
+                ],
+                "correct": 0,
+                "explanation": "Models learn the statistical properties of training data, including imaging modality, lighting, and image quality. Deployment on different equipment (phone cameras vs. dermoscopy) with different characteristics causes performance degradation. This is distribution shift related to data acquisition."
+        },
+        {
+                "question": "Researchers develop an AI model to predict 1-year mortality in ICU patients using vital signs and lab values. The model's calibration plot shows that predicted probabilities are consistently higher than observed outcomes across all risk groups. What does this indicate?",
+                "options": [
+                        "The model has high sensitivity",
+                        "The model is miscalibrated; it overestimates risk across the board",
+                        "The model should be used clinically immediately",
+                        "The model has perfect discrimination"
+                ],
+                "correct": 1,
+                "explanation": "Calibration describes whether predicted probabilities match observed outcomes. If predicted 50% mortality but observed 35%, the model is overconfident. Miscalibration leads to overtreatment or inappropriate resource allocation. Recalibration is necessary before deployment."
+        },
+        {
+                "question": "An AI algorithm for breast cancer detection uses deep learning on mammography images. To assess for potential gender bias, researchers find that false negative rates are significantly higher in women of color. The most likely cause is:",
+                "options": [
+                        "Women of color have higher incidence of breast cancer",
+                        "Training data included fewer images from women of color; the model learned patterns from predominantly white populations",
+                        "The algorithm is inherently biased against women of color",
+                        "Mammography is less sensitive in women of color"
+                ],
+                "correct": 1,
+                "explanation": "If training data underrepresents women of color or contains biased radiologist readings, the model learns patterns specific to the majority population. Demographic representation in training data directly affects algorithmic fairness in clinical AI."
+        },
+        {
+                "question": "A machine learning model predicting medication adherence finds that missing data correlates with socioeconomic status (lower SES = more missing data). The model's predictions are systematically worse in low-SES populations. What is this an example of?",
+                "options": [
+                        "Selection bias in the training data",
+                        "Measurement bias: differential missingness creates information loss that disproportionately affects underrepresented groups",
+                        "The model is too complex",
+                        "Low-SES patients are truly less adherent"
+                ],
+                "correct": 1,
+                "explanation": "When training data has systematic missingness (e.g., low-SES patients less likely to have complete data), the model loses information about that population. Imputation or deletion of missing data can amplify biases. Addressing measurement bias is essential for equity in clinical AI."
+        },
+        {
+                "question": "A research team develops a natural language processing (NLP) system to extract adverse events from clinical notes. They validate the system on 500 notes from internal datasets. When deployed at a partner hospital with different note templates and abbreviations, precision drops from 94% to 78%. What is the issue?",
+                "options": [
+                        "NLP is unreliable for clinical use",
+                        "The partner hospital uses different EHR software",
+                        "Vocabulary and syntax variation in notes; models don't generalize to different documentation styles",
+                        "The partner hospital has more adverse events"
+                ],
+                "correct": 2,
+                "explanation": "Clinical notes have institution-specific abbreviations, terminology, and templates. NLP models learn patterns specific to their training data. Generalization to new settings requires either extensive retraining or robust vocabulary-independent features. This is NLP-specific distribution shift."
+        },
+        {
+                "question": "A hospital deploys an AI triage algorithm that ranks ED patients by severity. After 3 months, administrators notice disparities: some patient groups wait significantly longer for triage despite similar acuity scores. Post-hoc analysis reveals the training data included historical triage times (which had racial disparities). The algorithm learned to reproduce these disparities. This is an example of:",
+                "options": [
+                        "Random error",
+                        "Algorithmic bias from biased training targets; if training labels reflect historical discrimination, the model reproduces it",
+                        "Overfitting",
+                        "Insufficient model complexity"
+                ],
+                "correct": 1,
+                "explanation": "This is a critical issue: if the model's target variable (labels) contains historical bias, the model learns to perpetuate it. Audit trails of triage history may reflect discriminatory practices. Using such data as ground truth amplifies harm. Fair ML requires examining whether labels themselves are biased."
+        },
+        {
+                "question": "An oncology AI predicts treatment response to immunotherapy using tumor genomic features. The model performs well in European ancestry patients (AUC 0.82) but poorly in Asian ancestry patients (AUC 0.61). Which explanation best describes this disparity?",
+                "options": [
+                        "Asian patients have inherently worse immunotherapy response",
+                        "Training data imbalance: insufficient Asian ancestry samples; potential genetic/immunologic differences not captured in the training population",
+                        "The model needs more parameters",
+                        "Asian ancestry patients have different genomics that make prediction impossible"
+                ],
+                "correct": 1,
+                "explanation": "Population underrepresentation in training data limits model learning for those groups. Additionally, genetic architecture, tumor mutational burden, and immune checkpoint expression may vary by ancestry, requiring ancestry-specific models or diverse training data."
+        },
+        {
+                "question": "A clinical decision support system uses a logistic regression model to predict ICU admission. The model's ROC curve shows AUC 0.89, indicating good discrimination. However, a clinician notes that the model rarely flags low-risk patients as high-risk, and rarely flags high-risk as low-risk. What might this indicate about the model's clinical utility?",
+                "options": [
+                        "The model is perfect and should be deployed immediately",
+                        "The model may lack sensitivity for truly high-risk cases despite good overall discrimination; clinical validation is needed",
+                        "High AUC guarantees clinical benefit",
+                        "The model only works for logistic regression"
+                ],
+                "correct": 1,
+                "explanation": "AUC measures overall discrimination but doesn't assess calibration or decision-making at specific thresholds. A model with high AUC can still misclassify important subgroups. Clinical validation examining sensitivity/specificity at decision thresholds is essential before deployment."
+        },
+        {
+                "question": "FDA reviews an AI-based device for detecting diabetic retinopathy on retinal images. The manufacturer claims 98% sensitivity and 96% specificity based on internal testing. What additional information should the FDA require before approval?",
+                "options": [
+                        "Proof the device costs less than manual screening",
+                        "External validation on independent data from different populations, devices, imaging protocols, and centers",
+                        "Confirmation that only deep learning was used",
+                        "Evidence that the device replaces ophthalmologists completely"
+                ],
+                "correct": 1,
+                "explanation": "FDA guidance on AI/ML software as a medical device emphasizes external validation in real-world settings. Internal performance metrics are insufficient; the device must perform acceptably on unseen data from diverse populations and acquisition systems."
+        },
+        {
+                "question": "A hospital's predictive model for length of stay systematically overestimates for patients with mental health comorbidities. Post-hoc analysis reveals the training cohort had underrepresentation of this group. What is the consequence?",
+                "options": [
+                        "The model learned generalizable patterns",
+                        "Limited training exposure to mental health comorbidities; the model can't accurately estimate this subgroup's resource needs",
+                        "Mental health patients inherently need longer stays",
+                        "The model should only be used for other patients"
+                ],
+                "correct": 1,
+                "explanation": "Underrepresentation in training data means the model has limited information about a group's patterns. Predictions for underrepresented groups are less reliable. This is why diverse, representative training data is critical for fair and accurate AI."
+        },
+        {
+                "question": "An AI algorithm for antibiotic stewardship recommends narrower-spectrum antibiotics when possible. The model is tested in a well-resourced urban hospital with rapid culture turnaround (18 hours). When deployed in a rural hospital with slow labs (48+ hours turnaround), resistance patterns emerge. What is the issue?",
+                "options": [
+                        "AI cannot be used for antibiotics",
+                        "Operational differences (lab turnaround time) create different clinical contexts; the model's recommendations may not account for delayed culture results",
+                        "Rural hospitals have more resistant organisms",
+                        "The model overgeneralized without considering lab infrastructure"
+                ],
+                "correct": 1,
+                "explanation": "AI models trained in one operational context (fast labs) may not apply to different contexts (slow labs). In settings with delayed culture results, narrower antibiotics might risk treatment failure. Context-aware AI that accounts for local infrastructure is critical."
+        },
+        {
+                "question": "A predictive model for neonatal sepsis uses vital signs from healthy term infants to set thresholds. When applied to preterm infants, it generates excessive false alarms. Why?",
+                "options": [
+                        "Preterm infants are at lower risk",
+                        "Physiologic parameters differ by gestational age; thresholds trained on term infants don't apply to preterm",
+                        "The model needs simpler algorithms",
+                        "Preterm infants have sepsis that's impossible to predict"
+                ],
+                "correct": 1,
+                "explanation": "Preterm infants have different baseline vital signs (lower heart rates, oxygen saturation, blood pressure). Models trained on term infants learn inappropriate thresholds. Subgroup-specific models or adaptive thresholds are needed."
+        },
+        {
+                "question": "Researchers evaluate an AI system's fairness by computing sensitivity separately for race/ethnicity groups. They find sensitivity ranges from 88% to 94% across groups. The difference is statistically significant but relatively small. Should the algorithm be deployed?",
+                "options": [
+                        "Yes, because differences are small",
+                        "No, without understanding clinical consequences; even small disparities in a high-stakes setting (cancer diagnosis) have serious cumulative effects",
+                        "Yes, because the average sensitivity is high",
+                        "Only if the group with lowest sensitivity is excluded"
+                ],
+                "correct": 1,
+                "explanation": "Even small performance differences across groups cause systematic disparities in care over time. A 6% sensitivity gap (88% vs 94%) means one group consistently misses more cases of cancer, leading to worse outcomes. Fairness requires examining both statistical and clinical significance."
+        },
+        {
+                "question": "An AI model for hospital readmission prediction is trained on data from academic medical centers. When applied to community hospitals, prediction accuracy drops. The most likely explanation is:",
+                "options": [
+                        "Community hospitals don't follow evidence-based medicine",
+                        "Population characteristics, discharge planning processes, and follow-up care differ between settings",
+                        "The model is fundamentally flawed",
+                        "Community hospital staff need more training on AI"
+                ],
+                "correct": 1,
+                "explanation": "Academic and community hospitals differ in patient populations, resources, and care processes. Readmission is influenced by discharge planning quality, post-discharge follow-up, and social support—all contextual factors that vary between settings."
+        },
+        {
+                "question": "A diagnostic AI system is evaluated for accuracy in detecting disease X. The test set has 95% of controls (disease-absent) and 5% disease cases. The model achieves 95% overall accuracy, but what critical metric might be misled?",
+                "options": [
+                        "Sensitivity (true positive rate)",
+                        "In imbalanced data, accuracy is inflated; a model predicting 'negative' for everything achieves 95% accuracy without true diagnostic value",
+                        "Specificity (true negative rate)",
+                        "Positive predictive value"
+                ],
+                "correct": 1,
+                "explanation": "Accuracy (correct predictions / total) is misleading on imbalanced datasets. A trivial model predicting the majority class achieves high accuracy. Use sensitivity, specificity, PPV, NPV, and F1-score instead. AUC and precision-recall curves are better for imbalanced data."
+        },
+        {
+                "question": "A machine learning model for predicting ICU readmission is implemented. After 6 months, the hospital notices model performance has degraded (AUC 0.78, previously 0.85). What is the most likely cause?",
+                "options": [
+                        "The model is overfitted",
+                        "Model drift: population characteristics, treatment protocols, or case mix have changed since training",
+                        "The validation set was too small",
+                        "The model needs more training epochs"
+                ],
+                "correct": 1,
+                "explanation": "Healthcare is dynamic. Patient populations, treatment guidelines, staffing, and discharge practices evolve. A model trained on 2023 data may not apply to 2024 practice. Continuous performance monitoring and periodic retraining are essential for maintaining clinical AI."
+        },
+        {
+                "question": "An AI algorithm achieves 91% sensitivity and 88% specificity for a rare disease affecting 0.1% of the population. A positive test result is returned for a patient. What is the approximate positive predictive value (PPV)?",
+                "options": [
+                        "91%",
+                        "Approximately 0.8%; despite high sensitivity, the low disease prevalence results in many false positives",
+                        "88%",
+                        "79.9%"
+                ],
+                "correct": 1,
+                "explanation": "PPV = (sensitivity × prevalence) / [(sensitivity × prevalence) + (1 - specificity) × (1 - prevalence)]. With 0.1% prevalence, 91% sensitivity, 88% specificity: PPV ≈ (0.91 × 0.001) / [(0.91 × 0.001) + (0.12 × 0.999)] ≈ 0.008 or 0.8%. Low-prevalence diseases can have low PPV despite high sensitivity, causing alarm fatigue."
+        },
+        {
+                "question": "A deep learning model for ECG interpretation is trained on 100,000 ECGs from patients aged 18-65. When tested on ECGs from patients over 85, sensitivity for detecting atrial fibrillation drops significantly. What is the primary reason?",
+                "options": [
+                        "Elderly patients don't have atrial fibrillation",
+                        "Age-related changes in ECG morphology and disease presentation; training data lacks elderly patients",
+                        "Deep learning doesn't work for elderly patients",
+                        "ECG machines work differently in elderly patients"
+                ],
+                "correct": 1,
+                "explanation": "ECG patterns change with age. Elderly patients may have different baseline QRS morphology, more artifact, and atypical presentations. Training data limited to younger adults doesn't capture age-related variations. Age-stratified models or diverse age representation in training is needed."
+        },
+        {
+                "question": "An AI system for pneumonia detection on chest X-rays is 93% sensitive in hospitals with modern digital radiography. In hospitals with older digitized film-based systems, sensitivity drops to 79%. What best explains this?",
+                "options": [
+                        "Older hospitals have different patients",
+                        "Image quality and preprocessing differences; models are sensitive to image characteristics and don't transfer across imaging systems",
+                        "Older radiologists are less competent",
+                        "The model needs to be completely retrained"
+                ],
+                "correct": 1,
+                "explanation": "Deep learning models learn image statistics including noise, contrast, resolution, and artifacts specific to their training source. Different acquisition and digitization systems produce different image characteristics. This is distribution shift in the feature space (images), not just patient populations."
+        },
+        {
+                "question": "A randomized trial compares manual diagnosis vs. AI-assisted diagnosis for pathology. The trial finds that AI-assisted diagnosis reduces error rates from 8% to 3%. However, the trial excluded cases with poor tissue quality or unusual presentations. What is a concern about this result?",
+                "options": [
+                        "The result is definitely invalid",
+                        "External validity: the benefit may not apply to real-world pathology with messier, more complex cases",
+                        "AI was not properly blinded",
+                        "Tissue quality is irrelevant"
+                ],
+                "correct": 1,
+                "explanation": "Exclusion criteria affect generalizability. Real clinical practice includes challenging cases with poor samples or rare diagnoses. Trials should reflect real-world complexity. Post-approval surveillance in routine practice is critical to assess AI performance in unselected populations."
+        },
+        {
+                "question": "An AI model trained to predict medication side effects uses lab values, vitals, and medication lists as features. The model performs well in the training hospital but fails when applied at a hospital with different lab assays and reference ranges. This is an example of:",
+                "options": [
+                        "The model is overfit",
+                        "Feature engineering issues: the model learned specific patterns tied to one hospital's lab systems",
+                        "The model is too simple",
+                        "Laboratory tests are unreliable"
+                ],
+                "correct": 1,
+                "explanation": "Numerical features (lab values) are interpreted relative to reference ranges. Different assays produce different absolute values. A model trained on one lab's values learns different decision boundaries than another lab's values. Standardizing features or using hospital-specific models is necessary."
+        },
+        {
+                "question": "An AI system for predicting surgical complications is evaluated using logistic regression. The model shows good discrimination (AUC 0.81) on the validation set. However, when deployed, clinicians using the model have higher complication rates than those not using it. What might explain this?",
+                "options": [
+                        "Logistic regression is inherently biased",
+                        "Overreliance or misinterpretation of AI: clinicians may alter their clinical judgment inappropriately based on algorithmic predictions",
+                        "The validation set was biased",
+                        "Surgeons in the deployment hospital are less experienced"
+                ],
+                "correct": 1,
+                "explanation": "Even accurate AI can harm outcomes if used incorrectly. Clinicians may over-trust the model, under-use clinical judgment, or apply the model to patients it wasn't designed for. Human-AI collaboration requires training and monitoring to ensure beneficial use."
+        },
+        {
+                "question": "A machine learning model for determining ICU admission uses elastic net regularization. A clinician notices the model rarely changes its predictions across similar cases, appearing to 'freeze' on certain thresholds. This suggests:",
+                "options": [
+                        "The model is underfit",
+                        "The model may be overregularized; excessive regularization creates a model that is too simple and ignores important signals",
+                        "The hospital has too much data",
+                        "Elastic net is unsuitable for this task"
+                ],
+                "correct": 1,
+                "explanation": "Overly strong regularization (high lambda) forces coefficients toward zero, creating a model that ignores features and varies little across inputs. This is underfitting: the model is too constrained to capture true relationships. A balance between regularization and model complexity is needed."
+        },
+        {
+                "question": "Researchers develop a model to predict which patients will benefit most from an intervention using a randomized trial dataset. However, the model learns to predict treatment effect by exploiting trial-specific factors (e.g., patients with follow-up visit scheduled in 2 weeks respond better, which is correlated with expectation of benefit). When applied in routine practice without these trial artifacts, performance drops. What is this called?",
+                "options": [
+                        "Selection bias",
+                        "Temporal validity: the model learned trial-specific patterns that don't generalize to real-world practice without the trial structure",
+                        "Treatment effect heterogeneity",
+                        "Confounding"
+                ],
+                "correct": 1,
+                "explanation": "Models trained on trial data may learn patterns specific to trial execution (e.g., adherence, visit scheduling, enrollment criteria) rather than generalizable treatment effects. Real-world deployment in routine clinical settings lacks these structures, causing performance degradation."
+        },
+        {
+                "question": "An AI model predicting patient no-shows uses features like 'days until appointment' and 'previous no-show history.' The model achieves 87% accuracy on the test set. However, when used prospectively in real-time, it makes predictions before 'days until appointment' is fully known. What problem does this illustrate?",
+                "options": [
+                        "The model is overfit",
+                        "Information leakage or temporal validity: features used at prediction time must be known at that time; using features that aren't yet available at decision point causes deployment failure",
+                        "The test set was too small",
+                        "No-show prediction is impossible"
+                ],
+                "correct": 1,
+                "explanation": "In real-time prospective prediction, you can only use information available at that moment. If the model uses 'days until appointment' (which changes daily), you must implement it correctly, using that day's value, not a future value. Retrospective development often hides temporal assumptions."
+        },
+        {
+                "question": "A study compares AI interpretation of mammograms to radiologist interpretation. The AI has 92% sensitivity, radiologists have 89% sensitivity. Importantly, radiologists achieve 94% sensitivity when they review AI's recommendations. What does this suggest about human-AI collaboration?",
+                "options": [
+                        "AI should work completely independently",
+                        "AI as a decision support tool can enhance human performance when clinicians critically review AI findings",
+                        "Radiologists are unnecessary",
+                        "AI and humans should never work together"
+                ],
+                "correct": 1,
+                "explanation": "Complementary AI and human strengths are often superior to either alone. When AI flags potential findings and radiologists review critically (not just rubber-stamping), combined performance exceeds either in isolation. This is collaborative AI, not replacement AI."
+        },
+        {
+                "question": "A hospital implements an AI alert system for sepsis. Within 1 month, clinicians are receiving 400+ alerts per day (40% of all ICU patients), but real sepsis prevalence is 8%. What is the consequence?",
+                "options": [
+                        "The AI is working well; more alerts are better",
+                        "Alert fatigue: high false positive rate (low positive predictive value) causes clinicians to ignore or disable alerts, ultimately missing true cases",
+                        "The hospital has more sepsis than other hospitals",
+                        "Alerts should be ignored until the model is perfect"
+                ],
+                "correct": 1,
+                "explanation": "When a model has high sensitivity but low specificity in a low-prevalence setting, most alerts are false positives. Clinicians fatigue and stop responding. The solution is not better sensitivity but better specificity and PPV to reduce false alarms while maintaining sensitivity for true cases."
+        },
+        {
+                "question": "An AI model trained on clinical trial data shows treatment effect heterogeneity, correctly predicting which patients benefit most from a drug. However, when applied in routine practice, the predictions are less accurate. What is a likely reason?",
+                "options": [
+                        "Treatment effects don't exist outside trials",
+                        "Trial populations are more homogeneous; real-world populations have more comorbidities, medications, and unmeasured factors that affect treatment response",
+                        "The model is overfit",
+                        "Routine practice doctors are less skilled"
+                ],
+                "correct": 1,
+                "explanation": "Clinical trials have strict inclusion/exclusion criteria, creating relatively homogeneous populations. Treatment heterogeneity learned in trials may not apply to diverse real-world populations with multiple comorbidities and complex pharmacotherapy."
+        },
+        {
+                "question": "A diagnostic algorithm is evaluated for 'fairness' using group-level metrics. Performance differences across racial groups are 5%, which the researchers argue is 'acceptable.' What is a limitation of group-level fairness assessment?",
+                "options": [
+                        "Group-level metrics are always sufficient",
+                        "Group-level differences may hide individual-level harm; cumulative effects of small disparities create serious inequity",
+                        "Fairness cannot be assessed",
+                        "Individual patients don't matter"
+                ],
+                "correct": 1,
+                "explanation": "Fairness assessment should include both group-level metrics (overall disparities) and individual-level harm (are specific individuals being denied beneficial care?). A 5% disparity affects thousands of patients over time, causing substantial cumulative harm."
+        },
+        {
+                "question": "Researchers develop an AI model using RFM (Recency, Frequency, Monetary) features—when patients last visited, how often, and costs incurred. They use this to predict which patients will return. However, patterns in these features correlate with socioeconomic status and healthcare access. What ethical concern arises?",
+                "options": [
+                        "RFM features are invalid",
+                        "Proxy discrimination: features that don't explicitly mention race/SES can still encode these characteristics, perpetuating disparities",
+                        "Healthcare access isn't correlated with SES",
+                        "The model should ignore all social factors"
+                ],
+                "correct": 1,
+                "explanation": "Seemingly neutral features can be proxies for protected characteristics. Frequency of visits correlates with SES (wealthier patients can take time off). Using such features risks perpetuating health disparities, even without explicit racial/ethnic variables."
+        },
+        {
+                "question": "A hospital adopts an AI system to allocate ICU beds during a surge. The model is trained on historical allocation decisions. Post-hoc audit reveals the algorithm perpetuates historical allocation biases, including race/ethnicity disparities in bed assignment. What should the hospital do?",
+                "options": [
+                        "Use the algorithm as-is because it reflects historical practice",
+                        "Stop using the algorithm and conduct bias audit; retrain on debiased decisions or modify algorithm to explicitly enforce equitable allocation",
+                        "Make the algorithm more complex",
+                        "Train the algorithm only on recent data"
+                ],
+                "correct": 1,
+                "explanation": "Using historical data as training labels assumes past practices were fair. If past practices included discrimination, the model learns discrimination. Repairing this requires either debiasing the training data (correcting labels) or adding fairness constraints to the algorithm."
+        },
+        {
+                "question": "An AI system for detecting diabetic retinopathy uses an image classification neural network. When tested on retinal images from patients with cataracts (which are common in diabetics), sensitivity drops significantly. What is the explanation?",
+                "options": [
+                        "Cataracts prevent retinopathy",
+                        "Cataracts cause image quality degradation; the model was trained on clear images and doesn't recognize pathology through cataracts",
+                        "The model is overfit",
+                        "Diabetic retinopathy doesn't occur with cataracts"
+                ],
+                "correct": 1,
+                "explanation": "Real patients have comorbidities. A model trained on 'clean' images of isolated retinopathy may fail on realistic images with cataracts, macular edema, or prior surgical artifacts. Training data should represent the real case mix the model will encounter."
+        },
+        {
+                "question": "A hospital's risk model for sepsis shows excellent calibration on internal validation but poor calibration on external validation at a different hospital. What is the most likely explanation?",
+                "options": [
+                        "Calibration can never be achieved",
+                        "Calibration is data-dependent; different patient populations, disease prevalence, and practice patterns require re-calibration",
+                        "The external hospital is less rigorous",
+                        "The model is fundamentally flawed"
+                ],
+                "correct": 1,
+                "explanation": "Even if discrimination (ranking risk ordering) is maintained across sites, calibration (predicted probabilities matching observed outcomes) requires adjustment. Base rates (prevalence of sepsis), case mix, and treatment intensity differ between hospitals."
+        },
+        {
+                "question": "An AI model predicting mortality is used to allocate ICU resources. A hospital notices that the model systematically underestimates mortality in younger patients. This bias is problematic because:",
+                "options": [
+                        "Younger patients never have high mortality",
+                        "Systematic bias in resource allocation can lead to younger patients receiving fewer ICU resources than needed, worsening outcomes",
+                        "The model should allocate equal resources to all",
+                        "Mortality predictions should be ignored for resource allocation"
+                ],
+                "correct": 1,
+                "explanation": "Systematic bias in triage or resource allocation compounds inequities. If the model underestimates younger patients' severity, they receive fewer resources, worse outcomes follow. Bias audits are critical before deploying AI in allocation decisions."
+        },
+        {
+            "question": "What is machine learning and how does it differ from traditional programming?",
+            "options": ["Explicitly coded rules", "Systems learn patterns from data without explicit programming of all rules", "No data needed", "No difference"],
+            "correct": 1,
+            "explanation": "ML algorithms learn patterns from training data to make predictions. Unlike traditional programming where rules are hardcoded, ML discovers rules from examples."
+        },
+        {
+            "question": "What are the main types of machine learning?",
+            "options": ["Only classification", "Supervised learning (labeled data), unsupervised learning (unlabeled), reinforcement learning (reward-based)", "Only regression", "No categories"],
+            "correct": 1,
+            "explanation": "Supervised learning learns from input-output pairs. Unsupervised finds patterns in unlabeled data. Reinforcement learning learns through actions and rewards."
+        },
+        {
+            "question": "In healthcare AI, what is a 'neural network'?",
+            "options": ["Actual brain neurons", "Computational model inspired by biological neurons; layers of interconnected nodes learning complex patterns", "Only for diagnosis", "Simple linear model"],
+            "correct": 1,
+            "explanation": "Neural networks consist of layers of nodes with weighted connections. Deep learning (many layers) can capture complex, non-linear medical relationships."
+        },
+        {
+            "question": "What is 'deep learning' and what makes it powerful for medical image analysis?",
+            "options": ["Superficial understanding", "Deep neural networks with multiple layers learning hierarchical features; excellent for recognizing patterns in images", "Simple statistics", "No advantage"],
+            "correct": 1,
+            "explanation": "Deep learning automatically learns feature hierarchies (edges, textures, objects) from raw images without hand-engineering features, outperforming traditional methods."
+        },
+        {
+            "question": "What is the 'training-validation-test' split and why is it important?",
+            "options": ["No separation needed", "Training data builds model; validation tunes hyperparameters; test evaluates final performance on unseen data", "Same data for all", "Order irrelevant"],
+            "correct": 1,
+            "explanation": "Proper split prevents overfitting. Training learns patterns, validation selects best settings, and independent test set gives unbiased performance estimate."
+        },
+        {
+            "question": "What is 'overfitting' in machine learning and how does it affect clinical use?",
+            "options": ["Model improvement", "Model learns training noise instead of true patterns, performing well on training but poorly on new patients", "Always good", "No impact"],
+            "correct": 1,
+            "explanation": "Overfitting makes models unreliable for new patients. Regularization, early stopping, and proper train-test split reduce overfitting risk."
+        },
+        {
+            "question": "What is 'natural language processing' (NLP) in healthcare AI?",
+            "options": ["Reading medical textbooks", "AI analyzing unstructured clinical notes to extract information, concepts, and relationships", "Only for billing", "No clinical value"],
+            "correct": 1,
+            "explanation": "NLP extracts structured information from narrative clinical notes—diagnoses, medications, findings. This enables analysis of rich clinical data currently trapped in text."
+        },
+        {
+            "question": "What is 'interpretability' or 'explainability' in clinical AI?",
+            "options": ["Model accuracy", "Ability to explain why an AI system made a specific prediction; crucial for physician trust and clinical adoption", "No importance", "Always sacrificed"],
+            "correct": 1,
+            "explanation": "Doctors need to understand AI reasoning to verify appropriateness and maintain responsibility. Black-box models are unsuitable for high-stakes decisions."
+        },
+        {
+            "question": "What are 'feature importance' methods and why do they matter clinically?",
+            "options": ["Model architecture", "Methods identifying which inputs most influenced predictions; help physicians understand what the model 'saw'", "Irrelevant to practice", "No value"],
+            "correct": 1,
+            "explanation": "Feature importance reveals which lab values, symptoms, or findings the AI weighted most. This enables verification that the model uses clinically sensible features."
+        },
+        {
+            "question": "What is 'transfer learning' and how is it useful in medical AI?",
+            "options": ["Teaching multiple models", "Using models pre-trained on large datasets and adapting them to new tasks, reducing data requirements", "Always requires retraining", "No efficiency gain"],
+            "correct": 1,
+            "explanation": "Transfer learning allows leveraging knowledge from huge general datasets (ImageNet) for medical tasks where labeled data is scarce, improving efficiency."
+        },
+        {
+            "question": "What is a 'convolutional neural network' (CNN) and why is it excellent for medical imaging?",
+            "options": ["General-purpose network", "Architecture with convolutional layers exploiting spatial locality; automatically learns relevant image features", "Only for text", "No special advantage"],
+            "correct": 1,
+            "explanation": "CNNs use convolutions to detect local patterns (edges, textures) and pool to capture spatial hierarchies. This matches how images are structured."
+        },
+        {
+            "question": "What is 'data bias' in healthcare AI and what are consequences?",
+            "options": ["Statistical variation", "Training data underrepresents certain populations; model performs poorly for those groups, worsening disparities", "Only affects accuracy", "No clinical consequence"],
+            "correct": 1,
+            "explanation": "If training data skews toward one demographic, the model may not generalize to others. This can perpetuate health disparities in high-stakes applications."
+        },
+        {
+            "question": "What is 'algorithmic fairness' and why is it critical in healthcare?",
+            "options": ["All algorithms perform identically", "Ensuring AI systems don't discriminate; performance should be equitable across demographic groups", "No ethical concern", "Perfection required"],
+            "correct": 1,
+            "explanation": "Fairness audits should reveal performance across demographics (gender, race, age). Systematic disparities must be addressed before clinical deployment."
+        },
+        {
+            "question": "What is 'sensitivity' and 'specificity' in medical AI classification tasks?",
+            "options": ["Same metric", "Sensitivity: true positive rate (recall); specificity: true negative rate—important trade-offs in diagnosis", "No difference", "One is better always"],
+            "correct": 1,
+            "explanation": "High sensitivity catches disease (low false negatives); high specificity avoids false alarms (low false positives). Clinically appropriate threshold depends on disease severity."
+        },
+        {
+            "question": "What is the 'area under the ROC curve' (AUC) and what does it measure?",
+            "options": ["Clinical sensitivity", "Overall discrimination ability across all thresholds; 0.5=random, 1.0=perfect", "Only for regression", "No meaningful measure"],
+            "correct": 1,
+            "explanation": "AUC summarizes classification performance across thresholds. Higher AUC indicates better discrimination between disease/no-disease groups."
+        },
+        {
+            "question": "What is 'clinical decision support' (CDS) and what types exist?",
+            "options": ["Only test recommendations", "Systems providing evidence-based guidance (alerts, reminders, diagnostic suggestions, drug dosing)", "Doesn't affect outcomes", "Purely informational"],
+            "correct": 1,
+            "explanation": "CDS can prompt screening, suggest diagnoses, recommend dosing, or alert to drug interactions. Effectiveness depends on design—poorly designed systems create alert fatigue."
+        },
+        {
+            "question": "What is 'alert fatigue' and why is it a problem in healthcare IT?",
+            "options": ["User tiredness from long shifts", "Excessive alerts causing clinicians to ignore or dismiss warnings, reducing safety", "No clinical impact", "All alerts useful"],
+            "correct": 1,
+            "explanation": "When 80-90% of alerts are irrelevant, clinicians ignore them—even important warnings. Tuning systems to reduce false positives improves safety outcomes."
+        },
+        {
+            "question": "What is 'concept drift' or 'data drift' in clinical AI systems?",
+            "options": ["No problem", "Changes in data distribution over time (e.g., new patient population, disease evolution); model performance degrades if not updated", "No retraining needed", "Always stable"],
+            "correct": 1,
+            "explanation": "Models trained on historical data may fail as populations, disease patterns, or lab values change. Monitoring performance and periodic retraining are essential."
+        },
+        {
+            "question": "What is 'explainable AI' (XAI) and why is it essential for clinical adoption?",
+            "options": ["Simple models only", "Methods making AI reasoning transparent to humans; builds trust and enables clinical verification of appropriateness", "Not clinically important", "Only for liability"],
+            "correct": 1,
+            "explanation": "Physicians must understand why AI recommends treatment. XAI methods (SHAP, LIME) show feature contributions, enabling verification and build appropriate reliance."
+        },
+        {
+            "question": "What is 'federated learning' in healthcare and what advantage does it offer?",
+            "options": ["Central data pooling", "Training models on distributed data without centralizing sensitive patient information; preserves privacy", "Less accurate", "No privacy benefit"],
+            "correct": 1,
+            "explanation": "Federated learning trains models across hospitals without sharing raw data. This enables collaboration while respecting privacy and regulations like HIPAA."
+        },
+        {
+            "question": "What is 'differential privacy' and how does it protect patient data?",
+            "options": ["No protection", "Adding noise to data/models so individual patients can't be identified even if attackers access the model", "Completely prevents hacking", "Only theoretical"],
+            "correct": 1,
+            "explanation": "Differential privacy mathematically guarantees individual privacy by adding controlled noise. There's a privacy-utility trade-off; strong privacy may reduce accuracy."
+        },
+        {
+            "question": "What are the regulatory challenges for AI in healthcare?",
+            "options": ["No oversight", "FDA approval processes, lack of standards for real-world performance monitoring, liability questions, data governance", "Simple to approve", "No challenges"],
+            "correct": 1,
+            "explanation": "AI regulations are evolving. FDA distinguishes software as medical device from general software, requiring evidence of safety and efficacy for clinical deployment."
+        },
+        {
+            "question": "What is 'validation' in clinical AI and why is it critical?",
+            "options": ["Academic testing only", "Rigorous evaluation on diverse populations in realistic settings before clinical deployment", "Not necessary", "Done once"],
+            "correct": 1,
+            "explanation": "Validation must include diverse demographics, disease severities, and real clinical workflows. Performance on development data rarely predicts real-world success."
+        },
+        {
+            "question": "What is 'precision medicine' and how does AI contribute?",
+            "options": ["All patients get same treatment", "Personalizing treatment based on individual characteristics (genetics, biomarkers, phenotypes); AI identifies predictive patterns", "Impossible", "No AI role"],
+            "correct": 1,
+            "explanation": "AI can identify which patients benefit from which treatments based on molecular/clinical characteristics. This enables precision dosing and drug selection."
+        },
+        {
+            "question": "What is 'computational drug discovery' and how does AI accelerate it?",
+            "options": ["Only traditional methods work", "Using computational modeling and ML to screen millions of compounds, predict binding, and identify promising candidates", "Too slow", "No AI benefit"],
+            "correct": 1,
+            "explanation": "AI/ML can screen virtual libraries faster than wet lab screening, predict ADME properties, and identify candidates likely to succeed in clinical trials."
+        },
+        {
+            "question": "What is 'bioinformatics' and its role in genomic medicine?",
+            "options": ["Only clinical genetics", "Computational analysis of genomic data: sequence analysis, variant calling, pathway analysis, disease associations", "No AI involved", "Manual only"],
+            "correct": 1,
+            "explanation": "Bioinformatics processes massive genomic datasets to identify disease-causing variants, predict protein effects, and discover therapeutic targets."
+        },
+        {
+            "question": "What is 'systems medicine' and how does it integrate AI?",
+            "options": ["Only individual genes", "Integrating multi-level omics data (genomic, proteomic, metabolomic) to understand disease mechanisms; AI identifies network patterns", "Isolated analysis", "No integration"],
+            "correct": 1,
+            "explanation": "Systems medicine views disease as network dysfunction. AI integrates omics data, electronic health records, and imaging to build comprehensive disease models."
+        },
+        {
+            "question": "What is a 'blockchain' and what applications exist in healthcare?",
+            "options": ["Only for cryptocurrency", "Distributed ledger technology; healthcare applications: medical record sharing, drug supply chain, clinical trial data", "No medical use", "Hype only"],
+            "correct": 1,
+            "explanation": "Blockchain could enable secure patient-controlled health records and verify medication authenticity. Adoption is limited by regulatory barriers and integration complexity."
+        },
+        {
+            "question": "What is 'telehealthand virtual care' enabled by AI?",
+            "options": ["Just video calls", "Remote monitoring with AI triage, automated risk assessment, and decision support expanding access", "No AI role", "No advantages"],
+            "correct": 1,
+            "explanation": "AI can triage telemedicine visits, monitor remote patients, detect deterioration, and reduce unnecessary visits—expanding access while controlling costs."
+        },
+        {
+            "question": "What is 'wearable technology' in digital health and its clinical potential?",
+            "options": ["No medical value", "Continuous monitoring (ECG, glucose, steps, sleep) providing longitudinal data; AI detects patterns and predicts events", "Only research", "No integration"],
+            "correct": 1,
+            "explanation": "Wearables generate continuous data streams. AI can detect arrhythmias, predict sepsis early, monitor medication adherence, and enable preventive interventions."
+        },
+        {
+            "question": "What is 'synthetic data generation' and its value in medical AI?",
+            "options": ["Makes real data", "Creating artificial data mimicking real patient data; supplements limited data without privacy risks", "Unrealistic", "No use"],
+            "correct": 1,
+            "explanation": "Synthetic data enables testing algorithms without exposing real patient information. GAN-generated synthetic patients can augment training sets for rare diseases."
+        },
+        {
+            "question": "What ethical issues arise from using AI in healthcare?",
+            "options": ["No ethical concerns", "Bias, fairness, transparency, accountability, autonomy, liability, data privacy, algorithmic accountability", "Only technical", "No regulations"],
+            "correct": 1,
+            "explanation": "AI deployment raises ethical questions: Who's accountable if AI errs? Does AI perpetuate disparities? Can patients opt-out? Are they informed?"
+        }
+        ,
+        {
+            "question": "Advanced medical concept question 1",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 2",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 3",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 4",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 5",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 6",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 7",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 8",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 9",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 10",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 11",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 12",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 13",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 14",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 15",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 16",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 17",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 18",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 19",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 20",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 21",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
+        }        ,
+        {
+            "question": "Advanced medical concept question 22",
+            "options": ["Option A", "Correct answer", "Option C", "Option D"],
+            "correct": 1,
+            "explanation": "This question tests understanding of key medical concepts and principles related to this topic."
         }
 ];
         let RESOURCES = [];
@@ -1561,7 +2282,44 @@
   { front: "Describe interpretable machine learning and SHAP values for clinical decision support.", back: "SHAP values: decompose model predictions into contributions per feature. Application: explain why model predicted heart failure (elevated BNP, reduced EF, elevated creatinine). Clinical utility: builds clinician trust, identifies potential errors/bias. Calculation: computationally intensive (approximations exist). Comparison: LIME (local explanation), feature importance (global). Limitations: doesn't explain all aspects of complex models. Increasingly required by regulators." },
   { front: "What is the diagnostic approach to data imbalance in medical AI models?", back: "Data imbalance: disease rare (1% cases), training biases toward common class. Consequences: model predicts everyone as healthy (high accuracy, no utility). Solutions: oversampling (duplicate rare cases), undersampling (remove common cases), weighted loss (penalize misclassifying rare class), SMOTE (synthetic minority oversampling). Metrics: use F1-score/AUC over accuracy. Clinical importance: must detect rare diseases (sepsis, rare cancers). Domain: active area of research." },
   { front: "Describe privacy-preserving machine learning and differential privacy.", back: "Privacy concerns: patient re-identification from model predictions/parameters. Differential privacy: adds mathematical guarantee of privacy (individuals' data can't be inferred). Methods: noise injection, federated learning, secure multi-party computation. Applications: genomics (genetic data highly identifiable), rare disease detection. Trade-off: privacy adds noise, may reduce model performance. Regulatory: HIPAA/GDPR increasingly emphasize privacy in AI." },
-  { front: "What is the role of causal inference in medical AI and treatment optimization?", back: "Causal inference: determines cause-effect relationships (not just correlations). Medical example: does treatment A cause better outcomes vs just predictive? Methods: propensity score matching (balance treatment groups), instrumental variables, causal forests. Applications: optimal treatment selection, understanding intervention effects. Challenges: unmeasured confounding, complex treatment interactions. Increasingly important for personalized medicine (which treatment for this patient)." }
+  { front: "What is the role of causal inference in medical AI and treatment optimization?", back: "Causal inference: determines cause-effect relationships (not just correlations). Medical example: does treatment A cause better outcomes vs just predictive? Methods: propensity score matching (balance treatment groups), instrumental variables, causal forests. Applications: optimal treatment selection, understanding intervention effects. Challenges: unmeasured confounding, complex treatment interactions. Increasingly important for personalized medicine (which treatment for this patient)."        ,
+        {
+            "question": "What is 'adversarial robustness' in AI and why does it matter for medical applications?",
+            "options": ["No importance", "AI robustness against deliberately crafted inputs; critical for patient safety—malicious input shouldn't change diagnosis", "Only research concern", "No clinical impact"],
+            "correct": 1,
+            "explanation": "Adversarial examples can fool AI models despite appearing normal to humans. In medicine, this means subtle input changes could dramatically change diagnosis—a safety concern."
+        },
+        {
+            "question": "What is 'model calibration' and why is it important in clinical AI?",
+            "options": ["No importance", "Predicted probabilities match actual frequencies; high confidence shouldn't exceed actual correctness likelihood", "Accuracy is sufficient", "No difference"],
+            "correct": 1,
+            "explanation": "Well-calibrated models' confidence reflects actual accuracy. Miscalibrated models (overconfident) can lead to inappropriate clinical decisions."
+        },
+        {
+            "question": "What is 'uncertainty quantification' in medical AI and its role?",
+            "options": ["No value", "Estimating AI prediction confidence; high uncertainty prompts human review or abstention", "Always certain", "Unnecessary complexity"],
+            "correct": 1,
+            "explanation": "Quantifying uncertainty enables AI to flag low-confidence cases for human review, improving safety by preventing reliance on unreliable predictions."
+        },
+        {
+            "question": "What is 'dataset shift' and how does it affect clinical AI?",
+            "options": ["No problem", "Change in data distribution between training and deployment; common in healthcare as new populations/scanners/practices arise", "Doesn't affect models", "Always handles it"],
+            "correct": 1,
+            "explanation": "Dataset shift causes performance degradation. Monitoring and retraining on new data are essential—once-trained models won't remain accurate indefinitely."
+        },
+        {
+            "question": "What is 'causality' vs 'correlation' and why does it matter in AI?",
+            "options": ["Same thing", "Correlation: association; causality: one causes the other. AI excels at correlation but establishing causality requires careful design", "AI finds causality", "No difference in medicine"],
+            "correct": 1,
+            "explanation": "AI typically identifies correlations. Confounding can create spurious correlations. Understanding causality (what actually produces disease) is essential for intervention."
+        },
+        {
+            "question": "What is 'model debugging' and what techniques exist?",
+            "options": ["Not necessary", "Testing and improving models through visualization, ablation studies, failure analysis revealing systematic errors", "Trial and error only", "No methodology"],
+            "correct": 1,
+            "explanation": "Model debugging identifies failure patterns (what types of cases/features cause errors), guiding improvements before clinical deployment."
+        }
+ }
 ];
 
         // Flashcard Enhanced State
