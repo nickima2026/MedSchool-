@@ -223,10 +223,56 @@
     }
     .res-cta__btn + .res-cta__btn:hover { background: #005F70; }
 
+    /* Official Directory Banner */
+    .res-official {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: var(--space-lg) var(--space-lg) 0;
+    }
+    .res-official__banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-lg);
+        background: linear-gradient(135deg, #F7F3EF 0%, #FDF9F5 100%);
+        border: 1.5px solid #D4C9BC;
+        border-left: 5px solid #8C1515;
+        border-radius: 10px;
+        padding: var(--space-lg) var(--space-xl);
+    }
+    .res-official__text h3 {
+        font-size: 1.05rem;
+        color: #2E4057;
+        margin-bottom: 4px;
+    }
+    .res-official__text p {
+        font-size: 0.9rem;
+        color: #585754;
+        line-height: 1.5;
+        margin: 0;
+    }
+    .res-official__link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0.65rem 1.4rem;
+        background: #8C1515;
+        color: #fff;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        font-family: var(--font-body);
+        white-space: nowrap;
+        transition: background 0.2s;
+    }
+    .res-official__link:hover { background: #6B0F0F; }
+
     @media (max-width: 600px) {
         .res-hero h1 { font-size: 1.65rem; }
         .res-hero__stats { flex-direction: column; gap: var(--space-md); }
         .res-grid { grid-template-columns: 1fr; }
+        .res-official__banner { flex-direction: column; text-align: center; }
     }
     </style>
 </head>
@@ -297,6 +343,19 @@
             </div>
         </div>
     </section>
+
+    <!-- Official Directory Banner -->
+    <div class="res-official">
+        <div class="res-official__banner">
+            <div class="res-official__text">
+                <h3>Stanford GME Official Programs Directory</h3>
+                <p>View the complete, current list of all residency and fellowship programs — including application requirements, program contacts, and subspecialty tracks — directly from Stanford Medicine's Graduate Medical Education office.</p>
+            </div>
+            <a href="https://med.stanford.edu/gme/programs.html" target="_blank" rel="noopener" class="res-official__link">
+                View Official Directory &#8594;
+            </a>
+        </div>
+    </div>
 
     <!-- ===================== RESIDENCY PROGRAMS ===================== -->
     <section class="res-section">
