@@ -1552,6 +1552,8 @@
       { id: 'anes-columbia', name: 'Columbia Anesthesiology', city: 'New York', state: 'NY', region: 'Northeast', specialty: 'Anesthesiology', tier: 'mid', imgFriendly: false, visaSponsorship: true, avgStep2: 243, avgPubs: 3.4, interviewRate: 0.23, matchThreshold: 227 },
       { id: 'im-ucla-alt', name: 'UCLA Internal Medicine', city: 'Los Angeles', state: 'CA', region: 'West Coast', specialty: 'Internal Medicine', tier: 'mid', imgFriendly: true, visaSponsorship: true, avgStep2: 240, avgPubs: 3.4, interviewRate: 0.24, matchThreshold: 224 }
     ];
+    const PROGRAMS = programDatabase;
+
 
     // ===== SPECIALTY CONFIGURATION =====
     const specialtyConfig = {
@@ -1872,7 +1874,7 @@
 // 1. TAB SWITCHING
 // ============================================================================
 function initTabs() {
-  const tabButtons = document.querySelectorAll('.tab');
+  const tabButtons = document.querySelectorAll('[data-tab-btn]');
   const tabContents = document.querySelectorAll('[data-tab-content]');
 
   // Hide all tab contents initially
@@ -1889,7 +1891,7 @@ function initTabs() {
   // Add click handlers to tab buttons
   tabButtons.forEach(button => {
     button.addEventListener('click', () => {
-      const tabName = button.getAttribute('data-tab');
+      const tabName = button.getAttribute('data-tab-btn');
 
       // Hide all tab contents
       tabContents.forEach(content => {
@@ -1924,7 +1926,7 @@ function initTabs() {
   });
 
   // Set initial active tab to profile
-  const profileButton = document.querySelector('[data-tab="profile"]');
+  const profileButton = document.querySelector('[data-tab-btn="profile"]');
   if (profileButton) {
     profileButton.classList.add('active');
   }
@@ -1997,9 +1999,9 @@ function initProfileForm() {
       renderProfileSummary();
 
       // Enable other tabs
-      const tabButtons = document.querySelectorAll('.tab');
+      const tabButtons = document.querySelectorAll('[data-tab-btn]');
       tabButtons.forEach(btn => {
-        if (btn.getAttribute('data-tab') !== 'profile') {
+        if (btn.getAttribute('data-tab-btn') !== 'profile') {
           btn.style.opacity = '1';
           btn.style.pointerEvents = 'auto';
         }
