@@ -3,227 +3,796 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Lounge — MSIB.io</title>
-    <meta name="description" content="Drop into the MSIB Student Lounge — a real-time chat room for medical students to discuss issues of the day, share study tips, and support each other.">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <!-- External CSS -->
+    <title>Student Lounge - MSIB.io</title>
     <link rel="stylesheet" href="css/style.css">
-
-    <!-- Supabase JS Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-
     <style>
-    /* === Student Lounge Styles === */
+        /* ============================================
+           ROOT & TYPOGRAPHY
+           ============================================ */
+        :root {
+            --color-primary: #8C1515;
+            --color-primary-dark: #6B0F0F;
+            --color-secondary: #2E4057;
+            --color-accent: #007C92;
+            --color-bg: #FAFAFA;
+            --color-surface: #FFFFFF;
+            --color-surface-alt: #F5F3F0;
+            --color-border: #E0DCD8;
+            --color-text: #2E2D29;
+            --color-text-secondary: #585754;
+            --color-text-muted: #8B8A88;
+            --color-success: #4CAF50;
+            --color-error: #D32F2F;
+            --font-heading: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            --font-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            --radius: 8px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.16);
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            --max-width: 1200px;
+        }
 
-    .lounge-hero {
-        background: linear-gradient(135deg, #2E4057 0%, #1a2a3a 100%);
-        color: #fff;
-        padding: var(--space-xl) 0 var(--space-lg);
-        text-align: center;
-    }
-    .lounge-hero h1 { color: #fff; font-size: 1.75rem; margin-bottom: var(--space-xs); }
-    .lounge-hero p { color: rgba(255,255,255,0.7); font-size: 0.95rem; margin: 0; }
-    .lounge-hero__status {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        margin-top: var(--space-sm);
-        font-size: 0.8rem;
-        color: rgba(255,255,255,0.6);
-    }
-    .lounge-hero__dot {
-        width: 8px; height: 8px;
-        border-radius: 50%;
-        background: #4ADE80;
-        display: inline-block;
-    }
-    .lounge-hero__dot.offline { background: #F87171; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* Auth Gate */
-    .lounge-auth {
-        max-width: 480px;
-        margin: var(--space-2xl) auto;
-        text-align: center;
-        padding: 0 var(--space-lg);
-    }
-    .lounge-auth h2 { margin-bottom: var(--space-sm); }
-    .lounge-auth p { color: var(--color-text-secondary); margin-bottom: var(--space-lg); }
-    .lounge-auth__btn {
-        display: inline-block;
-        background: var(--color-primary);
-        color: #fff;
-        padding: 12px 28px;
-        border-radius: var(--radius);
-        font-weight: 600;
-        font-size: 0.95rem;
-        text-decoration: none;
-        transition: background 0.2s;
-    }
-    .lounge-auth__btn:hover { background: var(--color-primary-dark); color: #fff; }
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            line-height: 1.6;
+        }
 
-    /* Chat Container */
-    .lounge-wrap {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: var(--space-md) var(--space-lg) var(--space-lg);
-        display: none; /* shown when authenticated */
-    }
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .topnav {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    .lounge-info {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: var(--space-sm) 0;
-        border-bottom: 1px solid var(--color-border);
-        margin-bottom: var(--space-md);
-        font-size: 0.8rem;
-        color: var(--color-text-muted);
-    }
-    .lounge-info__ephemeral {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-    }
+        .topnav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--space-md);
+        }
 
-    /* Messages Area */
-    .lounge-messages {
-        height: 55vh;
-        min-height: 320px;
-        overflow-y: auto;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius);
-        background: var(--color-surface);
-        padding: var(--space-md);
-        scroll-behavior: smooth;
-    }
+        .topnav__brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
 
-    .lounge-msg {
-        margin-bottom: var(--space-md);
-        animation: fadeIn 0.2s ease;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(4px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-    .lounge-msg__header {
-        display: flex;
-        align-items: baseline;
-        gap: var(--space-sm);
-        margin-bottom: 2px;
-    }
-    .lounge-msg__name {
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: var(--color-secondary);
-    }
-    .lounge-msg__school {
-        font-size: 0.75rem;
-        color: var(--color-text-muted);
-        background: var(--color-surface-alt);
-        padding: 1px 6px;
-        border-radius: 8px;
-    }
-    .lounge-msg__time {
-        font-size: 0.75rem;
-        color: var(--color-text-muted);
-        margin-left: auto;
-    }
-    .lounge-msg__body {
-        font-size: 0.95rem;
-        line-height: 1.5;
-        color: var(--color-text);
-        padding-left: 0;
-    }
-    .lounge-msg--own .lounge-msg__name {
-        color: var(--color-primary);
-    }
-    .lounge-msg--system {
-        text-align: center;
-        color: var(--color-text-muted);
-        font-size: 0.8rem;
-        font-style: italic;
-        margin: var(--space-sm) 0;
-    }
+        .logo-icon {
+            color: var(--color-primary);
+        }
 
-    .lounge-empty {
-        text-align: center;
-        color: var(--color-text-muted);
-        padding: var(--space-2xl) 0;
-        font-size: 0.95rem;
-    }
-    .lounge-empty span { font-size: 2rem; display: block; margin-bottom: var(--space-sm); }
+        .logo-text {
+            color: var(--color-primary);
+        }
 
-    /* Input Area */
-    .lounge-input {
-        display: flex;
-        gap: var(--space-sm);
-        margin-top: var(--space-md);
-    }
-    .lounge-input__field {
-        flex: 1;
-        padding: 12px 16px;
-        border: 1.5px solid var(--color-border);
-        border-radius: var(--radius);
-        font-size: 0.95rem;
-        font-family: var(--font-body);
-        color: var(--color-text);
-        background: var(--color-surface);
-        transition: border-color 0.2s;
-        resize: none;
-        min-height: 46px;
-        max-height: 120px;
-    }
-    .lounge-input__field:focus {
-        outline: none;
-        border-color: var(--color-primary);
-    }
-    .lounge-input__field::placeholder { color: var(--color-text-muted); }
-    .lounge-input__send {
-        padding: 12px 20px;
-        background: var(--color-primary);
-        color: #fff;
-        border: none;
-        border-radius: var(--radius);
-        font-weight: 600;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: background 0.2s;
-        white-space: nowrap;
-        align-self: flex-end;
-    }
-    .lounge-input__send:hover { background: var(--color-primary-dark); }
-    .lounge-input__send:disabled { opacity: 0.5; cursor: not-allowed; }
+        .topnav__links {
+            display: flex;
+            list-style: none;
+            gap: var(--space-lg);
+            margin: 0;
+        }
 
-    /* Connectivity Banner */
-    .lounge-offline {
-        display: none;
-        background: #FEF3C7;
-        border: 1px solid #FCD34D;
-        border-radius: var(--radius);
-        padding: var(--space-sm) var(--space-md);
-        text-align: center;
-        font-size: 0.85rem;
-        color: #92400E;
-        margin-bottom: var(--space-md);
-    }
-    .lounge-offline.visible { display: block; }
+        .topnav__links a {
+            text-decoration: none;
+            color: var(--color-text);
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
 
-    /* Responsive */
-    @media (max-width: 640px) {
-        .lounge-hero { padding: var(--space-lg) var(--space-md) var(--space-md); }
-        .lounge-hero h1 { font-size: 1.5rem; }
-        .lounge-wrap { padding: var(--space-sm) var(--space-md) var(--space-md); }
-        .lounge-messages { height: 50vh; min-height: 280px; }
-    }
+        .topnav__links a:hover {
+            color: var(--color-primary);
+        }
+
+        .topnav__links a[href="lounge.html"] {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .topnav__hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-text);
+        }
+
+        @media (max-width: 768px) {
+            .topnav__links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: var(--color-surface);
+                border-bottom: 1px solid var(--color-border);
+                padding: var(--space-md);
+                gap: var(--space-md);
+            }
+
+            .topnav__links.open {
+                display: flex;
+            }
+
+            .topnav__hamburger {
+                display: block;
+            }
+        }
+
+        /* ============================================
+           UTILITY CLASSES
+           ============================================ */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--space-lg);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ============================================
+           AUTH GATE VIEW
+           ============================================ */
+        .auth-gate {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 80px);
+        }
+
+        .auth-gate__card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            padding: var(--space-3xl);
+            max-width: 400px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .auth-gate__icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .auth-gate__title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            color: var(--color-text);
+        }
+
+        .auth-gate__text {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+
+        .auth-gate__buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+        }
+
+        .btn {
+            padding: var(--space-sm) var(--space-lg);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #1f2b38;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .btn-small {
+            padding: var(--space-xs) var(--space-md);
+            font-size: 0.875rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ============================================
+           LOBBY VIEW
+           ============================================ */
+        .lobby {
+            padding: var(--space-xl) var(--space-lg);
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+        }
+
+        .hero__title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            color: var(--color-text);
+        }
+
+        .hero__subtitle {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+
+        .connection-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            background: var(--color-surface-alt);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+
+        .connection-badge__dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--color-success);
+            animation: pulse 2s infinite;
+        }
+
+        .connection-badge__dot.offline {
+            background-color: var(--color-error);
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .lobby__controls {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--space-2xl);
+        }
+
+        /* ============================================
+           CREATE ROOM FORM
+           ============================================ */
+        .create-form {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+            box-shadow: var(--shadow-md);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .create-form.hidden {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            color: var(--color-text);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: var(--space-md);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--color-text);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(140, 21, 21, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .char-count {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            margin-top: var(--space-xs);
+        }
+
+        .form-group--radio {
+            margin-bottom: var(--space-lg);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .radio-option input[type="radio"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+        }
+
+        .error-message {
+            background-color: #FFEBEE;
+            color: var(--color-error);
+            padding: var(--space-md);
+            border-radius: var(--radius);
+            margin-bottom: var(--space-lg);
+            border-left: 4px solid var(--color-error);
+        }
+
+        .success-message {
+            background-color: #E8F5E9;
+            color: var(--color-success);
+            padding: var(--space-md);
+            border-radius: var(--radius);
+            margin-bottom: var(--space-lg);
+            border-left: 4px solid var(--color-success);
+        }
+
+        /* ============================================
+           ROOMS GRID
+           ============================================ */
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-2xl);
+        }
+
+        .room-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .room-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-primary);
+        }
+
+        .room-card.main-lounge {
+            grid-column: span 1;
+            border: 2px solid var(--color-primary);
+        }
+
+        @media (min-width: 900px) {
+            .room-card.main-lounge {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
+
+        .room-card__header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: var(--space-md);
+            gap: var(--space-md);
+        }
+
+        .room-card__title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+
+        .room-card__badges {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-sm);
+            background: var(--color-surface-alt);
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            white-space: nowrap;
+        }
+
+        .badge.permanent {
+            background: #E3F2FD;
+            color: #1976D2;
+            border-color: #1976D2;
+        }
+
+        .badge.countdown {
+            background: #FFF3E0;
+            color: #F57C00;
+            border-color: #F57C00;
+        }
+
+        .room-card__description {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: var(--space-md);
+            flex-grow: 1;
+        }
+
+        .room-card__creator {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-md);
+        }
+
+        .room-card__action {
+            align-self: flex-start;
+        }
+
+        /* ============================================
+           CHAT ROOM VIEW
+           ============================================ */
+        .chat-room {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 80px);
+            padding: 0;
+        }
+
+        .chat-header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--space-lg);
+            flex-shrink: 0;
+        }
+
+        .chat-header__top {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .chat-header__back {
+            background: none;
+            border: none;
+            color: var(--color-primary);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            transition: color 0.2s;
+        }
+
+        .chat-header__back:hover {
+            color: var(--color-primary-dark);
+        }
+
+        .chat-header__title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+
+        .chat-header__description {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        .chat-header__meta {
+            display: flex;
+            gap: var(--space-lg);
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        .countdown {
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        .chat-body {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        .messages-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: var(--space-lg);
+            background: var(--color-bg);
+        }
+
+        .message {
+            margin-bottom: var(--space-md);
+            animation: slideIn 0.2s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message__header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-xs);
+        }
+
+        .message__user {
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .message__user.own {
+            color: var(--color-primary);
+        }
+
+        .message__school {
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--color-surface-alt);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--color-text-secondary);
+        }
+
+        .message__time {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            margin-left: auto;
+        }
+
+        .message__body {
+            color: var(--color-text);
+            line-height: 1.5;
+            word-wrap: break-word;
+            padding: var(--space-sm) var(--space-md);
+            background: var(--color-surface);
+            border-radius: var(--radius);
+        }
+
+        .message.own .message__body {
+            background: #FFF8F5;
+        }
+
+        .offline-banner {
+            background-color: #FFF3E0;
+            border-bottom: 1px solid #FFB74D;
+            padding: var(--space-md);
+            text-align: center;
+            font-size: 0.9rem;
+            color: #E65100;
+            font-weight: 600;
+        }
+
+        .offline-banner.hidden {
+            display: none;
+        }
+
+        .chat-footer {
+            flex-shrink: 0;
+            background: var(--color-surface);
+            border-top: 1px solid var(--color-border);
+            padding: var(--space-lg);
+        }
+
+        .message-input-group {
+            display: flex;
+            gap: var(--space-md);
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex-grow: 1;
+            padding: var(--space-md);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--color-text);
+            resize: none;
+            max-height: 120px;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(140, 21, 21, 0.1);
+        }
+
+        .message-input-hint {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            margin-top: var(--space-xs);
+        }
+
+        /* ============================================
+           EMPTY STATES
+           ============================================ */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-3xl) var(--space-lg);
+            color: var(--color-text-secondary);
+        }
+
+        .empty-state__icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .empty-state__text {
+            font-size: 1rem;
+        }
+
+        /* ============================================
+           LOADING & SPINNER
+           ============================================ */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--color-border);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .hero__title {
+                font-size: 1.8rem;
+            }
+
+            .hero__subtitle {
+                font-size: 1rem;
+            }
+
+            .rooms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lobby__controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .create-form {
+                margin-left: var(--space-lg);
+                margin-right: var(--space-lg);
+            }
+
+            .message-input-group {
+                flex-direction: column;
+            }
+
+            .message-input-group .btn {
+                align-self: flex-end;
+                width: auto;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: var(--space-sm);
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
+    <!-- Navigation -->
     <nav class="topnav">
         <div class="container">
             <div class="topnav__brand">
@@ -245,324 +814,654 @@
         </div>
     </nav>
 
-    <!-- Hero -->
-    <section class="lounge-hero">
+    <!-- Auth Gate View -->
+    <div id="authGateView" class="auth-gate">
+        <div class="auth-gate__card">
+            <div class="auth-gate__icon">💬</div>
+            <h1 class="auth-gate__title">Sign in to join the conversation</h1>
+            <p class="auth-gate__text">Connect with fellow medical students, ask questions, and build your community.</p>
+            <div class="auth-gate__buttons">
+                <a href="login.html" class="btn btn-primary">Sign In</a>
+                <a href="signup.html" class="btn btn-outline">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lobby View -->
+    <div id="lobbyView" class="lobby hidden">
         <div class="container">
-            <h1>Student Lounge</h1>
-            <p>Drop in, say hello, discuss the issues of the day.</p>
-            <div class="lounge-hero__status" id="connectionStatus">
-                <span class="lounge-hero__dot" id="statusDot"></span>
-                <span id="statusText">Connecting...</span>
+            <div class="hero">
+                <h1 class="hero__title">Student Lounge</h1>
+                <p class="hero__subtitle">A space to connect, share, and grow together</p>
+                <div class="connection-badge">
+                    <div class="connection-badge__dot" id="connectionDot"></div>
+                    <span id="connectionStatus">Connected</span>
+                </div>
+            </div>
+
+            <div class="lobby__controls">
+                <button id="createPopupBtn" class="btn btn-primary">Create a Pop-up Room</button>
+                <button id="createPermanentBtn" class="btn btn-secondary hidden">Create Permanent Room</button>
+            </div>
+
+            <!-- Create Form (initially hidden) -->
+            <div id="createForm" class="create-form hidden">
+                <form id="roomForm">
+                    <div id="formMessage"></div>
+
+                    <div class="form-group">
+                        <label for="roomName">Room Name</label>
+                        <input
+                            type="text"
+                            id="roomName"
+                            maxlength="100"
+                            placeholder="e.g., Organic Chem Study Group"
+                            required
+                        >
+                        <div class="char-count"><span id="nameCount">0</span>/100</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roomDescription">Description (optional)</label>
+                        <textarea
+                            id="roomDescription"
+                            maxlength="300"
+                            placeholder="Brief description of the room's purpose..."
+                        ></textarea>
+                        <div class="char-count"><span id="descCount">0</span>/300</div>
+                    </div>
+
+                    <div class="form-group form-group--radio">
+                        <label>Duration</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="duration" value="2" checked>
+                                <span>2 hours</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="duration" value="8">
+                                <span>8 hours</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="duration" value="24">
+                                <span>24 hours</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">Create Room</button>
+                        <button type="button" id="cancelCreateBtn" class="btn btn-outline">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Rooms Grid -->
+            <div id="roomsGrid" class="rooms-grid"></div>
+
+            <div id="emptyState" class="empty-state hidden">
+                <div class="empty-state__icon">🏠</div>
+                <p class="empty-state__text">No active rooms yet. Create one to get started!</p>
             </div>
         </div>
-    </section>
-
-    <!-- Auth Gate (shown when not signed in) -->
-    <div class="lounge-auth" id="authGate">
-        <h2>Sign in to join the conversation</h2>
-        <p>The Student Lounge is open to all registered MSIB students. Sign in or create a free account to start chatting.</p>
-        <a href="login.html" class="lounge-auth__btn">Sign in</a>
-        <p style="margin-top:var(--space-md);font-size:0.85rem;">
-            Don't have an account? <a href="signup.html" style="color:var(--color-primary);font-weight:600;">Sign up free</a>
-        </p>
     </div>
 
-    <!-- Chat Area (shown when authenticated) -->
-    <div class="lounge-wrap" id="chatArea">
-        <!-- Offline Banner -->
-        <div class="lounge-offline" id="offlineBanner">
-            You appear to be offline. Messages will not send until your connection is restored.
+    <!-- Chat Room View -->
+    <div id="chatRoomView" class="chat-room hidden">
+        <div class="offline-banner hidden" id="offlineBanner">
+            ⚠️ You are offline. Messages may not sync until your connection is restored.
         </div>
 
-        <div class="lounge-info">
-            <span>Signed in as <strong id="userName">—</strong></span>
-            <span class="lounge-info__ephemeral">&#9202; Messages disappear after 24 hours</span>
-        </div>
-
-        <!-- Messages -->
-        <div class="lounge-messages" id="messagesContainer">
-            <div class="lounge-empty" id="emptyState">
-                <span>&#9749;</span>
-                No messages yet today. Be the first to say something.
+        <div class="chat-header">
+            <div class="chat-header__top">
+                <button id="backBtn" class="chat-header__back">← Back to Lobby</button>
+            </div>
+            <h2 class="chat-header__title" id="chatRoomTitle">Room</h2>
+            <p class="chat-header__description" id="chatRoomDescription"></p>
+            <div class="chat-header__meta">
+                <span id="chatRoomCreator"></span>
+                <span id="countdownTimer"></span>
             </div>
         </div>
 
-        <!-- Input -->
-        <div class="lounge-input">
-            <textarea class="lounge-input__field" id="messageInput"
-                placeholder="Type a message..." rows="1"
-                maxlength="2000"></textarea>
-            <button class="lounge-input__send" id="sendBtn" disabled>Send</button>
+        <div class="chat-body">
+            <div class="messages-container" id="messagesContainer"></div>
+        </div>
+
+        <div class="chat-footer">
+            <div class="message-input-group">
+                <textarea
+                    id="messageInput"
+                    class="message-input"
+                    placeholder="Type a message... (Shift+Enter for new line)"
+                    rows="1"
+                ></textarea>
+                <button id="sendBtn" class="btn btn-primary btn-small">Send</button>
+            </div>
+            <div class="message-input-hint">Press Enter to send, Shift+Enter for a new line</div>
         </div>
     </div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
     <script>
-    (function() {
-        // ── Config ────────────────────────────────────────────────────────────────
-        let SUPABASE_URL = '';
-        let SUPABASE_ANON_KEY = '';
-        let supabase = null;
+        // ============================================
+        // STATE & CONSTANTS
+        // ============================================
+        const MAIN_LOUNGE_ID = 'dc2aee36-2f8e-4c5c-a251-fe98d2247612';
+        const MAX_POPUP_ROOMS = 10;
+        const MESSAGE_BATCH_SIZE = 200;
+
+        let supabaseClient;
         let currentUser = null;
-        let currentUserMeta = {};
-        let currentSchool = '';
-        let realtimeChannel = null;
+        let currentLounge = null;
+        let messageSubscription = null;
+        let loungeSubscription = null;
+        let countdownInterval = null;
+        let messageScrollListener = null;
 
-        const authGate      = document.getElementById('authGate');
-        const chatArea       = document.getElementById('chatArea');
-        const messagesEl     = document.getElementById('messagesContainer');
-        const emptyState     = document.getElementById('emptyState');
-        const messageInput   = document.getElementById('messageInput');
-        const sendBtn        = document.getElementById('sendBtn');
-        const userNameEl     = document.getElementById('userName');
-        const statusDot      = document.getElementById('statusDot');
-        const statusText     = document.getElementById('statusText');
-        const offlineBanner  = document.getElementById('offlineBanner');
-
-        // ── Initialize ────────────────────────────────────────────────────────────
+        // ============================================
+        // INITIALIZATION
+        // ============================================
         async function init() {
-            // Fetch config from API
-            try {
-                const configRes = await fetch('/api/config');
-                const config = await configRes.json();
-                SUPABASE_URL = config.supabaseUrl;
-                SUPABASE_ANON_KEY = config.supabaseAnonKey;
-            } catch (e) {
-                console.error('Failed to load config', e);
-                statusText.textContent = 'Configuration error';
-                statusDot.classList.add('offline');
-                return;
-            }
+            // Initialize Supabase
+            const configResponse = await fetch('/api/config');
+            const config = await configResponse.json();
 
-            if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-                statusText.textContent = 'Not configured';
-                statusDot.classList.add('offline');
-                return;
-            }
+            supabaseClient = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
 
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            // Bridge session from localStorage
+            const accessToken = localStorage.getItem('msib-access-token');
+            const refreshToken = localStorage.getItem('msib-refresh-token');
 
-            // Bridge: login.html stores tokens in localStorage manually.
-            // The Supabase SDK has its own session store, so we need to
-            // import those tokens into the SDK if they exist.
-            const storedAccess  = localStorage.getItem('msib-access-token');
-            const storedRefresh = localStorage.getItem('msib-refresh-token');
-            if (storedAccess && storedRefresh) {
-                await supabase.auth.setSession({
-                    access_token:  storedAccess,
-                    refresh_token: storedRefresh,
+            if (accessToken && refreshToken) {
+                await supabaseClient.auth.setSession({
+                    access_token: accessToken,
+                    refresh_token: refreshToken
                 });
             }
 
-            // Check auth state
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                onAuthenticated(session);
+            // Check auth status
+            const { data: { session } } = await supabaseClient.auth.getSession();
+
+            if (!session) {
+                showAuthGate();
             } else {
-                authGate.style.display = 'block';
-                chatArea.style.display = 'none';
-                statusText.textContent = 'Sign in to chat';
-                statusDot.classList.add('offline');
+                currentUser = session.user;
+                await showLobby();
             }
 
-            // Listen for auth changes (login/logout from other tabs)
-            supabase.auth.onAuthStateChange((event, session) => {
-                if (event === 'SIGNED_IN' && session) {
-                    onAuthenticated(session);
-                } else if (event === 'SIGNED_OUT') {
-                    authGate.style.display = 'block';
-                    chatArea.style.display = 'none';
-                    if (realtimeChannel) {
-                        supabase.removeChannel(realtimeChannel);
-                    }
-                }
+            setupEventListeners();
+            setupOnlineStatusDetection();
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        function setupEventListeners() {
+            document.querySelector('.topnav__hamburger')?.addEventListener('click', function() {
+                document.querySelector('.topnav__links')?.classList.toggle('open');
+            });
+
+            document.getElementById('createPopupBtn')?.addEventListener('click', toggleCreateForm);
+            document.getElementById('cancelCreateBtn')?.addEventListener('click', toggleCreateForm);
+            document.getElementById('roomForm')?.addEventListener('submit', handleCreateRoom);
+            document.getElementById('backBtn')?.addEventListener('click', backToLobby);
+            document.getElementById('sendBtn')?.addEventListener('click', sendMessage);
+            document.getElementById('messageInput')?.addEventListener('keydown', handleMessageKeydown);
+
+            // Character counters
+            document.getElementById('roomName')?.addEventListener('input', (e) => {
+                document.getElementById('nameCount').textContent = e.target.value.length;
+            });
+
+            document.getElementById('roomDescription')?.addEventListener('input', (e) => {
+                document.getElementById('descCount').textContent = e.target.value.length;
+            });
+
+            // Auto-resize textarea
+            document.getElementById('messageInput')?.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
             });
         }
 
-        // ── Authenticated ─────────────────────────────────────────────────────────
-        async function onAuthenticated(session) {
-            currentUser = session.user;
-            currentUserMeta = currentUser.user_metadata || {};
-            currentSchool = currentUser.app_metadata?.school_name || '';
+        function setupOnlineStatusDetection() {
+            window.addEventListener('online', () => {
+                document.getElementById('offlineBanner').classList.add('hidden');
+                document.getElementById('connectionDot').classList.remove('offline');
+                document.getElementById('connectionStatus').textContent = 'Connected';
+            });
 
-            const displayName = currentUserMeta.full_name || currentUser.email.split('@')[0];
-            userNameEl.textContent = displayName;
-
-            authGate.style.display = 'none';
-            chatArea.style.display = 'block';
-
-            // Fetch school name if we have school_id
-            if (currentUser.app_metadata?.school_id && !currentSchool) {
-                try {
-                    const { data } = await supabase
-                        .from('schools')
-                        .select('name')
-                        .eq('id', currentUser.app_metadata.school_id)
-                        .single();
-                    if (data) currentSchool = data.name;
-                } catch (e) { /* non-fatal */ }
-            }
-
-            await loadMessages();
-            subscribeToRealtime();
-            statusText.textContent = 'Connected';
-            statusDot.classList.remove('offline');
+            window.addEventListener('offline', () => {
+                document.getElementById('offlineBanner').classList.remove('hidden');
+                document.getElementById('connectionDot').classList.add('offline');
+                document.getElementById('connectionStatus').textContent = 'Offline';
+            });
         }
 
-        // ── Load existing messages ────────────────────────────────────────────────
-        async function loadMessages() {
-            const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+        // ============================================
+        // VIEW MANAGEMENT
+        // ============================================
+        function showAuthGate() {
+            document.getElementById('authGateView').classList.remove('hidden');
+            document.getElementById('lobbyView').classList.add('hidden');
+            document.getElementById('chatRoomView').classList.add('hidden');
+        }
 
-            const { data, error } = await supabase
-                .from('messages')
-                .select('*')
-                .gte('created_at', cutoff)
-                .order('created_at', { ascending: true })
-                .limit(200);
+        async function showLobby() {
+            document.getElementById('authGateView').classList.add('hidden');
+            document.getElementById('chatRoomView').classList.add('hidden');
+            document.getElementById('lobbyView').classList.remove('hidden');
 
-            if (error) {
-                console.error('Failed to load messages', error);
+            // Check if user is admin
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (user?.app_metadata?.role === 'admin') {
+                document.getElementById('createPermanentBtn').classList.remove('hidden');
+            }
+
+            await loadLoungees();
+            subscribeToLounges();
+        }
+
+        async function showChatRoom(loungeId) {
+            currentLounge = loungeId;
+
+            document.getElementById('authGateView').classList.add('hidden');
+            document.getElementById('lobbyView').classList.add('hidden');
+            document.getElementById('chatRoomView').classList.remove('hidden');
+
+            // Reset message input
+            document.getElementById('messageInput').value = '';
+            document.getElementById('messageInput').style.height = 'auto';
+
+            await loadChatRoom();
+            await loadMessages();
+            subscribeToMessages();
+
+            // Scroll to bottom
+            setTimeout(() => {
+                const container = document.getElementById('messagesContainer');
+                container.scrollTop = container.scrollHeight;
+            }, 100);
+        }
+
+        function backToLobby() {
+            currentLounge = null;
+            if (messageSubscription) {
+                supabaseClient.removeSubscription(messageSubscription);
+                messageSubscription = null;
+            }
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+            showLobby();
+        }
+
+        // ============================================
+        // LOUNGE MANAGEMENT
+        // ============================================
+        async function loadLoungees() {
+            try {
+                const now = new Date().toISOString();
+                const { data: lounges, error } = await supabaseClient
+                    .from('lounges')
+                    .select('*')
+                    .or(`is_permanent.eq.true,expires_at.gt.${now}`)
+                    .order('is_permanent', { ascending: false })
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                const mainLounge = lounges.find(l => l.id === MAIN_LOUNGE_ID);
+                const otherLounges = lounges.filter(l => l.id !== MAIN_LOUNGE_ID);
+                const sorted = mainLounge ? [mainLounge, ...otherLounges] : otherLounges;
+
+                renderRooms(sorted);
+            } catch (error) {
+                console.error('Error loading lounges:', error);
+            }
+        }
+
+        function renderRooms(lounges) {
+            const grid = document.getElementById('roomsGrid');
+            const empty = document.getElementById('emptyState');
+
+            if (lounges.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
                 return;
             }
 
-            if (data && data.length > 0) {
-                emptyState.style.display = 'none';
-                data.forEach(msg => appendMessage(msg));
-                scrollToBottom();
+            empty.classList.add('hidden');
+            grid.innerHTML = lounges.map(lounge => {
+                const isMainLounge = lounge.id === MAIN_LOUNGE_ID;
+                const isExpired = !lounge.is_permanent && new Date(lounge.expires_at) <= new Date();
+                const timeRemaining = getTimeRemaining(lounge.expires_at);
+                const createdTime = new Date(lounge.created_at).toLocaleString();
+
+                const html = `
+                    <div class="room-card ${isMainLounge ? 'main-lounge' : ''}">
+                        <div class="room-card__header">
+                            <div class="room-card__title">${escapeHtml(lounge.name)}</div>
+                            <div class="room-card__badges">
+                                ${lounge.is_permanent ? '<span class="badge permanent">Permanent</span>' : `<span class="badge countdown">${timeRemaining}</span>`}
+                            </div>
+                        </div>
+                        <p class="room-card__description">${escapeHtml(lounge.description || '(No description)')}</p>
+                        <div class="room-card__creator">Created by <strong>${escapeHtml(lounge.creator_name || 'Anonymous')}</strong></div>
+                        <button class="btn btn-primary btn-small room-card__action" data-lounge-id="${lounge.id}">
+                            Join Room
+                        </button>
+                    </div>
+                `;
+
+                return html;
+            }).join('');
+
+            // Attach join listeners
+            grid.querySelectorAll('.room-card__action').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    await showChatRoom(e.currentTarget.dataset.loungeId);
+                });
+            });
+        }
+
+        function subscribeToLounges() {
+            if (loungeSubscription) {
+                supabaseClient.removeSubscription(loungeSubscription);
+            }
+
+            loungeSubscription = supabaseClient
+                .on('postgres_changes', {
+                    event: '*',
+                    schema: 'public',
+                    table: 'lounges'
+                }, (payload) => {
+                    loadLoungees();
+                })
+                .subscribe();
+        }
+
+        // ============================================
+        // ROOM CREATION
+        // ============================================
+        function toggleCreateForm() {
+            const form = document.getElementById('createForm');
+            form.classList.toggle('hidden');
+            if (!form.classList.contains('hidden')) {
+                document.getElementById('roomName').focus();
             }
         }
 
-        // ── Realtime subscription ─────────────────────────────────────────────────
-        function subscribeToRealtime() {
-            realtimeChannel = supabase
-                .channel('lounge-messages')
-                .on('postgres_changes',
-                    { event: 'INSERT', schema: 'public', table: 'messages' },
-                    (payload) => {
-                        emptyState.style.display = 'none';
-                        appendMessage(payload.new);
-                        scrollToBottom();
-                    }
-                )
-                .subscribe((status) => {
-                    if (status === 'SUBSCRIBED') {
-                        statusText.textContent = 'Connected';
-                        statusDot.classList.remove('offline');
-                    } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
-                        statusText.textContent = 'Reconnecting...';
-                        statusDot.classList.add('offline');
-                    }
-                });
-        }
+        async function handleCreateRoom(e) {
+            e.preventDefault();
 
-        // ── Render a message ──────────────────────────────────────────────────────
-        function appendMessage(msg) {
-            const div = document.createElement('div');
-            const isOwn = currentUser && msg.user_id === currentUser.id;
-            div.className = 'lounge-msg' + (isOwn ? ' lounge-msg--own' : '');
+            const name = document.getElementById('roomName').value.trim();
+            const description = document.getElementById('roomDescription').value.trim();
+            const duration = parseInt(document.querySelector('input[name="duration"]:checked').value);
+            const messageDiv = document.getElementById('formMessage');
 
-            const time = new Date(msg.created_at);
-            const timeStr = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            // Validate
+            if (!name) {
+                showMessage(messageDiv, 'Room name is required', 'error');
+                return;
+            }
 
-            const schoolBadge = msg.school_name
-                ? '<span class="lounge-msg__school">' + escHtml(msg.school_name) + '</span>'
-                : '';
+            // Check popup limit
+            const now = new Date().toISOString();
+            const { count, error: countError } = await supabaseClient
+                .from('lounges')
+                .select('*', { count: 'exact', head: true })
+                .eq('is_permanent', false)
+                .gt('expires_at', now);
 
-            div.innerHTML =
-                '<div class="lounge-msg__header">' +
-                    '<span class="lounge-msg__name">' + escHtml(msg.user_name) + '</span>' +
-                    schoolBadge +
-                    '<span class="lounge-msg__time">' + timeStr + '</span>' +
-                '</div>' +
-                '<div class="lounge-msg__body">' + escHtml(msg.body) + '</div>';
+            if (countError) {
+                showMessage(messageDiv, 'Error checking room limit', 'error');
+                return;
+            }
 
-            messagesEl.appendChild(div);
-        }
+            if (count >= MAX_POPUP_ROOMS) {
+                showMessage(messageDiv, `Maximum ${MAX_POPUP_ROOMS} active pop-up rooms allowed`, 'error');
+                return;
+            }
 
-        function escHtml(str) {
-            const d = document.createElement('div');
-            d.textContent = str;
-            return d.innerHTML;
-        }
+            // Create room
+            const expiresAt = new Date(Date.now() + duration * 60 * 60 * 1000).toISOString();
+            const { data: { user } } = await supabaseClient.auth.getUser();
 
-        function scrollToBottom() {
-            messagesEl.scrollTop = messagesEl.scrollHeight;
-        }
-
-        // ── Send message ──────────────────────────────────────────────────────────
-        async function sendMessage() {
-            const body = messageInput.value.trim();
-            if (!body || !currentUser) return;
-
-            sendBtn.disabled = true;
-            messageInput.value = '';
-            autoResize();
-
-            const displayName = currentUserMeta.full_name || currentUser.email.split('@')[0];
-
-            const { error } = await supabase.from('messages').insert({
-                user_id: currentUser.id,
-                user_name: displayName,
-                school_name: currentSchool || null,
-                body: body,
-            });
+            const { data, error } = await supabaseClient
+                .from('lounges')
+                .insert({
+                    name,
+                    description: description || null,
+                    created_by: user.id,
+                    creator_name: user.user_metadata?.name || user.email,
+                    is_permanent: false,
+                    expires_at: expiresAt,
+                    duration_hrs: duration
+                })
+                .select();
 
             if (error) {
-                console.error('Send failed', error);
-                messageInput.value = body; // restore on failure
-                alert('Failed to send message. Please try again.');
+                showMessage(messageDiv, 'Failed to create room: ' + error.message, 'error');
+                return;
             }
 
-            sendBtn.disabled = false;
-            messageInput.focus();
+            showMessage(messageDiv, 'Room created!', 'success');
+            document.getElementById('roomForm').reset();
+            document.getElementById('nameCount').textContent = '0';
+            document.getElementById('descCount').textContent = '0';
+
+            setTimeout(() => {
+                toggleCreateForm();
+            }, 1500);
         }
 
-        // ── Input handling ────────────────────────────────────────────────────────
-        messageInput.addEventListener('input', () => {
-            sendBtn.disabled = !messageInput.value.trim();
-            autoResize();
-        });
+        // ============================================
+        // CHAT ROOM
+        // ============================================
+        async function loadChatRoom() {
+            try {
+                const { data: lounge, error } = await supabaseClient
+                    .from('lounges')
+                    .select('*')
+                    .eq('id', currentLounge)
+                    .single();
 
-        messageInput.addEventListener('keydown', (e) => {
+                if (error) throw error;
+
+                document.getElementById('chatRoomTitle').textContent = escapeHtml(lounge.name);
+                document.getElementById('chatRoomDescription').textContent = escapeHtml(lounge.description || '(No description)');
+                document.getElementById('chatRoomCreator').textContent = `Created by ${escapeHtml(lounge.creator_name || 'Anonymous')}`;
+
+                if (!lounge.is_permanent) {
+                    startCountdown(lounge.expires_at);
+                } else {
+                    document.getElementById('countdownTimer').textContent = '';
+                }
+            } catch (error) {
+                console.error('Error loading chat room:', error);
+            }
+        }
+
+        function startCountdown(expiresAt) {
+            if (countdownInterval) clearInterval(countdownInterval);
+
+            const updateCountdown = () => {
+                const remaining = new Date(expiresAt) - new Date();
+                if (remaining <= 0) {
+                    clearInterval(countdownInterval);
+                    backToLobby();
+                    return;
+                }
+
+                const hours = Math.floor(remaining / 3600000);
+                const minutes = Math.floor((remaining % 3600000) / 60000);
+                document.getElementById('countdownTimer').innerHTML =
+                    `<span class="countdown">${hours}h ${minutes}m remaining</span>`;
+            };
+
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 60000); // Update every minute
+        }
+
+        // ============================================
+        // MESSAGES
+        // ============================================
+        async function loadMessages() {
+            try {
+                const now = new Date();
+                const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+
+                const { data: messages, error } = await supabaseClient
+                    .from('messages')
+                    .select('*')
+                    .eq('lounge_id', currentLounge)
+                    .gt('created_at', oneDayAgo)
+                    .order('created_at', { ascending: true })
+                    .limit(MESSAGE_BATCH_SIZE);
+
+                if (error) throw error;
+
+                renderMessages(messages);
+            } catch (error) {
+                console.error('Error loading messages:', error);
+            }
+        }
+
+        function renderMessages(messages) {
+            const container = document.getElementById('messagesContainer');
+            container.innerHTML = messages.map(msg => {
+                const time = new Date(msg.created_at).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const isOwn = msg.user_id === currentUser.id;
+
+                return `
+                    <div class="message ${isOwn ? 'own' : ''}">
+                        <div class="message__header">
+                            <span class="message__user ${isOwn ? 'own' : ''}">${escapeHtml(msg.user_name)}</span>
+                            <span class="message__school">${escapeHtml(msg.school_name || 'MSIB')}</span>
+                            <span class="message__time">${time}</span>
+                        </div>
+                        <div class="message__body">${escapeHtml(msg.body)}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function subscribeToMessages() {
+            if (messageSubscription) {
+                supabaseClient.removeSubscription(messageSubscription);
+            }
+
+            messageSubscription = supabaseClient
+                .on('postgres_changes', {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'messages',
+                    filter: `lounge_id=eq.${currentLounge}`
+                }, (payload) => {
+                    appendMessage(payload.new);
+                })
+                .subscribe();
+        }
+
+        function appendMessage(message) {
+            const container = document.getElementById('messagesContainer');
+            const time = new Date(message.created_at).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            const isOwn = message.user_id === currentUser.id;
+
+            const html = `
+                <div class="message ${isOwn ? 'own' : ''}">
+                    <div class="message__header">
+                        <span class="message__user ${isOwn ? 'own' : ''}">${escapeHtml(message.user_name)}</span>
+                        <span class="message__school">${escapeHtml(message.school_name || 'MSIB')}</span>
+                        <span class="message__time">${time}</span>
+                    </div>
+                    <div class="message__body">${escapeHtml(message.body)}</div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', html);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const body = input.value.trim();
+
+            if (!body) return;
+
+            const { data: { user } } = await supabaseClient.auth.getUser();
+
+            try {
+                await supabaseClient
+                    .from('messages')
+                    .insert({
+                        user_id: user.id,
+                        user_name: user.user_metadata?.name || user.email,
+                        school_name: user.user_metadata?.school || null,
+                        lounge_id: currentLounge,
+                        body
+                    });
+
+                input.value = '';
+                input.style.height = 'auto';
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+        }
+
+        function handleMessageKeydown(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                if (messageInput.value.trim()) sendMessage();
+                sendMessage();
             }
-        });
-
-        sendBtn.addEventListener('click', sendMessage);
-
-        function autoResize() {
-            messageInput.style.height = 'auto';
-            messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
         }
 
-        // ── Connectivity detection ────────────────────────────────────────────────
-        window.addEventListener('online', () => {
-            offlineBanner.classList.remove('visible');
-            statusText.textContent = 'Connected';
-            statusDot.classList.remove('offline');
-        });
-
-        window.addEventListener('offline', () => {
-            offlineBanner.classList.add('visible');
-            statusText.textContent = 'Offline';
-            statusDot.classList.add('offline');
-        });
-
-        if (!navigator.onLine) {
-            offlineBanner.classList.add('visible');
-            statusText.textContent = 'Offline — connect to WiFi or cellular to use the Lounge';
-            statusDot.classList.add('offline');
+        // ============================================
+        // UTILITIES
+        // ============================================
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
         }
 
-        // ── Mobile nav toggle ─────────────────────────────────────────────────────
-        document.querySelector('.topnav__hamburger')?.addEventListener('click', function() {
-            document.querySelector('.topnav__links')?.classList.toggle('open');
-        });
+        function getTimeRemaining(expiresAt) {
+            const remaining = new Date(expiresAt) - new Date();
+            if (remaining <= 0) return 'Expired';
 
-        // ── Boot ──────────────────────────────────────────────────────────────────
-        init();
-    })();
+            const hours = Math.floor(remaining / 3600000);
+            const minutes = Math.floor((remaining % 3600000) / 60000);
+
+            if (hours > 0) return `${hours}h ${minutes}m`;
+            return `${minutes}m`;
+        }
+
+        function showMessage(element, text, type) {
+            const className = type === 'error' ? 'error-message' : 'success-message';
+            element.innerHTML = `<div class="${className}">${escapeHtml(text)}</div>`;
+        }
+
+        // ============================================
+        // STARTUP
+        // ============================================
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
