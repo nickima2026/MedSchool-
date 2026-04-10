@@ -661,20 +661,29 @@ function initSessions() {
     rawContent.style.cssText = 'white-space:pre-wrap;font-family:"SF Mono",Monaco,Consolas,monospace;font-size:0.88rem;color:#ddd;line-height:1.7;';
     rawContent.textContent = entry.transcript;
 
-    // Key points content (initially shows loading prompt)
+    // Key points content — show cached analysis if available, otherwise show analyze button
     const keyContent = document.createElement('div');
     keyContent.id = 'viewer-keypoints';
     keyContent.style.cssText = 'display:none;color:#ddd;font-size:0.95rem;line-height:1.7;';
-    keyContent.innerHTML = `
-      <div style="text-align:center;padding:40px 20px;">
-        <div style="font-size:2rem;margin-bottom:12px;">🧠</div>
-        <p style="color:#ccc;margin:0 0 16px;font-size:1rem;">Extract key learning points, clinical pearls, terminology, and exam questions from this transcript using AI.</p>
-        <button id="viewer-analyze-btn" style="padding:12px 28px;background:linear-gradient(135deg,#E98300,#c62828);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;">
-          Analyze with AI
-        </button>
-        <p style="color:#666;margin:12px 0 0;font-size:0.8rem;">Powered by Claude &middot; Takes 10-30 seconds</p>
-      </div>
-    `;
+
+    if (entry.aiAnalysis) {
+      // Cached analysis exists — show it immediately with action buttons
+      const analyzedDate = entry.aiAnalyzedAt
+        ? new Date(entry.aiAnalyzedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })
+        : '';
+      keyContent.innerHTML = buildAnalysisToolbar(analyzedDate) + renderAnalysis(entry.aiAnalysis);
+    } else {
+      keyContent.innerHTML = `
+        <div style="text-align:center;padding:40px 20px;">
+          <div style="font-size:2rem;margin-bottom:12px;">🧠</div>
+          <p style="color:#ccc;margin:0 0 16px;font-size:1rem;">Extract key learning points, clinical pearls, terminology, and exam questions from this transcript using AI.</p>
+          <button id="viewer-analyze-btn" style="padding:12px 28px;background:linear-gradient(135deg,#E98300,#c62828);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;">
+            Analyze with AI
+          </button>
+          <p style="color:#666;margin:12px 0 0;font-size:0.8rem;">Powered by Claude &middot; Takes 10-30 seconds</p>
+        </div>
+      `;
+    }
 
     contentArea.appendChild(rawContent);
     contentArea.appendChild(keyContent);
@@ -710,13 +719,105 @@ function initSessions() {
       if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', escHandler); }
     });
 
-    // AI Analyze button
+    // Wire up buttons (analyze, copy, re-analyze) via delegation on keyContent
     setTimeout(() => {
       const analyzeBtn = document.getElementById('viewer-analyze-btn');
       if (analyzeBtn) {
         analyzeBtn.addEventListener('click', () => runAIAnalysis(entry, keyContent));
       }
+      wireAnalysisToolbar(entry, keyContent);
     }, 50);
+  }
+
+  // --- Analysis toolbar: Copy to Clipboard + Re-analyze ---
+  function buildAnalysisToolbar(dateStr) {
+    return `
+      <div id="analysis-toolbar" style="display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid #2a3a4a;flex-wrap:wrap;">
+        <button id="analysis-copy-btn" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#2D8659;color:#fff;border:none;border-radius:6px;font-weight:600;font-size:0.9rem;cursor:pointer;">
+          📋 Copy to Clipboard
+        </button>
+        <button id="analysis-rerun-btn" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#2a3a4a;color:#ccc;border:1px solid #444;border-radius:6px;font-weight:600;font-size:0.9rem;cursor:pointer;">
+          🔄 Re-analyze
+        </button>
+        ${dateStr ? `<span style="color:#666;font-size:0.8rem;margin-left:auto;">Analyzed ${dateStr}</span>` : ''}
+      </div>
+    `;
+  }
+
+  function wireAnalysisToolbar(entry, container) {
+    const copyBtn = document.getElementById('analysis-copy-btn');
+    const rerunBtn = document.getElementById('analysis-rerun-btn');
+
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        const text = formatAnalysisAsText(entry);
+        navigator.clipboard.writeText(text).then(() => {
+          copyBtn.textContent = '✓ Copied!';
+          copyBtn.style.background = '#1a5c3a';
+          setTimeout(() => { copyBtn.innerHTML = '📋 Copy to Clipboard'; copyBtn.style.background = '#2D8659'; }, 2000);
+        }).catch(() => {
+          // Fallback: select text in a temp textarea
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+          copyBtn.textContent = '✓ Copied!';
+          setTimeout(() => { copyBtn.innerHTML = '📋 Copy to Clipboard'; }, 2000);
+        });
+      });
+    }
+
+    if (rerunBtn) {
+      rerunBtn.addEventListener('click', () => {
+        // Clear cached analysis and re-run
+        const saved = loadSaved();
+        const idx = saved.findIndex(s => s.id === entry.id);
+        if (idx >= 0) {
+          delete saved[idx].aiAnalysis;
+          delete saved[idx].aiAnalyzedAt;
+          saveSaved(saved);
+        }
+        runAIAnalysis(entry, container);
+      });
+    }
+  }
+
+  // --- Format AI analysis as clean text for clipboard / notes ---
+  function formatAnalysisAsText(entry) {
+    const a = entry.aiAnalysis;
+    if (!a) return '';
+    const lines = [];
+    lines.push(`AI KEY POINTS: ${entry.label}`);
+    lines.push(`Course: ${entry.targetLabel} | Analyzed: ${entry.aiAnalyzedAt ? new Date(entry.aiAnalyzedAt).toLocaleDateString() : 'N/A'}`);
+    lines.push('═'.repeat(60));
+
+    if (a.summary) {
+      lines.push('', '📝 SUMMARY', '─'.repeat(40), a.summary);
+    }
+    if (a.keyPoints?.length) {
+      lines.push('', '🎯 KEY LEARNING POINTS', '─'.repeat(40));
+      a.keyPoints.forEach((p, i) => lines.push(`  ${i + 1}. ${p}`));
+    }
+    if (a.clinicalPearls?.length) {
+      lines.push('', '💎 CLINICAL PEARLS', '─'.repeat(40));
+      a.clinicalPearls.forEach(p => lines.push(`  • ${p}`));
+    }
+    if (a.terminology?.length) {
+      lines.push('', '📖 KEY TERMINOLOGY', '─'.repeat(40));
+      a.terminology.forEach(t => lines.push(`  ${t.term}: ${t.definition}`));
+    }
+    if (a.examQuestions?.length) {
+      lines.push('', '📋 POTENTIAL EXAM QUESTIONS', '─'.repeat(40));
+      a.examQuestions.forEach((q, i) => {
+        lines.push(`  Q${i + 1}: ${q.question}`);
+        lines.push(`  A${i + 1}: ${q.answer}`);
+        lines.push('');
+      });
+    }
+    lines.push('', '═'.repeat(60), 'Generated by MSIB.io AI Key Points (powered by Claude)');
+    return lines.join('\n');
   }
 
   // --- AI Analysis Engine ---
@@ -753,16 +854,23 @@ function initSessions() {
       }
 
       const a = data.analysis;
-      container.innerHTML = renderAnalysis(a);
+      const now = Date.now();
+      const dateStr = new Date(now).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+      container.innerHTML = buildAnalysisToolbar(dateStr) + renderAnalysis(a);
 
       // Save the analysis back to the entry in localStorage
+      entry.aiAnalysis = a;
+      entry.aiAnalyzedAt = now;
       const saved = loadSaved();
       const idx = saved.findIndex(s => s.id === entry.id);
       if (idx >= 0) {
         saved[idx].aiAnalysis = a;
-        saved[idx].aiAnalyzedAt = Date.now();
+        saved[idx].aiAnalyzedAt = now;
         saveSaved(saved);
       }
+
+      // Wire up toolbar buttons
+      wireAnalysisToolbar(entry, container);
 
     } catch (err) {
       container.innerHTML = `
