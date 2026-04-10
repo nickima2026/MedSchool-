@@ -2,171 +2,211 @@
 // MSIB.io — YouTube Transcript API
 // File: api/transcript.js
 //
-// Fetches captions/subtitles for a YouTube video by extracting the captions
-// track URL from the video page's player config, then parsing the XML captions
-// into plain text. No API key required — uses publicly available caption data.
+// Fetches captions for a YouTube video using YouTube's innertube player API
+// to get caption track URLs, then fetches and parses the XML captions.
+// No API key required — uses YouTube's public innertube endpoints.
 //
 // Usage: GET /api/transcript?v=VIDEO_ID
-// Returns: { ok: true, videoId, transcript, segments: [{start, duration, text}] }
+// Returns: { ok, videoId, transcript, timestamped, segments[] }
 // =============================================================================
 
-export const config = { runtime: 'edge' };
+// Use Node.js runtime (not edge) for better fetch compatibility
+export const config = { runtime: 'nodejs', maxDuration: 15 };
 
-export default async function handler(req) {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-    'Cache-Control': 'public, max-age=3600', // cache 1 hour
-  };
+const INNERTUBE_API_KEY = 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8';
+const INNERTUBE_CLIENT = {
+  clientName: 'WEB',
+  clientVersion: '2.20241001.00.00',
+  hl: 'en',
+  gl: 'US',
+};
 
-  // Handle CORS preflight
+export default async function handler(req, res) {
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+
   if (req.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders });
+    return res.status(204).end();
   }
 
-  const url = new URL(req.url);
-  const videoId = url.searchParams.get('v');
-
+  const videoId = req.query.v;
   if (!videoId || !/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
-    return new Response(JSON.stringify({
+    return res.status(400).json({
       ok: false,
-      error: 'Missing or invalid video ID. Use ?v=VIDEO_ID (11 characters).'
-    }), { status: 400, headers: corsHeaders });
+      error: 'Missing or invalid video ID. Use ?v=VIDEO_ID (11 characters).',
+    });
   }
 
   try {
-    // Step 1: Fetch the YouTube video page
-    const pageResp = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept-Language': 'en-US,en;q=0.9',
-      },
-    });
-
-    if (!pageResp.ok) {
-      throw new Error(`YouTube returned ${pageResp.status}`);
-    }
-
-    const pageHtml = await pageResp.text();
-
-    // Step 2: Extract captions player config from the page
-    // Look for the captionTracks in the ytInitialPlayerResponse
-    const captionMatch = pageHtml.match(/"captionTracks"\s*:\s*(\[.*?\])/);
-    if (!captionMatch) {
-      // Try alternative: sometimes captions are in a different format
-      const altMatch = pageHtml.match(/"captions"\s*:\s*\{.*?"playerCaptionsTracklistRenderer"\s*:\s*\{.*?"captionTracks"\s*:\s*(\[.*?\])/s);
-      if (!altMatch) {
-        return new Response(JSON.stringify({
-          ok: false,
-          error: 'No captions available for this video. The video may not have subtitles enabled.',
-          videoId,
-          hint: 'Try clicking "..." below the video on YouTube → "Show transcript" to check if captions exist.'
-        }), { status: 404, headers: corsHeaders });
+    // Step 1: Use innertube player API to get caption track URLs
+    const playerResp = await fetch(
+      `https://www.youtube.com/youtubei/v1/player?key=${INNERTUBE_API_KEY}&prettyPrint=false`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        },
+        body: JSON.stringify({
+          context: { client: INNERTUBE_CLIENT },
+          videoId: videoId,
+        }),
       }
-      var captionTracksJson = altMatch[1];
-    } else {
-      var captionTracksJson = captionMatch[1];
+    );
+
+    if (!playerResp.ok) {
+      throw new Error(`YouTube player API returned ${playerResp.status}`);
     }
 
-    // Parse the caption tracks JSON
-    let captionTracks;
-    try {
-      captionTracks = JSON.parse(captionTracksJson);
-    } catch (e) {
-      // The JSON might be truncated by the regex; try to fix common issues
-      const fixed = captionTracksJson.replace(/,\s*$/, '') + ']';
-      try {
-        captionTracks = JSON.parse(fixed);
-      } catch (e2) {
-        throw new Error('Failed to parse caption tracks from page');
-      }
+    const playerData = await playerResp.json();
+
+    // Check if the video exists and is playable
+    if (playerData.playabilityStatus?.status !== 'OK') {
+      const reason = playerData.playabilityStatus?.reason || 'Video unavailable';
+      return res.status(404).json({
+        ok: false,
+        error: reason,
+        videoId,
+      });
     }
+
+    // Step 2: Extract caption tracks
+    const captionTracks =
+      playerData.captions?.playerCaptionsTracklistRenderer?.captionTracks;
 
     if (!captionTracks || captionTracks.length === 0) {
-      return new Response(JSON.stringify({
+      return res.status(404).json({
         ok: false,
-        error: 'No caption tracks found for this video.',
-        videoId
-      }), { status: 404, headers: corsHeaders });
+        error: 'No captions available for this video. The video may not have subtitles enabled.',
+        videoId,
+        hint: 'On YouTube, click "..." below the video → "Show transcript" to verify captions exist.',
+      });
     }
 
-    // Step 3: Find the best caption track (prefer English, then auto-generated English, then first available)
-    let track = captionTracks.find(t => t.languageCode === 'en' && !t.kind);
-    if (!track) track = captionTracks.find(t => t.languageCode === 'en');
-    if (!track) track = captionTracks.find(t => t.languageCode?.startsWith('en'));
-    if (!track) track = captionTracks[0]; // fallback to first available
+    // Step 3: Find the best caption track (prefer English manual, then English auto, then first)
+    let track = captionTracks.find(
+      (t) => t.languageCode === 'en' && t.kind !== 'asr'
+    );
+    if (!track) track = captionTracks.find((t) => t.languageCode === 'en');
+    if (!track)
+      track = captionTracks.find((t) => t.languageCode?.startsWith('en'));
+    if (!track) track = captionTracks[0];
 
     const captionUrl = track.baseUrl;
     if (!captionUrl) {
-      throw new Error('Caption track has no URL');
+      throw new Error('Caption track found but has no URL');
     }
 
-    // Step 4: Fetch the caption XML
-    const captionResp = await fetch(captionUrl);
+    // Step 4: Fetch the caption XML (append fmt=srv3 for XML format)
+    const xmlUrl = captionUrl.includes('?')
+      ? `${captionUrl}&fmt=srv3`
+      : `${captionUrl}?fmt=srv3`;
+
+    const captionResp = await fetch(xmlUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+      },
+    });
+
     if (!captionResp.ok) {
-      throw new Error(`Caption fetch returned ${captionResp.status}`);
+      // Try without fmt parameter
+      const fallbackResp = await fetch(captionUrl, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+        },
+      });
+      if (!fallbackResp.ok) {
+        throw new Error(`Caption XML fetch failed: ${fallbackResp.status}`);
+      }
+      var captionXml = await fallbackResp.text();
+    } else {
+      var captionXml = await captionResp.text();
     }
 
-    const captionXml = await captionResp.text();
-
-    // Step 5: Parse the XML into segments
-    // YouTube caption XML format: <text start="0.0" dur="2.5">Caption text</text>
+    // Step 5: Parse XML into segments
     const segments = [];
-    const textRegex = /<text\s+start="([^"]+)"\s+dur="([^"]+)"[^>]*>([\s\S]*?)<\/text>/g;
+
+    // Try srv3 format first: <p t="start_ms" d="duration_ms">text</p>
+    const srv3Regex = /<p\s+t="(\d+)"\s+d="(\d+)"[^>]*>([\s\S]*?)<\/p>/g;
     let match;
+    while ((match = srv3Regex.exec(captionXml)) !== null) {
+      const startMs = parseInt(match[1], 10);
+      const durationMs = parseInt(match[2], 10);
+      let text = decodeEntities(match[3]);
+      if (text.trim()) {
+        segments.push({
+          start: startMs / 1000,
+          duration: durationMs / 1000,
+          text: text.trim(),
+        });
+      }
+    }
 
-    while ((match = textRegex.exec(captionXml)) !== null) {
-      const start = parseFloat(match[1]);
-      const duration = parseFloat(match[2]);
-      // Decode HTML entities in the caption text
-      let text = match[3]
-        .replace(/&amp;/g, '&')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        .replace(/&apos;/g, "'")
-        .replace(/<[^>]+>/g, '') // strip any HTML tags
-        .replace(/\n/g, ' ')
-        .trim();
-
-      if (text) {
-        segments.push({ start, duration, text });
+    // If srv3 didn't work, try standard timedtext format: <text start="s" dur="s">text</text>
+    if (segments.length === 0) {
+      const textRegex =
+        /<text\s+start="([^"]+)"\s+dur="([^"]+)"[^>]*>([\s\S]*?)<\/text>/g;
+      while ((match = textRegex.exec(captionXml)) !== null) {
+        const start = parseFloat(match[1]);
+        const duration = parseFloat(match[2]);
+        let text = decodeEntities(match[3]);
+        if (text.trim()) {
+          segments.push({ start, duration, text: text.trim() });
+        }
       }
     }
 
     if (segments.length === 0) {
-      throw new Error('Parsed 0 caption segments from XML');
+      // Last resort: log what we got for debugging
+      console.log('Caption XML sample:', captionXml.substring(0, 500));
+      throw new Error(
+        'Could not parse caption segments. The caption format may have changed.'
+      );
     }
 
-    // Step 6: Build full transcript text
-    const transcript = segments.map(s => s.text).join(' ');
+    // Step 6: Build output
+    const transcript = segments.map((s) => s.text).join(' ');
+    const timestamped = segments
+      .map((s) => {
+        const mins = Math.floor(s.start / 60);
+        const secs = Math.floor(s.start % 60);
+        return `[${mins}:${secs.toString().padStart(2, '0')}] ${s.text}`;
+      })
+      .join('\n');
 
-    // Also build a timestamped version
-    const timestamped = segments.map(s => {
-      const mins = Math.floor(s.start / 60);
-      const secs = Math.floor(s.start % 60);
-      const ts = `${mins}:${secs.toString().padStart(2, '0')}`;
-      return `[${ts}] ${s.text}`;
-    }).join('\n');
-
-    return new Response(JSON.stringify({
+    return res.status(200).json({
       ok: true,
       videoId,
       language: track.languageCode || 'unknown',
+      languageName: track.name?.simpleText || track.languageCode || 'unknown',
       isAutoGenerated: track.kind === 'asr',
       segmentCount: segments.length,
       transcript,
       timestamped,
-      segments
-    }), { status: 200, headers: corsHeaders });
-
+      segments,
+    });
   } catch (err) {
-    return new Response(JSON.stringify({
+    console.error('Transcript fetch error:', err.message);
+    return res.status(500).json({
       ok: false,
       error: err.message || 'Failed to fetch transcript',
       videoId,
-      hint: 'This video may not have captions, or YouTube may be blocking the request. Try the manual copy method instead.'
-    }), { status: 500, headers: corsHeaders });
+      hint: 'This video may not have captions, or YouTube may be blocking the request. Try the manual copy method.',
+    });
   }
+}
+
+function decodeEntities(str) {
+  return str
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(parseInt(n, 10)))
+    .replace(/<[^>]+>/g, '') // strip HTML tags
+    .replace(/\n/g, ' ');
 }
