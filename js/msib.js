@@ -608,8 +608,7 @@ function initSessions() {
       const saved = loadSaved();
 
       if (btn.dataset.action === 'view' && saved[idx]) {
-        transcriptText.value = saved[idx].transcript;
-        transcriptArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        openTranscriptViewer(saved[idx]);
       } else if (btn.dataset.action === 'delete') {
         if (confirm('Delete this saved transcript?')) {
           saved.splice(idx, 1);
@@ -618,6 +617,228 @@ function initSessions() {
         }
       }
     };
+  }
+
+  // --- Transcript Viewer (Raw + AI Key Points) ---
+  function openTranscriptViewer(entry) {
+    // Remove any existing viewer
+    const existing = document.getElementById('transcript-viewer-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'transcript-viewer-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;padding:20px;';
+
+    const panel = document.createElement('div');
+    panel.style.cssText = 'background:#0f1923;border:1px solid #2a3a4a;border-radius:14px;width:100%;max-width:900px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);';
+
+    // Header
+    const header = document.createElement('div');
+    header.style.cssText = 'padding:18px 24px;border-bottom:1px solid #2a3a4a;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;';
+    header.innerHTML = `
+      <div>
+        <h3 style="margin:0;color:#fff;font-size:1.1rem;">${escHtml(entry.label)}</h3>
+        <p style="margin:4px 0 0;color:#888;font-size:0.82rem;">${escHtml(entry.targetLabel)} &middot; ${new Date(entry.savedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} &middot; ${entry.charCount.toLocaleString()} chars</p>
+      </div>
+      <button id="viewer-close" style="background:none;border:none;color:#888;font-size:1.5rem;cursor:pointer;padding:4px 8px;line-height:1;" title="Close">&times;</button>
+    `;
+
+    // Tab bar
+    const tabBar = document.createElement('div');
+    tabBar.style.cssText = 'display:flex;border-bottom:1px solid #2a3a4a;flex-shrink:0;';
+    tabBar.innerHTML = `
+      <button class="viewer-tab active" data-viewer-tab="raw" style="flex:1;padding:12px 16px;background:none;border:none;border-bottom:2px solid #E98300;color:#E98300;font-weight:600;cursor:pointer;font-size:0.95rem;">Raw Transcript</button>
+      <button class="viewer-tab" data-viewer-tab="keypoints" style="flex:1;padding:12px 16px;background:none;border:none;border-bottom:2px solid transparent;color:#888;font-weight:600;cursor:pointer;font-size:0.95rem;">AI Key Points</button>
+    `;
+
+    // Content area
+    const contentArea = document.createElement('div');
+    contentArea.style.cssText = 'flex:1;overflow-y:auto;padding:20px 24px;';
+
+    // Raw transcript content
+    const rawContent = document.createElement('div');
+    rawContent.id = 'viewer-raw';
+    rawContent.style.cssText = 'white-space:pre-wrap;font-family:"SF Mono",Monaco,Consolas,monospace;font-size:0.88rem;color:#ddd;line-height:1.7;';
+    rawContent.textContent = entry.transcript;
+
+    // Key points content (initially shows loading prompt)
+    const keyContent = document.createElement('div');
+    keyContent.id = 'viewer-keypoints';
+    keyContent.style.cssText = 'display:none;color:#ddd;font-size:0.95rem;line-height:1.7;';
+    keyContent.innerHTML = `
+      <div style="text-align:center;padding:40px 20px;">
+        <div style="font-size:2rem;margin-bottom:12px;">🧠</div>
+        <p style="color:#ccc;margin:0 0 16px;font-size:1rem;">Extract key learning points, clinical pearls, terminology, and exam questions from this transcript using AI.</p>
+        <button id="viewer-analyze-btn" style="padding:12px 28px;background:linear-gradient(135deg,#E98300,#c62828);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;">
+          Analyze with AI
+        </button>
+        <p style="color:#666;margin:12px 0 0;font-size:0.8rem;">Powered by Claude &middot; Takes 10-30 seconds</p>
+      </div>
+    `;
+
+    contentArea.appendChild(rawContent);
+    contentArea.appendChild(keyContent);
+    panel.appendChild(header);
+    panel.appendChild(tabBar);
+    panel.appendChild(contentArea);
+    overlay.appendChild(panel);
+    document.body.appendChild(overlay);
+
+    // Tab switching
+    tabBar.addEventListener('click', (e) => {
+      const tab = e.target.closest('.viewer-tab');
+      if (!tab) return;
+      const target = tab.dataset.viewerTab;
+      tabBar.querySelectorAll('.viewer-tab').forEach(t => {
+        t.classList.remove('active');
+        t.style.borderBottomColor = 'transparent';
+        t.style.color = '#888';
+      });
+      tab.classList.add('active');
+      tab.style.borderBottomColor = '#E98300';
+      tab.style.color = '#E98300';
+      rawContent.style.display = target === 'raw' ? '' : 'none';
+      keyContent.style.display = target === 'keypoints' ? '' : 'none';
+    });
+
+    // Close handlers
+    document.getElementById('viewer-close').addEventListener('click', () => overlay.remove());
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+    document.addEventListener('keydown', function escHandler(e) {
+      if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', escHandler); }
+    });
+
+    // AI Analyze button
+    setTimeout(() => {
+      const analyzeBtn = document.getElementById('viewer-analyze-btn');
+      if (analyzeBtn) {
+        analyzeBtn.addEventListener('click', () => runAIAnalysis(entry, keyContent));
+      }
+    }, 50);
+  }
+
+  // --- AI Analysis Engine ---
+  async function runAIAnalysis(entry, container) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:40px 20px;">
+        <div class="ai-spinner" style="width:48px;height:48px;border:3px solid #2a3a4a;border-top-color:#E98300;border-radius:50%;margin:0 auto 16px;animation:aiSpin 1s linear infinite;"></div>
+        <p style="color:#E98300;font-weight:600;margin:0 0 8px;">Analyzing transcript with Claude...</p>
+        <p style="color:#666;font-size:0.85rem;margin:0;">Extracting key learning points, clinical pearls, and exam questions</p>
+      </div>
+      <style>@keyframes aiSpin { to { transform: rotate(360deg); } }</style>
+    `;
+
+    try {
+      const resp = await fetch('/api/summarize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          transcript: entry.transcript,
+          title: entry.label,
+        }),
+        signal: AbortSignal.timeout(65000),
+      });
+
+      const data = await resp.json();
+
+      if (!data.ok) {
+        throw new Error(data.error || 'Analysis failed');
+      }
+
+      if (data.format === 'text') {
+        container.innerHTML = `<div style="white-space:pre-wrap;font-size:0.92rem;line-height:1.7;">${escHtml(data.analysis.rawText)}</div>`;
+        return;
+      }
+
+      const a = data.analysis;
+      container.innerHTML = renderAnalysis(a);
+
+      // Save the analysis back to the entry in localStorage
+      const saved = loadSaved();
+      const idx = saved.findIndex(s => s.id === entry.id);
+      if (idx >= 0) {
+        saved[idx].aiAnalysis = a;
+        saved[idx].aiAnalyzedAt = Date.now();
+        saveSaved(saved);
+      }
+
+    } catch (err) {
+      container.innerHTML = `
+        <div style="text-align:center;padding:40px 20px;">
+          <div style="font-size:2rem;margin-bottom:12px;">⚠️</div>
+          <p style="color:#c62828;font-weight:600;margin:0 0 8px;">${escHtml(err.message)}</p>
+          <p style="color:#888;font-size:0.85rem;margin:0 0 16px;">This might mean the Anthropic API key needs to be configured in Vercel.</p>
+          <button onclick="this.closest('#transcript-viewer-overlay').remove()" style="padding:8px 20px;background:#2a3a4a;color:#ccc;border:none;border-radius:6px;cursor:pointer;">Close</button>
+        </div>
+      `;
+    }
+  }
+
+  // --- Render structured AI analysis ---
+  function renderAnalysis(a) {
+    const sectionStyle = 'margin-bottom:24px;';
+    const headingStyle = 'color:#E98300;font-size:1.05rem;font-weight:700;margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid #2a3a4a;';
+    const listStyle = 'margin:0;padding:0 0 0 20px;';
+    const liStyle = 'margin-bottom:8px;color:#ddd;';
+
+    let html = '';
+
+    // Summary
+    if (a.summary) {
+      html += `<div style="${sectionStyle}">
+        <h4 style="${headingStyle}">📝 Summary</h4>
+        <p style="color:#ccc;line-height:1.7;margin:0;">${escHtml(a.summary)}</p>
+      </div>`;
+    }
+
+    // Key Learning Points
+    if (a.keyPoints?.length) {
+      html += `<div style="${sectionStyle}">
+        <h4 style="${headingStyle}">🎯 Key Learning Points</h4>
+        <ol style="${listStyle}">${a.keyPoints.map(p => `<li style="${liStyle}">${escHtml(p)}</li>`).join('')}</ol>
+      </div>`;
+    }
+
+    // Clinical Pearls
+    if (a.clinicalPearls?.length) {
+      html += `<div style="${sectionStyle}">
+        <h4 style="${headingStyle}">💎 Clinical Pearls</h4>
+        <ul style="${listStyle}">${a.clinicalPearls.map(p => `<li style="${liStyle}">${escHtml(p)}</li>`).join('')}</ul>
+      </div>`;
+    }
+
+    // Terminology
+    if (a.terminology?.length) {
+      html += `<div style="${sectionStyle}">
+        <h4 style="${headingStyle}">📖 Key Terminology</h4>
+        <dl style="margin:0;">
+          ${a.terminology.map(t => `
+            <dt style="color:#E98300;font-weight:600;margin-bottom:2px;">${escHtml(t.term)}</dt>
+            <dd style="color:#ccc;margin:0 0 12px 16px;line-height:1.5;">${escHtml(t.definition)}</dd>
+          `).join('')}
+        </dl>
+      </div>`;
+    }
+
+    // Exam Questions
+    if (a.examQuestions?.length) {
+      html += `<div style="${sectionStyle}">
+        <h4 style="${headingStyle}">📋 Potential Exam Questions</h4>
+        ${a.examQuestions.map((q, i) => `
+          <div style="background:#1a2332;border-radius:8px;padding:14px 16px;margin-bottom:12px;">
+            <p style="color:#fff;font-weight:600;margin:0 0 8px;">Q${i + 1}: ${escHtml(q.question)}</p>
+            <details style="cursor:pointer;">
+              <summary style="color:#E98300;font-size:0.9rem;font-weight:600;">Show Answer</summary>
+              <p style="color:#ccc;margin:8px 0 0;line-height:1.5;padding-left:8px;border-left:2px solid #E98300;">${escHtml(q.answer)}</p>
+            </details>
+          </div>
+        `).join('')}
+      </div>`;
+    }
+
+    return html || '<p style="color:#888;">No analysis data available.</p>';
   }
 
   // --- Utility helpers ---
