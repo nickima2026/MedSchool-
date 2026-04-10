@@ -32,7 +32,7 @@
                 <li><a href="#phase1">Phase 1</a></li>
                 <li><a href="#phase2">Phase 2</a></li>
                 <li><a href="#phase3">Phase 3</a></li>
-                <li><a href="residency.html">Phase 4</a></li>
+                <li><a href="#sessions" class="sessions-nav-link">Sessions</a></li>
                 <li><a href="#tools">Tools</a></li>
                 <li><a href="bookstore.html">Public Bookstore</a></li>
                 <li><a href="board-prep.html">Board Prep</a></li>
@@ -620,6 +620,172 @@
         </div>
     </section>
 
+    <!-- ============================================
+         Live & Recorded Sessions (YouTube / Zoom)
+         ============================================ -->
+    <section class="phase-section sessions-section" id="sessions" style="padding:3rem 0;">
+        <div class="section-container">
+            <div class="section-header" style="margin-bottom:2rem;">
+                <div style="display:flex;align-items:center;gap:0.8rem;justify-content:center;">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#8C1515" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                    </svg>
+                    <h2 style="margin:0;">Live &amp; Recorded Sessions</h2>
+                </div>
+                <p class="section-subtitle">Connect to YouTube or Zoom lectures, capture transcripts, and save them to your courses</p>
+            </div>
+
+            <!-- Session type picker -->
+            <div class="sessions-type-picker" style="display:flex;gap:1rem;justify-content:center;margin-bottom:1.5rem;">
+                <button class="btn sessions-type-btn active" data-session-type="youtube" style="display:inline-flex;align-items:center;gap:0.5rem;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="#FF0000"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31.4 31.4 0 000 12a31.4 31.4 0 00.5 5.8 3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1A31.4 31.4 0 0024 12a31.4 31.4 0 00-.5-5.8zM9.6 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+                    YouTube
+                </button>
+                <button class="btn sessions-type-btn" data-session-type="zoom" style="display:inline-flex;align-items:center;gap:0.5rem;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="#2D8CFF"><path d="M4 4h11a3 3 0 013 3v6a3 3 0 01-3 3H7l-3 3V7a3 3 0 013-3zm14 4l4-2v10l-4-2V8z"/></svg>
+                    Zoom
+                </button>
+            </div>
+
+            <!-- URL input area -->
+            <div class="sessions-input-area" style="max-width:700px;margin:0 auto 1.5rem;">
+                <div style="display:flex;gap:0.75rem;align-items:stretch;">
+                    <input type="url" id="session-url-input"
+                           placeholder="Paste a YouTube or Zoom URL here..."
+                           style="flex:1;padding:0.75rem 1rem;border:1.5px solid #E0DCD8;border-radius:8px;font-size:0.95rem;font-family:inherit;outline:none;transition:border-color .2s;"
+                           onfocus="this.style.borderColor='#007C92'"
+                           onblur="this.style.borderColor='#E0DCD8'">
+                    <button id="session-connect-btn" class="btn btn--accent" style="padding:0.75rem 1.5rem;white-space:nowrap;">
+                        Connect
+                    </button>
+                </div>
+                <div id="session-url-error" style="color:#c62828;font-size:0.82rem;margin-top:0.4rem;display:none;"></div>
+                <p style="font-size:0.78rem;color:#9EA8B4;margin-top:0.5rem;">
+                    YouTube: paste any video or live stream URL &nbsp;|&nbsp; Zoom: paste the meeting/webinar join link
+                </p>
+            </div>
+
+            <!-- Embedded player area -->
+            <div id="session-player-area" style="max-width:800px;margin:0 auto 1.5rem;display:none;">
+                <div id="session-embed-container" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;background:#000;">
+                    <!-- YouTube iframe injected here -->
+                </div>
+                <!-- Zoom: shown as a launch card instead of embed -->
+                <div id="session-zoom-card" style="display:none;background:#F5F3F0;border:1.5px solid #E0DCD8;border-radius:12px;padding:2rem;text-align:center;">
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="#2D8CFF" style="margin-bottom:1rem;"><path d="M4 4h11a3 3 0 013 3v6a3 3 0 01-3 3H7l-3 3V7a3 3 0 013-3zm14 4l4-2v10l-4-2V8z"/></svg>
+                    <h3 style="margin-bottom:0.5rem;color:#2E4057;">Zoom Meeting Ready</h3>
+                    <p id="session-zoom-url-display" style="font-size:0.88rem;color:#6B7B8D;margin-bottom:1rem;word-break:break-all;"></p>
+                    <a id="session-zoom-launch" href="#" target="_blank" rel="noopener" class="btn btn--primary" style="font-size:1rem;">
+                        Launch Zoom Meeting
+                    </a>
+                </div>
+                <button id="session-disconnect-btn" class="btn btn--secondary" style="margin-top:0.75rem;font-size:0.82rem;">
+                    Disconnect Session
+                </button>
+            </div>
+
+            <!-- Transcript & Save area -->
+            <div id="session-transcript-area" style="max-width:800px;margin:0 auto;display:none;">
+                <div style="background:#fff;border:1.5px solid #E0DCD8;border-radius:12px;padding:1.5rem;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
+                        <h3 style="margin:0;font-size:1.1rem;color:#2E4057;">Session Transcript</h3>
+                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                            <button id="session-fetch-transcript" class="btn btn--accent" style="font-size:0.82rem;padding:0.4rem 1rem;">
+                                Fetch Transcript
+                            </button>
+                            <button id="session-paste-transcript" class="btn btn--secondary" style="font-size:0.82rem;padding:0.4rem 1rem;">
+                                Paste Transcript
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Transcript display -->
+                    <textarea id="session-transcript-text"
+                              placeholder="Transcript text will appear here. You can also paste a transcript manually..."
+                              style="width:100%;min-height:200px;max-height:500px;padding:1rem;border:1px solid #E0DCD8;border-radius:8px;font-family:var(--font-body);font-size:0.9rem;line-height:1.6;resize:vertical;outline:none;"
+                              onfocus="this.style.borderColor='#007C92'"
+                              onblur="this.style.borderColor='#E0DCD8'"></textarea>
+
+                    <!-- Save to course -->
+                    <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #E0DCD8;">
+                        <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:#2E4057;">Save Transcript To:</h4>
+                        <div style="display:flex;gap:0.75rem;align-items:stretch;flex-wrap:wrap;">
+                            <select id="session-save-target" style="flex:1;min-width:220px;padding:0.6rem 1rem;border:1.5px solid #E0DCD8;border-radius:8px;font-family:inherit;font-size:0.9rem;outline:none;background:#fff;">
+                                <option value="general">General Memory</option>
+                                <optgroup label="Phase 1 — Pre-Clerkship">
+                                    <option value="molecular-foundations">Molecular Foundations</option>
+                                    <option value="clinical-anatomy">Clinical Anatomy</option>
+                                    <option value="embryology">Embryology</option>
+                                    <option value="bls">Basic Life Support</option>
+                                    <option value="immunology">Immunology</option>
+                                    <option value="genetics">Genetics</option>
+                                    <option value="neurobiology">Neurobiology</option>
+                                    <option value="microbiology">Microbiology</option>
+                                    <option value="biostats-epi">Biostatistics &amp; Epidemiology</option>
+                                    <option value="behavioral-ethics">Behavioral Science &amp; Ethics</option>
+                                    <option value="pom1">Practice of Medicine 1</option>
+                                    <option value="pom2">Practice of Medicine 2</option>
+                                    <option value="pom3">Practice of Medicine 3</option>
+                                    <option value="som-cvr">SOM: Cardiovascular &amp; Renal</option>
+                                    <option value="som-rgh">SOM: Renal/GI/Hepatic</option>
+                                    <option value="som-emw">SOM: Endocrine/MSK/Women's Health</option>
+                                    <option value="som-nd">SOM: Neuroscience/Dermatology</option>
+                                    <option value="som-hoid">SOM: Heme/Onc/ID</option>
+                                </optgroup>
+                                <optgroup label="Phase 2 — Clerkship">
+                                    <option value="internal-medicine">Internal Medicine</option>
+                                    <option value="surgery">Surgery</option>
+                                    <option value="pediatrics">Pediatrics</option>
+                                    <option value="obgyn">OB/GYN</option>
+                                    <option value="psychiatry">Psychiatry</option>
+                                    <option value="neurology">Neurology</option>
+                                    <option value="emergency-medicine">Emergency Medicine</option>
+                                    <option value="critical-care">Critical Care</option>
+                                    <option value="family-medicine">Family Medicine</option>
+                                    <option value="ambulatory">Ambulatory Medicine</option>
+                                    <option value="radiology">Radiology</option>
+                                    <option value="pocus">POCUS</option>
+                                    <option value="epidemiology">Epidemiology</option>
+                                    <option value="anesthesia-extended">Anesthesia (Extended)</option>
+                                </optgroup>
+                                <optgroup label="Phase 3 — Scholarly Concentration">
+                                    <option value="bioengineering">Bioengineering</option>
+                                    <option value="biomedical-ethics">Biomedical Ethics</option>
+                                    <option value="ai-computational">AI &amp; Computational Medicine</option>
+                                    <option value="clinical-research">Clinical Research</option>
+                                    <option value="community-health">Community Health</option>
+                                    <option value="health-services-policy">Health Services &amp; Policy</option>
+                                    <option value="molecular-basis">Molecular Basis of Disease</option>
+                                    <option value="medical-education">Medical Education</option>
+                                </optgroup>
+                            </select>
+                            <input type="text" id="session-save-label"
+                                   placeholder="Label (e.g., 'Cardio Lecture #3')..."
+                                   style="flex:1;min-width:180px;padding:0.6rem 1rem;border:1.5px solid #E0DCD8;border-radius:8px;font-family:inherit;font-size:0.9rem;outline:none;"
+                                   onfocus="this.style.borderColor='#007C92'"
+                                   onblur="this.style.borderColor='#E0DCD8'">
+                            <button id="session-save-btn" class="btn btn--primary" style="padding:0.6rem 1.5rem;white-space:nowrap;">
+                                Save Transcript
+                            </button>
+                        </div>
+                        <div id="session-save-feedback" style="margin-top:0.5rem;font-size:0.85rem;display:none;"></div>
+                    </div>
+                </div>
+
+                <!-- Saved transcripts list -->
+                <div id="session-saved-list" style="margin-top:1.25rem;">
+                    <h4 style="font-size:0.95rem;color:#2E4057;margin-bottom:0.75rem;">Saved Session Transcripts</h4>
+                    <div id="session-saved-items" style="display:grid;gap:0.5rem;">
+                        <!-- Rendered by JS -->
+                    </div>
+                    <div id="session-saved-empty" style="text-align:center;padding:1.5rem;color:#8B8A88;font-size:0.9rem;background:#F9F7F4;border-radius:8px;">
+                        No saved transcripts yet. Connect to a session and save the transcript above.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Stanford Bookstore Section -->
     <section class="phase-section" id="bookstore" style="padding:3rem 0;">
         <div class="section-container">
@@ -766,7 +932,6 @@
                     <li><a href="#phase1">Phase 1: Pre-Clerkship</a></li>
                     <li><a href="#phase2">Phase 2: Clerkship</a></li>
                     <li><a href="#phase3">Phase 3: Scholarly</a></li>
-                    <li><a href="residency.html">Phase 4: Residency</a></li>
                 </ul>
             </div>
 
@@ -783,7 +948,7 @@
                 <h4 class="footer-title">Resources</h4>
                 <ul class="footer-links">
                     <li><a href="#">Documentation</a></li>
-                    <li><a href="/msib_resources.html">Learning Resources</a></li>
+                    <li><a href="#resources">Learning Resources</a></li>
                     <li><a href="#">Community</a></li>
                 </ul>
             </div>

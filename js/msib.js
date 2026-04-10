@@ -275,6 +275,327 @@ function initSearch() {
   });
 }
 
+// --- Sessions: YouTube & Zoom Connector ---
+function initSessions() {
+  const STORAGE_KEY = 'msib-session-transcripts';
+  const urlInput = document.getElementById('session-url-input');
+  const connectBtn = document.getElementById('session-connect-btn');
+  const urlError = document.getElementById('session-url-error');
+  const playerArea = document.getElementById('session-player-area');
+  const embedContainer = document.getElementById('session-embed-container');
+  const zoomCard = document.getElementById('session-zoom-card');
+  const zoomUrlDisplay = document.getElementById('session-zoom-url-display');
+  const zoomLaunch = document.getElementById('session-zoom-launch');
+  const disconnectBtn = document.getElementById('session-disconnect-btn');
+  const transcriptArea = document.getElementById('session-transcript-area');
+  const transcriptText = document.getElementById('session-transcript-text');
+  const fetchTranscriptBtn = document.getElementById('session-fetch-transcript');
+  const pasteTranscriptBtn = document.getElementById('session-paste-transcript');
+  const saveTarget = document.getElementById('session-save-target');
+  const saveLabel = document.getElementById('session-save-label');
+  const saveBtn = document.getElementById('session-save-btn');
+  const saveFeedback = document.getElementById('session-save-feedback');
+  const savedItems = document.getElementById('session-saved-items');
+  const savedEmpty = document.getElementById('session-saved-empty');
+
+  if (!urlInput || !connectBtn) return; // Not on the landing page
+
+  let currentSession = { type: null, videoId: null, url: null };
+
+  // --- Session type picker ---
+  document.querySelectorAll('.sessions-type-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sessions-type-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const type = btn.dataset.sessionType;
+      urlInput.placeholder = type === 'youtube'
+        ? 'Paste a YouTube video or live stream URL here...'
+        : 'Paste a Zoom meeting or webinar join link here...';
+    });
+  });
+
+  // --- URL parsing helpers ---
+  function parseYouTubeUrl(url) {
+    // Handles: youtu.be/ID, youtube.com/watch?v=ID, youtube.com/live/ID, youtube.com/embed/ID
+    let match;
+    match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?.*v=|live\/|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : null;
+  }
+
+  function isZoomUrl(url) {
+    return /zoom\.(us|com)\/[jw]\//.test(url) || /zoom\.(us|com)\/meeting\//.test(url);
+  }
+
+  function detectUrlType(url) {
+    if (parseYouTubeUrl(url)) return 'youtube';
+    if (isZoomUrl(url)) return 'zoom';
+    return null;
+  }
+
+  // --- Connect ---
+  connectBtn.addEventListener('click', () => {
+    const url = urlInput.value.trim();
+    if (!url) {
+      showError('Please paste a URL first.');
+      return;
+    }
+
+    const activeType = document.querySelector('.sessions-type-btn.active')?.dataset.sessionType;
+    const detectedType = detectUrlType(url);
+
+    // Auto-detect or validate
+    const sessionType = detectedType || activeType;
+    if (!sessionType) {
+      showError('Could not recognize this URL. Make sure it\'s a valid YouTube or Zoom link.');
+      return;
+    }
+
+    // If detected type differs from selected, auto-switch
+    if (detectedType && detectedType !== activeType) {
+      document.querySelectorAll('.sessions-type-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`.sessions-type-btn[data-session-type="${detectedType}"]`)?.classList.add('active');
+    }
+
+    hideError();
+
+    if (sessionType === 'youtube') {
+      const videoId = parseYouTubeUrl(url);
+      if (!videoId) {
+        showError('Could not extract a video ID from this YouTube URL. Please check the link.');
+        return;
+      }
+      currentSession = { type: 'youtube', videoId, url };
+      embedContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="YouTube session"></iframe>`;
+      embedContainer.style.display = '';
+      zoomCard.style.display = 'none';
+    } else {
+      currentSession = { type: 'zoom', videoId: null, url };
+      zoomUrlDisplay.textContent = url;
+      zoomLaunch.href = url;
+      embedContainer.style.display = 'none';
+      embedContainer.innerHTML = '';
+      zoomCard.style.display = '';
+    }
+
+    playerArea.style.display = '';
+    transcriptArea.style.display = '';
+    urlInput.value = '';
+  });
+
+  // Allow Enter key to connect
+  urlInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); connectBtn.click(); }
+  });
+
+  // --- Disconnect ---
+  disconnectBtn.addEventListener('click', () => {
+    embedContainer.innerHTML = '';
+    embedContainer.style.display = '';
+    zoomCard.style.display = 'none';
+    playerArea.style.display = 'none';
+    transcriptArea.style.display = 'none';
+    currentSession = { type: null, videoId: null, url: null };
+  });
+
+  // --- Fetch Transcript (YouTube only — uses a proxy-friendly approach) ---
+  fetchTranscriptBtn.addEventListener('click', async () => {
+    if (currentSession.type === 'zoom') {
+      showTranscriptMessage('Zoom transcripts must be downloaded from Zoom after the meeting ends. Use "Paste Transcript" to add it manually.', '#E98300');
+      return;
+    }
+    if (!currentSession.videoId) {
+      showTranscriptMessage('No YouTube video connected.', '#c62828');
+      return;
+    }
+
+    fetchTranscriptBtn.disabled = true;
+    fetchTranscriptBtn.textContent = 'Fetching...';
+
+    try {
+      // Try the YouTube transcript via a CORS-friendly proxy endpoint
+      // This uses the video page to attempt to get captions
+      const proxyUrl = `https://yt-transcript-api.vercel.app/api/transcript?videoId=${currentSession.videoId}`;
+      const resp = await fetch(proxyUrl, { signal: AbortSignal.timeout(15000) });
+
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.transcript) {
+          transcriptText.value = data.transcript;
+          showTranscriptMessage('Transcript fetched successfully!', '#2D8659');
+        } else if (data.segments) {
+          // Some APIs return timestamped segments
+          const text = data.segments.map(s => `[${formatTime(s.start)}] ${s.text}`).join('\n');
+          transcriptText.value = text;
+          showTranscriptMessage('Transcript fetched with timestamps!', '#2D8659');
+        } else {
+          throw new Error('No transcript data in response');
+        }
+      } else {
+        throw new Error(`API returned ${resp.status}`);
+      }
+    } catch (err) {
+      // Fallback message
+      transcriptText.value = '';
+      showTranscriptMessage(
+        'Auto-fetch unavailable for this video. Try these alternatives:\n' +
+        '1. On YouTube, click "..." below the video → "Show transcript" → Copy/paste here\n' +
+        '2. Use a transcript tool like tactiq.io or otter.ai\n' +
+        '3. Paste your own notes or transcript manually',
+        '#E98300'
+      );
+    }
+
+    fetchTranscriptBtn.disabled = false;
+    fetchTranscriptBtn.textContent = 'Fetch Transcript';
+  });
+
+  // --- Paste Transcript (focus the textarea) ---
+  pasteTranscriptBtn.addEventListener('click', () => {
+    transcriptText.focus();
+    transcriptText.placeholder = 'Paste your transcript or notes here...';
+    // Try to read from clipboard
+    if (navigator.clipboard && navigator.clipboard.readText) {
+      navigator.clipboard.readText().then(text => {
+        if (text && text.length > 20) {
+          transcriptText.value = text;
+          showTranscriptMessage('Pasted from clipboard!', '#2D8659');
+        }
+      }).catch(() => {
+        // Clipboard access denied, user can paste manually
+      });
+    }
+  });
+
+  // --- Save Transcript ---
+  saveBtn.addEventListener('click', () => {
+    const text = transcriptText.value.trim();
+    if (!text) {
+      showSaveFeedback('No transcript to save. Fetch or paste a transcript first.', '#c62828');
+      return;
+    }
+
+    const target = saveTarget.value;
+    const label = saveLabel.value.trim() || 'Session ' + new Date().toLocaleDateString();
+    const targetLabel = saveTarget.options[saveTarget.selectedIndex].text;
+
+    const entry = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      type: currentSession.type || 'manual',
+      url: currentSession.url || '',
+      target: target,
+      targetLabel: targetLabel,
+      label: label,
+      transcript: text,
+      savedAt: Date.now(),
+      charCount: text.length
+    };
+
+    const saved = loadSaved();
+    saved.unshift(entry);
+    saveSaved(saved);
+
+    showSaveFeedback(`Saved to "${targetLabel}" as "${label}"`, '#2D8659');
+    saveLabel.value = '';
+    renderSavedList();
+  });
+
+  // --- Storage helpers ---
+  function loadSaved() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch (e) { return []; }
+  }
+  function saveSaved(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  // --- Render saved transcripts ---
+  function renderSavedList() {
+    const saved = loadSaved();
+    savedItems.innerHTML = '';
+
+    if (!saved.length) {
+      savedEmpty.style.display = '';
+      return;
+    }
+    savedEmpty.style.display = 'none';
+
+    saved.forEach((entry, idx) => {
+      const card = document.createElement('div');
+      card.className = 'session-saved-card';
+
+      const iconClass = entry.type === 'youtube' ? 'youtube' : entry.type === 'zoom' ? 'zoom' : 'general';
+      const iconEmoji = entry.type === 'youtube' ? '&#9654;' : entry.type === 'zoom' ? '&#128247;' : '&#128196;';
+      const date = new Date(entry.savedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+      card.innerHTML =
+        `<div class="session-saved-card__icon session-saved-card__icon--${iconClass}">${iconEmoji}</div>` +
+        `<div class="session-saved-card__info">` +
+          `<div class="session-saved-card__title">${escHtml(entry.label)}</div>` +
+          `<div class="session-saved-card__meta">${escHtml(entry.targetLabel)} &middot; ${date} &middot; ${entry.charCount.toLocaleString()} chars</div>` +
+        `</div>` +
+        `<div class="session-saved-card__actions">` +
+          `<button data-action="view" data-idx="${idx}" title="View transcript">View</button>` +
+          `<button data-action="delete" data-idx="${idx}" class="delete-btn" title="Delete">Del</button>` +
+        `</div>`;
+
+      savedItems.appendChild(card);
+    });
+
+    // Event delegation for saved card actions
+    savedItems.onclick = (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const idx = parseInt(btn.dataset.idx, 10);
+      const saved = loadSaved();
+
+      if (btn.dataset.action === 'view' && saved[idx]) {
+        transcriptText.value = saved[idx].transcript;
+        transcriptArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else if (btn.dataset.action === 'delete') {
+        if (confirm('Delete this saved transcript?')) {
+          saved.splice(idx, 1);
+          saveSaved(saved);
+          renderSavedList();
+        }
+      }
+    };
+  }
+
+  // --- Utility helpers ---
+  function showError(msg) {
+    urlError.textContent = msg;
+    urlError.style.display = '';
+  }
+  function hideError() {
+    urlError.style.display = 'none';
+  }
+  function showTranscriptMessage(msg, color) {
+    const el = document.createElement('div');
+    el.style.cssText = `padding:0.6rem 1rem;background:${color}15;border-left:3px solid ${color};border-radius:4px;margin-bottom:0.75rem;font-size:0.85rem;color:${color};white-space:pre-line;`;
+    el.textContent = msg;
+    transcriptText.parentNode.insertBefore(el, transcriptText);
+    setTimeout(() => el.remove(), 8000);
+  }
+  function showSaveFeedback(msg, color) {
+    saveFeedback.textContent = msg;
+    saveFeedback.style.color = color;
+    saveFeedback.style.display = '';
+    setTimeout(() => { saveFeedback.style.display = 'none'; }, 5000);
+  }
+  function formatTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  }
+  function escHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+  }
+
+  // Initial render of saved list
+  renderSavedList();
+}
+
 // --- Initialize All ---
 document.addEventListener('DOMContentLoaded', () => {
   initTabs();
@@ -285,4 +606,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initCodeRunners();
   initSearch();
+  initSessions();
 });

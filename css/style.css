@@ -84,6 +84,9 @@ img { max-width: 100%; height: auto; }
 
 /* --- Utility Classes --- */
 .container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--space-lg); }
+@media (min-width: 768px) {
+  .container { padding: 0 var(--space-3xl); }  /* 4rem on desktop for breathing room */
+}
 .text-center { text-align: center; }
 .text-muted { color: var(--color-text-muted); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
@@ -355,10 +358,6 @@ img { max-width: 100%; height: auto; }
 .resource-list__tag--free { background: #E8F5E9; color: #2E7D32; }
 .resource-list__tag--paid { background: #FFF3E0; color: #E65100; }
 .resource-list__tag--app { background: #E3F2FD; color: #1565C0; }
-.resource-list__tag--textbook { background: #EDE7F6; color: #4527A0; }
-.resource-list__tag--website { background: #E0F7FA; color: #006064; }
-.resource-list__tag--video { background: #FCE4EC; color: #AD1457; }
-.resource-list__tag--deck { background: #FFF8E1; color: #F57F17; }
 
 /* --- Tabbed Panels (for Lectures / Reading / Problem Sets / Exams) --- */
 .tabs {
@@ -688,4 +687,139 @@ img { max-width: 100%; height: auto; }
   .footer-grid { grid-template-columns: 1fr; }
   .hero__stats { flex-direction: column; gap: var(--space-md); }
   .course-header__meta { flex-direction: column; gap: var(--space-sm); }
+}
+
+
+/* ================================================================
+   CONTENT SECTION PADDING FIX
+   Ensures content sections are not flush against the viewport edges.
+   Uses the same max-width / auto-margin / side-padding pattern as .container.
+   ================================================================ */
+
+.search-section,
+.phase-section {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.msib-nav-auth {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* ================================================================
+   SESSIONS SECTION — YouTube / Zoom connector
+   ================================================================ */
+
+.sessions-section {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* Session type toggle buttons */
+.sessions-type-btn {
+  padding: 0.55rem 1.25rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sessions-type-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+.sessions-type-btn.active {
+  background: var(--color-secondary);
+  color: #fff;
+  border-color: var(--color-secondary);
+}
+.sessions-type-btn.active svg { filter: brightness(2); }
+
+/* Nav link pulsing dot for live sessions */
+.sessions-nav-link {
+  position: relative;
+}
+
+/* Session embed responsive wrapper */
+#session-embed-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 10px;
+}
+
+/* Saved transcript cards */
+.session-saved-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: box-shadow 0.15s;
+}
+.session-saved-card:hover {
+  box-shadow: var(--shadow-sm);
+}
+.session-saved-card__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+}
+.session-saved-card__icon--youtube { background: #FFEBEE; }
+.session-saved-card__icon--zoom { background: #E3F2FD; }
+.session-saved-card__icon--general { background: #F3E5F5; }
+.session-saved-card__info { flex: 1; min-width: 0; }
+.session-saved-card__title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.session-saved-card__meta {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+.session-saved-card__actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+.session-saved-card__actions button {
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.session-saved-card__actions button:hover {
+  background: var(--color-surface-alt);
+}
+.session-saved-card__actions button.delete-btn:hover {
+  background: #FFEBEE;
+  border-color: #c62828;
+  color: #c62828;
 }
