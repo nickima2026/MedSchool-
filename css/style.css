@@ -827,3 +827,12 @@ img { max-width: 100%; height: auto; }
 }
 
 .session-history-chip{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .85rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:20px;font-size:.82rem;font-family:inherit;color:var(--color-text);cursor:pointer;transition:all .15s;max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.session-history-chip:hover{border-color:var(--color-accent);background:var(--color-surface-alt);box-shadow:var(--shadow-sm)}.ai-spinner-inline{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:aiSpin 1s linear infinite}@keyframes aiSpin{to{transform:rotate(360deg)}}
+
+/* ── Spaced Repetition Dashboard ── */
+@media (max-width: 640px) {
+  #spaced-repetition .sr-stats-row { grid-template-columns: repeat(2, 1fr) !important; }
+  #spaced-repetition div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+}
+.sr-stat-card:hover { border-color: var(--color-accent); transform: translateY(-2px); box-shadow: var(--shadow-sm); transition: all .2s; }
+#sr-start-review:active { transform: scale(0.97); }
+#sr-heatmap div[title]:hover { outline: 1.5px solid var(--color-accent); }

@@ -806,6 +806,118 @@
         </div>
     </section>
 
+    <!-- ============================================
+         Spaced Repetition & Study Streak Dashboard
+         ============================================ -->
+    <section class="phase-section" id="spaced-repetition" style="padding:3rem 0;">
+        <div class="section-container">
+            <div class="section-header" style="margin-bottom:2rem;">
+                <div style="display:flex;align-items:center;gap:0.8rem;justify-content:center;">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#8C1515" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                    </svg>
+                    <h2 style="margin:0;">Spaced Repetition</h2>
+                </div>
+                <p class="section-subtitle">SM-2 algorithm flashcards with study streak tracking for long-term retention</p>
+            </div>
+
+            <div style="max-width:900px;margin:0 auto;">
+
+                <!-- Top stats row: Streak / Due / Total / Mastered -->
+                <div class="sr-stats-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:1.5rem;">
+                    <div class="sr-stat-card" style="background:#fff;border:1.5px solid #E8E0D8;border-radius:12px;padding:1.25rem;text-align:center;">
+                        <div style="font-size:1.8rem;margin-bottom:0.25rem;">&#128293;</div>
+                        <div id="streak-number" style="font-size:2rem;font-weight:800;color:#E98300;line-height:1;">0</div>
+                        <div style="font-size:0.78rem;color:#6B7B8D;font-weight:600;margin-top:0.25rem;">Day Streak</div>
+                        <div id="streak-best" style="font-size:0.72rem;color:#9EA8B4;margin-top:0.15rem;">Best: 0</div>
+                    </div>
+                    <div class="sr-stat-card" style="background:#fff;border:1.5px solid #E8E0D8;border-radius:12px;padding:1.25rem;text-align:center;">
+                        <div style="font-size:1.8rem;margin-bottom:0.25rem;">&#9200;</div>
+                        <div id="sr-due-number" style="font-size:2rem;font-weight:800;color:#8C1515;line-height:1;">0</div>
+                        <div style="font-size:0.78rem;color:#6B7B8D;font-weight:600;margin-top:0.25rem;">Cards Due</div>
+                    </div>
+                    <div class="sr-stat-card" style="background:#fff;border:1.5px solid #E8E0D8;border-radius:12px;padding:1.25rem;text-align:center;">
+                        <div style="font-size:1.8rem;margin-bottom:0.25rem;">&#128209;</div>
+                        <div id="sr-total-number" style="font-size:2rem;font-weight:800;color:#2E4057;line-height:1;">0</div>
+                        <div style="font-size:0.78rem;color:#6B7B8D;font-weight:600;margin-top:0.25rem;">Total Cards</div>
+                    </div>
+                    <div class="sr-stat-card" style="background:#fff;border:1.5px solid #E8E0D8;border-radius:12px;padding:1.25rem;text-align:center;">
+                        <div style="font-size:1.8rem;margin-bottom:0.25rem;">&#127775;</div>
+                        <div id="sr-mastered-number" style="font-size:2rem;font-weight:800;color:#2D8659;line-height:1;">0</div>
+                        <div style="font-size:0.78rem;color:#6B7B8D;font-weight:600;margin-top:0.25rem;">Mastered</div>
+                    </div>
+                </div>
+
+                <!-- Retention bar -->
+                <div style="background:#fff;border:1.5px solid #E8E0D8;border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                        <span style="font-size:0.85rem;font-weight:600;color:#2E4057;">Retention Rate</span>
+                        <span id="sr-retention-pct" style="font-size:0.85rem;font-weight:700;color:#2D8659;">0%</span>
+                    </div>
+                    <div style="background:#F0EDE8;border-radius:6px;height:10px;overflow:hidden;">
+                        <div id="sr-retention-bar" style="height:100%;background:linear-gradient(90deg,#E98300,#2D8659);border-radius:6px;width:0%;transition:width 0.5s ease;"></div>
+                    </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;justify-content:center;">
+                    <button id="sr-start-review" style="
+                        display:inline-flex;align-items:center;gap:0.5rem;
+                        padding:0.75rem 1.5rem;
+                        background:#8C1515;color:#fff;border:none;border-radius:8px;
+                        font-size:1rem;font-weight:600;cursor:pointer;
+                        font-family:inherit;transition:background 0.2s;
+                    " onmouseover="this.style.background='#6B0F0F'" onmouseout="this.style.background='#8C1515'">
+                        &#9654; Start Review
+                    </button>
+                    <button id="sr-add-sample" style="
+                        display:inline-flex;align-items:center;gap:0.5rem;
+                        padding:0.75rem 1.5rem;
+                        background:transparent;color:#585754;
+                        border:1.5px solid #E0DCD8;border-radius:8px;
+                        font-size:0.95rem;font-weight:600;cursor:pointer;
+                        font-family:inherit;transition:all 0.2s;
+                    " onmouseover="this.style.borderColor='#8C1515';this.style.color='#8C1515'" onmouseout="this.style.borderColor='#E0DCD8';this.style.color='#585754'">
+                        + Add Sample Cards
+                    </button>
+                </div>
+
+                <!-- Two-column: Course Breakdown + Heatmap -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+                    <!-- Course Breakdown -->
+                    <div style="background:#fff;border:1.5px solid #E8E0D8;border-radius:12px;padding:1.25rem;">
+                        <h4 style="font-size:0.95rem;color:#2E4057;margin:0 0 0.75rem;">Cards by Course</h4>
+                        <div id="sr-course-breakdown">
+                            <p style="color:#9EA8B4;font-size:0.85rem;text-align:center;padding:1rem;">No cards yet. Add flashcards from any course to start spaced repetition.</p>
+                        </div>
+                    </div>
+                    <!-- Study Heatmap -->
+                    <div style="background:#fff;border:1.5px solid #E8E0D8;border-radius:12px;padding:1.25rem;">
+                        <h4 style="font-size:0.95rem;color:#2E4057;margin:0 0 0.75rem;">30-Day Activity</h4>
+                        <div id="sr-heatmap" style="display:flex;gap:3px;flex-wrap:wrap;justify-content:center;padding:0.5rem 0;">
+                            <!-- Rendered by JS -->
+                        </div>
+                        <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:0.5rem;">
+                            <span style="font-size:0.7rem;color:#9EA8B4;">Less</span>
+                            <div style="width:10px;height:10px;border-radius:2px;background:#F0EDE8;"></div>
+                            <div style="width:10px;height:10px;border-radius:2px;background:#C8E6C9;"></div>
+                            <div style="width:10px;height:10px;border-radius:2px;background:#81C784;"></div>
+                            <div style="width:10px;height:10px;border-radius:2px;background:#4CAF50;"></div>
+                            <div style="width:10px;height:10px;border-radius:2px;background:#2E7D32;"></div>
+                            <span style="font-size:0.7rem;color:#9EA8B4;">More</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Keyboard shortcuts hint -->
+                <div style="text-align:center;margin-top:1rem;">
+                    <p style="font-size:0.78rem;color:#9EA8B4;">During review: <strong>Space</strong> to flip &middot; <strong>1-4</strong> to rate &middot; <strong>Esc</strong> to close</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <!-- Stanford Bookstore Section -->
     <section class="phase-section" id="bookstore" style="padding:3rem 0;">
         <div class="section-container">
@@ -990,6 +1102,7 @@
 
     <!-- External JavaScript -->
     <script src="js/msib.js"></script>
+    <script src="js/spaced-repetition.js"></script>
 
     <!-- Individual Study Management -->
     <script>
