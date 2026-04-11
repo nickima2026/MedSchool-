@@ -706,6 +706,15 @@
                               onfocus="this.style.borderColor='#007C92'"
                               onblur="this.style.borderColor='#E0DCD8'"></textarea>
 
+
+                    <!-- Quick actions bar: Summarize + Export -->
+                    <div id="session-quick-actions" style="display:none;margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;">
+                        <button id="session-summarize-btn" class="btn" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;background:linear-gradient(135deg,#E98300,#c62828);color:#fff;border:none;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;">Summarize with AI</button>
+                        <button id="session-export-btn" class="btn btn--secondary" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;font-size:0.85rem;">Export as .md</button>
+                        <span id="session-char-count" style="margin-left:auto;font-size:0.78rem;color:#9EA8B4;">0 characters</span>
+                    </div>
+                    <div id="session-inline-summary" style="display:none;margin-top:0.75rem;background:#F9F7F4;border:1.5px solid #E0DCD8;border-radius:10px;padding:1.25rem;max-height:400px;overflow-y:auto;"></div>
+
                     <!-- Save to course -->
                     <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #E0DCD8;">
                         <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:#2E4057;">Save Transcript To:</h4>
@@ -781,6 +790,17 @@
                     <div id="session-saved-empty" style="text-align:center;padding:1.5rem;color:#8B8A88;font-size:0.9rem;background:#F9F7F4;border-radius:8px;">
                         No saved transcripts yet. Connect to a session and save the transcript above.
                     </div>
+                </div>
+            </div>
+
+                <!-- Recent session history for quick reconnect -->
+                <div id="session-history" style="margin-top:1.25rem;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+                        <h4 style="font-size:0.95rem;color:#2E4057;margin:0;">Recent Sessions</h4>
+                        <button id="session-history-clear" style="font-size:0.75rem;color:#9EA8B4;background:none;border:none;cursor:pointer;padding:0.25rem 0.5rem;">Clear History</button>
+                    </div>
+                    <div id="session-history-items" style="display:flex;gap:0.5rem;flex-wrap:wrap;"></div>
+                    <div id="session-history-empty" style="text-align:center;padding:1rem;color:#8B8A88;font-size:0.85rem;background:#F9F7F4;border-radius:8px;">No recent sessions.</div>
                 </div>
             </div>
         </div>
