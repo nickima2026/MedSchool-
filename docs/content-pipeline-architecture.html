@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XIB.io — Three-Source Content Pipeline Architecture</title>
+<style>
+  :root {
+    --primary: #1a5276;
+    --accent: #2e86c1;
+    --green: #27ae60;
+    --orange: #e67e22;
+    --red: #c0392b;
+    --bg: #fafbfc;
+    --card-bg: #ffffff;
+    --border: #e1e4e8;
+    --text: #24292e;
+    --muted: #586069;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 40px 20px; }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  header { text-align: center; margin-bottom: 48px; }
+  header h1 { font-size: 28px; color: var(--primary); margin-bottom: 8px; }
+  header .subtitle { color: var(--muted); font-size: 16px; }
+  header .date { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+  .vision-box { background: linear-gradient(135deg, #1a5276, #2e86c1); color: white; border-radius: 12px; padding: 28px 32px; margin-bottom: 40px; }
+  .vision-box h2 { font-size: 18px; margin-bottom: 12px; opacity: 0.9; }
+  .vision-box p { font-size: 15px; line-height: 1.7; }
+
+  h2 { font-size: 20px; color: var(--primary); margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+  h3 { font-size: 16px; color: var(--text); margin: 20px 0 10px; }
+
+  .pipeline-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 24px 0; }
+  .pipeline-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; position: relative; }
+  .pipeline-card .badge { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-bottom: 10px; }
+  .badge-live { background: #e8f5e9; color: var(--green); }
+  .badge-new { background: #fff3e0; color: var(--orange); }
+  .badge-future { background: #fce4ec; color: var(--red); }
+  .pipeline-card h3 { margin-top: 0; font-size: 17px; }
+  .pipeline-card p { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+  .pipeline-card .example { font-size: 13px; background: #f6f8fa; padding: 8px 12px; border-radius: 6px; margin-top: 10px; }
+  .pipeline-card .example strong { color: var(--text); }
+
+  .flow-diagram { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin: 24px 0; }
+  .flow-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
+  .flow-box { background: #e8f0fe; border: 1px solid #b3cde0; border-radius: 8px; padding: 10px 16px; font-size: 13px; font-weight: 600; color: var(--primary); text-align: center; min-width: 140px; }
+  .flow-box.api { background: #e8f5e9; border-color: #a5d6a7; color: #1b5e20; }
+  .flow-box.storage { background: #fff3e0; border-color: #ffcc80; color: #e65100; }
+  .flow-box.output { background: #f3e5f5; border-color: #ce93d8; color: #6a1b9a; }
+  .flow-arrow { font-size: 20px; color: var(--muted); }
+
+  .file-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  .file-table th { background: #f6f8fa; text-align: left; padding: 10px 14px; border: 1px solid var(--border); font-weight: 600; }
+  .file-table td { padding: 10px 14px; border: 1px solid var(--border); }
+  .file-table code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+
+  .subscription-example { background: #f6f8fa; border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin: 16px 0; font-family: 'SF Mono', Consolas, monospace; font-size: 13px; line-height: 1.5; overflow-x: auto; white-space: pre; }
+
+  .timeline { margin: 20px 0; }
+  .timeline-item { display: flex; gap: 16px; margin-bottom: 16px; }
+  .timeline-dot { width: 12px; height: 12px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .timeline-dot.done { background: var(--green); }
+  .timeline-dot.current { background: var(--orange); }
+  .timeline-dot.future { background: #bdc3c7; }
+  .timeline-content h4 { font-size: 14px; margin-bottom: 2px; }
+  .timeline-content p { font-size: 13px; color: var(--muted); }
+
+  .footer-note { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>Three-Source Content Pipeline</h1>
+    <div class="subtitle">XIB.io Lifelong Learning Platform Architecture</div>
+    <div class="date">April 11, 2026 — Selway Solutions LLC</div>
+  </header>
+
+  <div class="vision-box">
+    <h2>Design Principle</h2>
+    <p>Every medical school department, every hospital system, every CME provider delivers lectures through one of three channels: YouTube recordings, YouTube Live streams, or Zoom sessions. If XIB.io handles all three, a graduate's learning platform never goes stale. The student's bespoke instance persists from enrollment through their entire career — AI as lifelong mentor.</p>
+  </div>
+
+  <h2>Three Content Sources</h2>
+
+  <div class="pipeline-grid">
+    <div class="pipeline-card">
+      <span class="badge badge-live">Live — Deployed</span>
+      <h3>Source 1: YouTube Recordings</h3>
+      <p>Student pastes any YouTube URL. System extracts transcript via innertube API (3-client fallback strategy). Claude generates structured study notes.</p>
+      <p><strong>Trigger:</strong> Manual — student pastes URL</p>
+      <p><strong>Auth:</strong> None required</p>
+      <div class="example"><strong>Example:</strong> Student finds a cardiology lecture, pastes URL, gets USMLE-style study notes in seconds.</div>
+    </div>
+
+    <div class="pipeline-card">
+      <span class="badge badge-new">New — Building Now</span>
+      <h3>Source 2: YouTube Live Series</h3>
+      <p>Scheduled auto-capture for recurring lecture series. Monitors channel RSS feed, detects new uploads, auto-runs transcript + AI pipeline.</p>
+      <p><strong>Trigger:</strong> Scheduled task (weekly cron)</p>
+      <p><strong>Auth:</strong> None — public RSS feed</p>
+      <div class="example"><strong>Example:</strong> Primary Children's Pediatric Grand Rounds auto-captured every Thursday. Notes appear in student's Pediatrics course.</div>
+    </div>
+
+    <div class="pipeline-card">
+      <span class="badge badge-future">Future — Design Phase</span>
+      <h3>Source 3: Zoom Sessions</h3>
+      <p>Captures transcripts from authenticated Zoom sessions — department Grand Rounds, CME lectures, clinical conferences.</p>
+      <p><strong>Trigger:</strong> Manual or email-triggered</p>
+      <p><strong>Auth:</strong> Zoom OAuth required</p>
+      <div class="example"><strong>Example:</strong> Stanford Anesthesia Grand Rounds. Student authenticates once, transcripts auto-pulled from cloud recordings.</div>
+    </div>
+  </div>
+
+  <h2>Pipeline Architecture</h2>
+
+  <div class="flow-diagram">
+    <h3 style="text-align: center; margin-bottom: 16px; color: var(--muted);">Shared Processing Pipeline (all three sources converge here)</h3>
+
+    <div class="flow-row">
+      <div class="flow-box">YouTube URL<br><small>Manual paste</small></div>
+      <div class="flow-box">Channel RSS<br><small>Scheduled check</small></div>
+      <div class="flow-box">Zoom API<br><small>Cloud recording</small></div>
+    </div>
+
+    <div class="flow-row"><span class="flow-arrow">&#x25BC;</span></div>
+
+    <div class="flow-row">
+      <div class="flow-box api">transcript.js<br><small>Innertube API / 3 clients</small></div>
+      <div class="flow-box api">channel-monitor.js<br><small>RSS feed → video IDs</small></div>
+      <div class="flow-box api">zoom-capture.js<br><small>OAuth → transcript (future)</small></div>
+    </div>
+
+    <div class="flow-row"><span class="flow-arrow">&#x25BC;</span></div>
+
+    <div class="flow-row">
+      <div class="flow-box api" style="min-width: 300px;">auto-capture.js<br><small>Orchestration: detect → fetch → analyze</small></div>
+    </div>
+
+    <div class="flow-row"><span class="flow-arrow">&#x25BC;</span></div>
+
+    <div class="flow-row">
+      <div class="flow-box api">summarize.js<br><small>Claude API → structured medical learning notes</small></div>
+    </div>
+
+    <div class="flow-row"><span class="flow-arrow">&#x25BC;</span></div>
+
+    <div class="flow-row">
+      <div class="flow-box output">Study Notes</div>
+      <div class="flow-box output">Clinical Pearls</div>
+      <div class="flow-box output">Exam Questions</div>
+      <div class="flow-box output">Key Terms</div>
+    </div>
+
+    <div class="flow-row"><span class="flow-arrow">&#x25BC;</span></div>
+
+    <div class="flow-row">
+      <div class="flow-box storage">Student's Course<br><small>localStorage → future: Supabase</small></div>
+      <div class="flow-box storage">Mobile App<br><small>Offline Swift cache (future)</small></div>
+    </div>
+  </div>
+
+  <h2>API Endpoints</h2>
+
+  <table class="file-table">
+    <thead>
+      <tr><th>Endpoint</th><th>Method</th><th>Purpose</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>/api/transcript</code></td><td>GET</td><td>Fetch YouTube captions for a single video ID</td><td>✅ Deployed</td></tr>
+      <tr><td><code>/api/summarize</code></td><td>POST</td><td>Claude-powered medical learning analysis</td><td>✅ Deployed</td></tr>
+      <tr><td><code>/api/channel-monitor</code></td><td>GET</td><td>Check YouTube channel RSS feed for new uploads</td><td>🔨 Built</td></tr>
+      <tr><td><code>/api/auto-capture</code></td><td>POST</td><td>Full pipeline: channel check → transcript → summarize</td><td>🔨 Built</td></tr>
+      <tr><td><code>/api/zoom-capture</code></td><td>POST</td><td>Fetch transcript from Zoom cloud recording</td><td>📋 Planned</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Channel Subscription Config</h2>
+
+  <p style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">Students register recurring lecture series. The scheduled task iterates through subscriptions and runs the auto-capture pipeline for each.</p>
+
+  <div class="subscription-example">{
+  "subscriptions": [
+    {
+      "id": "pgr-pch",
+      "channelId": "UCNQP-M_3-PdPDvnICr2Fjpg",
+      "name": "Primary Children's Pediatric Grand Rounds",
+      "schedule": "thursday",
+      "checkTime": "12:00 MT",
+      "targetCourse": "pediatrics",
+      "autoAnalyze": true,
+      "season": { "start": "september", "end": "may" },
+      "processedVideoIds": ["j-iVqWGal2k", "..."]
+    },
+    {
+      "id": "stanford-anesthesia",
+      "type": "zoom",
+      "name": "Stanford Anesthesia Grand Rounds",
+      "schedule": "ad-hoc",
+      "targetCourse": "anesthesiology",
+      "autoAnalyze": true,
+      "zoomAuth": "oauth-token-ref",
+      "note": "Session details arrive via email from granesthesia@lists.stanford.edu"
+    }
+  ]
+}</div>
+
+  <h2>Scheduled Task: PGR PCH Weekly Capture</h2>
+
+  <table class="file-table">
+    <tbody>
+      <tr><td><strong>Task ID</strong></td><td><code>pgr-pch-weekly-capture</code></td></tr>
+      <tr><td><strong>Schedule</strong></td><td>Every Thursday at 12:00 PM MT (cron: <code>0 12 * * 4</code>)</td></tr>
+      <tr><td><strong>Retry</strong></td><td>If no new video found, retry Friday 12:00 PM MT</td></tr>
+      <tr><td><strong>Season</strong></td><td>September through May (skip June–August)</td></tr>
+      <tr><td><strong>Pipeline</strong></td><td>channel-monitor → auto-capture → summarize → save to Pediatrics course</td></tr>
+      <tr><td><strong>Config file</strong></td><td><code>scheduled-tasks/pgr-pch-weekly-capture.json</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Implementation Roadmap</h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot done"></div>
+      <div class="timeline-content">
+        <h4>Source 1: YouTube Recordings (Complete)</h4>
+        <p>Manual paste → transcript → AI analysis. Deployed and working on MSIB.io.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot current"></div>
+      <div class="timeline-content">
+        <h4>Source 2: YouTube Live Auto-Capture (In Progress)</h4>
+        <p>channel-monitor.js and auto-capture.js built. Next: deploy to Vercel, create Cowork scheduled task, test with PGR PCH channel, add subscription UI to dashboard.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot future"></div>
+      <div class="timeline-content">
+        <h4>Source 3: Zoom Sessions (Design Phase)</h4>
+        <p>Zoom OAuth integration, cloud recording transcript API, email-trigger detection for session announcements. Target: Stanford Anesthesia Grand Rounds.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot future"></div>
+      <div class="timeline-content">
+        <h4>Storage Migration: localStorage → Supabase</h4>
+        <p>Move from browser localStorage to Supabase for persistent, cross-device access. Enables the mobile app and multi-device workflows.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot future"></div>
+      <div class="timeline-content">
+        <h4>Offline Mobile App (Swift/Xcode)</h4>
+        <p>iOS app with locally cached text content. Study, review, and self-test without connectivity. Syncs when online.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot future"></div>
+      <div class="timeline-content">
+        <h4>Cross-Platform Rollout</h4>
+        <p>Port content pipeline to LSIB.io (law), VSIB.io (veterinary), and all XIB.io platforms. Same three-source architecture, discipline-specific AI analysis prompts.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>File Structure</h2>
+
+  <table class="file-table">
+    <thead>
+      <tr><th>File</th><th>Purpose</th><th>Lines</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>api/transcript.js</code></td><td>YouTube caption extraction (3-client innertube)</td><td>~350</td></tr>
+      <tr><td><code>api/summarize.js</code></td><td>Claude API — medical learning analysis</td><td>~165</td></tr>
+      <tr><td><code>api/channel-monitor.js</code></td><td>YouTube channel RSS feed watcher</td><td>~130</td></tr>
+      <tr><td><code>api/auto-capture.js</code></td><td>Orchestration: monitor → transcript → summarize</td><td>~300</td></tr>
+      <tr><td><code>js/msib.js</code></td><td>Frontend: YouTube connector, paste, save, AI</td><td>~950+</td></tr>
+      <tr><td><code>index.html</code></td><td>Landing page with Live Sessions section</td><td>~770+</td></tr>
+      <tr><td><code>scheduled-tasks/*.json</code></td><td>Cowork scheduled task definitions</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <div class="footer-note">
+    XIB.io — AI as lifelong learning companion<br>
+    Selway Solutions LLC &bull; April 2026
+  </div>
+
+</div>
+</body>
+</html>

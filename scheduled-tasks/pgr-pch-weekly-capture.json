@@ -1,0 +1,35 @@
+{
+  "taskId": "pgr-pch-weekly-capture",
+  "description": "Auto-capture Primary Children's Pediatric Grand Rounds from YouTube every Thursday",
+  "cronExpression": "0 12 * * 4",
+  "cronNote": "Every Thursday at 12:00 PM local time (Mountain). Gives the 8-9 AM session time to end and archive.",
+  "status": "READY_TO_CREATE",
+  "instructions": "Create this scheduled task in an interactive Cowork session using: Skill → schedule",
+
+  "channel": {
+    "channelId": "UCNQP-M_3-PdPDvnICr2Fjpg",
+    "channelName": "PGR PCH — Primary Children's Pediatric Grand Rounds",
+    "channelUrl": "https://www.youtube.com/channel/UCNQP-M_3-PdPDvnICr2Fjpg",
+    "schedule": "Every Thursday, 8:00–9:00 AM MT, September through May",
+    "archiveDelay": "Within ~1 week of live broadcast",
+    "feedUrl": "https://www.youtube.com/feeds/videos.xml?channel_id=UCNQP-M_3-PdPDvnICr2Fjpg"
+  },
+
+  "pipeline": {
+    "step1_monitor": "GET /api/channel-monitor?channelId=UCNQP-M_3-PdPDvnICr2Fjpg&since=<7_days_ago>",
+    "step2_orchestrate": "POST /api/auto-capture with channelId, targetCourse=pediatrics, autoAnalyze=true",
+    "step3_notify": "Report results — new lectures captured, transcripts extracted, AI analysis generated"
+  },
+
+  "retryLogic": {
+    "note": "Archives can take up to a week. If no new video found on Thursday, retry Friday.",
+    "retryTaskId": "pgr-pch-friday-retry",
+    "retryCron": "0 12 * * 5",
+    "retryCondition": "Only if Thursday found no new videos"
+  },
+
+  "summerBreak": {
+    "months": "June through August",
+    "behavior": "Report that series is on summer break, skip capture"
+  }
+}
