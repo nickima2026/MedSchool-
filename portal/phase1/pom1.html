@@ -1010,6 +1010,13 @@
                         <span class="import-option-desc">Upload audio file or paste transcript</span>
                     </div>
                 </button>
+                <button class="import-option" data-source="paste-text">
+                    <span class="import-option-icon">&#128203;</span>
+                    <div class="import-option-info">
+                        <strong>Paste Text</strong>
+                        <span class="import-option-desc">Paste transcript text or AI Key Points from clipboard</span>
+                    </div>
+                </button>
             </div>
 
             <div class="lectures-section" id="lecturesSection">
@@ -1021,6 +1028,12 @@
         <div class="main-panel">
             <!-- Lectures & Transcripts Tab -->
             <div class="tab-content active" data-tab-content="lectures">
+                <div style="display:flex;gap:10px;margin-bottom:12px;align-items:center;">
+                    <button class="notes-save-button" id="lecturesPasteBtn" style="background-color:#2D8659;" title="Paste AI Key Points or transcript text from clipboard">
+                        <span>&#128203;</span> Paste from Clipboard
+                    </button>
+                    <span style="color:var(--color-text-secondary);font-size:13px;">Paste transcript text or AI Key Points copied from Sessions</span>
+                </div>
                 <div id="transcriptContainer" class="transcript-empty">
                     Select a lecture from the list to view transcripts.
                 </div>
@@ -1030,6 +1043,9 @@
             <div class="tab-content" data-tab-content="notes">
                 <div class="notes-editor">
                     <textarea class="notes-textarea" id="notesInput" placeholder="Add your notes here..."></textarea>
+                    <button class="notes-save-button" id="notesPasteButton" style="background-color:#2D8659;margin-right:8px;" title="Paste AI Key Points or any text from clipboard">
+                        <span>&#128203;</span> Paste from Clipboard
+                    </button>
                     <button class="notes-save-button" id="notesSaveButton">
                         <span>&#9999;</span> Save Note
                     </button>
@@ -2299,6 +2315,7 @@
                     const badges = [];
                     if (lecture.source === 'plaud') badges.push('<span class="badge badge-plaud">&#127897; Plaud</span>');
                     else if (lecture.source === 'lecturescribe') badges.push('<span class="badge badge-lecturescribe">&#128221; LectureScribe</span>');
+                    else if (lecture.source === "paste") badges.push('<span class="badge" style="background:#2D8659;color:#fff;">\else if (lecture.source) badges.push#128203; Pasted</span>');
                     else if (lecture.source) badges.push('<span class="badge badge-manual">&#128228; Manual</span>');
                     if (lecture.photos && lecture.photos.length > 0) badges.push('<span class="badge badge-photos">&#128247; ' + lecture.photos.length + ' photos</span>');
                     if (lecture.isShared) badges.push('<span class="badge">Shared</span>');
@@ -2762,6 +2779,28 @@
             }
         });
 
+        // Paste from Clipboard button
+        document.getElementById("notesPasteButton").addEventListener("click", async () => {
+            try {
+                if (navigator.clipboard && navigator.clipboard.readText) {
+                    const text = await navigator.clipboard.readText();
+                    if (text && text.length > 5) {
+                        document.getElementById("notesInput").value = text;
+                        document.getElementById("notesPasteButton").innerHTML = "<span>\u2713</span> Pasted!";
+                        setTimeout(() => { document.getElementById("notesPasteButton").innerHTML = "<span>\ud83d\udccb</span> Paste from Clipboard"; }, 2000);
+                    } else {
+                        alert("Clipboard is empty. Copy some text first (e.g., AI Key Points from Sessions).");
+                    }
+                } else {
+                    document.getElementById("notesInput").focus();
+                    alert("Clipboard access not available. Please paste manually with Ctrl+V or Cmd+V.");
+                }
+            } catch (e) {
+                document.getElementById("notesInput").focus();
+                alert("Clipboard access denied. Please paste manually with Ctrl+V or Cmd+V.");
+            }
+        });
+
         // Upload Button
         document.getElementById("uploadButton").addEventListener("click", () => {
             const dd = document.getElementById("importDropdown");
@@ -2770,8 +2809,8 @@
         document.querySelectorAll(".import-option").forEach(btn => {
             btn.addEventListener("click", () => {
                 const source = btn.dataset.source;
-                const labels = { plaud: "Plaud Note Pro", lecturescribe: "LectureScribe", manual: "manual upload" };
-                alert("Import from " + labels[source] + " — this will connect to the " + labels[source] + " workflow when the backend is ready.");
+                const labels = { plaud: "Plaud Note Pro", lecturescribe: "LectureScribe", manual: "manual upload", "paste-text": "paste text" };
+                if (source === "paste-text") { handlePasteText(); } else { alert("Import from " + labels[source] + " — this will connect to the " + labels[source] + " workflow when the backend is ready."); }
                 document.getElementById("importDropdown").style.display = "none";
             });
         });
@@ -2784,6 +2823,61 @@
         // Initial Render
         renderLecturesList();
         renderNotes();
+        // Handle Paste Text import option
+        function handlePasteText() {
+            document.getElementById("importDropdown").style.display = "none";
+            // Switch to Lectures tab and paste transcript
+            document.querySelectorAll("[data-tab]").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll("[data-tab-content]").forEach(c => c.style.display = "none");
+            const notesTab = document.querySelector("[data-tab=\"lectures\"]");
+            const notesContent = document.querySelector("[data-tab-content=\"lectures\"]");
+            if (notesTab) notesTab.classList.add("active");
+            if (notesContent) notesContent.style.display = "block";
+            // Trigger paste from clipboard
+            setTimeout(() => document.getElementById("lecturesPasteBtn").click(), 200);
+        }
+        // Lectures & Transcripts — Paste from Clipboard
+        document.getElementById("lecturesPasteBtn").addEventListener("click", async () => {
+            const btn = document.getElementById("lecturesPasteBtn");
+            try {
+                let text = "";
+                if (navigator.clipboard && navigator.clipboard.readText) {
+                    text = await navigator.clipboard.readText();
+                }
+                if (!text || text.length < 10) {
+                    alert("Clipboard is empty or too short. Copy some text first (e.g., AI Key Points from Sessions).");
+                    return;
+                }
+                // Extract a title from the first line of pasted text
+                const firstLine = text.split("\n")[0].replace(/^[=─\s]+/, "").trim();
+                const title = firstLine.length > 5 && firstLine.length < 120 ? firstLine : "Pasted Transcript";
+                const now = new Date();
+                const dateStr = now.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+                // Create a lecture entry
+                const lecture = {
+                    id: "pasted-" + Date.now().toString(36),
+                    title: title,
+                    date: dateStr,
+                    duration: Math.round(text.length / 1000) + " min (est)",
+                    week: "Pasted Materials",
+                    instructor: "",
+                    source: "paste",
+                    summary: text.substring(0, 500) + (text.length > 500 ? "..." : ""),
+                    transcript: text,
+                    photos: null,
+                    isShared: false
+                };
+                LECTURES.push(lecture);
+                state.selectedLecture = lecture.id;
+                renderLecturesList();
+                renderTranscript();
+                btn.innerHTML = "<span>\u2713</span> Pasted!";
+                btn.style.backgroundColor = "#1a5c3a";
+                setTimeout(() => { btn.innerHTML = "<span>\ud83d\udccb</span> Paste from Clipboard"; btn.style.backgroundColor = "#2D8659"; }, 2000);
+            } catch (e) {
+                alert("Clipboard access denied. Please copy the text first, then try again.");
+            }
+        });
     </script>
 </body>
 </html>
